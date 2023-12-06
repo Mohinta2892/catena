@@ -76,7 +76,21 @@ def predict_blockwise(
 
         out_properties (``dic``, optional):
 
-            Use this to set properties for the output data. The dictionary
+            Use this to set properties for the output data. The dictionaryon -m pip install -r requirements.txt:                                                                                                                                                   
+1.002 Looking in indexes: https://pypi.org/simple, https://pypi.ngc.nvidia.com                                                                                                                              
+1.002 Obtaining gunpowder from git+https://github.com/Mohinta2892/gunpowder.git@wandb_support#egg=gunpowder (from -r requirements.txt (line 9))                                                             
+1.009   Updating ./src/gunpowder clone (to revision wandb_support)                                                                                                                                          
+1.012   Running command git fetch -q --tags                                                                                                                                                                 
+1.409   Running command git reset --hard -q cb806a55862b5221387c8239c5d8d7148b67e8fc
+1.429   Installing build dependencies: started
+4.871   Installing build dependencies: finished with status 'done'
+4.872   Checking if build backend supports build_editable: started
+4.986   Checking if build backend supports build_editable: finished with status 'done'
+4.987   Getting requirements to build editable: started
+5.200   Getting requirements to build editable: finished with status 'done'
+5.204   Preparing editable metadata (pyproject.toml): started
+5.419   Preparing editable metadata (pyproject.toml): finished with status 'done'
+5.435 Collecting git+https://github.com/funkelab/funlib.persistence.git (
             maps from tensorflow name to properties (all optional):
             - dsname: sets the datasetname, if not provided, tensorflow name is used
             - dtype: sets the dtype (make sure that you scale and clip
@@ -103,7 +117,7 @@ def predict_blockwise(
     # train_dir = os.path.join(experiment_dir, 'train', experiment)
     # if not os.path.exists(train_dir):
     # train_dir = os.path.join(experiment_dir, 'train')
-    train_dir = '/home/pretrained/train/code'
+    train_dir = '../' # changed from above to make it non experiment dependent
     db_name = db_name + '_{}_{}'.format(setup, iteration)
     if experiment != 'cremi':
         db_name += f'_{experiment}'

@@ -103,7 +103,7 @@ def predict_blockwise(
     # train_dir = os.path.join(experiment_dir, 'train', experiment)
     # if not os.path.exists(train_dir):
     # train_dir = os.path.join(experiment_dir, 'train')
-    train_dir = '/home/pretrained/train/code'
+    train_dir = '../'
     db_name = db_name + '_{}_{}'.format(setup, iteration)
     if experiment != 'cremi':
         db_name += f'_{experiment}'
