@@ -1,0 +1,474 @@
+18:58:00,189 models.models DEBUG data_dir /media/samia/DATA/ark/connexion/data/HEMI/data_3d/train
+18:58:00,189 engine.training.train_3d DEBUG If you are wondering why data_dir is missing your root dir, troubleshoot tip here: https://stackoverflow.com/questions/1945920/why-doesnt-os-path-join-work-in-this-case
+18:58:00,195 models.models DEBUG samples ['/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y18944_z21948.zarr', '/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y19968_z21948.zarr', '/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y18432_z21948.zarr', '/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y17408_z21948.zarr', '/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y22016_z21948.zarr', '/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y16896_z21948.zarr', '/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y17920_z21948.zarr', '/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y20992_z21948.zarr', '/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x19676_y12227_z13244.zarr', '/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y20480_z21948.zarr', '/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y21504_z21948.zarr']
+18:58:04,713 models.models INFO Expected output shape pre-calculated from input shape torch.Size([1, 10, 72, 72, 72])
+18:58:07,326 models.models INFO Model Summary stats with expected output shape====================================================================================================
+Layer (type:depth-idx)                             Output Shape              Param #
+====================================================================================================
+LsdModel                                           [1, 10, 72, 72, 72]       --
+├─UNet: 1-1                                        [1, 12, 72, 72, 72]       --
+│    └─ModuleList: 2-7                             --                        (recursive)
+│    │    └─ConvPass: 3-1                          [1, 12, 192, 192, 192]    4,236
+│    └─ModuleList: 2-6                             --                        --
+│    │    └─Downsample: 3-2                        [1, 12, 96, 96, 96]       --
+│    └─ModuleList: 2-7                             --                        (recursive)
+│    │    └─ConvPass: 3-3                          [1, 60, 92, 92, 92]       116,760
+│    └─ModuleList: 2-6                             --                        --
+│    │    └─Downsample: 3-4                        [1, 60, 46, 46, 46]       --
+│    └─ModuleList: 2-7                             --                        (recursive)
+│    │    └─ConvPass: 3-5                          [1, 300, 42, 42, 42]      2,916,600
+│    └─ModuleList: 2-6                             --                        --
+│    │    └─Downsample: 3-6                        [1, 300, 14, 14, 14]      --
+│    └─ModuleList: 2-7                             --                        (recursive)
+│    │    └─ConvPass: 3-7                          [1, 1500, 10, 10, 10]     72,903,000
+│    └─ModuleList: 2-12                            --                        (recursive)
+│    │    └─ModuleList: 3-12                       --                        (recursive)
+│    └─ModuleList: 2-13                            --                        (recursive)
+│    │    └─ModuleList: 3-13                       --                        (recursive)
+│    └─ModuleList: 2-12                            --                        (recursive)
+│    │    └─ModuleList: 3-12                       --                        (recursive)
+│    └─ModuleList: 2-13                            --                        (recursive)
+│    │    └─ModuleList: 3-13                       --                        (recursive)
+│    └─ModuleList: 2-12                            --                        (recursive)
+│    │    └─ModuleList: 3-12                       --                        (recursive)
+│    └─ModuleList: 2-13                            --                        (recursive)
+│    │    └─ModuleList: 3-13                       --                        (recursive)
+├─ConvPass: 1-2                                    [1, 10, 72, 72, 72]       --
+│    └─Sequential: 2-14                            [1, 10, 72, 72, 72]       --
+│    │    └─Conv3d: 3-14                           [1, 10, 72, 72, 72]       130
+│    │    └─Sigmoid: 3-15                          [1, 10, 72, 72, 72]       --
+====================================================================================================
+Total params: 155,159,746
+Trainable params: 155,159,746
+Non-trainable params: 0
+Total mult-adds (T): 2.52
+====================================================================================================
+Input size (MB): 30.12
+Forward/backward pass size (MB): 3698.17
+Params size (MB): 620.64
+Estimated Total Size (MB): 4348.93
+====================================================================================================
+18:58:07,326 engine.training.train_3d DEBUG Model
+18:58:07,326 gunpowder.array DEBUG Registering array key RAW
+18:58:07,327 gunpowder.array DEBUG Registering array key GT_LABELS
+18:58:07,327 gunpowder.array DEBUG Registering array key PRED_AFFS
+18:58:07,327 gunpowder.array DEBUG Registering array key GT_AFFS
+18:58:07,327 gunpowder.array DEBUG Registering array key AFFS_WEIGHTS
+18:58:07,327 gunpowder.array DEBUG Registering array key GT_AFFINITIES_MASK
+18:58:07,327 gunpowder.array DEBUG Registering array key PRED_LSDS
+18:58:07,327 gunpowder.array DEBUG Registering array key GT_LSDS
+18:58:07,327 gunpowder.array DEBUG Registering array key LSDS_WEIGHTS
+18:58:07,327 gunpowder.array DEBUG Registering array key GT_LABELS_MASK
+18:58:07,362 gunpowder.nodes.batch_provider DEBUG Current spec of ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y18944_z21948.zarr]:
+None
+18:58:07,362 gunpowder.nodes.batch_provider DEBUG ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y18944_z21948.zarr] provides RAW with spec ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: uint8, placeholder: False
+18:58:07,369 gunpowder.nodes.batch_provider DEBUG Current spec of ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y18944_z21948.zarr]:
+
+	RAW: ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: uint8, placeholder: False
+
+18:58:07,369 gunpowder.nodes.batch_provider DEBUG ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y18944_z21948.zarr] provides GT_LABELS with spec ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+18:58:07,376 gunpowder.nodes.batch_provider DEBUG Current spec of ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y18944_z21948.zarr]:
+
+	RAW: ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: uint8, placeholder: False
+	GT_LABELS: ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+
+18:58:07,376 gunpowder.nodes.batch_provider DEBUG ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y18944_z21948.zarr] provides GT_LABELS_MASK with spec ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint8, placeholder: False
+18:58:07,377 gunpowder.nodes.batch_filter DEBUG Normalize updates RAW with ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+18:58:07,377 gunpowder.nodes.batch_filter DEBUG Pad updates RAW with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+18:58:07,378 gunpowder.nodes.batch_filter DEBUG Pad updates GT_LABELS with ROI: [-64:4160, -64:4160, -64:4160] (4224, 4224, 4224), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+18:58:07,378 gunpowder.nodes.batch_filter DEBUG Pad updates GT_LABELS_MASK with ROI: [-64:4160, -64:4160, -64:4160] (4224, 4224, 4224), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint8, placeholder: False
+18:58:07,378 gunpowder.nodes.batch_filter DEBUG RandomLocation updates RAW with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+18:58:07,378 gunpowder.nodes.batch_filter DEBUG RandomLocation updates GT_LABELS with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+18:58:07,379 gunpowder.nodes.batch_filter DEBUG RandomLocation updates GT_LABELS_MASK with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint8, placeholder: False
+18:58:07,389 gunpowder.nodes.batch_provider DEBUG Current spec of ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y19968_z21948.zarr]:
+None
+18:58:07,389 gunpowder.nodes.batch_provider DEBUG ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y19968_z21948.zarr] provides RAW with spec ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: uint8, placeholder: False
+18:58:07,396 gunpowder.nodes.batch_provider DEBUG Current spec of ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y19968_z21948.zarr]:
+
+	RAW: ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: uint8, placeholder: False
+
+18:58:07,396 gunpowder.nodes.batch_provider DEBUG ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y19968_z21948.zarr] provides GT_LABELS with spec ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+18:58:07,403 gunpowder.nodes.batch_provider DEBUG Current spec of ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y19968_z21948.zarr]:
+
+	RAW: ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: uint8, placeholder: False
+	GT_LABELS: ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+
+18:58:07,403 gunpowder.nodes.batch_provider DEBUG ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y19968_z21948.zarr] provides GT_LABELS_MASK with spec ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint8, placeholder: False
+18:58:07,403 gunpowder.nodes.batch_filter DEBUG Normalize updates RAW with ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+18:58:07,404 gunpowder.nodes.batch_filter DEBUG Pad updates RAW with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+18:58:07,404 gunpowder.nodes.batch_filter DEBUG Pad updates GT_LABELS with ROI: [-64:4160, -64:4160, -64:4160] (4224, 4224, 4224), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+18:58:07,405 gunpowder.nodes.batch_filter DEBUG Pad updates GT_LABELS_MASK with ROI: [-64:4160, -64:4160, -64:4160] (4224, 4224, 4224), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint8, placeholder: False
+18:58:07,405 gunpowder.nodes.batch_filter DEBUG RandomLocation updates RAW with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+18:58:07,405 gunpowder.nodes.batch_filter DEBUG RandomLocation updates GT_LABELS with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+18:58:07,405 gunpowder.nodes.batch_filter DEBUG RandomLocation updates GT_LABELS_MASK with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint8, placeholder: False
+18:58:07,415 gunpowder.nodes.batch_provider DEBUG Current spec of ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y18432_z21948.zarr]:
+None
+18:58:07,415 gunpowder.nodes.batch_provider DEBUG ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y18432_z21948.zarr] provides RAW with spec ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: uint8, placeholder: False
+18:58:07,422 gunpowder.nodes.batch_provider DEBUG Current spec of ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y18432_z21948.zarr]:
+
+	RAW: ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: uint8, placeholder: False
+
+18:58:07,422 gunpowder.nodes.batch_provider DEBUG ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y18432_z21948.zarr] provides GT_LABELS with spec ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+18:58:07,429 gunpowder.nodes.batch_provider DEBUG Current spec of ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y18432_z21948.zarr]:
+
+	RAW: ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: uint8, placeholder: False
+	GT_LABELS: ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+
+18:58:07,430 gunpowder.nodes.batch_provider DEBUG ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y18432_z21948.zarr] provides GT_LABELS_MASK with spec ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint8, placeholder: False
+18:58:07,430 gunpowder.nodes.batch_filter DEBUG Normalize updates RAW with ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+18:58:07,430 gunpowder.nodes.batch_filter DEBUG Pad updates RAW with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+18:58:07,431 gunpowder.nodes.batch_filter DEBUG Pad updates GT_LABELS with ROI: [-64:4160, -64:4160, -64:4160] (4224, 4224, 4224), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+18:58:07,431 gunpowder.nodes.batch_filter DEBUG Pad updates GT_LABELS_MASK with ROI: [-64:4160, -64:4160, -64:4160] (4224, 4224, 4224), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint8, placeholder: False
+18:58:07,431 gunpowder.nodes.batch_filter DEBUG RandomLocation updates RAW with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+18:58:07,431 gunpowder.nodes.batch_filter DEBUG RandomLocation updates GT_LABELS with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+18:58:07,432 gunpowder.nodes.batch_filter DEBUG RandomLocation updates GT_LABELS_MASK with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint8, placeholder: False
+18:58:07,442 gunpowder.nodes.batch_provider DEBUG Current spec of ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y17408_z21948.zarr]:
+None
+18:58:07,442 gunpowder.nodes.batch_provider DEBUG ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y17408_z21948.zarr] provides RAW with spec ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: uint8, placeholder: False
+18:58:07,450 gunpowder.nodes.batch_provider DEBUG Current spec of ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y17408_z21948.zarr]:
+
+	RAW: ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: uint8, placeholder: False
+
+18:58:07,450 gunpowder.nodes.batch_provider DEBUG ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y17408_z21948.zarr] provides GT_LABELS with spec ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+18:58:07,458 gunpowder.nodes.batch_provider DEBUG Current spec of ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y17408_z21948.zarr]:
+
+	RAW: ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: uint8, placeholder: False
+	GT_LABELS: ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+
+18:58:07,458 gunpowder.nodes.batch_provider DEBUG ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y17408_z21948.zarr] provides GT_LABELS_MASK with spec ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint8, placeholder: False
+18:58:07,458 gunpowder.nodes.batch_filter DEBUG Normalize updates RAW with ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+18:58:07,459 gunpowder.nodes.batch_filter DEBUG Pad updates RAW with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+18:58:07,459 gunpowder.nodes.batch_filter DEBUG Pad updates GT_LABELS with ROI: [-64:4160, -64:4160, -64:4160] (4224, 4224, 4224), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+18:58:07,460 gunpowder.nodes.batch_filter DEBUG Pad updates GT_LABELS_MASK with ROI: [-64:4160, -64:4160, -64:4160] (4224, 4224, 4224), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint8, placeholder: False
+18:58:07,460 gunpowder.nodes.batch_filter DEBUG RandomLocation updates RAW with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+18:58:07,461 gunpowder.nodes.batch_filter DEBUG RandomLocation updates GT_LABELS with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+18:58:07,461 gunpowder.nodes.batch_filter DEBUG RandomLocation updates GT_LABELS_MASK with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint8, placeholder: False
+18:58:07,472 gunpowder.nodes.batch_provider DEBUG Current spec of ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y22016_z21948.zarr]:
+None
+18:58:07,472 gunpowder.nodes.batch_provider DEBUG ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y22016_z21948.zarr] provides RAW with spec ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: uint8, placeholder: False
+18:58:07,480 gunpowder.nodes.batch_provider DEBUG Current spec of ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y22016_z21948.zarr]:
+
+	RAW: ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: uint8, placeholder: False
+
+18:58:07,481 gunpowder.nodes.batch_provider DEBUG ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y22016_z21948.zarr] provides GT_LABELS with spec ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+18:58:07,489 gunpowder.nodes.batch_provider DEBUG Current spec of ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y22016_z21948.zarr]:
+
+	RAW: ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: uint8, placeholder: False
+	GT_LABELS: ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+
+18:58:07,489 gunpowder.nodes.batch_provider DEBUG ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y22016_z21948.zarr] provides GT_LABELS_MASK with spec ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint8, placeholder: False
+18:58:07,490 gunpowder.nodes.batch_filter DEBUG Normalize updates RAW with ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+18:58:07,490 gunpowder.nodes.batch_filter DEBUG Pad updates RAW with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+18:58:07,491 gunpowder.nodes.batch_filter DEBUG Pad updates GT_LABELS with ROI: [-64:4160, -64:4160, -64:4160] (4224, 4224, 4224), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+18:58:07,491 gunpowder.nodes.batch_filter DEBUG Pad updates GT_LABELS_MASK with ROI: [-64:4160, -64:4160, -64:4160] (4224, 4224, 4224), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint8, placeholder: False
+18:58:07,492 gunpowder.nodes.batch_filter DEBUG RandomLocation updates RAW with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+18:58:07,492 gunpowder.nodes.batch_filter DEBUG RandomLocation updates GT_LABELS with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+18:58:07,493 gunpowder.nodes.batch_filter DEBUG RandomLocation updates GT_LABELS_MASK with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint8, placeholder: False
+18:58:07,503 gunpowder.nodes.batch_provider DEBUG Current spec of ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y16896_z21948.zarr]:
+None
+18:58:07,504 gunpowder.nodes.batch_provider DEBUG ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y16896_z21948.zarr] provides RAW with spec ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: uint8, placeholder: False
+18:58:07,511 gunpowder.nodes.batch_provider DEBUG Current spec of ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y16896_z21948.zarr]:
+
+	RAW: ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: uint8, placeholder: False
+
+18:58:07,511 gunpowder.nodes.batch_provider DEBUG ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y16896_z21948.zarr] provides GT_LABELS with spec ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+18:58:07,519 gunpowder.nodes.batch_provider DEBUG Current spec of ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y16896_z21948.zarr]:
+
+	RAW: ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: uint8, placeholder: False
+	GT_LABELS: ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+
+18:58:07,519 gunpowder.nodes.batch_provider DEBUG ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y16896_z21948.zarr] provides GT_LABELS_MASK with spec ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint8, placeholder: False
+18:58:07,519 gunpowder.nodes.batch_filter DEBUG Normalize updates RAW with ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+18:58:07,519 gunpowder.nodes.batch_filter DEBUG Pad updates RAW with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+18:58:07,520 gunpowder.nodes.batch_filter DEBUG Pad updates GT_LABELS with ROI: [-64:4160, -64:4160, -64:4160] (4224, 4224, 4224), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+18:58:07,520 gunpowder.nodes.batch_filter DEBUG Pad updates GT_LABELS_MASK with ROI: [-64:4160, -64:4160, -64:4160] (4224, 4224, 4224), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint8, placeholder: False
+18:58:07,521 gunpowder.nodes.batch_filter DEBUG RandomLocation updates RAW with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+18:58:07,521 gunpowder.nodes.batch_filter DEBUG RandomLocation updates GT_LABELS with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+18:58:07,521 gunpowder.nodes.batch_filter DEBUG RandomLocation updates GT_LABELS_MASK with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint8, placeholder: False
+18:58:07,531 gunpowder.nodes.batch_provider DEBUG Current spec of ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y17920_z21948.zarr]:
+None
+18:58:07,531 gunpowder.nodes.batch_provider DEBUG ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y17920_z21948.zarr] provides RAW with spec ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: uint8, placeholder: False
+18:58:07,538 gunpowder.nodes.batch_provider DEBUG Current spec of ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y17920_z21948.zarr]:
+
+	RAW: ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: uint8, placeholder: False
+
+18:58:07,538 gunpowder.nodes.batch_provider DEBUG ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y17920_z21948.zarr] provides GT_LABELS with spec ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+18:58:07,545 gunpowder.nodes.batch_provider DEBUG Current spec of ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y17920_z21948.zarr]:
+
+	RAW: ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: uint8, placeholder: False
+	GT_LABELS: ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+
+18:58:07,546 gunpowder.nodes.batch_provider DEBUG ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y17920_z21948.zarr] provides GT_LABELS_MASK with spec ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint8, placeholder: False
+18:58:07,546 gunpowder.nodes.batch_filter DEBUG Normalize updates RAW with ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+18:58:07,546 gunpowder.nodes.batch_filter DEBUG Pad updates RAW with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+18:58:07,547 gunpowder.nodes.batch_filter DEBUG Pad updates GT_LABELS with ROI: [-64:4160, -64:4160, -64:4160] (4224, 4224, 4224), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+18:58:07,547 gunpowder.nodes.batch_filter DEBUG Pad updates GT_LABELS_MASK with ROI: [-64:4160, -64:4160, -64:4160] (4224, 4224, 4224), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint8, placeholder: False
+18:58:07,547 gunpowder.nodes.batch_filter DEBUG RandomLocation updates RAW with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+18:58:07,547 gunpowder.nodes.batch_filter DEBUG RandomLocation updates GT_LABELS with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+18:58:07,548 gunpowder.nodes.batch_filter DEBUG RandomLocation updates GT_LABELS_MASK with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint8, placeholder: False
+18:58:07,558 gunpowder.nodes.batch_provider DEBUG Current spec of ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y20992_z21948.zarr]:
+None
+18:58:07,558 gunpowder.nodes.batch_provider DEBUG ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y20992_z21948.zarr] provides RAW with spec ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: uint8, placeholder: False
+18:58:07,565 gunpowder.nodes.batch_provider DEBUG Current spec of ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y20992_z21948.zarr]:
+
+	RAW: ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: uint8, placeholder: False
+
+18:58:07,565 gunpowder.nodes.batch_provider DEBUG ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y20992_z21948.zarr] provides GT_LABELS with spec ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+18:58:07,572 gunpowder.nodes.batch_provider DEBUG Current spec of ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y20992_z21948.zarr]:
+
+	RAW: ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: uint8, placeholder: False
+	GT_LABELS: ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+
+18:58:07,572 gunpowder.nodes.batch_provider DEBUG ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y20992_z21948.zarr] provides GT_LABELS_MASK with spec ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint8, placeholder: False
+18:58:07,572 gunpowder.nodes.batch_filter DEBUG Normalize updates RAW with ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+18:58:07,573 gunpowder.nodes.batch_filter DEBUG Pad updates RAW with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+18:58:07,573 gunpowder.nodes.batch_filter DEBUG Pad updates GT_LABELS with ROI: [-64:4160, -64:4160, -64:4160] (4224, 4224, 4224), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+18:58:07,573 gunpowder.nodes.batch_filter DEBUG Pad updates GT_LABELS_MASK with ROI: [-64:4160, -64:4160, -64:4160] (4224, 4224, 4224), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint8, placeholder: False
+18:58:07,574 gunpowder.nodes.batch_filter DEBUG RandomLocation updates RAW with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+18:58:07,574 gunpowder.nodes.batch_filter DEBUG RandomLocation updates GT_LABELS with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+18:58:07,574 gunpowder.nodes.batch_filter DEBUG RandomLocation updates GT_LABELS_MASK with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint8, placeholder: False
+18:58:07,583 gunpowder.nodes.batch_provider DEBUG Current spec of ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x19676_y12227_z13244.zarr]:
+None
+18:58:07,583 gunpowder.nodes.batch_provider DEBUG ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x19676_y12227_z13244.zarr] provides RAW with spec ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: uint8, placeholder: False
+18:58:07,591 gunpowder.nodes.batch_provider DEBUG Current spec of ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x19676_y12227_z13244.zarr]:
+
+	RAW: ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: uint8, placeholder: False
+
+18:58:07,591 gunpowder.nodes.batch_provider DEBUG ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x19676_y12227_z13244.zarr] provides GT_LABELS with spec ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+18:58:07,597 gunpowder.nodes.batch_provider DEBUG Current spec of ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x19676_y12227_z13244.zarr]:
+
+	RAW: ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: uint8, placeholder: False
+	GT_LABELS: ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+
+18:58:07,598 gunpowder.nodes.batch_provider DEBUG ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x19676_y12227_z13244.zarr] provides GT_LABELS_MASK with spec ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint8, placeholder: False
+18:58:07,598 gunpowder.nodes.batch_filter DEBUG Normalize updates RAW with ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+18:58:07,598 gunpowder.nodes.batch_filter DEBUG Pad updates RAW with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+18:58:07,599 gunpowder.nodes.batch_filter DEBUG Pad updates GT_LABELS with ROI: [-64:4160, -64:4160, -64:4160] (4224, 4224, 4224), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+18:58:07,599 gunpowder.nodes.batch_filter DEBUG Pad updates GT_LABELS_MASK with ROI: [-64:4160, -64:4160, -64:4160] (4224, 4224, 4224), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint8, placeholder: False
+18:58:07,599 gunpowder.nodes.batch_filter DEBUG RandomLocation updates RAW with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+18:58:07,600 gunpowder.nodes.batch_filter DEBUG RandomLocation updates GT_LABELS with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+18:58:07,600 gunpowder.nodes.batch_filter DEBUG RandomLocation updates GT_LABELS_MASK with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint8, placeholder: False
+18:58:07,609 gunpowder.nodes.batch_provider DEBUG Current spec of ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y20480_z21948.zarr]:
+None
+18:58:07,610 gunpowder.nodes.batch_provider DEBUG ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y20480_z21948.zarr] provides RAW with spec ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: uint8, placeholder: False
+18:58:07,617 gunpowder.nodes.batch_provider DEBUG Current spec of ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y20480_z21948.zarr]:
+
+	RAW: ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: uint8, placeholder: False
+
+18:58:07,617 gunpowder.nodes.batch_provider DEBUG ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y20480_z21948.zarr] provides GT_LABELS with spec ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+18:58:07,624 gunpowder.nodes.batch_provider DEBUG Current spec of ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y20480_z21948.zarr]:
+
+	RAW: ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: uint8, placeholder: False
+	GT_LABELS: ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+
+18:58:07,624 gunpowder.nodes.batch_provider DEBUG ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y20480_z21948.zarr] provides GT_LABELS_MASK with spec ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint8, placeholder: False
+18:58:07,624 gunpowder.nodes.batch_filter DEBUG Normalize updates RAW with ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+18:58:07,625 gunpowder.nodes.batch_filter DEBUG Pad updates RAW with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+18:58:07,625 gunpowder.nodes.batch_filter DEBUG Pad updates GT_LABELS with ROI: [-64:4160, -64:4160, -64:4160] (4224, 4224, 4224), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+18:58:07,625 gunpowder.nodes.batch_filter DEBUG Pad updates GT_LABELS_MASK with ROI: [-64:4160, -64:4160, -64:4160] (4224, 4224, 4224), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint8, placeholder: False
+18:58:07,626 gunpowder.nodes.batch_filter DEBUG RandomLocation updates RAW with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+18:58:07,626 gunpowder.nodes.batch_filter DEBUG RandomLocation updates GT_LABELS with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+18:58:07,626 gunpowder.nodes.batch_filter DEBUG RandomLocation updates GT_LABELS_MASK with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint8, placeholder: False
+18:58:07,635 gunpowder.nodes.batch_provider DEBUG Current spec of ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y21504_z21948.zarr]:
+None
+18:58:07,635 gunpowder.nodes.batch_provider DEBUG ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y21504_z21948.zarr] provides RAW with spec ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: uint8, placeholder: False
+18:58:07,643 gunpowder.nodes.batch_provider DEBUG Current spec of ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y21504_z21948.zarr]:
+
+	RAW: ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: uint8, placeholder: False
+
+18:58:07,643 gunpowder.nodes.batch_provider DEBUG ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y21504_z21948.zarr] provides GT_LABELS with spec ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+18:58:07,650 gunpowder.nodes.batch_provider DEBUG Current spec of ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y21504_z21948.zarr]:
+
+	RAW: ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: uint8, placeholder: False
+	GT_LABELS: ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+
+18:58:07,650 gunpowder.nodes.batch_provider DEBUG ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y21504_z21948.zarr] provides GT_LABELS_MASK with spec ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint8, placeholder: False
+18:58:07,651 gunpowder.nodes.batch_filter DEBUG Normalize updates RAW with ROI: [0:4096, 0:4096, 0:4096] (4096, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+18:58:07,651 gunpowder.nodes.batch_filter DEBUG Pad updates RAW with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+18:58:07,652 gunpowder.nodes.batch_filter DEBUG Pad updates GT_LABELS with ROI: [-64:4160, -64:4160, -64:4160] (4224, 4224, 4224), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+18:58:07,652 gunpowder.nodes.batch_filter DEBUG Pad updates GT_LABELS_MASK with ROI: [-64:4160, -64:4160, -64:4160] (4224, 4224, 4224), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint8, placeholder: False
+18:58:07,652 gunpowder.nodes.batch_filter DEBUG RandomLocation updates RAW with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+18:58:07,653 gunpowder.nodes.batch_filter DEBUG RandomLocation updates GT_LABELS with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+18:58:07,653 gunpowder.nodes.batch_filter DEBUG RandomLocation updates GT_LABELS_MASK with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint8, placeholder: False
+18:58:07,655 gunpowder.nodes.batch_provider DEBUG Current spec of RandomProvider:
+None
+18:58:07,655 gunpowder.nodes.batch_provider DEBUG RandomProvider provides RAW with spec ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+18:58:07,655 gunpowder.nodes.batch_provider DEBUG Current spec of RandomProvider:
+
+	RAW: ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+
+18:58:07,655 gunpowder.nodes.batch_provider DEBUG RandomProvider provides GT_LABELS with spec ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+18:58:07,655 gunpowder.nodes.batch_provider DEBUG Current spec of RandomProvider:
+
+	RAW: ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+	GT_LABELS: ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+
+18:58:07,655 gunpowder.nodes.batch_provider DEBUG RandomProvider provides GT_LABELS_MASK with spec ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint8, placeholder: False
+18:58:07,656 gunpowder.nodes.batch_filter DEBUG IntensityAugment updates RAW with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+18:58:07,656 gunpowder.nodes.batch_provider DEBUG Current spec of AddLocalShapeDescriptor:
+
+	RAW: ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+	GT_LABELS: ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+	GT_LABELS_MASK: ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint8, placeholder: False
+
+18:58:07,657 gunpowder.nodes.batch_provider DEBUG AddLocalShapeDescriptor provides GT_LSDS with spec ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+18:58:07,657 gunpowder.nodes.batch_provider DEBUG Current spec of AddLocalShapeDescriptor:
+
+	RAW: ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+	GT_LABELS: ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+	GT_LABELS_MASK: ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint8, placeholder: False
+	GT_LSDS: ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+
+18:58:07,657 gunpowder.nodes.batch_provider DEBUG AddLocalShapeDescriptor provides LSDS_WEIGHTS with spec ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+18:58:07,657 gunpowder.nodes.add_affinities DEBUG padding neg: (-8, -8, -8)
+18:58:07,657 gunpowder.nodes.add_affinities DEBUG padding pos: (0, 0, 0)
+18:58:07,657 gunpowder.nodes.batch_provider DEBUG Current spec of AddAffinities:
+
+	RAW: ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+	GT_LABELS: ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+	GT_LABELS_MASK: ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint8, placeholder: False
+	GT_LSDS: ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+	LSDS_WEIGHTS: ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+
+18:58:07,657 gunpowder.nodes.batch_provider DEBUG AddAffinities provides GT_AFFS with spec ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: <class 'numpy.uint8'>, placeholder: False
+18:58:07,658 gunpowder.nodes.batch_provider DEBUG Current spec of AddAffinities:
+
+	RAW: ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+	GT_LABELS: ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+	GT_LABELS_MASK: ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint8, placeholder: False
+	GT_LSDS: ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+	LSDS_WEIGHTS: ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+	GT_AFFS: ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: <class 'numpy.uint8'>, placeholder: False
+
+18:58:07,658 gunpowder.nodes.batch_provider DEBUG AddAffinities provides GT_AFFINITIES_MASK with spec ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: <class 'numpy.uint8'>, placeholder: False
+18:58:07,658 gunpowder.nodes.batch_provider DEBUG Current spec of BalanceLabels:
+
+	RAW: ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+	GT_LABELS: ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+	GT_LABELS_MASK: ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint8, placeholder: False
+	GT_LSDS: ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+	LSDS_WEIGHTS: ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+	GT_AFFS: ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: <class 'numpy.uint8'>, placeholder: False
+	GT_AFFINITIES_MASK: ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: <class 'numpy.uint8'>, placeholder: False
+
+18:58:07,658 gunpowder.nodes.batch_provider DEBUG BalanceLabels provides AFFS_WEIGHTS with spec ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+18:58:07,659 gunpowder.nodes.batch_filter DEBUG Unsqueeze updates RAW with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+18:58:07,660 gunpowder.nodes.batch_provider DEBUG Current spec of Train:
+
+	RAW: ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+	GT_LABELS: ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint64, placeholder: False
+	GT_LABELS_MASK: ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: uint8, placeholder: False
+	GT_LSDS: ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+	LSDS_WEIGHTS: ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+	GT_AFFS: ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: <class 'numpy.uint8'>, placeholder: False
+	GT_AFFINITIES_MASK: ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: <class 'numpy.uint8'>, placeholder: False
+	AFFS_WEIGHTS: ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+
+18:58:07,660 gunpowder.nodes.batch_provider DEBUG Train provides PRED_LSDS with spec ROI: None, voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: None, placeholder: False
+18:58:08,806 gunpowder.torch.nodes.train_v2 INFO Resuming training from iteration 10
+18:58:08,806 gunpowder.torch.nodes.train_v2 INFO Loading /media/samia/DATA/ark/lsd_checkpoints/ACRLSD_3D/LSD/test_aclsd/model_checkpoint_10
+18:58:25,347 gunpowder.torch.nodes.train_v2 INFO Using device cuda:0
+18:58:25,348 gunpowder.nodes.batch_filter DEBUG Squeeze updates RAW with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+18:58:25,349 gunpowder.nodes.batch_filter DEBUG Squeeze updates RAW with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+18:58:25,349 gunpowder.nodes.batch_filter DEBUG Squeeze updates GT_AFFS with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: <class 'numpy.uint8'>, placeholder: False
+18:58:25,349 gunpowder.nodes.batch_filter DEBUG Squeeze updates GT_LSDS with ROI: [:, :, :] (inf, inf, inf), voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+18:58:25,350 gunpowder.build DEBUG leaving context, tearing down pipeline
+18:58:25,350 gunpowder.nodes.batch_provider DEBUG Resetting spec of ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y18944_z21948.zarr]
+18:58:25,350 gunpowder.nodes.batch_filter DEBUG Resetting spec of Normalize
+18:58:25,350 gunpowder.nodes.batch_filter DEBUG Resetting spec of Pad
+18:58:25,350 gunpowder.nodes.batch_filter DEBUG Resetting spec of Pad
+18:58:25,350 gunpowder.nodes.batch_filter DEBUG Resetting spec of Pad
+18:58:25,350 gunpowder.nodes.batch_filter DEBUG Resetting spec of RandomLocation
+18:58:25,350 gunpowder.nodes.batch_filter DEBUG Resetting spec of RejectIfEmpty
+18:58:25,350 gunpowder.nodes.batch_provider DEBUG Resetting spec of ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y19968_z21948.zarr]
+18:58:25,350 gunpowder.nodes.batch_filter DEBUG Resetting spec of Normalize
+18:58:25,350 gunpowder.nodes.batch_filter DEBUG Resetting spec of Pad
+18:58:25,350 gunpowder.nodes.batch_filter DEBUG Resetting spec of Pad
+18:58:25,350 gunpowder.nodes.batch_filter DEBUG Resetting spec of Pad
+18:58:25,350 gunpowder.nodes.batch_filter DEBUG Resetting spec of RandomLocation
+18:58:25,350 gunpowder.nodes.batch_filter DEBUG Resetting spec of RejectIfEmpty
+18:58:25,350 gunpowder.nodes.batch_provider DEBUG Resetting spec of ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y18432_z21948.zarr]
+18:58:25,350 gunpowder.nodes.batch_filter DEBUG Resetting spec of Normalize
+18:58:25,350 gunpowder.nodes.batch_filter DEBUG Resetting spec of Pad
+18:58:25,350 gunpowder.nodes.batch_filter DEBUG Resetting spec of Pad
+18:58:25,350 gunpowder.nodes.batch_filter DEBUG Resetting spec of Pad
+18:58:25,350 gunpowder.nodes.batch_filter DEBUG Resetting spec of RandomLocation
+18:58:25,350 gunpowder.nodes.batch_filter DEBUG Resetting spec of RejectIfEmpty
+18:58:25,350 gunpowder.nodes.batch_provider DEBUG Resetting spec of ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y17408_z21948.zarr]
+18:58:25,350 gunpowder.nodes.batch_filter DEBUG Resetting spec of Normalize
+18:58:25,350 gunpowder.nodes.batch_filter DEBUG Resetting spec of Pad
+18:58:25,350 gunpowder.nodes.batch_filter DEBUG Resetting spec of Pad
+18:58:25,350 gunpowder.nodes.batch_filter DEBUG Resetting spec of Pad
+18:58:25,350 gunpowder.nodes.batch_filter DEBUG Resetting spec of RandomLocation
+18:58:25,350 gunpowder.nodes.batch_filter DEBUG Resetting spec of RejectIfEmpty
+18:58:25,350 gunpowder.nodes.batch_provider DEBUG Resetting spec of ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y22016_z21948.zarr]
+18:58:25,350 gunpowder.nodes.batch_filter DEBUG Resetting spec of Normalize
+18:58:25,351 gunpowder.nodes.batch_filter DEBUG Resetting spec of Pad
+18:58:25,351 gunpowder.nodes.batch_filter DEBUG Resetting spec of Pad
+18:58:25,351 gunpowder.nodes.batch_filter DEBUG Resetting spec of Pad
+18:58:25,351 gunpowder.nodes.batch_filter DEBUG Resetting spec of RandomLocation
+18:58:25,351 gunpowder.nodes.batch_filter DEBUG Resetting spec of RejectIfEmpty
+18:58:25,351 gunpowder.nodes.batch_provider DEBUG Resetting spec of ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y16896_z21948.zarr]
+18:58:25,351 gunpowder.nodes.batch_filter DEBUG Resetting spec of Normalize
+18:58:25,351 gunpowder.nodes.batch_filter DEBUG Resetting spec of Pad
+18:58:25,351 gunpowder.nodes.batch_filter DEBUG Resetting spec of Pad
+18:58:25,351 gunpowder.nodes.batch_filter DEBUG Resetting spec of Pad
+18:58:25,351 gunpowder.nodes.batch_filter DEBUG Resetting spec of RandomLocation
+18:58:25,351 gunpowder.nodes.batch_filter DEBUG Resetting spec of RejectIfEmpty
+18:58:25,351 gunpowder.nodes.batch_provider DEBUG Resetting spec of ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y17920_z21948.zarr]
+18:58:25,351 gunpowder.nodes.batch_filter DEBUG Resetting spec of Normalize
+18:58:25,351 gunpowder.nodes.batch_filter DEBUG Resetting spec of Pad
+18:58:25,351 gunpowder.nodes.batch_filter DEBUG Resetting spec of Pad
+18:58:25,351 gunpowder.nodes.batch_filter DEBUG Resetting spec of Pad
+18:58:25,351 gunpowder.nodes.batch_filter DEBUG Resetting spec of RandomLocation
+18:58:25,351 gunpowder.nodes.batch_filter DEBUG Resetting spec of RejectIfEmpty
+18:58:25,351 gunpowder.nodes.batch_provider DEBUG Resetting spec of ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y20992_z21948.zarr]
+18:58:25,351 gunpowder.nodes.batch_filter DEBUG Resetting spec of Normalize
+18:58:25,351 gunpowder.nodes.batch_filter DEBUG Resetting spec of Pad
+18:58:25,351 gunpowder.nodes.batch_filter DEBUG Resetting spec of Pad
+18:58:25,351 gunpowder.nodes.batch_filter DEBUG Resetting spec of Pad
+18:58:25,351 gunpowder.nodes.batch_filter DEBUG Resetting spec of RandomLocation
+18:58:25,351 gunpowder.nodes.batch_filter DEBUG Resetting spec of RejectIfEmpty
+18:58:25,351 gunpowder.nodes.batch_provider DEBUG Resetting spec of ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x19676_y12227_z13244.zarr]
+18:58:25,351 gunpowder.nodes.batch_filter DEBUG Resetting spec of Normalize
+18:58:25,351 gunpowder.nodes.batch_filter DEBUG Resetting spec of Pad
+18:58:25,351 gunpowder.nodes.batch_filter DEBUG Resetting spec of Pad
+18:58:25,351 gunpowder.nodes.batch_filter DEBUG Resetting spec of Pad
+18:58:25,351 gunpowder.nodes.batch_filter DEBUG Resetting spec of RandomLocation
+18:58:25,351 gunpowder.nodes.batch_filter DEBUG Resetting spec of RejectIfEmpty
+18:58:25,351 gunpowder.nodes.batch_provider DEBUG Resetting spec of ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y20480_z21948.zarr]
+18:58:25,351 gunpowder.nodes.batch_filter DEBUG Resetting spec of Normalize
+18:58:25,351 gunpowder.nodes.batch_filter DEBUG Resetting spec of Pad
+18:58:25,351 gunpowder.nodes.batch_filter DEBUG Resetting spec of Pad
+18:58:25,351 gunpowder.nodes.batch_filter DEBUG Resetting spec of Pad
+18:58:25,351 gunpowder.nodes.batch_filter DEBUG Resetting spec of RandomLocation
+18:58:25,351 gunpowder.nodes.batch_filter DEBUG Resetting spec of RejectIfEmpty
+18:58:25,352 gunpowder.nodes.batch_provider DEBUG Resetting spec of ZarrSource[/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y21504_z21948.zarr]
+18:58:25,352 gunpowder.nodes.batch_filter DEBUG Resetting spec of Normalize
+18:58:25,352 gunpowder.nodes.batch_filter DEBUG Resetting spec of Pad
+18:58:25,352 gunpowder.nodes.batch_filter DEBUG Resetting spec of Pad
+18:58:25,352 gunpowder.nodes.batch_filter DEBUG Resetting spec of Pad
+18:58:25,352 gunpowder.nodes.batch_filter DEBUG Resetting spec of RandomLocation
+18:58:25,352 gunpowder.nodes.batch_filter DEBUG Resetting spec of RejectIfEmpty
+18:58:25,352 gunpowder.nodes.batch_provider DEBUG Resetting spec of RandomProvider
+18:58:25,352 gunpowder.nodes.batch_filter DEBUG Resetting spec of ElasticAugment
+18:58:25,352 gunpowder.nodes.batch_filter DEBUG Resetting spec of SimpleAugment
+18:58:25,352 gunpowder.nodes.batch_filter DEBUG Resetting spec of ElasticAugment
+18:58:25,352 gunpowder.nodes.batch_filter DEBUG Resetting spec of IntensityAugment
+18:58:25,352 gunpowder.nodes.batch_filter DEBUG Resetting spec of GrowBoundary
+18:58:25,352 gunpowder.nodes.batch_filter DEBUG Resetting spec of AddLocalShapeDescriptor
+18:58:25,352 gunpowder.nodes.batch_filter DEBUG Resetting spec of AddAffinities
+18:58:25,352 gunpowder.nodes.batch_filter DEBUG Resetting spec of BalanceLabels
+18:58:25,352 gunpowder.nodes.batch_filter DEBUG Resetting spec of IntensityScaleShift
+18:58:25,352 gunpowder.nodes.batch_filter DEBUG Resetting spec of Unsqueeze
+18:58:25,352 gunpowder.nodes.batch_filter DEBUG Resetting spec of Stack
+18:58:25,352 gunpowder.nodes.batch_filter DEBUG Resetting spec of PreCache
+18:58:25,352 gunpowder.nodes.batch_filter DEBUG Resetting spec of Train
+18:58:25,352 gunpowder.nodes.batch_filter DEBUG Resetting spec of Squeeze
+18:58:25,352 gunpowder.nodes.batch_filter DEBUG Resetting spec of Squeeze
+18:58:25,352 gunpowder.nodes.batch_filter DEBUG Resetting spec of IntensityScaleShift
+18:58:25,352 gunpowder.nodes.batch_filter DEBUG Resetting spec of Snapshot
+18:58:25,352 gunpowder.build DEBUG tear down completed
+18:58:25,417 models.models DEBUG data_dir /media/samia/DATA/ark/connexion/data/HEMI/data_3d/train
+18:58:25,417 engine.training.train_3d DEBUG If you are wondering why data_dir is missing your root dir, troubleshoot tip here: https://stackoverflow.com/questions/1945920/why-doesnt-os-path-join-work-in-this-case
+18:58:25,422 models.models DEBUG samples ['/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y18944_z21948.zarr', '/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y19968_z21948.zarr', '/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y18432_z21948.zarr', '/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y17408_z21948.zarr', '/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y22016_z21948.zarr', '/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y16896_z21948.zarr', '/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y17920_z21948.zarr', '/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y20992_z21948.zarr', '/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x19676_y12227_z13244.zarr', '/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y20480_z21948.zarr', '/media/samia/DATA/ark/connexion/data/HEMI/data_3d/train/hemi_x11051_y21504_z21948.zarr']
