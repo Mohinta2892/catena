@@ -1,5 +1,5 @@
 ##  Quick glance: Pretrained model specs
-
+Credits: Julia Buhmann
 
 | Setup                     | Specs                           | F-score with seg | F-score without | Remarks|
 |---------------------------|---------------------------------|------------------|------------------|------------------|
@@ -14,4 +14,5 @@ Note, that for the models that have an underlying ST architecture we also indica
 ## Download Checkpoints
 Checkpoints: [Link](https://www.dropbox.com/scl/fo/hlw1cbef09xwisss59fhr/h?rlkey=uk7786539u1fu21dh5ebowip6&dl=0)
 
+## Run inference
 
