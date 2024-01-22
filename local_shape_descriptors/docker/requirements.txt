@@ -2,9 +2,13 @@ wandb==0.15.12
 torchinfo==1.8.0
 daisy==1.0
 lsds==0.1.3
-yacs== 0.1.8
+yacs==0.1.8
+psycopg2-binary==2.9.9 
 funlib.geometry==0.2
+mahotas==1.4.13
+matplotlib==3.8.2
 -e git+https://github.com/Mohinta2892/gunpowder.git@wandb_support#egg=gunpowder
 git+https://github.com/funkelab/funlib.persistence.git
 git+https://github.com/funkelab/funlib.learn.torch.git
 git+https://github.com/funkelab/funlib.math.git
+
