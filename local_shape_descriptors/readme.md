@@ -6,7 +6,8 @@ Pytorch implementation of 3D UNET +/- LSD networks using Gunpowder for data load
   
 
 # Basic Usage:
-1. ``` git clone the  `git@github.com:Mohinta2892/catena.git````
+1. ``` git clone git@github.com:Mohinta2892/catena.git```
 2. ``` cd catena/local_shape_descriptors```
+3.  
 
    
