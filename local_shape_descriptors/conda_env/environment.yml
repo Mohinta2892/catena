@@ -1,4 +1,7 @@
-name: funkelsd
+# - remove if an env with the same exists already with: $conda remove -n funkelsd_test --all
+# - install with: conda env create -f /path/to/this/environment.yml -n funkelsd_test
+
+name: funkelsd_test
 channels:
   - http://conda.anaconda.org/gurobi
   - conda-forge
@@ -112,10 +115,10 @@ dependencies:
       - frozenlist==1.4.0
       - fsspec==2022.11.0
       - funlib-geometry==0.2
-      - funlib-learn-torch==0.1
+      - -e git+https://github.com/funkelab/funlib.learn.torch.git#egg=funlib.learn.torch # funlib-learn-torch==0.1, not pip released
       - funlib-math==0.1
       - funlib-persistence==0.1.0
-      - funlib-segment==0.1
+      - -e git+https://github.com/funkelab/funlib.segment.git#egg=funlib.segment # funlib-segment==0.1, not pip released
       - furo==2023.9.10
       - fuzzywuzzy==0.18.0
       - gevent==23.9.0.post1
@@ -325,7 +328,6 @@ dependencies:
       - tqdm==4.64.1
       - traitlets==5.9.0
       - trimesh==3.23.5
-      - try-lsd==0.0.post1.dev1+g7fe96fc
       - typer==0.9.0
       - typing-extensions==4.5.0
       - ujson==5.8.0
