@@ -302,7 +302,7 @@ if __name__ == '__main__':
 
     else:
         # we loop through the datasets here and call inference on them.
-        # Todo: add daisy support for spawning
+        # Todo: add daisy support for spawning async for every dataset
         for sample in samples:
             cfg.DATA.SAMPLE = sample
             # overwrite in the loop - otherwise will create zarr within zarr
