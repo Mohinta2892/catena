@@ -195,14 +195,14 @@ def start_worker(cfg):
 
     log_out = output_basename.parent / f"worker_{worker_id}.out"
     log_err = output_basename.parent / f"worker_{worker_id}.err"
-    # 
+    #
     # config_str = "".join(["%s" % (v,) for v in config.values()])
     # config_hash = abs(int(hashlib.md5(config_str.encode()).hexdigest(), 16))
 
     config_file = os.path.join(f"{output_basename.parent}", f"config_{worker_id}.yaml")
-  
+
     # Based on worker id, reset the cuda device: experimental.
-    # This works when number of workers = 1, throws 
+    # This works when number of workers = 1, throws
     # `RuntimeError: Cannot re-initialize CUDA in forked subprocess. To use CUDA with multiprocessing, you must use the 'spawn' start method`
     # when using > 1 num_workers!
     # cfg.TRAIN.DEVICE = f"cuda:{worker_id}"
@@ -309,23 +309,21 @@ if __name__ == '__main__':
             cfg.DATA.OUTFILE = out_filepath
             cfg.DATA.OUTFILE = os.path.join(cfg.DATA.OUTFILE, os.path.basename(cfg.DATA.SAMPLE))
 
-    start = time.time()
+            sample_name = os.path.basename(sample).split('.')[0]
+            db_host = "localhost:27017"
+            db_name = "lsd_predictions_parallel"
+            predict_blockwise(
+                cfg, sample_name=sample_name, db_host=db_host, db_name=db_name
+            )
 
-    sample_name = "test"
-    db_host = "localhost:27017"
-    db_name = "lsd_predictions_parallel"
-    predict_blockwise(
-        cfg, sample_name=sample_name, db_host=db_host, db_name=db_name
-    )
+            end = time.time()
 
-    end = time.time()
+            seconds = end - start
+            minutes = seconds / 60
+            hours = minutes / 60
+            days = hours / 24
 
-    seconds = end - start
-    minutes = seconds / 60
-    hours = minutes / 60
-    days = hours / 24
-
-    print(
-        "Total time to extract fragments: %f seconds / %f minutes / %f hours / %f days"
-        % (seconds, minutes, hours, days)
-    )
+            print(
+                "Total time to extract fragments: %f seconds / %f minutes / %f hours / %f days"
+                % (seconds, minutes, hours, days)
+            )
