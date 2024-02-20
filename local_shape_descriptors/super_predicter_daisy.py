@@ -34,7 +34,6 @@ logging.getLogger('daisy').setLevel(logging.DEBUG)
 module_logger = logging.getLogger(__name__)
 
 
-
 def predict_blockwise(
         cfg,
         sample_name='sample',
@@ -99,7 +98,7 @@ def predict_blockwise(
         # perhaps for a n5
         # TODO: readjust later
         raw_dataset = raw_dataset + '/s0'
-        source = daisy.open_ds(raw_file, raw_dataset)
+        source = daisy.open_ds(cfg.DATA.SAMPLE, raw_dataset)
     logging.info('Source dataset has shape %s, ROI %s, voxel size %s' % (source.shape, source.roi, source.voxel_size))
 
     # must be cast as gunpowder Coordinates
@@ -231,8 +230,6 @@ def rename_keys(original_config, key_mapping):
 
 if __name__ == '__main__':
 
-
-
     cfg = get_cfg_defaults()
     # can be used to override pre-defined settings
     if os.path.exists("./experiment.yaml"):
@@ -309,6 +306,8 @@ if __name__ == '__main__':
             cfg.DATA.OUTFILE = out_filepath
             cfg.DATA.OUTFILE = os.path.join(cfg.DATA.OUTFILE, os.path.basename(cfg.DATA.SAMPLE))
 
+            start = time.time()
+
             sample_name = os.path.basename(sample).split('.')[0]
             db_host = "localhost:27017"
             db_name = "lsd_predictions_parallel"
@@ -324,6 +323,6 @@ if __name__ == '__main__':
             days = hours / 24
 
             print(
-                "Total time to extract fragments: %f seconds / %f minutes / %f hours / %f days"
+                "Total time to predict affinities: %f seconds / %f minutes / %f hours / %f days"
                 % (seconds, minutes, hours, days)
             )
