@@ -11,16 +11,17 @@ import datetime
 import pymongo
 from funlib.persistence import open_ds
 from funlib.geometry import Roi, Coordinate
+import subprocess
+from re import sub
+from glob import glob
+from gunpowder import *
 
 # add current directory to path and allow absolute imports
 sys.path.insert(0, '.')
 from config.config_predict import *
 from data_utils.preprocess_volumes.utils import calculate_min_2d_samples
-from glob import glob
 from add_ons.funlib_persistence.persistence_utils import *
-from gunpowder import *
-from contextlib import redirect_stdout  # a hack to dump cfg as yaml; https://github.com/rbgirshick/yacs/issues/31
-import subprocess
+
 
 logging.basicConfig(level=logging.INFO)
 
@@ -107,6 +108,7 @@ def predict_blockwise(
 
     source_roi = source.roi
     total_input_roi = source_roi.grow(context, context)
+    output_roi = source_roi  # keeping in sync with existing example in `lsd_experiments` repo
     module_logger.debug(f"Total output ROI {total_input_roi} and context {context}")
 
     # create read and write ROI
@@ -119,7 +121,7 @@ def predict_blockwise(
     # Hard-code warning: the ds keys in the out-zarr are hardcoded for now, hence will ensure same output format
     # Todo: move to config to allow customisation of ds keys
     out_raw = "volumes/raw"
-    prepare_predict_datasets_daisy(cfg, dtype=np.uint8, voxel_size=voxel_size, ds_key=out_raw, source_roi=source.roi,
+    prepare_predict_datasets_daisy(cfg, dtype=np.uint8, voxel_size=voxel_size, ds_key=out_raw, source_roi=output_roi,
                                    write_roi=block_write_roi,
                                    delete_ds=drop)
     print(out_raw)
@@ -127,7 +129,7 @@ def predict_blockwise(
     if cfg.TRAIN.MODEL_TYPE in ["MTLSD", "LSD"]:
         out_lsds = "volumes/pred_lsds"
         prepare_predict_datasets_daisy(cfg, dtype=np.float32, ds_key=out_lsds,
-                                       source_roi=source.roi, num_channels=10,
+                                       source_roi=output_roi, num_channels=10,
                                        write_roi=block_write_roi,
                                        voxel_size=voxel_size,
                                        delete_ds=drop)  # shape C(10) x D x H x W
@@ -136,7 +138,7 @@ def predict_blockwise(
         out_affs = "volumes/pred_affs"
         prepare_predict_datasets_daisy(cfg, dtype=np.float32,
                                        ds_key=out_affs,
-                                       source_roi=source.roi,
+                                       source_roi=output_roi,
                                        num_channels=len(
                                            cfg.TRAIN.NEIGHBORHOOD),
                                        write_roi=block_write_roi,
@@ -146,7 +148,7 @@ def predict_blockwise(
             # this will choose a max affinity channel, cast to uint8 and invert
             out_inv_affs = "volumes/inverted_pred_affs"
             prepare_predict_datasets_daisy(cfg, dtype=np.uint8, ds_key=out_inv_affs,
-                                           source_roi=source.roi,
+                                           source_roi=output_roi,
                                            num_channels=1,
                                            write_roi=block_write_roi,
                                            voxel_size=voxel_size, delete_ds=drop)
@@ -305,8 +307,11 @@ if __name__ == '__main__':
             start = time.time()
 
             sample_name = os.path.basename(sample).split('.')[0]
-            db_host = "localhost:27017"
-            db_name = "lsd_predictions_parallel"
+            sample_name = sub(r"(_|-)+", " ", sample_name).title().replace(" ", "")
+            sample_name = ''.join([sample_name[0].lower(), sample_name[1:]])
+            cfg.DATA.SAMPLE_NAME = sample_name
+            db_host = "localhost:27017" if cfg.DATA.DB_HOST == '' else cfg.DATA.DB_HOST  # default
+            db_name = "lsd_predictions_parallel" if cfg.DATA.DB_NAME == '' else cfg.DATA.DB_NAME  # default
             predict_blockwise(
                 cfg, sample_name=sample_name, db_host=db_host, db_name=db_name,
                 drop=True
