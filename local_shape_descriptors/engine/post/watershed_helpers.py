@@ -5,12 +5,13 @@ from scipy.ndimage.morphology import distance_transform_edt
 import mahotas
 import waterz
 from tqdm import tqdm
+import logging
 
 logger = logging.getLogger(__name__)
 
 
-def get_segmentation(affinities, threshold):
-    fragments = watershed_from_affinities(affinities)[0]
+def get_segmentation(affinities, threshold, max_affinity_value: float = 1.0):
+    fragments = watershed_from_affinities(affinities, max_affinity_value=max_affinity_value)[0]
     thresholds = [threshold]
     segmentations = waterz.agglomerate(
         affs=affinities.astype(np.float32),

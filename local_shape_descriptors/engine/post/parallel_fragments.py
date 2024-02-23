@@ -308,8 +308,8 @@ def watershed_in_block(affs,
 
         assert max_id < num_voxels_in_block
 
-    # ensure unique IDs
-    id_bump = block.block_id * num_voxels_in_block
+    # ensure unique IDs, now daisy sets block_ids as tuples (name, id)
+    id_bump = block.block_id[1] * num_voxels_in_block
     logger.debug("bumping fragment IDs by %i", id_bump)
     fragments.data[fragments.data > 0] += id_bump
     fragment_ids = range(id_bump + 1, id_bump + 1 + int(max_id))
@@ -324,7 +324,7 @@ def watershed_in_block(affs,
 
     # get fragment centers
     fragment_centers = {
-        fragment: block.write_roi.get_offset() + affs.voxel_size * center
+        fragment: block.write_roi.get_offset() + affs.voxel_size * Coordinate(center)
         for fragment, center in zip(
             fragment_ids,
             measurements.center_of_mass(fragments.data, fragments.data, fragment_ids))
