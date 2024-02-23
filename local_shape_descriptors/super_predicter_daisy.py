@@ -1,10 +1,4 @@
 from __future__ import annotations
-# # Might have to use this since :
-# # RuntimeError: Cannot re-initialize CUDA in forked subprocess.
-# # To use CUDA with multiprocessing, you must use the 'spawn' start method
-# import torch
-# torch.multiprocessing.set_start_method('spawn')
-# multiprocessing.set_start_method('spawn')
 import hashlib
 import json
 import logging
@@ -103,8 +97,8 @@ def predict_blockwise(
 
     # must be cast as gunpowder Coordinates
     voxel_size = Coordinate(cfg.MODEL.VOXEL_SIZE)
-    input_shape = Coordinate(cfg.MODEL.INPUT_SHAPE) + Coordinate(cfg.MODEL.GROW_INPUT)
-    output_shape = Coordinate(cfg.MODEL.OUTPUT_SHAPE) + Coordinate(cfg.MODEL.GROW_INPUT)
+    input_shape = Coordinate(cfg.MODEL.INPUT_SHAPE)  # + Coordinate(cfg.MODEL.GROW_INPUT)
+    output_shape = Coordinate(cfg.MODEL.OUTPUT_SHAPE)  # + Coordinate(cfg.MODEL.GROW_INPUT)
     net_input_size = input_shape * voxel_size  # this was input_size in predict.py
     net_output_size = output_shape * voxel_size
     # context added/removed
@@ -112,8 +106,8 @@ def predict_blockwise(
     module_logger.debug(f"input_size: {net_input_size}; output_size: {net_output_size}")
 
     source_roi = source.roi
-    total_output_roi = source_roi.grow(-context, -context)
-    module_logger.debug(f"Total output ROI {total_output_roi} and context {context}")
+    total_input_roi = source_roi.grow(context, context)
+    module_logger.debug(f"Total output ROI {total_input_roi} and context {context}")
 
     # create read and write ROI
     block_read_roi = Roi((0, 0, 0), net_input_size) - context
@@ -159,7 +153,7 @@ def predict_blockwise(
 
     predict_affs_task = daisy.Task(
         f"{sample_name}_pred_affs",
-        total_roi=total_output_roi,
+        total_roi=total_input_roi,
         read_roi=block_read_roi,
         write_roi=block_write_roi,
         process_function=lambda: start_worker(cfg),
@@ -202,9 +196,11 @@ def start_worker(cfg):
 
     # Based on worker id, reset the cuda device: experimental.
     # This works when number of workers = 1, throws
-    # `RuntimeError: Cannot re-initialize CUDA in forked subprocess. To use CUDA with multiprocessing, you must use the 'spawn' start method`
+    # `RuntimeError: Cannot re-initialize CUDA in forked subprocess.
+    # To use CUDA with multiprocessing, you must use the 'spawn' start method`
     # when using > 1 num_workers!
-    # cfg.TRAIN.DEVICE = f"cuda:{worker_id}"
+    # Delay torch import till the worker process is called!!
+    cfg.TRAIN.DEVICE = f"cuda:{worker_id}"
 
     # print(cfg.dump())  # print formatted configs
     with open(config_file, "w", encoding="utf-8") as f:
@@ -312,7 +308,8 @@ if __name__ == '__main__':
             db_host = "localhost:27017"
             db_name = "lsd_predictions_parallel"
             predict_blockwise(
-                cfg, sample_name=sample_name, db_host=db_host, db_name=db_name
+                cfg, sample_name=sample_name, db_host=db_host, db_name=db_name,
+                drop=True
             )
 
             end = time.time()
