@@ -7,7 +7,8 @@
   ```
 
 > [!WARNING]  
-> If you follow issues with napari, install from [here](https://napari.org/stable/tutorials/fundamentals/installation).
+> If you face issues with napari, install from [here](https://napari.org/stable/tutorials/fundamentals/installation).
+> Make sure to pip install the other dependencies in `environment_napari.yml`. 
 
 | ☝️: Verify Napari GUI loads              |
 |:---------------------------|
