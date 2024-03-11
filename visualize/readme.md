@@ -9,7 +9,8 @@
 > [!WARNING]  
 > If you follow issues with napari, install from [here](https://napari.org/stable/tutorials/fundamentals/installation).
 
-> [!Verify Napari is installed correctly]
+> [!Note]
+> Verify napari is installed correctly
 > conda activate napari-env
 > napari
 
