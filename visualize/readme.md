@@ -7,9 +7,8 @@ Please install (Napari)[https://napari.org/stable/tutorials/fundamentals/install
       <br>
       This is how you add `code` in a dropdown:
       
-    ```
+    
       console.log("Hello, world!");
-      ```
   </details>
 
 
