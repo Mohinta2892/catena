@@ -10,11 +10,15 @@
 > If you face issues with napari, install from [here](https://napari.org/stable/tutorials/fundamentals/installation).
 > Make sure to pip install the other dependencies in `environment_napari.yml`. 
 
-| ☝️: Verify Napari GUI loads              |
-|:---------------------------|
-| `conda activate napari-env` |
-| `napari` |
-
+<details close>
+    <summary> Verify Napari GUI loads</summary>
+    <br>
+     
+    ```bash
+    conda activate napari-env
+    napari
+    ```
+</details>
 
 ### Usage
 
