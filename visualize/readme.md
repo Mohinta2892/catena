@@ -2,14 +2,15 @@
 
 Please install (Napari)[https://napari.org/stable/tutorials/fundamentals/installation]
 
-<details close>
-<summary>Verify `Napari` is installed</summary>
-  <br>
-  ```python
-  $ conda activate napari-env
-  $ napari
-  ```
-</details>
+  <details>
+      <summary>There's code inside this dropdown...</summary>
+      <br>
+      
+      This is how you add `code` in a dropdown:
+      ```javascript
+      console.log("Hello, world!");
+      ```
+  </details>
 
 
 ### Usage
