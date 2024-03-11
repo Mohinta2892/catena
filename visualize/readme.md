@@ -2,8 +2,9 @@
 
 - Install [Anaconda](https://docs.anaconda.com/free/anaconda/install/index.html)/[Miniconda](https://docs.anaconda.com/free/miniconda/miniconda-install/)
 - Make a conda env by running (use the `environment_napari.yml` file):
+  ###### this will install the particular napari version as mentioned in the yml
   ```bash
-  conda env create -f environment_napari.yml -n napari-env # this will install the particular napari version as mentioned in the yml
+  conda env create -f environment_napari.yml -n napari-env 
   ```
 
 > [!WARNING]  
