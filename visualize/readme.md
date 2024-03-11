@@ -24,11 +24,11 @@ Once `Napari` is installed successfully, you can run `visualise_napari.py`:
     $ cd catena/visualize/visualise_napari.py -f /path/to/zarr 
   ```
 - Run large datasets via slicing (Preselect select a ROI in the data to visualise):
-
+  - 3D
   ```bash
     $ cd catena/visualize/visualise_napari.py -f /path/to/zarr -s z1:z2,y1:y2,x1:x2 #3D
   ```
-
+  - 2D
   ```bash
     $ cd catena/visualize/visualise_napari.py -f /path/to/zarr -sf 60 -st 150 #2D slices 60 to 150 across all datasets
   ```
