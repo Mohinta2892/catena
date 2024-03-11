@@ -5,9 +5,9 @@ Please install (Napari)[https://napari.org/stable/tutorials/fundamentals/install
   <details>
       <summary>There's code inside this dropdown...</summary>
       <br>
-      
       This is how you add `code` in a dropdown:
-      ```javascript
+      
+    ```
       console.log("Hello, world!");
       ```
   </details>
