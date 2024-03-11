@@ -16,7 +16,7 @@ Please install [Napari](https://napari.org/stable/tutorials/fundamentals/install
 
 Once `Napari` is installed successfully, you can run `visualise_napari.py`:
 
-[OPTION 1]:
+> [OPTION 1]:
 - Open the script in an editor.
 - Edit the shebang to point to your napari-env in `Line 1`.
 - Run small datasets (NB: *ONLY* Do this if your dataset is small, script loads all datasets into napari GUI & RAM):
