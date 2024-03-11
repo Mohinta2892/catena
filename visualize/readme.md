@@ -5,17 +5,18 @@
   ```bash
   conda env create -f environment_napari.yml -n napari-env # this will install the particular napari version as mentioned in the yml
   ```
+| :exclamation: If you follow issues with napari, install from [here](https://napari.org/stable/tutorials/fundamentals/installation).|
+|-----------------------------------------|
 
-Please install [Napari](https://napari.org/stable/tutorials/fundamentals/installation)
 
-  <details>
-      <summary>Verify Napari is installed correctly</summary>
-      <br>
-      The following should load the napari GUI:
-    
-      $ conda activate napari-env
-      $ napari
-  </details>
+<details>
+    <summary>Verify Napari is installed correctly</summary>
+    <br>
+    The following should load the napari GUI:
+  
+    $ conda activate napari-env
+    $ napari
+</details>
 
 
 ### Usage
