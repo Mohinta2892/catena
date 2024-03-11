@@ -1,6 +1,6 @@
 ### Installation
 
-Please install (Napari)[https://napari.org/stable/tutorials/fundamentals/installation]
+Please install [Napari](https://napari.org/stable/tutorials/fundamentals/installation)
 
   <details>
       <summary>Verify Napari is installed correctly</summary>
