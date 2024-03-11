@@ -4,9 +4,8 @@ Please install (Napari)[https://napari.org/stable/tutorials/fundamentals/install
 
 <details close>
 <summary>Verify `Napari` is installed</summary>
-```bash
+<br>
   $ napari
-```
 </details>
 
 
