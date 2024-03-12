@@ -1,0 +1,25 @@
+{
+  "experiment": "cremi",
+  "setup" : "setup01_BCE",
+  "iteration" : 700000,
+  "raw_file" : "/home/dan-samia/lsd/funke/cremi/training/3D/padded/hdf/sample_A_padded_20160501.hdf",
+  "raw_dataset" : "volumes/raw",
+  "out_directory" : "output/",
+  "out_filename": "sample_A_padded_20160501.zarr",
+  "db_host": "localhost",
+  "db_name": "synful_cremia_torch",
+  "configname": "train",
+  "overwrite":true,
+  "num_workers": 1,
+  "out_properties": {
+    "pred_syn_indicator_out": {
+      "dsname": "pred_syn_indicator",
+      "dtype": "uint8",
+      "scale": 255
+    },
+    "pred_partner_vectors": {
+      "dtype": "int8",
+      "scale": 0.25
+    }
+  }
+}
