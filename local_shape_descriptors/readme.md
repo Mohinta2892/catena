@@ -1,4 +1,16 @@
-Pytorch implementation of 3D UNET +/- LSD networks using Gunpowder for data loading and processing.
+# Welcome to the PyTorch Local Shape Descriptors
 
-# Basic Usage:
-1. ``` git clone the `catena````
+## What are Local Shape Descriptors?
+
+
+## How does Local Shape Descriptors work?
+
+## Getting started
+
+Read these:
+
+Installation instructions
+Dataset preparation
+Usage instructions
+
+## Where does Local Shape Descriptors perform well and where does it not perform?
