@@ -136,7 +136,7 @@ dependencies:
       - googleapis-common-protos==1.60.0
       - greenlet==2.0.2
       - grpcio==1.59.2
-      - -e git+https://github.com/Mohinta2892/gunpowder.git#egg=gunpowder # this allows to pass specific cuda devices in train and predict
+      - -e git+https://github.com/Mohinta2892/gunpowder.git@rasterize_graph_fix#egg=gunpowder # this allows to pass specific cuda devices and wandb in train and predict
       - h11==0.14.0
       - h5py==3.8.0
       - heapdict==1.0.1
