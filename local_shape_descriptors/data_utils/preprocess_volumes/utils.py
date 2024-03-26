@@ -288,11 +288,12 @@ def create_data(
             for ds_name, data in [('volumes/raw', raw_slice)]:
                 container[f'{ds_name}/{index_reset_counter}'] = data
                 if "offset" in raw.attrs.keys():
-                    container[f'{ds_name}/{index_reset_counter}'].attrs['offset'] = offset if raw.attrs["offset"] is None \
+                    container[f'{ds_name}/{index_reset_counter}'].attrs['offset'] = offset if raw.attrs[
+                                                                                                  "offset"] is None \
                         else raw.attrs["offset"][1:]
                 else:
                     container[f'{ds_name}/{index_reset_counter}'].attrs['offset'] = offset
-    
+
                 if "resolution" in raw.attrs.keys():
                     container[f'{ds_name}/{index_reset_counter}'].attrs[
                         'resolution'] = resolution if raw.attrs["resolution"] is None \
@@ -306,13 +307,14 @@ def create_data(
             if any(id_ in s for s in keys_in_ds):
                 for ds_name, data in [('volumes/labels', labels_slice), ('volumes/labels_mask', labels_mask_slice)]:
                     container[f'{ds_name}/{index_reset_counter}'] = data
-                    container[f'{ds_name}/{index_reset_counter}'].attrs['offset'] = offset if raw.attrs["offset"] is None \
-                        else raw.attrs["offset"][:-1]
-                    container[f'{ds_name}/{index_reset_counter}'].attrs['resolution'] = resolution if raw.attrs[
-                                                                                                          "resolution"] is None \
-                        else raw.attrs["resolution"][:-1]
+                    container[f'{ds_name}/{index_reset_counter}'].attrs['offset'] = offset if raw.attrs[
+                                                                                                  "offset"] is None \
+                        else raw.attrs["offset"][1:]
+                    container[f'{ds_name}/{index_reset_counter}'].attrs['resolution'] = resolution \
+                        if raw.attrs["resolution"] is None \
+                        else raw.attrs["resolution"][1:]  # because cropping along z-dim and data is ZYX
             index_reset_counter += 1
-            
+
     return outfile_name
 
 
