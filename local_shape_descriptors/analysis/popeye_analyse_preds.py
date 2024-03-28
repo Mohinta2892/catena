@@ -1,3 +1,9 @@
+"""
+This script loads `Affinity` prediction results from zarrs and makes a `matplotlib` plot to visualise them.
+Popeye: Is Pgmy Squid larva. Data owner: Ana Correia da Silva (Cardona Lab).
+Popeye: Acquired in the MRC LMB at resolution 12 x 12 x 30nm.
+"""
+
 import zarr
 import numpy as np
 import os
