@@ -3,7 +3,7 @@
 ## What are Local Shape Descriptors?
 
 
-## How does Local Shape Descriptors work?
+## How do Local Shape Descriptors work?
 
 ## Getting started
 
