@@ -19,7 +19,7 @@
 > `/catena/local_shape_descriptors` is the context given to the docker. Meaning of [commands](https://docs.docker.com/reference/cli/docker/image/build/)
 
 <details close> 
-<summary>Apptainer Installation and Image Pull/Build</summary>
+<summary> <strong> Apptainer Installation and Image Pull/Build  </strong> </summary>
 1. Install [Apptainer](https://apptainer.org/docs/admin/1.0/installation.html#) and verify in your OS environment.
 2. Build the apptainer:
 ```
