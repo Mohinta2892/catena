@@ -16,6 +16,22 @@ Read these:
 
 Installation instructions
 Dataset preparation
-Usage instructions
+### Usage instructions
+
+<details open>
+ <summary>Understand and change the <a href="config/config.py">config.py</a></summary>
+</details>
+
+<details close>
+ <summary> Train models with <a href="trainer.py">trainer.py</a></summary>
+</details>
+
+<details close>
+ <summary> Run affinity predictions as a single process with <a href="predicter.py">predicter.py</a></summary>
+</details>
+
+<details>
+<summary> Run affinity predictions blockwise multiprocessing with <a href="super_predicter_daisy.py">super_predicter_daisy.py</a></summary>
+</details>
 
 ## Where does Local Shape Descriptors perform well and where does it not perform?
