@@ -1,0 +1,53 @@
+{
+    "fib25": [
+        "tstvol-520-1.zarr",
+        "tstvol-520-2.zarr",
+        "trvol-250-1.zarr",
+        "trvol-250-2.zarr"
+    ],
+    "hemi": [
+        "eb-inner-groundtruth-with-context-x20172-y2322-z14332.zarr",
+        "eb-outer-groundtruth-with-context-x20532-y3512-z14332.zarr",
+        "fb-inner-groundtruth-with-context-x17342-y4052-z14332.zarr",
+        "fb-outer-groundtruth-with-context-x13542-y2462-z14332.zarr",
+        "lh-groundtruth-with-context-x7737-y20781-z12444.zarr",
+        "lobula-groundtruth-with-context-x3648-y12800-z29056.zarr",
+        "pb-groundtruth-with-context-x8472-y2372-z9372.zarr",
+        "pb-groundtruth-with-context-x8472-y2892-z9372.zarr"
+    ],
+    "zebrafinch": [
+        "gt_z255-383_y1407-1663_x1535-1791.zarr",
+        "gt_z2559-2687_y4991-5247_x4863-5119.zarr",
+        "gt_z2815-2943_y5631-5887_x4607-4863.zarr",
+        "gt_z2834-2984_y5311-5461_x5077-5227.zarr",
+        "gt_z2868-3018_y5744-5894_x5157-5307.zarr",
+        "gt_z2874-3024_y5707-5857_x5304-5454.zarr",
+        "gt_z2934-3084_y5115-5265_x5140-5290.zarr",
+        "gt_z3096-3246_y5954-6104_x5813-5963.zarr",
+        "gt_z3118-3268_y6538-6688_x6100-6250.zarr",
+        "gt_z3126-3276_y6857-7007_x5694-5844.zarr",
+        "gt_z3436-3586_y599-749_x2779-2929.zarr",
+        "gt_z3438-3588_y2775-2925_x3476-3626.zarr",
+        "gt_z3456-3606_y3188-3338_x4043-4193.zarr",
+        "gt_z3492-3642_y7888-8038_x8374-8524.zarr",
+        "gt_z3492-3642_y841-991_x381-531.zarr",
+        "gt_z3596-3746_y3888-4038_x3661-3811.zarr",
+        "gt_z3604-3754_y4101-4251_x3493-3643.zarr",
+        "gt_z3608-3758_y3829-3979_x3423-3573.zarr",
+        "gt_z3702-3852_y9605-9755_x2244-2394.zarr",
+        "gt_z3710-3860_y8691-8841_x2889-3039.zarr",
+        "gt_z3722-3872_y4548-4698_x2879-3029.zarr",
+        "gt_z3734-3884_y4315-4465_x2209-2359.zarr",
+        "gt_z3914-4064_y9035-9185_x2573-2723.zarr",
+        "gt_z4102-4252_y6330-6480_x1899-2049.zarr",
+        "gt_z4312-4462_y9341-9491_x2419-2569.zarr",
+        "gt_z4440-4590_y7294-7444_x2350-2500.zarr",
+        "gt_z4801-4951_y10154-10304_x1972-2122.zarr",
+        "gt_z4905-5055_y928-1078_x1729-1879.zarr",
+        "gt_z4951-5101_y9415-9565_x2272-2422.zarr",
+        "gt_z5001-5151_y9426-9576_x2197-2347.zarr",
+        "gt_z5119-5247_y1023-1279_x1663-1919.zarr",
+        "gt_z5405-5555_y10490-10640_x3406-3556.zarr",
+        "gt_z734-884_y9561-9711_x563-713.zarr"
+    ]
+}
