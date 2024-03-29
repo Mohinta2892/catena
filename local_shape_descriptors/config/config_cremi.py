@@ -1,3 +1,9 @@
+"""
+This configuration is specific to run training with the publicly available zebrafinch data.
+Remember the data is anisotropic at resolution `40 x 4 x 4` nm in zyx.
+There are two variants of CREMI data: padded and cropped. Please download from here: https://cremi.org/data/
+"""
+
 from yacs.config import CfgNode as CN
 import math
 
