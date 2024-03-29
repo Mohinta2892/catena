@@ -1,3 +1,8 @@
+"""
+Utilities to transform/parse configs.
+Preliminary, not extensively tested.
+"""
+
 def update_cfg_from_args(cfg, args):
     """UPDATE YACS with ARGS passed arguments. Default both remains the same"""
     # Update SYSTEM section
