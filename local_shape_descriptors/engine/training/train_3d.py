@@ -27,7 +27,7 @@ torch.backends.cudnn.benchmark = True
 
 
 def train_until(max_iteration, cfg):
-    logging.basicConfig(filename=f"./logs/train_logs_{datetime.datetime.now()}.txt",
+    logging.basicConfig(filename=f"./logs/train_logs_3d_{str(datetime.datetime.now()).replace(' ', '')}.txt",
                         filemode='w',
                         format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
                         datefmt='%H:%M:%S',
