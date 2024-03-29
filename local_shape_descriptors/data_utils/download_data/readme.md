@@ -1,5 +1,30 @@
-## Download Public Datasets
+## Download Public Datasets [download_volumes.py](download_volumes.py)
 
+This Python script automates the download of specific datasets from an AWS S3 bucket. The script reads dataset configurations from a `datasets.json` file and prepares download jobs for specified data volumes within a given S3 bucket path. Utilizing multiprocessing, it concurrently downloads these datasets into a local directory structure that mirrors the S3 bucket's organization.
+
+>[!IMPORTANT]
+>Follow these instructions to setup AWS Credentials. You need them to download the datasets.
+>To configure your AWS access and secret key on a bash shell run:
+>```
+>aws configure # creds get stored here:  ~/.aws/credentials
+>```
+>Add the following lines to your `~/.bash_profile`:
+>```
+>export AWS_SECRET_ACCESS_KEY='your_secret_access_key_here'
+>export AWS_ACCESS_KEY_ID='your_access_key_id_here'
+>```
+>Then, apply the changes:
+>```
+>source ~/.bash_profile
+>```
+
+Run [download_volumes.py](download_volumes.py):
+```
+cd catena/local_shape_descriptors/data_utils/download_data
+python download_volumes.py
+```
+>[!Note]
+> Remember you need access to `datasets.json`, so run it from within `catena/local_shape_descriptors/data_utils/download_data`
 
 ## Organise your data for training and inference with [create_dir_organisation.py](create_dir_organisation.py)
 
