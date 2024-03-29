@@ -10,5 +10,5 @@
      ``` 
       cd catena/local_shape_descriptors/docker
       docker build -t lsd_sheridan_pytorch:latest .
-      -t tag the docker image with a name (lsd_sheridan_pytorch) and version (latest).
      ```
+        -t tag the docker image with a name (lsd_sheridan_pytorch) and version (latest).
