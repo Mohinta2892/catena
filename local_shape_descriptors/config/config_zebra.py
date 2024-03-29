@@ -1,3 +1,8 @@
+"""
+This configuration is specific to run training with the publicly available zebrafinch data.
+Remember the data is anisotropic at resolution `20 x 9 x 9` nm in zyx.
+The labelled datasets exist in two shapes `150 x 150 x 150` and ` 128 x 256 x 256 ` in zyx. The raw datasets are padded with extra context.
+"""
 from yacs.config import CfgNode as CN
 import math
 
