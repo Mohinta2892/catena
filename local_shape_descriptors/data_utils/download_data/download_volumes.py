@@ -57,10 +57,10 @@ if __name__ == "__main__":
         #"hemi": config["hemi"][0:1],
         "zebrafinch": config["zebrafinch"]#[0:1],
     }
-
+    # change the download path if required; currently will create `funke/dataset_name/training` in this current dir
     jobs = [(bucket, f"funke/{d}/training/{x}") for d, v in volumes.items() for x in v]
-    access_key='samiamohinta'
-    secret_key='lsd_data_download'
+    access_key='put_your_key'
+    secret_key='put_your_key'
     # download each volume with separate process, would want to adapt to work
     # with more processes if downloading more than 3 volumes..
     pool = mp.Pool(len(jobs), initialize(access_key, secret_key))
