@@ -7,6 +7,9 @@ Local Shape Descriptors (LSDs) introduce an auxiliary learning task aimed at imp
 - **Read the paper here: [Sheridan et al., Nature Methods, 2022](https://www.nature.com/articles/s41592-022-01711-z)**
 - **Read the blogpost [here](https://localshapedescriptors.github.io/)**
 
+> [!Note]
+> These are supervised ML models, hence you need ground truth. Primary tests reveal: 40 microns of densely segmented volumes is good to begin with.
+ 
 ## Getting started
 
 Read these:
