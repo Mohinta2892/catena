@@ -12,3 +12,6 @@
       docker build -t lsd_sheridan_pytorch:latest .
      ```
         -t tag the docker image with a name (lsd_sheridan_pytorch) and version (latest).
+> [!TIP]
+> You can pass Dockerfiles to docker build as ` docker build -f /path/to/Dockerfile.updated /catena/local_shape_descriptors `
+> `/catena/local_shape_descriptors` is the context given to the docker. Meaning of [commands](https://docs.docker.com/reference/cli/docker/image/build/)
