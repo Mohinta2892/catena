@@ -1,3 +1,7 @@
+"""
+This is the `default` config.py file. Will be used if no explicit config.py file is passed to `trainer.py`.
+TODO: Pending clean up.
+"""
 from yacs.config import CfgNode as CN
 import math
 
