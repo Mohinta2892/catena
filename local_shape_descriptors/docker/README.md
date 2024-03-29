@@ -25,5 +25,6 @@
 2. Build the apptainer:<br>
 <code>sudo apptainer build lsd_sheridan_pytorch_2201py3.sif docker://mohinta2892/lsd_sheridan_pytorch:22.01-py3</code><br>
 Customize your build (e.g., writable sandbox) by following instructions <a href="https://apptainer.org/docs/user/1.0/build_a_container.html">here</a>.<br>
-| WARNING: Apptainer have not been extensively tested yet across High-Performance-Computing environments. Hence, there may be issues.| <br>
+   | WARNING: Apptainer have not been extensively tested yet across High-Performance-Computing environments. Hence, there may be issues.| <br>
+   |----|
 </details>
