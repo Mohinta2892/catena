@@ -17,6 +17,7 @@ import ast
 from tqdm import tqdm
 from glob import glob
 import random
+import datetime
 
 # we set a seed for reproducibility
 torch.manual_seed(1961923)
@@ -26,7 +27,7 @@ torch.backends.cudnn.benchmark = True
 
 
 def train_until(max_iteration, cfg):
-    logging.basicConfig(filename=f"./logs/train_logs.txt",  # always overwrite??
+    logging.basicConfig(filename=f"./logs/train_logs_{datetime.datetime.now()}.txt",
                         filemode='w',
                         format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
                         datefmt='%H:%M:%S',
@@ -36,7 +37,7 @@ def train_until(max_iteration, cfg):
 
     # Warning: Hard-coding, we know we must read `training` data from `data_3d`
     data_dir = os.path.join(cfg.DATA.HOME, cfg.DATA.DATA_DIR_PATH, cfg.DATA.BRAIN_VOL, "data_3d", "train")
-    logger.debug(f"data_dir {data_dir}")
+    module_logger.debug(f"data_dir {data_dir}")
 
     # Todo: add this to doc
     module_logger.debug(f"If you are wondering why data_dir is missing your root dir, troubleshoot tip here:"
@@ -44,7 +45,7 @@ def train_until(max_iteration, cfg):
 
     #  list all files from the above path - assume they are zarrs
     samples = glob(f"{data_dir}/*.zarr")
-    logger.debug(f"samples {samples}")
+    module_logger.debug(f"samples {samples}")
 
     # Check if preprocessed data exists
     if cfg.PREPROCESS.HISTOGRAM_MATCH is not None:
@@ -114,6 +115,7 @@ def train_until(max_iteration, cfg):
     #     "When cfg.TRAIN.LSD_EPOCHS is None, output_shape should be equal to cfg.MODEL.OUTPUT_SHAPE."
 
     if cfg.TRAIN.LSD_EPOCHS is None:
+        # todo: overwrite with calculated shape??
         output_shape = Coordinate(cfg.MODEL.OUTPUT_SHAPE)
 
     input_size = input_shape * voxel_size
@@ -151,8 +153,13 @@ def train_until(max_iteration, cfg):
     p = int(round(np.sqrt(np.sum([i * i for i in output_shape])) / 2))
 
     # Ensure that our padding is the closest multiple of our resolution
-    labels_padding = Coordinate([j * round(i / j) for i, j in zip([p, p, p], list(voxel_size))])
-    print('Labels padding:', labels_padding)
+    if cfg.DATA.BRAIN_VOL.lower().__contains__('zebra'):
+        module_logger.debug("This is different labels padding used for zebrafinch datasets. Not a 100% sure why it has to be like this, but the assumption is")
+        labels_padding = Coordinate(output_size / 2)
+    else:
+        labels_padding = Coordinate([j * round(i / j) for i, j in zip([p, p, p], list(voxel_size))])
+
+    print('Labels padding in nm:', labels_padding)
 
     # all input volumes are assumed to have been saved as .zarr
     # todo: add conversion scripts documentation link here
@@ -172,11 +179,12 @@ def train_until(max_iteration, cfg):
         ) +
         Normalize(raw) +
         Pad(raw, None) +
-        Pad(labels, labels_padding) +
+        Pad(labels, None) +
         Pad(labels_mask, labels_padding) +
-        # RandomLocation(min_masked=0.5, mask=labels_mask) +  # always 20% masked in
-        RandomLocation() +  # without masking
-        RejectIfEmpty(gt=labels, p=1)  # reject empty batches where labels/gt are fully empty
+        # TODO: make a config control variable
+        RandomLocation(min_masked=0.5, mask=labels_mask)  # +  # always 20% masked in
+        # RandomLocation() #+  # without masking
+        # RejectIfEmpty(gt=labels, p=1)  # reject empty batches where labels/gt are fully empty
         for sample in samples
     )
 
