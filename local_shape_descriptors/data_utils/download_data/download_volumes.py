@@ -8,7 +8,10 @@ AWS_ACCESS_KEY_ID = 'same key you set with aws configure'
 $ source ~/.bash_profile
 
 Step 2: Edit the volumes in Line 55 below if needed.
-Step3: Run fetch_data.py
+Step3: Run download_volumes.py
+
+Copied from: https://github.com/funkelab/lsd_nm_experiments/blob/master/01_data/fetch_data.py
+Credits: Arlo Sheridan for base code.
 """
 
 import boto3
@@ -61,6 +64,7 @@ if __name__ == "__main__":
     jobs = [(bucket, f"funke/{d}/training/{x}") for d, v in volumes.items() for x in v]
     access_key='put_your_key'
     secret_key='put_your_key'
+
     # download each volume with separate process, would want to adapt to work
     # with more processes if downloading more than 3 volumes..
     pool = mp.Pool(len(jobs), initialize(access_key, secret_key))
