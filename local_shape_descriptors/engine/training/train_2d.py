@@ -54,7 +54,7 @@ def train_2d_until(max_iteration, cfg):
     logger.debug(f"samples {samples}")
 
     # Check if preprocessed data exists
-    if len(cfg.PREPROCESS.HISTOGRAM_MATCH):
+    if cfg.PREPROCESS.HISTOGRAM_MATCH is not None and len(cfg.PREPROCESS.HISTOGRAM_MATCH):
         """ This is set, hence the data files must exist in the preprocessed directory!"""
         preprocessed_data_dir = os.path.join(cfg.DATA.HOME, cfg.DATA.DATA_DIR_PATH, "preprocessed")
         # TODO: will be different when this a list with multiple FIBSEM datasets
@@ -115,8 +115,8 @@ def train_2d_until(max_iteration, cfg):
     voxel_size = Coordinate(cfg.MODEL.VOXEL_SIZE_2D)
     input_shape = Coordinate(cfg.MODEL.INPUT_SHAPE_2D)
 
-    assert (cfg.TRAIN.LSD_EPOCHS is None) == (output_shape == cfg.MODEL.OUTPUT_SHAPE_2D), \
-        "When cfg.TRAIN.LSD_EPOCHS is None, output_shape should be equal to cfg.MODEL.OUTPUT_SHAPE_2D."
+    # assert (cfg.TRAIN.LSD_EPOCHS is None) == (output_shape == cfg.MODEL.OUTPUT_SHAPE_2D), \
+    #     "When cfg.TRAIN.LSD_EPOCHS is None, output_shape should be equal to cfg.MODEL.OUTPUT_SHAPE_2D."
 
     if cfg.TRAIN.LSD_EPOCHS is None:
         output_shape = Coordinate(cfg.MODEL.OUTPUT_SHAPE_2D)
@@ -184,7 +184,7 @@ def train_2d_until(max_iteration, cfg):
         Pad(labels, labels_padding) +
         Pad(labels_mask, labels_padding) +
         RandomLocation(min_masked=0.5, mask=labels_mask, )  # always 50% masked in
-        # RandomLocation() # without masking
+        # RandomLocation()  # without masking
         for i in range(num_samples)
         for sample in samples
     )
@@ -203,10 +203,10 @@ def train_2d_until(max_iteration, cfg):
             jitter_sigma=cfg.MODEL.JITTER_SIGMA_2D[0] if isinstance(cfg.MODEL.JITTER_SIGMA_2D,
                                                                     list) else cfg.MODEL.JITTER_SIGMA_2D,
             rotation_interval=cfg.MODEL.ROTATION_INTERVAL,
-            prob_slip=cfg.MODEL.PROB_SLIP[0] if isinstance(cfg.MODEL.PROB_SLIP, list) else cfg.MODEL.PROB_SLIP,
-            prob_shift=cfg.MODEL.PROB_SHIFT[0] if isinstance(cfg.MODEL.PROB_SHIFT, list) else cfg.MODEL.PROB_SHIFT,
-            max_misalign=cfg.MODEL.MAX_MISALIGN[0] if isinstance(cfg.MODEL.MAX_MISALIGN,
-                                                                 list) else cfg.MODEL.MAX_MISALIGN,
+            # prob_slip=cfg.MODEL.PROB_SLIP[0] if isinstance(cfg.MODEL.PROB_SLIP, list) else cfg.MODEL.PROB_SLIP,
+            # prob_shift=cfg.MODEL.PROB_SHIFT[0] if isinstance(cfg.MODEL.PROB_SHIFT, list) else cfg.MODEL.PROB_SHIFT,
+            # max_misalign=cfg.MODEL.MAX_MISALIGN[0] if isinstance(cfg.MODEL.MAX_MISALIGN,
+            #                                                      list) else cfg.MODEL.MAX_MISALIGN,
             subsample=cfg.MODEL.SUBSAMPLE)
 
         # TODO: add defect augment
@@ -219,10 +219,11 @@ def train_2d_until(max_iteration, cfg):
                 jitter_sigma=cfg.MODEL.JITTER_SIGMA_2D[0] if isinstance(cfg.MODEL.JITTER_SIGMA_2D,
                                                                         list) else cfg.MODEL.JITTER_SIGMA_2D,
                 rotation_interval=cfg.MODEL.ROTATION_INTERVAL,
-                prob_slip=cfg.MODEL.PROB_SLIP[0] if isinstance(cfg.MODEL.PROB_SLIP, list) else cfg.MODEL.PROB_SLIP,
-                prob_shift=cfg.MODEL.PROB_SHIFT[0] if isinstance(cfg.MODEL.PROB_SHIFT, list) else cfg.MODEL.PROB_SHIFT,
-                max_misalign=cfg.MODEL.MAX_MISALIGN[0] if isinstance(cfg.MODEL.MAX_MISALIGN,
-                                                                     list) else cfg.MODEL.MAX_MISALIGN,
+                # removed because misalign can only be applied to 3D data; to be removed
+                # prob_slip=cfg.MODEL.PROB_SLIP[0] if isinstance(cfg.MODEL.PROB_SLIP, list) else cfg.MODEL.PROB_SLIP,
+                # prob_shift=cfg.MODEL.PROB_SHIFT[0] if isinstance(cfg.MODEL.PROB_SHIFT, list) else cfg.MODEL.PROB_SHIFT,
+                # max_misalign=cfg.MODEL.MAX_MISALIGN[0] if isinstance(cfg.MODEL.MAX_MISALIGN,
+                #                                                      list) else cfg.MODEL.MAX_MISALIGN,
                 subsample=cfg.MODEL.SUBSAMPLE)
 
         train_pipeline += IntensityAugment(raw, cfg.MODEL.INTENSITYAUG_SCALE_MIN, cfg.MODEL.INTENSITYAUG_SCALE_MAX,
@@ -433,8 +434,9 @@ def train_2d_until(max_iteration, cfg):
                                )
 
     with build(train_pipeline) as b:
-        for i in tqdm(range(train.iteration, max_iteration), desc=f"Model resumed from {train.iteration}"):
+        for i in (pbar := tqdm(range(train.iteration, max_iteration), desc=f"Model resumed from {train.iteration}")):
             batch = b.request_batch(request)
+            pbar.set_postfix({"loss": batch.loss})
 
             if i % cfg.TRAIN.SAVE_EVERY == 0:
                 # try:
@@ -447,6 +449,7 @@ def train_2d_until(max_iteration, cfg):
                     raw_plot = np.squeeze(batch[raw].data[:, :, start[0]:end[0], start[1]:end[1]])
                     labels_plot = batch[labels].data
                     target_plot = batch[gt_affs].data
+                    # print("Uniques in labels and aff targets: ", np.unique(labels_plot), np.unique(target_plot))
                     if cfg.TRAIN.MODEL_TYPE in ["AFF", "ACLSD", "ACRLSD", "MTLSD"] and cfg.TRAIN.LSD_EPOCHS is None:
                         prediction_plot = batch[pred_affs].data
                     else:
