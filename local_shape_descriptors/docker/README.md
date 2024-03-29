@@ -31,3 +31,14 @@
    > Apptainer have not been extensively tested yet across High-Performance-Computing environments. Hence, there may be issues.
 
 </details>
+
+<details close> 
+<summary><strong>Apptainer Installation and Image Pull/Build</strong></summary>
+<br>
+1. Install <a href="https://apptainer.org/docs/admin/1.0/installation.html#">Apptainer</a> and verify in your OS environment.<br>
+2. Build the apptainer:<br>
+<code>sudo apptainer build lsd_sheridan_pytorch_2201py3.sif docker://mohinta2892/lsd_sheridan_pytorch:22.01-py3</code><br>
+Customize your build (e.g., writable sandbox) by following instructions <a href="https://apptainer.org/docs/user/1.0/build_a_container.html">here</a>.<br>
+&gt; [!WARNING]<br>
+&gt; Apptainer have not been extensively tested yet across High-Performance-Computing environments. Hence, there may be issues.
+</details>
