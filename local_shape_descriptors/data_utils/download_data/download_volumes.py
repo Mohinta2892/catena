@@ -13,8 +13,8 @@ import zarr
 from cloudvolume import CloudVolume
 
 # set bucket credentials
-access_key = 'AKIA4XXGEV6ZQOTMTHX6'
-secret_key = '4EbthK1ax145WT08GwEEW3Umw3QFclIzdsLo6tX1'
+access_key = 'put_your_key'
+secret_key = 'put_your_key'
 bucket = 'open-neurodata'
 
 session = boto3.session.Session(
