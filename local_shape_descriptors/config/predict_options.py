@@ -1,3 +1,9 @@
+"""
+Preliminary scripts to diversify the usage of YACS-based config files.
+Yet to be thoroughly tested. We appreciate any help with them.
+
+"""
+
 import argparse
 import math
 import numpy as np
