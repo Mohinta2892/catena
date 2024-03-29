@@ -18,7 +18,8 @@
 > You can pass Dockerfiles to docker build as ` docker build -f /path/to/Dockerfile.updated /catena/local_shape_descriptors `
 > `/catena/local_shape_descriptors` is the context given to the docker. Meaning of [commands](https://docs.docker.com/reference/cli/docker/image/build/)
 
-### Apptainer Installation and Image Pull/Build
+<details close> 
+<summary>Apptainer Installation and Image Pull/Build</summary>
 1. Install [Apptainer](https://apptainer.org/docs/admin/1.0/installation.html#) and verify in your OS environment.
 2. Build the apptainer:
 ```
@@ -28,3 +29,4 @@ Customise your build (e.g., writable sandbox) by following instructions [here](h
 > [!WARNING]
 > Apptainer have not been extensively tested yet across High-Performance-Computing environments. Hence, there may be issues.
 
+</details>
