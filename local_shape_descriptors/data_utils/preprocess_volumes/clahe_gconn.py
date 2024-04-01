@@ -1,3 +1,10 @@
+"""
+Clahe volumes in 2D/3D modes with `skimage.exposure.equalize_adapthist`.
+Adapted from: https://github.com/google-research/connectomics/blob/main/connectomics/volume/processor/contrast.py
+Author: Samia Mohinta
+Affiliation: Cardona lab, Cambridge University, UK
+"""
+
 import argparse
 import os
 import skimage
