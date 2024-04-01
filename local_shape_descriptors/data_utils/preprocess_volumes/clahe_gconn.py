@@ -89,14 +89,14 @@ if __name__ == '__main__':
     parser.add_argument('-f', help='Zarr/tiff to apply clahe on')
     parser.add_argument('-of', default=None, help='Zarr/tiff to save clahed EM')
     parser.add_argument('-ds', default='volumes/raw', help='Dataset inside Zarr.')
-    parser.add_argument('-k', default=(30, 300, 300), help='Kernel size for CLAHE. Default: (30,300,300) for 3D.'
+    parser.add_argument('-k', nargs='+', type=int, default="30 300 300", help='Kernel size for CLAHE. Default: (30,300,300) for 3D.'
                                                            ' Larger kernel windows within the shape of '
                                                            '2D images are better for 2D processing.')
     parser.add_argument('-cl', default=0.01, help='Clip limit')
     parser.add_argument('-cmin', default=None, help='Clip minimum')
     parser.add_argument('-cmax', default=None, help='Clip maximum')
     parser.add_argument('-inv', default=False, help='Invert the clahed image.')
-    parser.add_argument('-mp', default=0, help='Use multiprocessing to apply clahe plane wise.'
+    parser.add_argument('-mp', default=4, help='Use multiprocessing to apply clahe plane wise.'
                                                ' Default: 0 workers.')
     parser.add_argument('--show_hist', default=True,
                         help='Display histogram of intensities of clahed and original volumes')
@@ -104,9 +104,9 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     if int(args.mp) > 0 and len(args.k) > 2:
-        kernel_size = args.k[-2:]  # take only last 2dims
+        kernel_size = tuple(args.k)[-2:]  # take only last 2dims
     else:
-        kernel_size = args.k
+        kernel_size = tuple(args.k)
 
     clahe_params = {
         'kernel_size': kernel_size,
