@@ -19,7 +19,7 @@ Dataset preparation
 ### Usage instructions
 
 <details open>
- <summary>Understand and change the <a href="config/config.py">config.py</a></summary>
+ <summary>Understand and modify as needed the <a href="config/config.py">config.py</a></summary>
 </details>
 
 <details close>
