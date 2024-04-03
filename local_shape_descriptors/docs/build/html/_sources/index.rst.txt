@@ -1,0 +1,90 @@
+.. Catena (rebranded from connexion) documentation master file, created by
+   sphinx-quickstart on Mon Sep  4 18:55:02 2023.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+Last change: |today|
+
+Welcome to Catena's documentation!
+=====================================
+
+.. toctree::
+   :maxdepth: 3
+   :caption: Contents:
+   
+.. toctree::
+   :maxdepth: 1
+
+   systemrequirements
+
+User Guide
+-----------
+Installation
+   Pre-requisites:
+      - `MongoDB <https://www.mongodb.com/docs/manual/installation/>`_ (dependencies across Funkelab packages)
+
+      - `Gurobi <https://ca.cs.uni-bonn.de/doku.php?id=tutorial:gurobi-install>`_ (for Micron: Microtubule tracking)
+      - Anaconda/Miniconda
+      - Docker/Apptainer: formerly Singularity (to use prebuilt containerised environments) 
+
+
+Things that have been introduced to optimise `portability/reproducibility`:
+   - Docker
+   - Onnx
+   - Tensorboard Logging
+   - Wandb logging (2D only)
+   
+
+Contents
+==================
+Preprocess EM volumes
+   Generative Networks (GANS and Diffusion Models):
+      - Image translation (Medical Imaging to EM)     
+          - DDIB - `Dual Diffusion Implicit Bridges <https://github.com/suxuann/ddib>`_
+          - SynDiff - `Adversarial Diffusion Models <https://github.com/icon-lab/SynDiff>`_
+          - Mito EM `translation <https://github.com/danifranco/EM_domain_adaptation/tree/main>`_
+          - Style transfer with `Constrastive Unpaired Translation <https://github.com/taesungp/contrastive-unpaired-translation>`_
+      - Super-resolution (Anisotropic to Isotropic)
+         - Numpy/Scipy interpolation
+         - EM Diffuse
+         - Biapy/ZeroCost - Wassertein GANS
+         
+
+           
+Organelle Segmentation
+   Mitochondria Segmentation:
+       - Advanced Deep Networks for `3D Mitochondria Instance Segmentation <https://github.com/Limingxing00/MitoEM2021-Challenge>`_
+
+Neuron Segmentation
+   Local Shape Descriptors (Sheridan et al):
+       Tensorflow
+           - Multi-task models for small datasets
+           - Auto Context models for larger datasets
+       Pytorch
+           - Multi-task models for small datasets
+           - Auto Context models for larger datasets
+
+Automatic Synaptic Partner Detection
+   Synful  (Buhmann et al):
+       Tensorflow (Pretained and Custom)
+           - Multi-task models
+           - Auto Context models
+       Pytorch
+           - Multi-task models
+Microtubule Tracking
+   Micron (Eckstein et al):
+       - Tensorflow networks
+       - Integer Linear Programming solvers
+             - Pylp
+             - Ilpy
+Neurotransmitter classification
+   Synister (Eckstein et al):
+     - Pytorch networks
+
+
+
+Indices and tables
+==================
+* :ref:`troubleshoot`
+* :ref:`modindex`
+* :ref:`search`
