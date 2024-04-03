@@ -1,0 +1,5 @@
+/* Adjust the font size for the small-text class */
+.small-text {
+    font-size: 80%; /* You can adjust this value to make the text smaller or larger */
+}
+
