@@ -14,8 +14,10 @@ Local Shape Descriptors (LSDs) introduce an auxiliary learning task aimed at imp
 
 Read these:
 
+System Requirements
 Installation instructions
 Dataset preparation
+
 ### Usage instructions
 
 <details open>
@@ -58,6 +60,7 @@ Note: When a config file is not passed, the default is `config.py`.
 <br>
 
 You can place as many datasets in the `test` folder of your `BRAIN_VOLUME` as you want. Each will be processed but sequentially.
+
 Download **pretrained** models from [here](https://www.dropbox.com/scl/fo/uxmoj3v6i8mos6lwjjvio/h?rlkey=w10iia8rd8alkx3i67u88w0er&dl=0). These models have mostly been trained with default architectural params. We will share more details sooner.
 
 Please modify `config_predict.py` to match your `config.py` used during training. Check **above** for details.
@@ -74,6 +77,24 @@ Note: `predicter.py` does not accept a `config.py` args yet! Hence, all changes 
 
 <details>
 <summary> Run affinity predictions blockwise multiprocessing with <a href="super_predicter_daisy.py">super_predicter_daisy.py</a></summary>
+
+> **WARNING**
+> THIS HAS ONLY BEEN TESTED WITH 3D VOLUMES.
+
+You can place as many datasets in the `test` folder of your `BRAIN_VOLUME` as you want. Each will be processed but sequentially BUT WILL USE MULTIPLE-WORKERS, which makes the predictions faster.
+
+Download **pretrained** models from [here](https://www.dropbox.com/scl/fo/uxmoj3v6i8mos6lwjjvio/h?rlkey=w10iia8rd8alkx3i67u88w0er&dl=0). These models have mostly been trained with default architectural params. We will share more details sooner.
+
+Please modify `config_predict.py` to match your `config.py` used during training. Check **above** for details.
+
+<strong> Run prediction parallely with Daisy task scheduling </strong> <br>
+
+```
+python super_predicter_daisy.py
+```
+
+Note: `super_predicter_daisy.py` does not accept a `config.py` args yet! Hence, all changes must be made in `config_predict.py` as this is default.
+
 </details>
 
 ## Where does Local Shape Descriptors perform well and where does it not perform?
