@@ -20,7 +20,25 @@ Dataset preparation
 
 <details open>
  <summary>Understand and modify as needed the <a href="config/config.py">config.py</a></summary>
+
+<br>
+
+<strong> For training models </strong> <br>
+`config.py` contains `SYSTEM`, `DATA`, `PREPROCESS`, `TRAIN`, `MODEL_ISO` (for isotropic datesets) and `MODEL_ANISO` (for anisotropic datasets).
+Most of these configurations and hyper-parameters have been populated with default used during experiments.
+You may want to modify them to suit your needs. Please look at the commented text adjacent to the hyper-params set to get an idea of what they are.
+
+Separate `config.py` files for public datasets like CREMI, SNEMI, ZEBRAFINCH are provided.
+
+<strong> For running inference with trained models </strong> <br>
+`config_predict.py` should be used to run affinity prediction. All configurations set in the file should be automatically picked up by `predicter.py` or `super_predicter_daisy.py`.
+Ensure you set the same architectural hyper-parameters under `MODEL_ISO` OR `MODEL_ANISO` for pytorch to load the weights correctly.
+Also, ensure you put the data in the correct path inside a `test` folder, and pass the correct `model checkpoint`.
+
+
 </details>
+
+
 
 <details close>
  <summary> Train models with <a href="trainer.py">trainer.py</a></summary>
