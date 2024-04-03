@@ -20,6 +20,8 @@ Read these:
 
 ### Usage instructions
 
+#### Semantic Segmentation to get the affinity maps
+
 <details close>
  <summary>Understand and modify as needed the <a href="config/config.py">config.py</a></summary>
 
@@ -97,7 +99,7 @@ Note: `super_predicter_daisy.py` does not accept a `config.py` args yet! Hence, 
 
 </details>
 
-### Instance Segmentation from predicted affinities
+#### Instance Segmentation from predicted affinities
 <details>
 <summary> Extract supervoxels with <a href="02_extract_fragments_blockwise.py">02_extract_fragments_blockwise.py</a></summary>
 
