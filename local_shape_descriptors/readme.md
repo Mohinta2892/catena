@@ -35,17 +35,41 @@ Separate `config.py` files for public datasets like CREMI, SNEMI, ZEBRAFINCH are
 Ensure you set the same architectural hyper-parameters under `MODEL_ISO` OR `MODEL_ANISO` for pytorch to load the weights correctly.
 Also, ensure you put the data in the correct path inside a `test` folder, and pass the correct `model checkpoint`.
 
-
 </details>
-
-
 
 <details close>
  <summary> Train models with <a href="trainer.py">trainer.py</a></summary>
+<br>
+<strong> For training models </strong> <br>
+
+Set the hyper-params in the `config.py` file and then run:
+
+```
+python trainer.py -c config_cremi.py
+```
+
+Note: When a config file is not passed, the default is `config.py`.
+
 </details>
 
 <details close>
  <summary> Run affinity predictions as a single process with <a href="predicter.py">predicter.py</a></summary>
+
+<br>
+
+You can place as many datasets in the `test` folder of your `BRAIN_VOLUME` as you want. Each will be processed but sequentially.
+Download **pretrained** models from [here](https://www.dropbox.com/scl/fo/uxmoj3v6i8mos6lwjjvio/h?rlkey=w10iia8rd8alkx3i67u88w0er&dl=0). These models have mostly been trained with default architectural params. We will share more details sooner.
+
+Please modify `config_predict.py` to match your `config.py` used during training. Check **above** for details.
+
+<strong> Run prediction </strong> <br>
+
+```
+python predicter.py
+```
+
+Note: `predicter.py` does not accept a `config.py` args yet! Hence, all changes must be made in `config_predict.py` as this is default.
+
 </details>
 
 <details>
