@@ -14,9 +14,9 @@ Local Shape Descriptors (LSDs) introduce an auxiliary learning task aimed at imp
 
 Read these:
 
-System Requirements
-Installation instructions
-Dataset preparation
+- [System Requirements](docs/source/systemrequirements.rst)
+- [Installation instructions](docs/source/neuron_segmentation/install.rst)
+- [Dataset preparation](data_utils/download_data)
 
 ### Usage instructions
 
@@ -94,6 +94,13 @@ python super_predicter_daisy.py
 ```
 
 Note: `super_predicter_daisy.py` does not accept a `config.py` args yet! Hence, all changes must be made in `config_predict.py` as this is default.
+
+</details>
+
+### Instance Segmentation from predicted affinities
+<details>
+<summary> Extract supervoxels with <a href="02_extract_fragments_blockwise.py">02_extract_fragments_blockwise.py</a></summary>
+
 
 </details>
 
