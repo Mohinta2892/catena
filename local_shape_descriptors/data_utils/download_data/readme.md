@@ -45,3 +45,18 @@ Run with --help to understand syntax better:
 ```
 python /path/to/create_directory_structure.py --help
 ```
+
+## Convert HDF5 to ZARR [hdf_to_zarr.py](hdf_to_zarr.py)
+>[!CAUTION]
+> Data can *only* be loaded in as .zarr for model training/inference.
+> Not suitable for use with large datasets. Instead can use a daisy-driven [approach](https://github.com/funkelab/daisy/blob/master/examples/hdf_to_zarr.py).
+
+- The script reads an HDF file and identifies all datasets contained within it.
+- Each dataset, along with its attributes, is then converted into Zarr format. If a dataset contains object data types, it is serialized using the `numcodecs.VLenBytes` codec to ensure compatibility.
+- An extra dataset `volumes/labels_mask` is generated for neuron segmentation labels, mandatory during model training.
+- The converted Zarr file is saved in a specified output directory, retaining the original file's base name.
+
+Run [hdf_to_zarr.py](hdf_to_zarr.py):
+```
+python hdf_to_zarr.py -d /path/to/hdf/directory -od /output/directory/path
+```
