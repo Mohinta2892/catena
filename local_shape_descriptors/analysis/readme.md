@@ -6,6 +6,7 @@
 - Install [Skicit-Image](https://scikit-image.org/docs/stable/user_guide/install.html)
 
 Please install all of the above into the same conda env that you perhaps create for Napari.
-Take a look at [napari_environment.yml](). However, this has not been tested for reproducibility of env yet! 
-Creating a separate env can help in preventing pyqt issues in the local_shape_descriptors `funkelsd` env.
+Take a look at [napari_environment.yml](analysis/napari_environment.yml). However, this has not been tested for reproducibility of env yet! 
+>[!TIP]
+> Creating a separate env can help in preventing pyqt issues in the local_shape_descriptors `funkelsd` env.
 
