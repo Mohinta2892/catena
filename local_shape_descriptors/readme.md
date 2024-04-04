@@ -8,7 +8,7 @@ Local Shape Descriptors (LSDs) introduce an auxiliary learning task aimed at imp
 - **Read the blogpost [here](https://localshapedescriptors.github.io/)**
 
 > [!Note]
-> These are supervised ML models, hence you need ground truth. Primary tests reveal: 40 microns of densely segmented volumes is good to begin with.
+> These are supervised ML models, hence you need ground truth. Primary tests reveal 40 microns of densely segmented volumes is good to begin with.
  
 ## Getting started
 
@@ -80,7 +80,7 @@ Note: `predicter.py` does not accept a `config.py` args yet! Hence, all changes 
 <details>
 <summary> Run affinity predictions blockwise multiprocessing with <a href="super_predicter_daisy.py">super_predicter_daisy.py</a></summary>
 
-> **WARNING**
+> **WARNING** <br>
 > THIS HAS ONLY BEEN TESTED WITH 3D VOLUMES.
 
 You can place as many datasets in the `test` folder of your `BRAIN_VOLUME` as you want. Each will be processed but sequentially BUT WILL USE MULTIPLE-WORKERS, which makes the predictions faster.
@@ -100,10 +100,93 @@ Note: `super_predicter_daisy.py` does not accept a `config.py` args yet! Hence, 
 </details>
 
 #### Instance Segmentation from predicted affinities
-<details>
-<summary> Extract supervoxels with <a href="02_extract_fragments_blockwise.py">02_extract_fragments_blockwise.py</a></summary>
+>[!IMPORTANT]
+> Output segmentations are saved in the same output zarr under `lsd_outputs` containing `volumes/pred_affs`.
+> Agglomeration thresholds are appended to dataset names: `volumes/segmentation_055`
 
+
+<details>
+<summary> Extract supervoxels and agglomerate for small ROIs with <a href="instance_segmenter.py">instance_segmenter.py</a></summary>
+
+> **WARNING** <br>
+> This script should be used with volumes that fit into memory. Predicted affinities are cast as before watershedding float32, so you should have enough RAM.
+
+You must keep the output affinities under `lsd_outputs` for `instance_segmenter.py` to pick them up.
+Edit data paths in `config_predict.py`. Watershed and agglomeration will be run sequentially on all output *zarr* files that contain `volumes/pred_affs`.
+<br>
+
+
+<strong> Run watershed and agglomeration </strong> <br>
+
+```
+python instance_segmenter.py
+```
 
 </details>
 
-## Where does Local Shape Descriptors perform well and where does it not perform?
+<details>
+<summary> Extract supervoxels chunk-wise from large volumes with <a href="02_extract_fragments_blockwise.py">02_extract_fragments_blockwise.py</a></summary>
+
+> **IMPORTANT** <br>
+> Install [MongoDB](https://www.mongodb.com/docs/manual/installation/) before you begin. <br>
+> Ensure you have `pymongo~=4.3.3` and `daisy~=1.0`
+
+> **WARNING** <br>
+> `db_host = "localhost:27017"` and `db_name = "lsd_parallel_fragments"` are hardcoded as these in the script. Yet to be supported via `config_predict.py`. `collection_name` would be auto set to the name of your zarr file.
+
+<strong> Run watershed with daisy chunk-wise</strong> <br>
+
+```
+python 02_extract_fragments_blockwise.py
+```
+**NB: 02_extract_fragments_blockwise.py calls [02_extract_fragments_worker.py](engine/post/02_extract_fragments_worker.py)**
+
+</details>
+
+<details>
+<summary> Agglomerate supervoxels of large volumes chunk-wise with <a href="03_agglomerate_blockwise.py">03_agglomerate_blockwise.py</a></summary>
+
+> **WARNING** <br>
+> This cannot be run if `02_extract_fragments_blockwise.py` has not been run.
+
+<strong> Run agglomeration with daisy chunk-wise</strong> <br>
+
+```
+python 03_agglomerate_blockwise.py
+```
+**NB: 03_agglomerate_blockwise.py calls [03_agglomerate_worker.py](engine/post/03_agglomerate_worker.py)**
+</details>
+
+##### Final steps to extract final segmentation for LARGE volumes
+
+<details>
+<summary> Finding all segments and saving them as Look-Up-Tables (LUTs) <a href="04_find_segments_full.py">04_find_segments_full.py</a></summary>
+
+> **WARNING** <br>
+> This cannot be run if `03_agglomerate_blockwise.py` has not been run. <br>
+> **Don't forget to pass `daisy_logs/config_0.yml` from your daisy_logs folder auto-created under `catena/local_shape_descriptors`.** <br>
+> Output LUTs are saved under `lsd_outputs`
+
+<strong> Create a LUT file </strong> <br>
+
+```
+python 04_find_segments_full.py daisy_logs/config_0.yml
+```
+</details>
+
+<details>
+<summary> Extracting a final segmentation <a href="05_extract_segmentation_from_lut.py">05_extract_segmentation_from_lut.py</a></summary>
+
+> **WARNING** <br>
+> This cannot be run if `04_find_segments_full.py` has not been run. <br>
+> **Don't forget to pass `daisy_logs/config_0.yml` from your daisy_logs folder auto-created under `catena/local_shape_descriptors`.** <br>
+> Final segmentations are saved in the zarr under `lsd_outputs`.
+
+<strong> Extract Segments from LUT </strong> <br>
+
+```
+python 05_extract_segmentation_from_lut.py daisy_logs/config_0.yml
+```
+</details>
+
+## Where does Local Shape Descriptors perform well and where does it fail?
