@@ -189,4 +189,7 @@ python 05_extract_segmentation_from_lut.py daisy_logs/config_0.yml
 ```
 </details>
 
+>[!NOTE]
+> Small Rois can be proofread with Napari-based [Seg2Link](https://github.com/Mohinta2892/Seg2Link.git).
+
 ## Where does Local Shape Descriptors perform well and where does it fail?
