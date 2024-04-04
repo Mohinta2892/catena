@@ -15,7 +15,7 @@ Local Shape Descriptors (LSDs) introduce an auxiliary learning task aimed at imp
 Read these:
 
 - [System Requirements](docs/source/systemrequirements.rst)
-- [Installation instructions](docs/source/neuron_segmentation/install.rst)
+- Installation instructions: [Docker](docker/install_docker.md), [Conda](conda_env/install_conda.md)
 - [Dataset preparation](data_utils/download_data)
 
 ### Usage instructions
