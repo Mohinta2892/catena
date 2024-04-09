@@ -11,9 +11,9 @@ from tqdm import tqdm
 
 from pathlib import Path
 
-sys.path.append(str(Path(__file__).resolve().cwd()))
+sys.path.append(str(Path(__file__).resolve().parent.parent.parent))
 
-from utils import list_keys
+from data_utils.preprocess_volumes.utils import list_keys
 
 
 def hdf_to_zarr(hdf, out_dir):
@@ -23,7 +23,8 @@ def hdf_to_zarr(hdf, out_dir):
     # create out zarr
     zf_path = os.path.join(out_dir, os.path.basename(hdf).split('.hdf')[0] + '.zarr')
     zf = zarr.open(zf_path, mode='a')
-    for ds in tqdm(datasets, desc='iterating over datasets'):
+    for ds in (pbar := tqdm(datasets, desc='Iterating over datasets hdf:')):
+        pbar.set_postfix_str(f" {hdf}")
         if hf[ds].dtype == object:
             # print(list(hf[ds][...]))
             zf.create_dataset(name=ds, data=tuple(hf[ds][...]), shape=hf[ds].shape, dtype=object, object_codec=numcodecs.VLenBytes(),
@@ -47,7 +48,7 @@ def hdf_to_zarr(hdf, out_dir):
 def main():
     parser = argparse.ArgumentParser(description="Converts hdf to zarr")
     parser.add_argument('-d', help="/directory/path/to/hdf")
-    parser.add_argument('-od', help="/output/directory/path/to/hdf")
+    parser.add_argument('-od', help="/output/directory/path/to/zarr")
 
     args = parser.parse_args()
 
