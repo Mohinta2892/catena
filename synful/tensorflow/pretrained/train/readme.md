@@ -10,6 +10,15 @@ Credits: Julia Buhmann
 
 Note, that for the models that have an underlying ST architecture we also indicate the setup for the corresponding direction-vector-models (`p_setup05+p_setup10`). If you want to use the model with highest accuracy, pick `p_setup52`. If you want to use a model that gives reasonnable results, but also has fast inference runtime, pick `p_setup54`.
 
+<details><summary>Notations</summary>
+<br>
+
+- MT 1: Multi-headed UNET with multi-task learning of post-synaptic masks and pre-synaptic direction vectors.
+- MT 2: Independent upsampling paths in UNET for multi-task learning of post-synaptic masks and pre-synaptic direction vectors.
+- ST: Single-headed UNET to learn either post-synaptic masks or pre-synaptic direction vectors.
+
+</details>
+
 
 ## Download Checkpoints
 Checkpoints: [Link](https://www.dropbox.com/scl/fo/hlw1cbef09xwisss59fhr/h?rlkey=uk7786539u1fu21dh5ebowip6&dl=0)
