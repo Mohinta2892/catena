@@ -1,11 +1,20 @@
+"""
+Use this script to run affinity prediction with trained models.
+You must place the data in the correct folder for the `predicter.py` to pick it up.
+You must also supply the correct `MODEL_TYPE` and `CHECKPOINT` below.
+Note that you do not need to tweak anything else except when you might have made changes in `MODEL_ISO` or `MODEL_ANISO`
+during training. This file is almost a copy of the `config.py` file which is used during training.
+"""
+
 from yacs.config import CfgNode as CN
 import math
 import numpy as np
 
-try:
-    import torch
-except Exception as e:
-    raise ModuleNotFoundError
+# Switch this off when inferring blockwise with `super_predicter_daisy.py`
+# try:
+# import torch
+# except Exception as e:
+# raise ModuleNotFoundError
 
 _C = CN()
 
@@ -13,29 +22,36 @@ _C.SYSTEM = CN()
 # Number of GPUS to use in the experiment
 _C.SYSTEM.NUM_GPUS = 1
 # Number of workers for doing things, may not be used in this context
-_C.SYSTEM.NUM_WORKERS = 10
+_C.SYSTEM.NUM_WORKERS = 5
 _C.SYSTEM.CACHE_SIZE = 40
 _C.SYSTEM.VERBOSE = True
 
 _C.DATA = CN()
 _C.DATA.HOME = "/media/samia/DATA/ark"  # options: /home; /local/path/till/connexion
 _C.DATA.DATA_DIR_PATH = "connexion/data"  # where the code resides and data should too
-_C.DATA.BRAIN_VOL = "OCTO"  # datasets, options: HEMI;OCTO;SEYMOUR;LUCCHI;CREMI; expand this to load multiple datasets
+_C.DATA.BRAIN_VOL = "HEMI"  # datasets, options: HEMI;OCTO;SEYMOUR;LUCCHI;CREMI; expand this to load multiple datasets
 _C.DATA.TRAIN_TEST_SPLIT = 1  # TODO splits: 1 = all volumes used to train
 _C.DATA.FIB = 1  # Means FIBSEM isotropic data
 _C.DATA.DIM_2D = False  # TODO: Data preprocessing functionality here
 # prediction specific
 _C.DATA.OUTFILE = f"{_C.DATA.HOME}/lsd_outputs"
 _C.DATA.INVERT_PRED_AFFS = False
+# _C.DATA.SAMPLE = ''  # add these NULL keys helps to merge with yaml later; on-the-fly created in predicter(s).py
+# _C.DATA.SAMPLE_SLICE = ''  # add these NULL keys helps to merge with yaml later; on-the-fly created in predicter(s).py
+
+# # MongoDB
+_C.DATA.DB_NAME = ''
+_C.DATA.DB_HOST = ''
+_C.DATA.DROP_DS_MONGOTABLE = False  # preserves both the dataset and the Mongo Collection
 
 # we copy exactly the trainer config, but switch these off
+_C.PREPROCESS = CN()
+# for this both source and target datasets must exist at the right paths
+_C.PREPROCESS.HISTOGRAM_MATCH = ["HEMI", "POPEYE"]
 if _C.DATA.DIM_2D:
-    _C.PREPROCESS = CN()
     # creates 2D zarrs from 3D zarrs; 3D zarr files must be placed at the right path
     _C.PREPROCESS.EXPORT_2D_FROM_3D = False
-    # for this both source and target datasets must exist at the right paths
-    _C.PREPROCESS.HISTOGRAM_MATCH = ["HEMI", "OCTO"]
-    _C.PREPROCESS.USE_WANDB = False  # we set it here for now
+    _C.PREPROCESS.USE_WANDB = False  # we set it here for now; only available to save images during 2D training
 
 _C.TRAIN = CN()
 _C.TRAIN.BATCH_SIZE = 2
@@ -46,18 +62,22 @@ _C.TRAIN.LR_NEIGHBORHOOD = [[-1, 0, 0], [0, -1, 0], [0, 0, -1], [-3, 0, 0], [0, 
                             [0, -9, 0], [0, 0, -9]]
 _C.TRAIN.EPOCHS = 400000
 _C.TRAIN.SAVE_EVERY = 2000
-# if gpu is found trains on 1 gpu else falls back to cpu, can be explicit here like '
-_C.TRAIN.DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
+# if gpu is found trains on 1 gpu else falls back to cpu, can be explicit here like `cpu`; `multi_gpu`; `cuda`
+# `multi_gpu`: this is valid only in `super_predicter_daisy.py`
+_C.TRAIN.DEVICE = "cuda:0"  # "cuda" if torch.cuda.is_available() else "cpu"
 _C.TRAIN.INITIAL_LR = 0.5e-4
 _C.TRAIN.LR_BETAS = (0.95, 0.999)
-_C.TRAIN.MODEL_TYPE = "MTLSD"  # options: `MTLSD`, `ACLSD`, `ACRLSD`, `LSD`, `AFF`
-# prediction specific
-_C.TRAIN.CHECKPOINT = f"{_C.DATA.HOME}/lsd_checkpoints/MTLSD_3D/run-aclsd-together/model_checkpoint_300000"
+_C.TRAIN.MODEL_TYPE = "AFF"  # options: `MTLSD`, `ACLSD`, `ACRLSD`, `LSD`, `AFF`
+# remember to change the `run-*` folder
+_C.TRAIN.CHECKPOINT = f"{_C.DATA.HOME}/lsd_checkpoints/{_C.TRAIN.MODEL_TYPE}_{'2D' if _C.DATA.DIM_2D else '3D'}/run-aclsd-together/model_checkpoint_300000"
 
 if _C.TRAIN.MODEL_TYPE in ["ACLSD", "ACRLSD"]:
     _C.TRAIN.CHECKPOINT_AC = f"{_C.DATA.HOME}/lsd_checkpoints/LSD_2D/run-test2/model_checkpoint_8000"
     assert _C.TRAIN.CHECKPOINT_AC is not None or _C.TRAIN.CHECKPOINT_AC != "", \
         "Please provide a checkpoint for your auto-context model!"
+
+# empty cfg node for model; required when merging with yaml
+# _C.MODEL = CN()
 
 # Isotropic model and augmentation hyper-params
 _C.MODEL_ISO = CN()
@@ -115,7 +135,7 @@ _C.MODEL_ISO.INPUT_SHAPE_2D = (196, 196)  # hemi-octo
 _C.MODEL_ISO.OUTPUT_SHAPE = (72, 72, 72)  # hemi-octo (72, 72, 72)
 _C.MODEL_ISO.OUTPUT_SHAPE_2D = (72, 72)  # hemi-octo
 # output_shape: Coordinate((48, 48, 48))  # hemi-for gan
-_C.MODEL_ISO.VOXEL_SIZE = (8, 8, 8)  # (8, 8, 8)
+_C.MODEL_ISO.VOXEL_SIZE = (8, 8, 8)  # (30, 24, 24)
 _C.MODEL_ISO.VOXEL_SIZE_2D = (12, 12)
 _C.MODEL_ISO.GROW_INPUT = (36, 36, 36)
 _C.MODEL_ISO.GROW_INPUT_2D = (36, 36)
@@ -181,7 +201,17 @@ _C.MODEL_ANISO.DEFECT_AUGMENT = ""
 # RUN INSTANCE SEGMENTATION - SUPPORTS WATERZ FOR NOW
 _C.INS_SEGMENT = CN()
 
-_C.INS_SEGMENT.THRESHOLDS = list(np.arange(0.35, 0.80, 0.05))
+# Fixes: yaml.representer.RepresenterError: ('cannot represent an object', 0.35)
+# Must be cast with tolist()
+_C.INS_SEGMENT.THRESHOLDS = np.arange(0.35, 0.80, 0.05).tolist()
+_C.INS_SEGMENT.FRAGMENTS_IN_XY = False
+_C.INS_SEGMENT.EPSILON_AGGLOMERATE = 0.25  # this is used in the fragmentation for initial agglomeration
+_C.INS_SEGMENT.MASK_FILE = None
+_C.INS_SEGMENT.MASK_DATASET = None
+_C.INS_SEGMENT.FILTER_FRAGMENTS = 0.0  # Filter fragments that have an average affinity lower than this
+_C.INS_SEGMENT.BLOCK_SIZE = (256, 256, 256)  # You could also use the input shape here
+# You could also use the same context as during aff prediction (e.g.,(in_size_nm-out_size_nm) // 2)
+_C.INS_SEGMENT.CONTEXT = (24, 24, 24)
 
 
 def get_cfg_defaults():
