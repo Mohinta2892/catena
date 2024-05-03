@@ -21,6 +21,8 @@ def run_waterz(cfg):
 
         # path to predicted affinity matrix is hard-coded 
         results = np.array(results_zarr[f"volumes/pred_affs"])
+        if results.dtype == np.uint8:
+            results = (results / 255).astype(np.float32)
 
         segmentation = get_segmentation(results, threshold)
 
