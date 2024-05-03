@@ -35,6 +35,13 @@ def extract_fragments_worker(cfg):
     logging.info("Reading affs from %s", affs_file)
     affs = open_ds(affs_file, affs_dataset, mode='r')
 
+    # must be cast to float32 because this is what is expected by watershed
+    # but check if this code snippet gets executed properly?
+    if affs.dtype == np.uint8:
+        affs = (affs / 2**8).astype(np.float32)
+    elif affs.dtype == np.uint16:
+        affs = (affs / 2**16).astype(np.float32)
+
     logging.info("Reading fragments from %s", fragments_file)
     fragments = open_ds(
         fragments_file,
@@ -135,7 +142,7 @@ def extract_fragments_worker(cfg):
 
 
 if __name__ == '__main__':
-    config_file = sys.argv[1]
+    config_file = sys.argv[1]  # to do
 
     # parse the args file to become cfg
     cfg = CN()
