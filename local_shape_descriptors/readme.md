@@ -1,4 +1,4 @@
-# Welcome to the PyTorch Local Shape Descriptors
+# Welcome to PyTorch Local Shape Descriptors
 
 ## What are Local Shape Descriptors?
 
