@@ -2,11 +2,11 @@
 We are going to try to do this as in the old scripts, without calling parallel fragments.
 Todo: Switch to this later since we do not have to make the task then!
 This script performs watershed and an initial agglomeration (as set in `EPSILON_THRESHOLD`
-in `config_predict.py` on a chunk by chunk basis.
-NB: Hardcoded chunk values appear in `main`. TODO: control them via config_predict.py.
+in `config_predict.py`) on a chunk by chunk basis.
+NB: Hardcoded `block_size` appear in `main()`. TODO: control them via config_predict.py.
 NB 2: Re. visualising fragments (chunk segmentations), napari may not be the best visualiser unless passed
 an explicit color map in the range of the segmentation values. This is because it displays really large
-values as a gradient colormap (in shades of green). TODO: Try neuroglancer visualisation.
+values as a gradient colormap (e.g., in shades of green). TODO: Try neuroglancer visualisation.
 """
 
 import json
