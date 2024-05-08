@@ -192,4 +192,11 @@ python 05_extract_segmentation_from_lut.py daisy_logs/config_0.yml
 >[!NOTE]
 > Small Rois can be proofread with Napari-based [Seg2Link](https://github.com/Mohinta2892/Seg2Link.git).
 
-## Where does Local Shape Descriptors perform well and where does it fail?
+## Performance of LSDs on held-out and unseen (out-of-distribution) datasets
+
+1. **Performance on Octo (unseen data)**: A Multi-task (MT) LSD model trained *solely* on Hemibrain (resolution: `8nm^3`, FIBSEM; `~40` microns) dataset on Octo (resolution: `8nm^3`, FIBSEM; `20 x 200 x 200` Roi in zyx) achieves `~0.05` Adapted Rand Error for a segmentation for agglomeration thresholds `50%-60%`.
+
+   ![Octo 20x200x200 Roi Performance](assets/octo-eval-2-1.png)
+
+
+
