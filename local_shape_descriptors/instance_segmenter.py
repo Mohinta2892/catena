@@ -14,6 +14,16 @@ from data_utils.preprocess_volumes.utils import calculate_min_2d_samples
 
 
 def rename_keys(original_config, key_mapping):
+    """
+    Rename keys in a configuration dictionary based on a mapping.
+
+    Args:
+        original_config (dict): The original configuration dictionary.
+        key_mapping (dict): A dictionary mapping new keys to old keys.
+
+    Returns:
+        dict: The modified configuration dictionary with renamed keys.
+    """
     for new_key, old_key in key_mapping.items():
         if hasattr(original_config, old_key):
             original_config[new_key] = getattr(original_config, old_key)
