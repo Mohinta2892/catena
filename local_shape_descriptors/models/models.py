@@ -8,7 +8,23 @@ logger = logging.getLogger(__name__)
 
 
 class MtlsdModel(torch.nn.Module):
+    """
+    Multi-task learning model for local shape descriptors (LSDs) and affinities.
+    This model combines a UNet architecture with convolutional layers for LSD and affinity prediction.
 
+    Args:
+        in_channels (int): Number of input channels.
+        num_fmaps (int): Number of initial feature maps.
+        fmap_inc_factor (int): Factor by which the number of feature maps increases.
+        downsample_factors (List[int]): Factors by which the input is downsampled at each layer.
+        kernel_size_down (List[int]): Kernel sizes for downsampling layers.
+        kernel_size_up (List[int]): Kernel sizes for upsampling layers.
+        num_fmaps_out (int, optional): Number of output feature maps. Defaults to 12.
+        pad_conv (str, optional): Padding type for convolutions. Defaults to 'valid'.
+        nhood (int, optional): Size of neighborhood for affinity prediction. Defaults to 3.
+        use_2d (bool, optional): Whether to use 2D or 3D features. Defaults to False.
+        lsds (int, optional): Number of local shape descriptors. Defaults to 10 for 3D and 6 for 2D.
+    """
     def __init__(
             self,
             in_channels,
@@ -121,6 +137,24 @@ class MtlsdMitoModel(torch.nn.Module):
 
 
 class LsdModel(torch.nn.Module):
+    """
+    Model for local shape descriptors (LSDs) prediction.
+    This model combines a UNet architecture with convolutional layers for LSD prediction.
+
+    Args:
+        in_channels (int): Number of input channels.
+        num_fmaps (int): Number of initial feature maps.
+        fmap_inc_factor (int): Factor by which the number of feature maps increases.
+        downsample_factors (List[int]): Factors by which the input is downsampled at each layer.
+        kernel_size_down (List[int]): Kernel sizes for downsampling layers.
+        kernel_size_up (List[int]): Kernel sizes for upsampling layers.
+        num_fmaps_out (int, optional): Number of output feature maps. Defaults to 12.
+        pad_conv (str, optional): Padding type for convolutions. Defaults to 'valid'.
+        nhood (int, optional): Size of neighborhood for affinity prediction. Defaults to 3.
+        use_2d (bool, optional): Whether to use 2D or 3D features. Defaults to False.
+        lsds (int, optional): Number of local shape descriptors. Defaults to 10 for 3D and 6 for 2D.
+        cfg (object, optional): Configuration object. Defaults to None.
+    """
 
     def __init__(
             self,
@@ -201,6 +235,23 @@ class LsdModel(torch.nn.Module):
 
 
 class AffModel(torch.nn.Module):
+    """
+    Model for affinity prediction.
+    This model combines a UNet architecture with convolutional layers for affinity prediction.
+
+    Args:
+        in_channels (int): Number of input channels.
+        num_fmaps (int): Number of initial feature maps.
+        fmap_inc_factor (int): Factor by which the number of feature maps increases.
+        downsample_factors (List[int]): Factors by which the input is downsampled at each layer.
+        kernel_size_down (List[int]): Kernel sizes for downsampling layers.
+        kernel_size_up (List[int]): Kernel sizes for upsampling layers.
+        pad_conv (str, optional): Padding type for convolutions. Defaults to 'valid'.
+        num_fmaps_out (int, optional): Number of output feature maps. Defaults to 12.
+        nhood (int, optional): Size of neighborhood for affinity prediction. Defaults to 3.
+        use_2d (bool, optional): Whether to use 2D or 3D features. Defaults to False.
+    """
+
 
     def __init__(
             self,
@@ -244,11 +295,37 @@ class AffModel(torch.nn.Module):
 
 
 class CalculateModelSummary:
+    """
+    Helper class to calculate the output shape of a PyTorch model given its input shape.
+    It also provides summary info of the model passed, when `cfg.VERBOSE == True`.
+
+    Args:
+        model (torch.nn.Module): The PyTorch model.
+        cfg (object): Configuration object containing model and data settings.
+    """
     def __init__(self, model, cfg):
+        """
+        Initializes the CalculateModelSummary instance.
+
+        Args:
+            model (torch.nn.Module): The PyTorch model.
+            cfg (object): Configuration object containing model and data settings.
+        """
         self.model = model
         self.cfg = cfg
 
     def calculate_output_shape(self, input_shape=None):
+        """
+        Calculates the output shape of the model given an input shape.
+        Also prints summary info of the model when `cfg.VERBOSE == True`
+
+        Args:
+            input_shape (Tuple[int], optional): The input shape to use for calculation.
+                If not provided, uses the input shape specified in the configuration.
+
+        Returns:
+            Tuple[int]: The expected output shape of the model.
+        """
         try:
             if input_shape is None:
                 input_shape = self.cfg.MODEL.INPUT_SHAPE
@@ -285,6 +362,16 @@ class CalculateModelSummary:
 
 
 def initialize_model(cfg):
+    """
+    Initializes and returns the appropriate model based on the configuration.
+
+    Args:
+        cfg (object): Configuration object containing model and data settings.
+
+    Returns:
+        torch.nn.Module or Tuple[torch.nn.Module, torch.nn.Module]: The initialized model(s).
+    """
+    
     if cfg.TRAIN.MODEL_TYPE == "MTLSD":
         return MtlsdModel(
             in_channels=cfg.MODEL.IN_CHANNELS,
