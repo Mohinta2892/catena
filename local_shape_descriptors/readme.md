@@ -196,7 +196,18 @@ python 05_extract_segmentation_from_lut.py daisy_logs/config_0.yml
 
 1. **Performance on Octo (unseen data)**: A Multi-task (MT) LSD model trained *solely* on Hemibrain (resolution: `8nm^3`, FIBSEM; `~40` microns) dataset on Octo (resolution: `8nm^3`, FIBSEM; `20 x 200 x 200` Roi in zyx) achieves `~0.05` Adapted Rand Error for a segmentation for agglomeration thresholds `50%-60%`.
 
-   ![Octo 20x200x200 Roi Performance](assets/octo-eval-2-1.png)
+<br>
+<div>
+<p align="center">
+<img src='assets/octo-eval-2-1.png' align="center" width=800px>
+</p>
+</div>
 
+- 3D Neuroglancer Snapshot of Segmentations
 
-
+<br>
+<div>
+<p align="center">
+<img src='assets/AL-crop-octo-snap.png' align="center" width=1000px>
+</p>
+</div>
