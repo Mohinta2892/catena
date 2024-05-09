@@ -28,6 +28,13 @@ from gunpowder.ext import torch
 
 
 class WeightedMSELoss(torch.nn.MSELoss):
+    """
+    Custom loss function that calculates the weighted mean squared error (MSE) loss
+    between the predicted and target values, with separate weights for each prediction.
+
+    Inherits from torch.nn.MSELoss.
+
+    """
 
     def __init__(self):
         super(WeightedMSELoss, self).__init__()
@@ -105,6 +112,14 @@ class WeightedMitoMSELoss(torch.nn.MSELoss):
 
 
 class LSDWeightedMSELoss(torch.nn.MSELoss):
+    """
+    Custom loss function that calculates the weighted mean squared error (MSE) loss
+    between the predicted and target values for local shape descriptors (LSDs), with
+    weights for each prediction.
+
+    Inherits from torch.nn.MSELoss.
+
+    """
 
     def __init__(self):
         super(LSDWeightedMSELoss, self).__init__()
@@ -132,6 +147,13 @@ class LSDWeightedMSELoss(torch.nn.MSELoss):
 
 
 class AFFWeightedMSELoss(torch.nn.MSELoss):
+    """
+    Custom loss function that calculates the weighted mean squared error (MSE) loss
+    between the predicted and target values for affinities, with weights for each prediction.
+
+    Inherits from torch.nn.MSELoss.
+
+    """
 
     def __init__(self):
         super(AFFWeightedMSELoss, self).__init__()
@@ -156,6 +178,15 @@ class AFFWeightedMSELoss(torch.nn.MSELoss):
 
 
 def initialize_loss(cfg):
+    """
+    Initializes the loss function based on the specified model type in the configuration.
+
+    Args:
+        cfg (Namespace): Configuration settings.
+
+    Returns:
+        torch.nn.Module: Initialized loss function.
+    """
     if cfg.TRAIN.MODEL_TYPE == "MTLSD":
         return WeightedMSELoss()
     elif cfg.TRAIN.MODEL_TYPE == "LSD":
