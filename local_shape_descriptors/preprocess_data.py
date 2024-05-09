@@ -18,6 +18,17 @@ logger = logging.getLogger(__name__)
 
 
 def create_data_in_parallel(z, out_dir, cfg, sections=None, squeeze=True):
+    """
+    Create data in parallel using the create_data function.
+
+    Args:
+        z (str): URL or path to the input data.
+        out_dir (str): Path to the output directory.
+        cfg (Namespace): Configuration settings.
+        sections (list, optional): List of sections to process. Defaults to None.
+        squeeze (bool, optional): Whether to squeeze the data. Defaults to True.
+    """
+    
     out_zarr = create_data(
         url_or_path=z,
         outfile_path=out_dir,
@@ -116,7 +127,7 @@ def main(args):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Your script description here.")
+    parser = argparse.ArgumentParser(description="Preprocessing datasets.")
     parser.add_argument("--background_value", type=int, default=None, help="Background value for labels")
     args = parser.parse_args()
     main(args)
