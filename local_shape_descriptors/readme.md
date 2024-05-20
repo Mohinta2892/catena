@@ -203,7 +203,7 @@ python 05_extract_segmentation_from_lut.py daisy_logs/config_0.yml
 </p>
 </div>
 
-- 3D Neuroglancer Snapshot of Segmentations
+- 3D Neuroglancer Snapshot of Selected Segmentations
 
 <br>
 <div>
