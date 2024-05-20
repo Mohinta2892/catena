@@ -76,9 +76,12 @@ def open_ds_wrapper(path, ds_name):
         return None
 
 
-def add_cremi_synapses(s, filename):
+def add_cremi_synapses(s, filename, res):
     locs, offsets = load_hdf5(filename, 'annotations/locations')
     offset = 0
+
+    # convert offsets to voxel coords
+    offsets = [i / j for i, j in zip(offsets, res)]
 
     # flip locations if data gets loaded as xyz
     # locs = [np.flip(loc) + offset for loc in locs]
@@ -214,10 +217,12 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
+    res = resolution_tuple(args.res)
+
     dimensions = neuroglancer.CoordinateSpace(
         names=["z", "y", "x"],
         units="nm",
-        scales=resolution_tuple(args.res),
+        scales=res,
     )
 
     # load raw
@@ -239,7 +244,7 @@ if __name__ == '__main__':
         s.layers.append(name='clefts', layer=ngLayer(clefts, dimensions, tt='segmentation', oo=c_offset))
 
         # add synapses; they are also in the same hdf file
-        add_cremi_synapses(s, args.sfile)
+        add_cremi_synapses(s, args.sfile, res)
 
         # adding states as per the old version of this script.
         # add(s, labels_mask, 'labels_mask')
