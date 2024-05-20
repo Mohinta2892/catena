@@ -22,7 +22,6 @@ from config.config_predict import *
 from data_utils.preprocess_volumes.utils import calculate_min_2d_samples
 from add_ons.funlib_persistence.persistence_utils import *
 
-
 logging.basicConfig(level=logging.INFO)
 
 logging.getLogger('daisy').setLevel(logging.DEBUG)
@@ -33,7 +32,7 @@ def predict_blockwise(
         cfg,
         sample_name='sample',
         db_host="localhost:27017",
-        db_name="try-lsd-parallel-pred",
+        db_name="lsd_parallel_predictions",
         drop=False
 ):
     """
@@ -48,7 +47,7 @@ def predict_blockwise(
     client = pymongo.MongoClient(db_host)
     db = client[db_name]
 
-    completed_collection_name = f"{sample_name}_predicted_affs"
+    completed_collection_name = f"{sample_name}_{os.path.basename(cfg.TRAIN.MODEL_TYPE)}_predicted_affs"
     # Save to config for worker to use
     cfg.DATA.DB_COLLECTION_NAME = completed_collection_name
     completed_collection = None
@@ -202,7 +201,12 @@ def start_worker(cfg):
     # To use CUDA with multiprocessing, you must use the 'spawn' start method`
     # when using > 1 num_workers!
     # Delay torch import till the worker process is called!!
-    cfg.TRAIN.DEVICE = f"cuda:{worker_id}"
+
+    # this option is only valid here and the devices will be changed 0-8 in DGX system. If `cuda:0`
+    # in `config_predict.py` is provided all models will be spawned in the same GPU when using multiple workers
+    # so restrict the number of workers in a single GPU system to prevent OOM errors.
+    if cfg.TRAIN.DEVICE == "multi_gpu":
+        cfg.TRAIN.DEVICE = f"cuda:{worker_id}"
 
     # print(cfg.dump())  # print formatted configs
     with open(config_file, "w", encoding="utf-8") as f:

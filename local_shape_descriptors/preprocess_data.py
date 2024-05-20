@@ -47,12 +47,16 @@ def main(args):
     else:
         cfg.DATA.BACKGROUND_LABEL = int(background_value)
 
+    # from cfg we are only interested in the data path keys
+    base_data_dir = os.path.join(cfg.DATA.HOME, cfg.DATA.DATA_DIR_PATH)
+    data_dir = os.path.join(base_data_dir, cfg.DATA.BRAIN_VOL)
+
     if cfg.DATA.DIM_2D:
         # Warning: hard-coded
         dimensionality = ["data_3d"]
         # from cfg we are only interested in the data path keys
-        base_data_dir = os.path.join(cfg.DATA.HOME, cfg.DATA.DATA_DIR_PATH)
-        data_dir = os.path.join(base_data_dir, cfg.DATA.BRAIN_VOL)
+        # base_data_dir = os.path.join(cfg.DATA.HOME, cfg.DATA.DATA_DIR_PATH)
+        # data_dir = os.path.join(base_data_dir, cfg.DATA.BRAIN_VOL)
         # directory where results are going to be stored, this is preset
         out_dir = f"{data_dir}/data_2d/train"
         # expected 3d zarrs in this path
@@ -81,7 +85,7 @@ def main(args):
                 f"There are no files in the input data directory!! Please place zarrs at {data_dir_3d}"
 
             # # Create a ThreadPoolExecutor with a specified number of threads (adjust as needed)
-            num_threads = 4
+            num_threads = args.nt  # should be integer > 0
             with ThreadPoolExecutor(max_workers=num_threads) as executor:
                 # Use map to process all Zarr files concurrently
                 results = list(executor.map(create_data_in_parallel, zarr_files, [out_dir] * len(zarr_files),
@@ -96,7 +100,7 @@ def main(args):
     # these are the datasets that must be hist-matched
     if cfg.PREPROCESS.HISTOGRAM_MATCH is not None and len(cfg.PREPROCESS.HISTOGRAM_MATCH) > 1:
         """
-        Match histograms of 2D source and target datasets. Hence, both datasets must exist in path.
+        Match histograms of 2D/3D source and target datasets. Hence, both datasets must exist in path.
         Design logic: We are forward thinking here, such that we can train a model to be slightly agnostic to
         the looks of the images (contrast/intensity) distributions. We piggy back on existing labelled datasets
         to generalise on our target dataset. However, this is still experimental, may (not) work. 
@@ -105,7 +109,7 @@ def main(args):
         """
 
         logger.debug("Warning: You want to \n \
-            Match histograms of 2D source and target datasets. Hence, both datasets must exist in path.\n \
+            Match histograms of 2D/3D source and target datasets. Hence, both datasets must exist in path.\n \
             Design logic: We are forward thinking here, such that we can train a model to be slightly agnostic to\n \
             the looks of the images (contrast/intensity) distributions. We piggy back on existing labelled datasets\n \
             to generalise on our target dataset. However, this is still experimental, may (not) work.")
@@ -117,6 +121,9 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Your script description here.")
-    parser.add_argument("--background_value", type=int, default=None, help="Background value for labels")
+    parser.add_argument("-bg", "--background_value", type=int, default=None,
+                        help="Background value for labels. Default:18446744073709551613 for HEMIBRAIN, else 0 ")
+    parser.add_argument("-nt", "--num_threads", type=int, default=4,
+                        help="Num of threads used at generating 2D files from 3D data. Default: 4")
     args = parser.parse_args()
     main(args)
