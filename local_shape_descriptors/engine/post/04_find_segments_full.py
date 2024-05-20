@@ -26,7 +26,7 @@ def find_segments(
         roi_offset=None,
         roi_shape=None,
         **kwargs):
-    '''
+    """
 
     Args:
 
@@ -65,7 +65,7 @@ def find_segments(
             The shape of the ROI. Entries can be ``None`` to indicate
             unboundedness.
 
-    '''
+    """
 
     print("Reading graph from DB ", db_name, edges_collection)
     start = time.time()
@@ -103,6 +103,7 @@ def find_segments(
 
     nodes = np.array(graph.nodes)
     edges = np.stack(list(graph.edges), axis=0)
+
     scores = np.array([graph.edges[tuple(e)]["merge_score"] for e in edges]).astype(
         np.float32
     )  # adapted from WPatton's mutex_agglomerate `find_segments.py`
@@ -179,15 +180,15 @@ if __name__ == "__main__":
     sample_name = cfg.DATA.SAMPLE_NAME
     db_host = cfg.DATA.DB_HOST
     db_name = cfg.DATA.DB_NAME
-    merge_function = 'hist_quant_55'  # cfg.INS_SEGMENT.MERGE_FUNCTION - hardcoded for testing
+    merge_function = 'hist_quant_60'  # cfg.INS_SEGMENT.MERGE_FUNCTION - hardcoded for testing
 
     find_segments(
         db_host,
         db_name,
         fragments_file=cfg.DATA.SAMPLE,
         edges_collection=sample_name + "_edges_" + merge_function,
-        thresholds_minmax=[0, 1],  # hardcoded: don't know what this means??
-        thresholds_step=0.05,
+        thresholds_minmax=[0.1, 0.8],  # hardcoded: don't know what this means??
+        thresholds_step=0.1,
         fragments_ds=cfg.INS_SEGMENT.OUT_FRAGS_DS,
         roi_offset=None,
         roi_shape=None, )

@@ -5,6 +5,7 @@ import json
 import sys
 import pymongo
 import time
+import numpy as np
 from funlib.persistence import open_ds, Array, graphs
 from funlib.geometry import Roi, Coordinate
 from yacs.config import CfgNode as CN
@@ -41,7 +42,7 @@ def extract_fragments_worker(cfg):
         affs = (affs / 2**8).astype(np.float32)
     elif affs.dtype == np.uint16:
         affs = (affs / 2**16).astype(np.float32)
-
+ 
     logging.info("Reading fragments from %s", fragments_file)
     fragments = open_ds(
         fragments_file,
@@ -62,6 +63,7 @@ def extract_fragments_worker(cfg):
 
     # open RAG DB
     logging.info("Opening RAG DB...")
+    # only available in funlib.persistence == 0.1.0
     rag_provider = graphs.MongoDbGraphProvider(
         db_name,
         host=db_host,
@@ -109,7 +111,7 @@ def extract_fragments_worker(cfg):
                 filter_fragments=filter_fragments)
 
             # This performs watershed_from_affinities and agglomerate sequentially.
-            # Should ideally do the same thing as above. Kept for comparison though!
+            # Should ideally do the same thing as above. Kept for comparison!
             # run_waterz_parallel(affs=affs,
             #                     block=block,
             #                     context=context,

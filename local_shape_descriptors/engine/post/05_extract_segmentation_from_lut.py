@@ -1,6 +1,8 @@
 import daisy
 import json
 import logging
+
+import dask.array as da
 import numpy as np
 import os
 import sys
@@ -9,6 +11,7 @@ from funlib.segment.arrays import replace_values
 from funlib.persistence import prepare_ds, open_ds
 from funlib.geometry import Roi, Coordinate
 from yacs.config import CfgNode as CN
+import argparse
 
 logging.basicConfig(level=logging.INFO)
 
@@ -99,9 +102,10 @@ def extract_segmentation(
         out_file,  # this should be the zarr!
         out_dataset,
         total_roi,
-        voxel_size=fragments.voxel_size,
+        voxel_size=Coordinate(fragments.voxel_size),
         dtype=np.uint64,
-        write_roi=write_roi)
+        write_roi=write_roi,
+        delete=True)
 
     lut_dir = os.path.join(os.path.dirname(fragments_file), "luts_full")
     logging.debug(f"Luts should have been saved here {lut_dir}")
@@ -155,7 +159,18 @@ def segment_in_block(
 
 
 if __name__ == "__main__":
-    config_file = sys.argv[1]  # take one of the worker config files from daisy_logs??
+    # previous implementation
+    # config_file = sys.argv[1]  # take one of the worker config files from daisy_logs??
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-c', help="Please provide a config file."
+                                   " You can grab one from the local_shape_descriptors/daisy_logs folder!")
+    parser.add_argument('-mf', '--merge_function', default='hist_quant50',
+                        help="Merge function as agglomerate threshold (e.g., hist_quant_50, hist_quant_60)")
+    parser.add_argument('-th', '--threshold', default=0.3, type=float,
+                        help=" Threshold to fetch a LUT like hist_quant{agglomerate_threshold}_{this_threshold}")
+
+    args = parser.parse_args()
+    config_file = args.c
 
     # parse the args file to become cfg
     cfg = CN()
@@ -168,18 +183,21 @@ if __name__ == "__main__":
     sample_name = cfg.DATA.SAMPLE_NAME
     db_host = cfg.DATA.DB_HOST
     db_name = cfg.DATA.DB_NAME
-    merge_function = 'hist_quant_55'
+    merge_function = args.mf  # 'hist_quant_60'
+
+    chunk_calc = da.from_zarr(cfg.DATA.SAMPLE, component=cfg.INS_SEGMENT.OUT_FRAGS_DS).chunksize
+    # print( cfg.MODEL.VOXEL_SIZE)
+    chunk_calc = tuple(l * r for l, r in zip(chunk_calc, cfg.MODEL.VOXEL_SIZE))
 
     extract_segmentation(
         sample_name=sample_name,
         fragments_file=cfg.DATA.SAMPLE,
         fragments_dataset=cfg.INS_SEGMENT.OUT_FRAGS_DS,
         edges_collection=sample_name + "_edges_" + merge_function,
-        threshold=0.0,
-        block_size=Coordinate(
-            (512, 512, 512)),  # A random large number?? donno what to put
+        threshold=args.th,  # 0.3 ;  this will fetch the of hist_quant{agglomerate_threshold}_{this_threshold}
+        block_size=Coordinate(chunk_calc),  # is chunksize multiple in voxels, change as seen fit??
         out_file=cfg.DATA.SAMPLE,
-        out_dataset='volumes/final_segmentation',
+        out_dataset=f'volumes/final_segmentation_{merge_function}',
         num_workers=cfg.SYSTEM.NUM_WORKERS,
         roi_offset=None,
         roi_shape=None,
