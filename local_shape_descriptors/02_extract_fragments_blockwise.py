@@ -48,13 +48,28 @@ def extract_fragments(
         filter_fragments=0,
         drop=False,
         **kwargs):
-    """Run agglomeration in parallel blocks. Requires that affinities have been
-    predicted before.
+    """
+    Extract fragments from a given sample based on the provided configuration.
 
     Args:
-        TODO
+    cfg (YACS config): Configuration dictionary containing parameters for fragment extraction.
 
-    """
+    block_size (`funlib.geometry.Coordinate`): Size of the blocks to be extracted.
+
+    context (int): Context parameter.
+    sample_name (str): Name of the sample from which fragments are to be extracted.
+    fragments_in_xy (bool, optional): Whether the fragments are in xy plane. Defaults to False.
+    epsilon_agglomerate (int, optional): Epsilon parameter for agglomerating fragments. Defaults to 0.
+    mask_file (str, optional): Path to the mask file. Defaults to None.
+    mask_dataset (str, optional): Dataset to be used for masking. Defaults to None.
+    filter_fragments (int, optional): Filter parameter for fragments. Defaults to 0.
+    drop (bool, optional): Whether to drop fragments. Defaults to False.
+    **kwargs: Additional keyword arguments.
+
+    Returns:
+    Extracted fragments based on the provided parameters.
+
+"""
 
     # Add dbname and dbhost to cfg
     cfg.DATA.DB_NAME = db_name
@@ -110,9 +125,10 @@ def extract_fragments(
     cfg.INS_SEGMENT.AFFS_DS = affs_dataset  # add here to be reused in worker
     try:
         affs = open_ds(cfg.DATA.SAMPLE, affs_dataset, mode='r')
-    except:
+    except Exception as e:
         # perhaps for a n5
         # TODO: readjust later
+        print(e)
         affs_dataset = affs_dataset + '/s0'
         affs = open_ds(cfg.DATA.SAMPLE, affs_dataset)
     logging.info('Source dataset has shape %s, ROI %s, voxel size %s' % (affs.shape, affs.roi, affs.voxel_size))
@@ -214,6 +230,9 @@ def start_worker(
 
     worker = "./engine/post/02_extract_fragments_worker.py"
 
+    # IF error daisy is not installed/ TypeError: 'type' object is not subscriptable due to  attr_filter: Optional[dict[str, Any]]
+    # in mongodb graph provider, it might be due to suybprocess below pointing to a different python, not the python you have in your conda
+    # env. A workaround -replace python with sys.executable: https://stackoverflow.com/questions/51819719/using-subprocess-in-anaconda-environment
     subprocess.run(["python", worker, config_file])
 
 
@@ -255,8 +274,8 @@ if __name__ == "__main__":
 
     voxel_size = Coordinate(cfg.MODEL.VOXEL_SIZE)
 
-    block_size = Coordinate(512, 512, 512) * voxel_size  # hardcoded
-    context = Coordinate(100, 100, 100) * voxel_size
+    block_size = Coordinate(cfg.INS_SEGMENT.BLOCK_SIZE) * voxel_size  # Set in config
+    context = Coordinate(cfg.INS_SEGMENT.CONTEXT) * voxel_size
     # add the context to cfg:
     cfg.DATA.CONTEXT = tuple(context)
     # do not freeze this because we want to add other options in the predict script
@@ -320,8 +339,8 @@ if __name__ == "__main__":
             sample_name = sub(r"(_|-)+", " ", sample_name).title().replace(" ", "")
             sample_name = ''.join([sample_name[0].lower(), sample_name[1:]])
             cfg.DATA.SAMPLE_NAME = sample_name
-            db_host = "localhost:27017"
-            db_name = "lsd_parallel_fragments"
+            db_host = "localhost:27017" if cfg.DATA.DB_HOST == '' else cfg.DATA.DB_HOST  # default
+            db_name = "lsd_parallel_fragments" if cfg.DATA.DB_NAME == '' else cfg.DATA.DB_NAME  # default
 
             extract_fragments(cfg,
                               block_size=block_size,
@@ -333,7 +352,7 @@ if __name__ == "__main__":
                               mask_file=None if cfg.INS_SEGMENT.MASK_FILE == '' else cfg.INS_SEGMENT.MASK_FILE,
                               mask_dataset=None if cfg.INS_SEGMENT.MASK_DATASET == '' else cfg.INS_SEGMENT.MASK_DATASET,
                               filter_fragments=cfg.INS_SEGMENT.FILTER_FRAGMENTS,
-                              drop=True)
+                              drop=cfg.DATA.DROP_DS_MONGOTABLE)  # default is False
 
             end = time.time()
 

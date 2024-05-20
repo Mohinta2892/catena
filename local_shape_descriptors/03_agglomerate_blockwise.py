@@ -42,7 +42,8 @@ def agglomerate(
         context,
         sample_name,
         fragments_in_xy=False,
-        epsilon_agglomerate=0,
+        initial_epsilon_agglomerate=0.0,
+        agglomerate_until=0.0,
         mask_file=None,
         mask_dataset=None,
         filter_fragments=0,
@@ -66,7 +67,7 @@ def agglomerate(
     client = pymongo.MongoClient(db_host)
     db = client[db_name]
 
-    completed_collection_name = f"{sample_name}_agglom_blocks_completed_{str(epsilon_agglomerate).replace('.', '')}"
+    completed_collection_name = f"{sample_name}_agglom_blocks_completed_{str(agglomerate_until).replace('.', '')}"
     cfg.DATA.DB_COLLECTION_NAME = completed_collection_name
     completed_collection = None
 
@@ -101,7 +102,7 @@ def agglomerate(
     logging.info('Affs dataset has shape %s, ROI %s, voxel size %s' % (affs.shape, affs.roi, affs.voxel_size))
 
     # this is the starting level
-    fragments_dataset = f"volumes/segmentation_{str(epsilon_agglomerate).replace('.', '')}"
+    fragments_dataset = f"volumes/segmentation_{str(initial_epsilon_agglomerate).replace('.', '')}"
     cfg.INS_SEGMENT.OUT_FRAGS_DS = fragments_dataset
     logging.info("Reading fragments from %s", cfg.DATA.SAMPLE)
     try:
@@ -126,7 +127,7 @@ def agglomerate(
         write_roi=block_write_roi,
         process_function=lambda: start_worker(cfg,
                                               fragments_in_xy=fragments_in_xy,
-                                              epsilon_agglomerate=epsilon_agglomerate,
+                                              epsilon_agglomerate=initial_epsilon_agglomerate,
                                               mask_file=mask_file,
                                               mask_dataset=mask_dataset,
                                               filter_fragments=filter_fragments
@@ -184,7 +185,9 @@ def start_worker(
     # for agglom_next in agglomerate_until:
     agglom_next = agglomerate_until[0]
     cfg.INS_SEGMENT.MERGE_FUNCTION = waterz_merge_function[agglom_next]
+    logging.debug(f"Agglom merge function {cfg.INS_SEGMENT.MERGE_FUNCTION}")
     cfg.INS_SEGMENT.THRESHOLD = float(agglom_next)
+    logging.info(f"cfg.INS_SEGMENT.THRESHOLD {cfg.INS_SEGMENT.THRESHOLD}")
     logging.info('Running block with config %s...' % config_file)
 
     with open(config_file, "w", encoding="utf-8") as f:
@@ -234,6 +237,15 @@ if __name__ == "__main__":
     context = Coordinate(16, 16, 16) * voxel_size
     # add the context to cfg:
     cfg.DATA.CONTEXT = tuple(context)
+    # we want to run agglomerate multiple times based on range of values
+    agglomerate_until = np.array([round(x, 2) for x in cfg.INS_SEGMENT.THRESHOLDS])
+    agglomerate_until = agglomerate_until[
+        np.argwhere(agglomerate_until > round(cfg.INS_SEGMENT.EPSILON_AGGLOMERATE, 2))].flatten()
+
+    # for agglom_next in agglomerate_until:
+    agglom_next = agglomerate_until[0]
+    cfg.INS_SEGMENT.THRESHOLD = float(agglom_next)
+
     # do not freeze this because we want to add other options in the predict script
     # cfg.freeze()
     print(cfg)
@@ -294,8 +306,8 @@ if __name__ == "__main__":
             sample_name = os.path.basename(sample).split('.')[0]
             sample_name = sub(r"(_|-)+", " ", sample_name).title().replace(" ", "")
             sample_name = ''.join([sample_name[0].lower(), sample_name[1:]])
-            db_host = "localhost:27017"
-            db_name = "lsd_parallel_fragments"
+            db_host = "localhost:27017" if cfg.DATA.DB_HOST == '' else cfg.DATA.DB_HOST  # default
+            db_name = "lsd_parallel_fragments" if cfg.DATA.DB_NAME == '' else cfg.DATA.DB_NAME  # default
             cfg.DATA.SAMPLE_NAME = sample_name
 
             agglomerate(cfg,
@@ -304,7 +316,8 @@ if __name__ == "__main__":
                         sample_name=sample_name,
                         fragments_in_xy=cfg.INS_SEGMENT.FRAGMENTS_IN_XY,
                         # set these as argparse/config file params
-                        epsilon_agglomerate=cfg.INS_SEGMENT.EPSILON_AGGLOMERATE,
+                        initial_epsilon_agglomerate=cfg.INS_SEGMENT.EPSILON_AGGLOMERATE,
+                        agglomerate_until=cfg.INS_SEGMENT.THRESHOLD,
                         mask_file=None if cfg.INS_SEGMENT.MASK_FILE == '' else cfg.INS_SEGMENT.MASK_FILE,
                         mask_dataset=None if cfg.INS_SEGMENT.MASK_DATASET == '' else cfg.INS_SEGMENT.MASK_DATASET,
                         filter_fragments=cfg.INS_SEGMENT.FILTER_FRAGMENTS,
