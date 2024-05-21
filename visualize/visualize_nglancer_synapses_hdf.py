@@ -19,12 +19,28 @@ import os
 
 import daisy
 import h5py
+import zarr
 import neuroglancer
 import numpy as np
 from funlib.persistence import open_ds  # open_ds is broken for hdf file loading;
 
 # neuroglancer.set_server_bind_address('0.0.0.0')
 ngid = itertools.count(start=1)
+
+
+def load_zarr(inputfilename, dataset):
+    f = zarr.open(inputfilename, 'r')
+    offset = (0, 0, 0)
+    if dataset in f:
+        data = f[dataset][:]
+        if 'offset' in f[dataset].attrs.keys():
+            offset = f[dataset].attrs['offset']
+        print(dataset, data.shape, data.dtype)
+    else:
+        data = None
+        print(dataset, 'does not exist')
+    # f.close()
+    return data, offset
 
 
 def load_hdf5(inputfilename, dataset):
@@ -81,7 +97,12 @@ def open_ds_wrapper(path, ds_name):
 
 
 def add_cremi_synapses(s, filename, res):
-    locs, offsets = load_hdf5(filename, 'annotations/locations')
+    if filename.lower().endswith((".h5", ".hdf", ".hdf5")):
+        # inelegant loading for now till open_ds gets fixed for hdfs (loads zarrs ok)
+        locs, offsets = load_hdf5(filename, 'annotations/locations')
+    elif filename.lower().endswith(".zarr"):
+        locs, offsets = load_zarr(filename, 'annotations/locations')
+
     offset = 0
 
     # convert offsets to voxel coords
@@ -94,9 +115,12 @@ def add_cremi_synapses(s, filename, res):
     # locs = [loc + offset for loc in locs]
     print(locs)
 
-    partners, offset = load_hdf5(filename, 'annotations/presynaptic_site/partners')
-
-    annotation_ids, offset = load_hdf5(filename, 'annotations/ids')
+    if filename.lower().endswith((".h5", ".hdf", ".hdf5")):
+        partners, offset = load_hdf5(filename, 'annotations/presynaptic_site/partners')
+        annotation_ids, offset = load_hdf5(filename, 'annotations/ids')
+    elif filename.lower().endswith(".zarr"):
+        partners, offset = load_zarr(filename, 'annotations/presynaptic_site/partners')
+        annotation_ids, offset = load_zarr(filename, 'annotations/ids')
 
     (pre_sites, post_sites, connectors) = ([], [], [])
     for (pre, post) in partners:
@@ -212,7 +236,7 @@ def resolution_tuple(resolution_str):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-sfile',
-                        default="/Users/sam/Documents/LMB/Cremi-data/train/sample_A_padded_20160501.hdf",
+                        default="/media/samia/DATA/ark/dan-samia/lsd/funke/fafb/synapses/tencubes/gt_fafb_cubes_zarr/cube_1.zarr",
                         help="Synapse hdf file")
 
     parser.add_argument('-res', nargs='+', default="40, 4, 4",
@@ -228,33 +252,51 @@ if __name__ == '__main__':
         units="nm",
         scales=res,
     )
+    filename = args.sfile
+    # inelegant loading for now till open_ds gets fixed for hdfs (loads zarrs ok)
+    if filename.lower().endswith((".h5", ".hdf", ".hdf5")):
+        # load raw
+        raw, r_offset = load_hdf5(args.sfile, 'volumes/raw')
+        # load neuron_ids
+        neuron_ids, n_offset = load_hdf5(args.sfile, '/volumes/labels/neuron_ids')
 
-    # load raw
-    raw, r_offset = load_hdf5(args.sfile, 'volumes/raw')
-    # load neuron_ids
-    neuron_ids, n_offset = load_hdf5(args.sfile, '/volumes/labels/neuron_ids')
+        # load clefts
+        clefts, c_offset = load_hdf5(args.sfile, '/volumes/labels/clefts')
 
-    # load clefts
-    clefts, c_offset = load_hdf5(args.sfile, '/volumes/labels/clefts')
-    # replace a np.uint64(-3) to 0 as background, helps to visualise better
-    clefts[clefts == np.array(-1).astype(np.uint64)] = 0
+    elif filename.lower().endswith(".zarr"):
+        raw, r_offset = load_zarr(args.sfile, 'volumes/raw')
 
-    viewer = neuroglancer.Viewer()
-    with viewer.txn() as s:
-        # add raw
-        s.layers.append(name='image', layer=ngLayer(raw, dimensions, tt='image', oo=r_offset))
-        # add segmentations
-        s.layers.append(name='neuron_ids', layer=ngLayer(neuron_ids, dimensions, tt='segmentation', oo=n_offset))
+        # load neuron_ids
+        neuron_ids, n_offset = load_zarr(args.sfile, '/volumes/labels/neuron_ids')
+
+        # load clefts
+        clefts, c_offset = load_zarr(args.sfile, '/volumes/labels/clefts')
+
+    r_offset = [i / j for i, j in zip(r_offset, res)]
+    n_offset = [i / j for i, j in zip(n_offset, res)]
+
+    if clefts is not None:
+        # replace a np.uint64(-3) to 0 as background, helps to visualise better
+        clefts[clefts == np.array(-1).astype(np.uint64)] = 0
+        c_offset = [i / j for i, j in zip(c_offset, res)]
+
+viewer = neuroglancer.Viewer()
+with viewer.txn() as s:
+    # add raw
+    s.layers.append(name='image', layer=ngLayer(raw, dimensions, tt='image', oo=r_offset))
+    # add segmentations
+    s.layers.append(name='neuron_ids', layer=ngLayer(neuron_ids, dimensions, tt='segmentation', oo=n_offset))
+    if clefts is not None:
         s.layers.append(name='clefts', layer=ngLayer(clefts, dimensions, tt='segmentation', oo=c_offset))
 
-        # add synapses; they are also in the same hdf file
-        add_cremi_synapses(s, args.sfile, res)
+    # add synapses; they are also in the same hdf file
+    add_cremi_synapses(s, args.sfile, res)
 
-        # adding states as per the old version of this script.
-        # add(s, labels_mask, 'labels_mask')
+    # adding states as per the old version of this script.
+    # add(s, labels_mask, 'labels_mask')
 
-    # change viewer url
-    # print(viewer.__str__().replace('c04u01.int.janelia.org', '10.40.4.51'))
+# change viewer url
+# print(viewer.__str__().replace('c04u01.int.janelia.org', '10.40.4.51'))
 
-    # for localhost
-    print(viewer)
+# for localhost
+print(viewer)
