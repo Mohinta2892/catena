@@ -4,6 +4,10 @@ One needs to (un)comment portions of code corresponding to the datasets present 
 Tested on: CREMI unpadded datasets.
 For padded datasets one must pass the correct voxel_offset to the segmentation layers (WIP).
 
+Major Requirements and tested with:
+python==3.10
+neuroglancer==2.37
+
 Original credits: Adapted and updated based on Julia Buhmann's script under synful_experiments.
 Author: Samia Mohinta
 Affiliation: Cardona lab, Cambridge UK
