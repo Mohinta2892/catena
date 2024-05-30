@@ -23,5 +23,13 @@ Note, that for the models that have an underlying ST architecture we also indica
 ## Download Checkpoints
 Checkpoints: [Link](https://www.dropbox.com/scl/fo/hlw1cbef09xwisss59fhr/h?rlkey=uk7786539u1fu21dh5ebowip6&dl=0)
 
+## Pull docker image
+```bash
+
+docker pull mohinta2892/synful_tf1_py3:latest
+
+```
+
 ## Run inference
 
+1. 
