@@ -27,22 +27,33 @@ def hdf_to_zarr(hdf, out_dir):
         pbar.set_postfix_str(f" {hdf}")
         if hf[ds].dtype == object:
             # print(list(hf[ds][...]))
-            zf.create_dataset(name=ds, data=tuple(hf[ds][...]), shape=hf[ds].shape, dtype=object, object_codec=numcodecs.VLenBytes(),
-                              overwrite=True)
+            try:
+
+                zf.create_dataset(name=ds, data=tuple(hf[ds][...]), shape=hf[ds].shape, dtype=object, object_codec=numcodecs.VLenBytes(),
+                                  overwrite=True)
+            except TypeError:
+                # for arrays stored as objects
+                zf.create_dataset(name=ds, data=tuple(hf[ds][...]), shape=hf[ds].shape, dtype=object, object_codec=numcodecs.VLenArray('<i8'),
+                                  overwrite=True)
         else:
             zf[ds] = hf[ds]
-        for k in hf[ds].attrs.keys():
-            zf[ds].attrs[k] = tuple(hf[ds].attrs[k])  # casting prevents - `object cannot be serialized error`
+        if len(hf[ds].attrs.keys()): # check non-empty
+            for k in hf[ds].attrs.keys():
+                try:
+                    zf[ds].attrs[k] = tuple(hf[ds].attrs[k])  # casting prevents - `object cannot be serialized error`
+                except Exception:
+                    pass
 
     # make a labels mask for the labels - required by lsds
-    labels_mask_name = 'volumes/labels/labels_mask'
-    labels_mask = np.ones_like(zf["volumes/labels/neuron_ids"][...])
-    background = zf["volumes/labels/neuron_ids"] == 0
-    labels_mask[background] = 0
+    if "volumes/labels/neuron_ids" in zf:
+        labels_mask_name = 'volumes/labels/labels_mask'
+        labels_mask = np.ones_like(zf["volumes/labels/neuron_ids"][...])
+        background = zf["volumes/labels/neuron_ids"] == 0
+        labels_mask[background] = 0
 
-    zf[labels_mask_name] = labels_mask
-    zf[labels_mask_name].attrs['offset'] = zf["volumes/labels/neuron_ids"].attrs['offset']
-    zf[labels_mask_name].attrs['resolution'] = zf["volumes/labels/neuron_ids"].attrs['resolution']
+        zf[labels_mask_name] = labels_mask
+        zf[labels_mask_name].attrs['offset'] = zf["volumes/labels/neuron_ids"].attrs['offset']
+        zf[labels_mask_name].attrs['resolution'] = zf["volumes/labels/neuron_ids"].attrs['resolution']
 
 
 def main():
