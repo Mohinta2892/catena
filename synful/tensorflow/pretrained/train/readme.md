@@ -23,6 +23,8 @@ Note, that for the models that have an underlying ST architecture we also indica
 ## Download Checkpoints
 Checkpoints: [Link](https://www.dropbox.com/scl/fo/hlw1cbef09xwisss59fhr/h?rlkey=uk7786539u1fu21dh5ebowip6&dl=0)
 
+These checkpoints are from training on [CREMI-realigned datasets](https://github.com/funkelab/synful/tree/master?tab=readme-ov-file).
+
 ## Pull docker image
 ```bash
 
