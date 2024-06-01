@@ -16,6 +16,8 @@ Note, that for the models that have an underlying ST architecture we also indica
 - MT 1: Multi-headed UNET with multi-task learning of post-synaptic masks and pre-synaptic direction vectors.
 - MT 2: Independent upsampling paths in UNET for multi-task learning of post-synaptic masks and pre-synaptic direction vectors.
 - ST: Single-headed UNET to learn either post-synaptic masks or pre-synaptic direction vectors.
+- CE: Trained with Cross-Entropy Loss
+- MSE: Trained with Mean Squared Error Loss
 
 </details>
 
