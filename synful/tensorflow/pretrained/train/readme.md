@@ -34,6 +34,15 @@ docker pull mohinta2892/synful_tf1_py3:latest
 
 ```
 
+## Data/Code Organisation
+Please follow the below steps to be able to run the pretrained models on your own data:
+
+- git clone this repo
+- `cd synful/tensorflow/pretrained/train`
+- `mkdir code data`
+- 
+
+
 ## Run inference
 
 1. 
