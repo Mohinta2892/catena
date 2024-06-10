@@ -10,6 +10,20 @@ import numpy as np
 import napari
 import argparse
 
+def load_zarr(inputfilename, dataset):
+    f = zarr.open(inputfilename, 'r')
+    offset = (0, 0, 0)
+    if dataset in f:
+        data = f[dataset][:]
+        if 'offset' in f[dataset].attrs.keys():
+            offset = f[dataset].attrs['offset']
+        print(dataset, data.shape, data.dtype)
+    else:
+        data = None
+        print(dataset, 'does not exist')
+    # f.close()
+    return data, offset
+
 
 def load_hdf5(inputfilename, dataset):
     f = h5py.File(inputfilename, 'r')
