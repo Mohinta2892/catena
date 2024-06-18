@@ -17,6 +17,14 @@ This is an umbrella repository to store Funke-lab pipelines for Neuron Segmentat
 |  | Tracking        | Classification   | |
 |  |                 |                  | |
 |  +-----------------+-----------------+  |
+|  +-----------------+-----------------+  |
+|  |                                    | |
+|  |           Generative AI            | |
+|  |                                    | |
+|  |                                    | |
+|  +-----------------+-----------------+  |
+
+
 +-----------------------------------------+
 ```
 
