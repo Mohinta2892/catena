@@ -8,7 +8,8 @@ So, this a workaround for now, which let's us place a pre-installed directly int
   conda activate env_name  --> PUT YOUR ENV_NAME
   ```
 - Download the above zip files. Unzip them.
-- ```bash 
+- Find the path to `site-packages` for this conda environment's python with:
+```bash 
   pip show wandb
   ``` 
   This should give back a path like ` ~/anaconda3/envs/env_name/lib/python3.10/site-packages`.
