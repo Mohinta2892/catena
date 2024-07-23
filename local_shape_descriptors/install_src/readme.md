@@ -7,6 +7,8 @@ So, this a workaround for now, which let's us place a pre-installed directly int
 - ```bash 
   conda activate env_name  --> PUT YOUR ENV_NAME
   ```
+  Please ensure `numpy==1.24.4` and `cython==0.29.34` in the `.yml`.
+  
 - Download the above zip files. Unzip them.
 - Find the path to `site-packages` for this conda environment's python with:
 ```bash 
