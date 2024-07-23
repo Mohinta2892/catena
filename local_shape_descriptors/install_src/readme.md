@@ -7,7 +7,7 @@ So, this a workaround for now, which let's us place a pre-installed directly int
 - ```bash 
   conda activate env_name  --> PUT YOUR ENV_NAME
   ```
-- Download these zip files. Unzip them.
+- Download the above zip files. Unzip them.
 - ```bash 
   pip show wandb
   ``` 
