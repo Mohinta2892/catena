@@ -23,9 +23,16 @@ This is an umbrella repository to store Funke-lab pipelines for Neuron Segmentat
 |  |                                    | |
 |  |                                    | |
 |  +-----------------+-----------------+  |
-
-
 +-----------------------------------------+
 ```
 
 Please check `Issues` for basic troubleshooting tips. Kindly note these packages are being tested gradually and not all issues have made it to the list yet.
+
+### 💥 Research Outputs
+#### 🤝 Conferences
+- Berlin Connectomics 2024, MPI Berlin, Germany - invited for Poster Presentation
+- UK Neural Computation 2024, Sheffield University, Sheffield UK - invited for Poster Presentation
+- UCL NeuroAI 2024, UCL, London UK - invited for Poster Presentation
+
+
+
