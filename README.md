@@ -18,7 +18,7 @@
 |  +-----------------+-----------------+  |
 |  |                                    | |
 |  |           Generative AI            | |
-|  |                                    | |
+|  |              EM-to-EM              | |
 |  |                                    | |
 |  +-----------------+-----------------+  |
 +-----------------------------------------+
@@ -48,6 +48,39 @@ Catena provides a comprehensive workflow for automated connectome reconstruction
 
 
 Please check `Issues` for basic troubleshooting tips. Kindly note these packages are being tested gradually and not all issues have made it to the list yet.
+
+## References
+
+
+## Citations
+If you use this codebase, please cite us. However, please do not forget to cite the original authors of the algorithms/models.
+```
+@software{Mohinta_Catena_Neuron_Segmentation_2022,
+author = {Mohinta, Samia},
+month = aug,
+title = {{Catena: Neuron Segmentation, Synapse Detection, Microtubule tracking and more...}},
+version = {0.1},
+year = {2022}
+}
+```
+
+## Funding
+This work has been supported by generous funding from:
+
+<br>
+<div>
+<p align="left">
+<img src='https://github.com/Mohinta2892/catena/blob/dev/assets/wellcome-logo-black.jpg' align="center" width=100px>
+<img src='https://github.com/Mohinta2892/catena/blob/dev/assets/OSSIJanelia_logo.png' align="center" width=200px>
+<img src='https://github.com/Mohinta2892/catena/blob/dev/assets/Colour%20logo%20RGB_DM.jpg' align="center" width=200px height=80px>
+  
+</p>
+</div>
+<br>
+
+- Symons MCR Conference Fund
+- Hugh Paton - JP Morgan Bursaries 
+- Dr Teresa Tiffert Research Innovation Awards
 
 ### 💥 Research Outputs
 #### 🤝 Conferences
