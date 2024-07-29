@@ -114,7 +114,7 @@ Please follow the below steps to be able to run the pretrained models on your ow
 </div>
 
 > [!NOTE]
-> We have made changes to the `predict_blockwise.py` and `predict.py` files. Check CHANGELOG.md.
+> We have made changes to the `predict_blockwise.py` and `predict.py` files. Check [CHANGELOG.md](https://github.com/Mohinta2892/catena/blob/dev/synful/tensorflow/pretrained/train/CHANGELOG.md).
 
  7. Run inference:
    ```bash
