@@ -87,7 +87,7 @@ This work has been supported by generous funding from:
 
 - Symons MCR Conference Fund
 - Hugh Paton - JP Morgan Bursaries 
-- Dr Teresa Tiffert Research Innovation Awards
+- Dr Teresa Tiffert Research Innovation Award
 
 ### 💥 Research Outputs
 #### 🤝 Conferences
