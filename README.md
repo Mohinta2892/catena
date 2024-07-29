@@ -37,8 +37,8 @@ Catena provides a comprehensive workflow for automated connectome reconstruction
 
 ***PLEASE NOTE THIS IS UNDER HEAVY DEVELOPMENT. FOLLOW `DEV` BRANCH LINKS BELOW!***
 
-- Neuron Segmentation `Local Shape Descriptors (Sheridan et al. 2022)`: [Installtion and Usage ](https://github.com/Mohinta2892/catena/tree/dev/local_shape_descriptors)
-- Synapse Detection `Synful(Buhmann et al. 2020)`: [Installtion and Usage](https://github.com/Mohinta2892/catena/tree/dev/synful)
+- Neuron Segmentation `Local Shape Descriptors (Sheridan et al. 2022)`: [Installation and Usage ](https://github.com/Mohinta2892/catena/tree/dev/local_shape_descriptors)
+- Synapse Detection `Synful(Buhmann et al. 2020)`: [Installation and Usage](https://github.com/Mohinta2892/catena/tree/dev/synful)
 - Microtubule tracking `Micron (Eckstein et al. 2019)`: [Installation and Usage ](https://github.com/Mohinta2892/micron-repackaging)
   > [!WARNING] TENSORFLOW 1.x and Gurobi dependencies for ILP
 - Neurotransmitter classification `Synister (Eckstein, Bates et al. 2024)`: TO BE ADDED
