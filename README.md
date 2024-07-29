@@ -31,9 +31,11 @@ Catena provides a comprehensive workflow for automated connectome reconstruction
 🛠️ Features:
 - Pytorch implementations of `LSDs` and `Synful`.
 - Exploration of `LSDs` and `Synful` for other task objectives.
-- Containerisation and release of development environments as Dockers.
+- Docker-based containerisation and release of development environments.
 - Style transfer and domain adaptation with Generative AI models.
 - Large scale data analysis over public and local EM datasets.
+- Artefact logging with Weights and Biases.
+
 
 ***PLEASE NOTE THIS IS UNDER HEAVY DEVELOPMENT. FOLLOW `DEV` BRANCH LINKS BELOW!***
 
@@ -50,7 +52,12 @@ Catena provides a comprehensive workflow for automated connectome reconstruction
 Please check `Issues` for basic troubleshooting tips. Kindly note these packages are being tested gradually and not all issues have made it to the list yet.
 
 ## References
-
+The pipeline has been upon pre-existing work:
+- Local Shape Descriptors: [Github](https://github.com/funkelab/lsd), [Paper](https://www.nature.com/articles/s41592-022-01711-z)
+- Synful: [GitHub](https://github.com/funkelab/synful), [Paper](https://www.nature.com/articles/s41592-021-01183-7)
+- Micron: [Github](https://github.com/nilsec/micron), [Paper](https://arxiv.org/abs/2009.08371)
+- Synister: [GitHub](https://github.com/funkelab/synister), [Paper](https://www.cell.com/cell/fulltext/S0092-8674(24)00307-6)
+- Generative AI: To do
 
 ## Citations
 If you use this codebase, please cite us. However, please do not forget to cite the original authors of the algorithms/models.
