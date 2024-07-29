@@ -52,7 +52,7 @@ Catena provides a comprehensive workflow for automated connectome reconstruction
 Please check `Issues` for basic troubleshooting tips. Kindly note these packages are being tested gradually and not all issues have made it to the list yet.
 
 ## References
-The pipeline has been upon pre-existing work:
+The pipeline has been built upon pre-existing work:
 - Local Shape Descriptors: [Github](https://github.com/funkelab/lsd), [Paper](https://www.nature.com/articles/s41592-022-01711-z)
 - Synful: [GitHub](https://github.com/funkelab/synful), [Paper](https://www.nature.com/articles/s41592-021-01183-7)
 - Micron: [Github](https://github.com/nilsec/micron), [Paper](https://arxiv.org/abs/2009.08371)
