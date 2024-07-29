@@ -42,7 +42,7 @@ Catena provides a comprehensive workflow for automated connectome reconstruction
 - Microtubule tracking `Micron (Eckstein et al. 2019)`: [Installation and Usage ](https://github.com/Mohinta2892/micron-repackaging)
   > [!WARNING] TENSORFLOW 1.x and Gurobi dependencies for ILP
 - Neurotransmitter classification `Synister (Eckstein, Bates et al. 2024)`: TO BE ADDED
-- Generative AI for EM-to-EM translation: TO BE ADDED
+- Generative AI for EM-to-EM translation: TO BE ADDED 
 
 - For visualisation: [Napari and Neuroglancer](https://github.com/Mohinta2892/catena/tree/dev/visualize)
 
