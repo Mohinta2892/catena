@@ -28,7 +28,7 @@ Checkpoints: [Link](https://www.dropbox.com/scl/fo/hlw1cbef09xwisss59fhr/h?rlkey
 These checkpoints are from training on [CREMI-realigned datasets](https://github.com/funkelab/synful/tree/master?tab=readme-ov-file).
 
 > [!IMPORTANT]
-> INSTALL [Docker](https://docs.docker.com/engine/install/) and [MongoDB](https://www.mongodb.com/docs/manual/installation/)
+> INSTALL [Docker](https://docs.docker.com/engine/install/) and [MongoDB](https://www.mongodb.com/docs/manual/installation/).
 > Setup [nvidia-docker](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html#configuring-docker) for GPU acceleration.
 
 ## Pull docker image
