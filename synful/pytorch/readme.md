@@ -1,4 +1,5 @@
-# Welcome to Pytorch Synful: Automatic detection of synaptic partners in a whole-brain Drosophila electron microscopy dataset
+# Welcome to Pytorch Synful
+Automatic detection of synaptic partners in a whole-brain Drosophila electron microscopy dataset
 
 ## What is Synful?
 Synful leverages supervised machine learning to automate the detection of synaptic partners from volume Electron Microscopy (EM) datasets of insect brains. It is U-Net based network that learns to predict post-synaptic masks and pre-synaptic direction vectors either simultaneously or independently. The predicted synatic partnerships facilitate extraction neural connectivity maps at scale. Synful has been tested on adult fly EM. Here, we refactor the original codebase from a) TensorFlow 1.x to Pytorch b) test performance reproducibility on public datasets (e.g., CREMI and FAFB) and c) apply to new local larval EM data.
