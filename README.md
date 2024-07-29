@@ -85,7 +85,7 @@ This work has been supported by generous funding from:
 ### 💥 Research Outputs
 #### 🤝 Conferences
 - Berlin Connectomics 2024, MPI Berlin, Germany - invited for Poster Presentation
-- UK Neural Computation 2024, Sheffield University, Sheffield UK - invited for Poster Presentation
+- UK Neural Computation 2024, Sheffield University, Sheffield UK - invited for [Poster Presentation](https://www.dropbox.com/scl/fi/8ei8ff1ygqbym5mcvi47n/PosterJuly_UKNeuralComp2024_UCLNeuroAI.zip?rlkey=annh1n5sbxhy0h5o29fydtzq9&dl=0)
 - UCL NeuroAI 2024, UCL, London UK - invited for Poster Presentation
 
 
