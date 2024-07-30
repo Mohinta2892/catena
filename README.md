@@ -88,6 +88,21 @@ This work has been supported by generous funding from:
 - Symons MCR Conference Fund
 - Hugh Paton - JP Morgan Bursaries 
 - Dr Teresa Tiffert Research Innovation Award
+- 
+
+## Usage Collaborations
+This work is being used in other institutes:
+
+<br>
+<div>
+<p align="left">
+<img src='https://github.com/Mohinta2892/catena/blob/dev/assets/CRICK_Logo1.jpg' align="center" width=100px>
+<img src='https://github.com/Mohinta2892/catena/blob/dev/assets/UCL_logo.jpg' align="center" width=200px>
+  
+</p>
+</div>
+<br>
+
 
 ### 💥 Research Outputs
 #### 🤝 Conferences
