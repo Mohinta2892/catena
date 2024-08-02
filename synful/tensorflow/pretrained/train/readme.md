@@ -123,4 +123,4 @@ Please follow the below steps to be able to run the pretrained models on your ow
   A successful run outputs information on screen ([Example log](https://github.com/Mohinta2892/catena/blob/dev/synful/tensorflow/pretrained/train/p_setup05/example_log.txt)).
 
 8. Output saved as zarr under `./output/p_setup05/{output_filename_as_in_config.zarr}`.
-9. Further metadata in MongoDB database, these are needed during synapse extraction.
+9. Additional metadata saved in MongoDB database, these are needed during synapse extraction.
