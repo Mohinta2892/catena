@@ -117,10 +117,30 @@ Please follow the below steps to be able to run the pretrained models on your ow
 > We have made changes to the `predict_blockwise.py` and `predict.py` files. Check [CHANGELOG.md](https://github.com/Mohinta2892/catena/blob/dev/synful/tensorflow/pretrained/train/CHANGELOG.md).
 
  7. Run inference:
-   ```bash
-      python predict_blockwise.py p_setup05_config.json
-   ```
-  A successful run outputs information on screen ([Example log](https://github.com/Mohinta2892/catena/blob/dev/synful/tensorflow/pretrained/train/p_setup05/example_log.txt)).
+> [!IMPORTANT]
+> `Resolution` and `offset` must be set as dataset attributes in the input zarr/hdf files.
+>  Adjust the input shape in the `*parameters.json` files to be representative of this (**multiple of voxel_size**).
+>  Also, `input_shape` in px `X` `voxel_size` must lie within the ROI shape of input.
+<details><summary><strong>Option 1 - predict_blockwise</strong></summary> 
 
-8. Output saved as zarr under `./output/p_setup05/{output_filename_as_in_config.zarr}`.
+```
+    
+    python predict_blockwise.py p_setup05_config.json
+
+```
+    
+A successful run outputs information on screen ([Example log](https://github.com/Mohinta2892/catena/blob/dev/synful/tensorflow/pretrained/train/p_setup05/example_log.txt)).
+</details>
+
+<details><summary><strong>Option 2 - predict_extract_blockwise</strong></summary>
+We recommend using *Option 2* if you can.
+    
+```
+
+    python 04_predict_extract_blockwise.py predict_extract_parameters.json
+    
+```
+</details>
+  
+8. Output saved as zarr under `./output/p_setup05/{output_filename_as_in_config.zarr}`. **`predict_extract_blockwise.py` also saved .npz files**.
 9. Additional metadata saved in MongoDB database, these are needed during synapse extraction.
