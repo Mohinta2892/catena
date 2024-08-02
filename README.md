@@ -88,7 +88,6 @@ This work has been supported by generous funding from:
 - Symons MCR Conference Fund
 - Hugh Paton - JP Morgan Bursaries 
 - Dr Teresa Tiffert Research Innovation Award
-- 
 
 ## Usage Collaborations
 This work is being used in other institutes:
