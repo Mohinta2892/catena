@@ -1,0 +1,18 @@
+{
+  "experiment": "cremi",
+  "setup": "p_setup54",
+  "iteration": 690000, 
+  "raw_file" : "../../data/cube_1_clahed.zarr",
+  "raw_dataset" : "volumes/raw",
+  "num_workers": 1,
+  "db_host": "localhost:27017",
+  "db_name": "pretrained_psetup54_cube_1_clahed",
+  "out_basedir": "output/",
+  "overwrite":false,
+  "configname": "train",
+  "extraction_parameters": "./extract_parameters_setup32.json",
+  "synapse_context": [80,108,108],
+  "mask" : "",
+  "mask_ds" : "",
+  "max_retries": 3
+}
