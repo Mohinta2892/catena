@@ -4,7 +4,7 @@
 1. Install [Docker Engine](https://docs.docker.com/engine/install/) and verify installation in your OS environment.
 > [!IMPORTANT]
 > Must [install and configure](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html) `nvidia-docker` to use `nvidia/cuda` GPUs for model training. 
-2. Pulling/building docker images:
+2. Pulling/building [docker images](https://hub.docker.com/repository/docker/mohinta2892/lsd_sheridan_pytorch/general):
    1. You can pull the latest docker image from DockerHub. This will load the image onto your local memory.
 
       ```
