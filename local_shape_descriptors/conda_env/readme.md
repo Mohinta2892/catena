@@ -8,6 +8,15 @@
 > Our conda_env YAML contains both `conda` and `pip` dependencies.
 > We have tested building conda envs with this file on Linux systems running Ubuntu>=20.04.
 
+>[!IMPORTANT]
+> Please install `libboost-dev` in your Ubuntu/Linux OS environment.
+> It's a mandatory requirement for `funlib.segment`. <br>
+```bash
+
+    sudo apt-get update
+    sudo apt-get install libboost-dev
+```
+
 ### Build the conda env for Local Shape Descriptors
 ```shell
 conda env create -f /catena/local_shape_descriptors/conda_env/environment.yml -n funkelsd
