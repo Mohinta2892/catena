@@ -2,7 +2,7 @@
 - Install [Anaconda](https://docs.anaconda.com/free/anaconda/install/index.html)/[Miniconda](https://docs.anaconda.com/free/miniconda/miniconda-install/) as per your OS.
 
   
-**NB: Don't forget to add conda to your $PATH/bashrc/bash_profile**
+**NB: Don't forget to add conda to your $PATH OR bashrc OR bash_profile**
 
 >[!WARNING]
 > Our conda_env YAML contains both `conda` and `pip` dependencies.
