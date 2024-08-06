@@ -1,0 +1,192 @@
+# - remove if an env with the same exists already with: $conda remove -n funkelsd_py311 --all
+# - install with: conda env create -f /path/to/this/environment.yml -n funkelsd_py311
+
+# OR update the partial env with:
+
+# - conda env update --file /path/to/this/environment.yml --prune /
+# - conda env update --name funkelsd_py311 --file /path/to/this/environment.yml --prune 
+
+name: funkelsd_py311
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - _libgcc_mutex=0.1
+  - _openmp_mutex=5.1
+  - bzip2=1.0.8
+  - ca-certificates=2024.3.11
+  - ld_impl_linux-64=2.38
+  - libffi=3.4.4
+  - libgcc-ng=11.2.0
+  - libgomp=11.2.0
+  - libstdcxx-ng=11.2.0
+  - libuuid=1.41.5
+  - ncurses=6.4
+  - openssl=3.0.13
+  - python=3.11 # can be 3.11 or 3.10.12/3.10.14
+  - pip=24.0
+  - readline=8.2
+  - sqlite=3.45.3
+  - tk=8.6.14
+  - tzdata=2024a
+  - xz=5.4.6
+  - zlib=1.2.13
+  - pip:
+    - appdirs==1.4.4
+    - asciitree==0.3.3
+    - attrs==23.2.0
+    - augment-nd==0.1.3
+    - boto3==1.34.106
+    - botocore==1.34.106
+    - brotli==1.1.0
+    - cachetools==5.3.3
+    - certifi==2024.2.2
+    - chardet==5.2.0
+    - charset-normalizer==3.3.2
+    - click==8.1.7
+    - cloud-files==4.24.2
+    - cloud-volume==8.33.0
+    - cloudpickle==3.0.0
+    - compressed-segmentation==2.3.0
+    - compresso==3.3.0
+    - contourpy==1.2.1
+    - crackle-codec==0.13.0
+    - crc32c==2.4
+    - cycler==0.12.1
+    - cython==0.29.34 # explicit
+    - daisy==1.0
+    - dask==2024.6.2
+    - deflate==0.7.0
+    - dill==0.3.8
+    - distributed==2024.6.2
+    - dnspython==2.6.1
+    - docker-pycreds==0.4.0
+    - dracopy==1.4.0
+    - exceptiongroup==1.2.1
+    - fasteners==0.19
+    - fastremap==1.14.1
+    - filelock==3.14.0
+    - fonttools==4.51.0
+    - fpzip==1.2.3
+    - fsspec==2024.3.1
+    - funlib-geometry==0.2
+    - -e git+https://github.com/Mohinta2892/funlib.learn.torch.git@add_batch_norm#egg=funlib.learn.torch # added batchnorm, not pip released
+    - funlib-math==0.1
+    - funlib-persistence==0.1.0 # must be this otherwise MongoDBProvider dependencies will be missing
+    - -e git+https://github.com/funkelab/funlib.segment.git#egg=funlib.segment # funlib-segment==0.1, not pip released
+    - gevent==24.2.1
+    - gitdb==4.0.11
+    - gitpython==3.1.43
+    - google-api-core==2.19.0
+    - google-auth==2.29.0
+    - google-cloud-core==2.4.1
+    - google-cloud-storage==2.16.0
+    - google-crc32c==1.5.0
+    - google-resumable-media==2.7.0
+    - googleapis-common-protos==1.63.0
+    - greenlet==3.0.3
+    - -e git+https://github.com/Mohinta2892/gunpowder.git@rasterize_graph_fix#egg=gunpowder # this allows to pass specific cuda devices and wandb in train and predict
+    - h5py==3.11.0
+    - idna==3.7
+    - imageio==2.34.1
+    - importlib-metadata==7.1.0
+    - inflection==0.5.1
+    - iniconfig==2.0.0
+    - jinja2==3.1.4
+    - jmespath==1.0.1
+    - json5==0.9.25
+    - jsonschema==4.22.0
+    - jsonschema-specifications==2023.12.1
+    - kiwisolver==1.4.5
+    - lazy-loader==0.4
+    - locket==1.0.0
+    - -e git+https://github.com/yajivunev/lsd.git#egg=lsds # make sure to install
+    - mahotas==1.4.13
+    - markdown==3.6
+    - markupsafe==2.1.5
+    - matplotlib==3.8.2
+    - mpmath==1.3.0
+    - msgpack==1.0.8
+    - multiprocess==0.70.16
+    - networkx==3.3
+    - numcodecs==0.12.1
+    - numpy==1.26.4
+    - nvidia-cublas-cu12==12.1.3.1
+    - nvidia-cuda-cupti-cu12==12.1.105
+    - nvidia-cuda-nvrtc-cu12==12.1.105
+    - nvidia-cuda-runtime-cu12==12.1.105
+    - nvidia-cudnn-cu12==8.9.2.26
+    - nvidia-cufft-cu12==11.0.2.54
+    - nvidia-curand-cu12==10.3.2.106
+    - nvidia-cusolver-cu12==11.4.5.107
+    - nvidia-cusparse-cu12==12.1.0.106
+    - nvidia-nccl-cu12==2.20.5
+    - nvidia-nvjitlink-cu12==12.4.127
+    - nvidia-nvtx-cu12==12.1.105
+    - orjson==3.10.3
+    - packaging==24.0
+    - partd==1.4.2
+    - pathos==0.3.2
+    - pathtools==0.1.2
+    - pillow==10.3.0
+    - pip==24.0
+    - pluggy==1.5.0
+    - posix-ipc==1.1.1
+    - pox==0.3.4
+    - ppft==1.7.6.8
+    - proto-plus==1.23.0
+    - protobuf==4.25.3
+    - psutil==5.9.8
+    - psycopg2-binary==2.9.9
+    - pyasn1==0.6.0
+    - pyasn1-modules==0.4.0
+    - pybind11==2.12.0
+    - pymongo==4.7.2
+    - pyparsing==3.1.2
+    - pysimdjson==6.0.2
+    - pyspng-seunglab==1.1.1
+    - pytest==8.2.0
+    - python-dateutil==2.9.0.post0
+    - python-jsonschema-objects==0.5.4
+    - pywavelets==1.6.0
+    - pyyaml==6.0.1
+    - referencing==0.35.1
+    - requests==2.31.0
+    - rpds-py==0.18.1
+    - rsa==4.9
+    - s3transfer==0.10.1
+    - scikit-image==0.23.2 # must be this, otherwise there maybe problems with lsds
+    - scipy==1.13.0
+    - sentry-sdk==2.1.1
+    - setproctitle==1.3.3
+    - setuptools==69.5.1
+    - simplejpeg==1.7.2
+    - six==1.16.0
+    - smmap==5.0.1
+    - sortedcontainers==2.4.0
+    - sympy==1.12
+    - tblib==3.0.0
+    - tenacity==8.3.0
+    - tifffile==2024.5.10
+    - tomli==2.0.1
+    - toolz==0.12.1
+    - torch==2.3.0
+    - torchinfo==1.8.0
+    - tornado==6.4
+    - tqdm==4.66.4
+    - triton==2.3.0
+    - typing-extensions==4.11.0
+    - urllib3==2.2.1
+    - wandb==0.15.12
+    - git+https://github.com/funkey/waterz.git # this may cause problems, if so remove and follow instructions here: https://github.com/Mohinta2892/catena/tree/dev/local_shape_descriptors/install_src 
+    - wheel==0.43.0
+    - yacs==0.1.8
+    - zarr==2.18.0
+    - zfpc==0.1.2
+    - zfpy==1.0.0
+    - zict==3.0.0
+    - zipp==3.18.1
+    - zope-event==5.0
+    - zope-interface==6.4
+    - zstandard==0.22.0
+
