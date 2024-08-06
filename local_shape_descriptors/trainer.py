@@ -11,6 +11,7 @@ from yacs.config import CfgNode as CN  # default config
 sys.path.insert(0, '.')
 
 from config.config import get_cfg_defaults
+from config.generate_config_predict import generate_config_predict  # Issue #21
 from engine.training.mtlsd.train_all_yacs import train_until
 from engine.training.mtlsd.train_2d_all_yacs import train_2d_until
 from data_utils.preprocess_volumes.utils import create_data
@@ -93,6 +94,9 @@ if __name__ == '__main__':
             cfg.TRAIN.CHECKPOINT_AC = f"{cfg.MODEL.CKPT_FOLDER}/model_checkpoint_latest"
             # Warning: `hardcoded`. Save the affinity checkpoints under AFF folder.
             cfg.MODEL.CKPT_FOLDER = f"{str(Path(cfg.MODEL.CKPT_FOLDER).resolve().parents[1])}/AFF/{os.path.basename(cfg.MODEL.CKPT_FOLDER)}"
+
+        # Issue #21
+        generate_config_predict(cfg)  # this should generate config_predict.
         train_2d_until(cfg.TRAIN.EPOCHS, cfg)
 
     else:
@@ -106,4 +110,7 @@ if __name__ == '__main__':
             cfg.TRAIN.CHECKPOINT_AC = f"{cfg.MODEL.CKPT_FOLDER}/model_checkpoint_latest"
             # Warning: `hardcoded`. Save the affinity checkpoints under AFF folder.
             cfg.MODEL.CKPT_FOLDER = f"{str(Path(cfg.MODEL.CKPT_FOLDER).resolve().parents[1])}/AFF/{os.path.basename(cfg.MODEL.CKPT_FOLDER)}"
+
+        # Issue #21
+        generate_config_predict(cfg)  # this should generate config_predict.
         train_until(cfg.TRAIN.EPOCHS, cfg)
