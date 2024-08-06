@@ -31,3 +31,8 @@ conda env create -f /catena/local_shape_descriptors/conda_env/environment.yml -n
 conda remove -n funkelsd --all
 ```
 </details>
+
+### Troubleshooting
+
+- If you face errors while installing `waterz`. First remove it from the `.yml` env file and then please follow the instructions [here](https://github.com/Mohinta2892/catena/tree/dev/local_shape_descriptors/install_src).
+  
