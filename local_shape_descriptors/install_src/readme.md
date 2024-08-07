@@ -1,6 +1,9 @@
 We have an existing issue with installing waterz (which does the watershedding and agglomeration) on the predicted affinities.
 So, this a workaround for now, which let's us place a pre-installed directly into a new conda environment to run the code for local shape descriptors.
 
+>[!WARNING]
+>This only works for ubuntu systems. Have been tested with Jammy releases in DGX and workstation environments.
+>Using a Docker in a Redhat system might be the best bet for now. We are still looking for a solution in a conda env!
 
 #### Follow these steps
 - Conda create the environment from the `.yml` file.
