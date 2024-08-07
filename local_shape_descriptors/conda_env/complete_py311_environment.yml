@@ -6,7 +6,7 @@
 # - conda env update --file /path/to/this/environment.yml --prune /
 # - conda env update --name funkelsd_py311 --file /path/to/this/environment.yml --prune 
 
-name: funkelsd_py311
+name: funkelsd_py310
 channels:
   - defaults
   - conda-forge
@@ -23,7 +23,7 @@ dependencies:
   - libuuid=1.41.5
   - ncurses=6.4
   - openssl=3.0.13
-  - python=3.11 # can be 3.11 or 3.10.12/3.10.14
+  - python=3.10.12 # does not work with 3.11 or 3.10.12/3.10.14
   - pip=24.0
   - readline=8.2
   - sqlite=3.45.3
@@ -178,7 +178,7 @@ dependencies:
     - typing-extensions==4.11.0
     - urllib3==2.2.1
     - wandb==0.15.12
-    - git+https://github.com/funkey/waterz.git # this may cause problems, if so remove and follow instructions here: https://github.com/Mohinta2892/catena/tree/dev/local_shape_descriptors/install_src 
+    #- git+https://github.com/funkey/waterz.git # this may cause problems, if so remove and follow instructions here: https://github.com/Mohinta2892/catena/tree/dev/local_shape_descriptors/install_src 
     - wheel==0.43.0
     - yacs==0.1.8
     - zarr==2.18.0
