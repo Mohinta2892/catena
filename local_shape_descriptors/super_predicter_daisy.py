@@ -33,7 +33,7 @@ def predict_blockwise(
         cfg,
         sample_name='sample',
         db_host="localhost:27017",
-        db_name="lsd_parallel_predictions",
+        db_name="lsd_predictions_parallel",
         drop=False
 ):
     """
