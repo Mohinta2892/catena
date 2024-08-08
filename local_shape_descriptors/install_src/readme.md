@@ -5,7 +5,11 @@ So, this a workaround for now, which let's us place a pre-installed directly int
 >This only works for ubuntu systems. Have been tested with Jammy releases in DGX and workstation environments.
 >Using a Docker in a Redhat system might be the best bet for now. We are still looking for a solution in a conda env!
 
-#### Follow these steps
+
+## Follow these steps
+
+⭐ Shortcut: Run the [bash script](https://github.com/Mohinta2892/catena/blob/dev/local_shape_descriptors/install_src/install_waterz.sh).
+
 - Conda create the environment from the `.yml` file.
 - ```bash 
   conda activate env_name  --> PUT YOUR ENV_NAME
@@ -37,6 +41,10 @@ python -m pip show waterz
 The python should be the new conda environment's python. If you see `WARNING: Package(s) not found: waterz`, first check pip is pointing to the
 correct python with `which python`. If it is not, run `whereis python`.
 Then do, `~/anaconda3/envs/env_name/bin/python -m pip show waterz` should show that waterz is installed.
+
+## 🧑‍🏭 Troubleshooting:
+Issues and resolutions here : [Issue #13](https://github.com/Mohinta2892/catena/issues/13), [Issue #12](https://github.com/Mohinta2892/catena/issues/12)
+
 
 Any further issues, please report!!
 
