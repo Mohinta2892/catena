@@ -2,7 +2,8 @@
 This script plots presyn/postsyn locations over raw EM with napari.
 Please pass datasets (e.g. volumes/labels/clefts, volumes/labels/neuron_ids) to plot clefts/segmentation.
 Followed napari tutorial: https://github.com/adamltyson/napari-tutorials/blob/master/tutorials/points.md
-
+Author: Samia Mohinta
+Affiliation: Cardona lab, Cambridge University, UK
 """
 import h5py
 import zarr
