@@ -10,6 +10,7 @@ from engine.predict.predict_2d import predict_2d
 from engine.post.run_waterz import run_waterz
 from data_utils.preprocess_volumes.utils import calculate_min_2d_samples
 from glob import glob
+import argparse
 
 
 def rename_keys(original_config, key_mapping):
@@ -29,7 +30,20 @@ if __name__ == '__main__':
     Reads params/args from `config_predict.py`.
     
     """
-    cfg = get_cfg_defaults()
+    parser = argparse.ArgumentParser("You can pass an explicit config file to train.")
+    parser.add_argument('-c', default=None, help='Pass the config file"!')
+    args = parser.parse_args()
+    config_file = args.c
+    if config_file is not None:
+        # parse the args file to become cfg
+        cfg = CN()
+        # Allow creating new keys recursively.: https://github.com/rbgirshick/yacs/issues/25
+        cfg.set_new_allowed(True)
+        cfg.merge_from_file(config_file)
+    else:
+        cfg = get_cfg_defaults()
+
+    # cfg = get_cfg_defaults()
     # can be used to override pre-defined settings
     if os.path.exists("./experiment.yaml"):
         cfg.merge_from_file("experiment.yaml")
@@ -75,9 +89,13 @@ if __name__ == '__main__':
         os.makedirs(os.path.dirname(out_filepath), exist_ok=True)
 
     # # we expect data going in at this point to be sequentially traversed one at a time.
-    # # TODO: batch inference could make it faster 
+    # # TODO: batch inference could make it faster.
+    # # with batchnorm we can no longer do this here, we have to initialise the model first with batch size 
     if cfg.TRAIN.BATCH_SIZE > 1:
-        cfg.TRAIN.BATCH_SIZE = 1
+        module_logger.warning("If you have trained your models with Batch_Size > 1, comment this whole `if` block."
+                              "This ensures you can load the model but the inference will still proceed"
+                              " with batch_size=1.")
+        # cfg.TRAIN.BATCH_SIZE = 1
 
     if cfg.DATA.DIM_2D:
         # sample == .zarr
