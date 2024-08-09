@@ -93,7 +93,7 @@ def predict_blockwise(
         # perhaps for a n5
         # TODO: readjust later
         raw_dataset = raw_dataset + '/s0'
-        source = daisy.open_ds(cfg.DATA.SAMPLE, raw_dataset)
+        source = open_ds(cfg.DATA.SAMPLE, raw_dataset)
     logging.info('Source dataset has shape %s, ROI %s, voxel size %s' % (source.shape, source.roi, source.voxel_size))
 
     # must be cast as gunpowder Coordinates
@@ -121,9 +121,9 @@ def predict_blockwise(
     # Hard-code warning: the ds keys in the out-zarr are hardcoded for now, hence will ensure same output format
     # Todo: move to config to allow customisation of ds keys
     out_raw = "volumes/raw"
-    prepare_predict_datasets_daisy(cfg, dtype=np.uint8, voxel_size=voxel_size, ds_key=out_raw, source_roi=output_roi,
-                                   write_roi=block_write_roi,
-                                   delete_ds=drop)
+    # prepare_predict_datasets_daisy(cfg, dtype=np.uint8, voxel_size=voxel_size, ds_key=out_raw, source_roi=output_roi,
+    #                                write_roi=block_write_roi,
+    #                                delete_ds=drop)
     print(out_raw)
 
     if cfg.TRAIN.MODEL_TYPE in ["MTLSD", "LSD"]:
@@ -182,10 +182,13 @@ def start_worker(cfg):
     This calls the python predict.py
     :return:
     """
+
+    logging.info("Start worker")
+
     worker_id = daisy.Context.from_env()["worker_id"]
     task_id = daisy.Context.from_env()["task_id"]
 
-    logging.info("worker %s started...", worker_id)
+    logging.info(f"worker {worker_id} started for {task_id}")
     output_basename = daisy.get_worker_log_basename(worker_id, task_id)
 
     log_out = output_basename.parent / f"worker_{worker_id}.out"
@@ -209,6 +212,8 @@ def start_worker(cfg):
     if cfg.TRAIN.DEVICE == "multi_gpu":
         cfg.TRAIN.DEVICE = f"cuda:{worker_id}"
 
+    logging.info("Dumping config file %s..." % config_file)
+
     # print(cfg.dump())  # print formatted configs
     with open(config_file, "w", encoding="utf-8") as f:
         f.write(cfg.dump())
@@ -221,6 +226,8 @@ def start_worker(cfg):
     subprocess.run(
         ["python", f"{worker}", f"{config_file}"]
     )
+    # subprocess.run(["srun", "--gres=gpu:1", "--partition=ml", "--mem=64G", " --time=1:00:00", " --nodelist=fmg104",
+    #                 " --pty", "tcsh", "python", f"{worker}", f"{config_file}"])
 
 
 def rename_keys(original_config, key_mapping):
@@ -293,7 +300,10 @@ if __name__ == '__main__':
     # # we expect data going in at this point to be sequentially traversed one at a time.
     # # TODO: batch inference could make it faster
     if cfg.TRAIN.BATCH_SIZE > 1:
-        cfg.TRAIN.BATCH_SIZE = 1
+        module_logger.debug("If you have trained your models with Batch_Size > 1, comment this whole `if` block."
+                            "This ensures you can load the model but the inference will still proceed"
+                            " with batch_size=1.")
+        # cfg.TRAIN.BATCH_SIZE = 1
 
     if cfg.DATA.DIM_2D:
         # sample == .zarr
@@ -324,7 +334,7 @@ if __name__ == '__main__':
             start = time.time()
 
             sample_name = os.path.basename(sample).split('.')[0]
-            sample_name = sub(r"(_|-)+", " ", sample_name).title().replace(" ", "")
+            sample_name = sub(r"(_|-|:)+", " ", sample_name).title().replace(" ", "")
             sample_name = ''.join([sample_name[0].lower(), sample_name[1:]])
             cfg.DATA.SAMPLE_NAME = sample_name
             db_host = "localhost:27017" if cfg.DATA.DB_HOST == '' else cfg.DATA.DB_HOST  # default
