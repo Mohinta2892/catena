@@ -1,4 +1,5 @@
 import datetime
+import logging
 import math
 import numpy as np
 import os
@@ -13,6 +14,7 @@ import yaml
 # add current directory to path and allow absolute imports - this is a terrible for now
 import sys
 from pathlib import Path
+
 sys.path.append(str(Path(__file__).resolve().parent.parent.parent))
 from models.models import *
 from models.losses import *
@@ -28,8 +30,6 @@ import torch
 from funlib.persistence import prepare_ds
 import pymongo
 from yacs.config import CfgNode as CN
-
-
 
 torch.backends.cudnn.benchmark = True
 
@@ -158,13 +158,14 @@ def predict(cfg):
     train_pipeline = data_sources
     # train_pipeline += RejectIfEmpty(gt=labels_mask, p=1) # experimental to skip through resin and blank chunks
 
-    train_pipeline += ZarrWrite(
-        dataset_names={
-            raw: out_raw},
-        output_dir=os.path.dirname(cfg.DATA.OUTFILE),
-        output_filename=os.path.basename(cfg.DATA.OUTFILE),
-        dataset_dtypes={
-            raw: ArraySpec(roi=raw_roi)})
+    # Todo: Control through config, commented out for save storage
+    # train_pipeline += ZarrWrite(
+    #     dataset_names={
+    #         raw: out_raw},
+    #     output_dir=os.path.dirname(cfg.DATA.OUTFILE),
+    #     output_filename=os.path.basename(cfg.DATA.OUTFILE),
+    #     dataset_dtypes={
+    #         raw: ArraySpec(roi=raw_roi)})
 
     train_pipeline += Normalize(raw)
 
@@ -172,7 +173,10 @@ def predict(cfg):
                                           cfg.MODEL.INTENSITYSCALESHIFT_SHIFT[0])
 
     train_pipeline += Unsqueeze([raw])
-    train_pipeline += Stack(cfg.TRAIN.BATCH_SIZE)
+    logging.debug("Inference will run with batch_size 1 not with passed cfg.TRAIN.BATCH_SIZE,"
+                  "because we cannot write multiple batches"
+                  "to a zarr simultaneously for now.")
+    train_pipeline += Stack(1)  # Inference will run with batch_size 1 not with passed cfg.TRAIN.BATCH_SIZE
     # customize the loss inputs and outputs here based on model type
     if cfg.TRAIN.MODEL_TYPE == "MTLSD":
         outputs = {
