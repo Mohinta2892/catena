@@ -13,6 +13,7 @@ import yaml
 from models.models import *
 from models.losses import *
 from add_ons.gp.gp_utils import *
+from add_ons.gp.reject_if_empty import RejectIfEmpty
 from add_ons.funlib_persistence.persistence_utils import *
 import ast
 from tqdm import tqdm
@@ -31,7 +32,7 @@ random.seed(1961923)
 
 
 def predict(cfg):
-    logging.basicConfig(filename=f"./logs/predict_scan_logs_{datetime.date}_{datetime.time}.txt",
+    logging.basicConfig(filename=f"./logs/predict_scan_logs_{datetime.datetime.now()}.txt",
                         filemode='w',
                         format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
                         datefmt='%H:%M:%S',
@@ -56,6 +57,8 @@ def predict(cfg):
 
     # copied from https://github.com/funkelab/lsd_experiments/blob/master/hemi/02_train/setup03/train.py
     raw = ArrayKey('RAW')
+    # experimental addition to prevent inference resin/blank input data
+    # labels_mask = ArrayKey('LABELS_MASK')
     # initialise both here but request selectively based on model type
     pred_affs = ArrayKey('PRED_AFFS')
     pred_lsds = ArrayKey('PRED_LSDS')
@@ -75,6 +78,8 @@ def predict(cfg):
         cfg.DATA.SAMPLE,
         datasets={
             raw: 'volumes/raw',
+            # experimental addition to prevent inference resin/blank input data
+            # labels_mask: 'volumes/labels/labels_mask'
         },
         array_specs={
             raw: ArraySpec(interpolatable=True),
@@ -90,6 +95,8 @@ def predict(cfg):
     # this is scan_request
     request = BatchRequest()
     request.add(raw, input_size)
+    # experimental addition to prevent inference resin/blank input data
+    # request.add(labels_mask, input_size)
 
     if cfg.TRAIN.MODEL_TYPE in ["MTLSD", "LSD"]:
         request.add(pred_lsds, output_size)
@@ -132,6 +139,7 @@ def predict(cfg):
                                      voxel_size=voxel_size)
 
         train_pipeline = data_sources
+        # train_pipeline += RejectIfEmpty(gt=labels_mask, p=1)
 
         train_pipeline += ZarrWrite(
             dataset_names={
@@ -147,7 +155,7 @@ def predict(cfg):
                                               cfg.MODEL.INTENSITYSCALESHIFT_SHIFT[0])
 
         train_pipeline += Unsqueeze([raw])
-        train_pipeline += Stack(cfg.TRAIN.BATCH_SIZE)
+        train_pipeline += Stack(1)  # remove cfg.TRAIN.BATCH_SIZE
         # customize the loss inputs and outputs here based on model type
         if cfg.TRAIN.MODEL_TYPE == "MTLSD":
             outputs = {
