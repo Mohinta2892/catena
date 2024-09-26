@@ -304,7 +304,6 @@ def process_chunk_dask_v2(chunk_id, chunk_slice, dask_array, output_base_path, p
 
 def process_chunks_parallel(dask_array, output_base_path, progress_file, anisotropy=False, resolution=(8, 8, 8),
                             num_workers=4):
-
     progress = load_progress(progress_file)
     processed_chunks = set(progress["processed_chunks"])
 
@@ -346,6 +345,10 @@ def process_chunks_parallel(dask_array, output_base_path, progress_file, anisotr
     print(f"Total number of chunks processed: {chunk_id}")
 
     dask_client = DaskClient()
+    # the params you pass matter. `max_jobs` should be low. Do not spawn too many workers, try to give each worker as
+    # much memory as possible (at least >= the chunk_size above).
+    # The local directory must have enough space and you should have unrestricted r/w access.
+    # `nanny=False` is recommended.
     dask_client.setupDaskClient(n_workers=10, cores_per_worker=10, gb_per_worker=512, walltime="10:00:00", nanny=False,
                                 death_timeout_minutes=60, local_directory=output_base_path)
     futures = dask_client.runJobsInBatches(jobs=tasks[20:], max_jobs=5)
