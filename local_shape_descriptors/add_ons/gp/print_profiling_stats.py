@@ -1,6 +1,6 @@
 import logging
 
-from .batch_filter import BatchFilter
+from gunpowder.nodes.batch_filter import BatchFilter
 from gunpowder.profiling import Timing, TimingSummary, ProfilingStats
 
 logger = logging.getLogger(__name__)
