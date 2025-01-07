@@ -40,7 +40,46 @@ docker pull mohinta2892/synful_tf1_py3:latest
   ```bash
   nvidia-docker run --shm-size 128gb --pids-limit -1 -it -u `id -u`:`id -g` -v `pwd`:`pwd` -w `pwd` -v {/path/to}/synful/tensorflow/:/home --network=host {nvcr.io/nvidia/tensorflow:21.12-tf1-py3}
   ```
-  
+- Change directory inside docker
+```bash
+cd /home/train_from_scratch/scripts
+```
+- Edit `parameters.json`:
+```json
+{
+    "input_size": [128,128,128],  # A 12GB GPU should fit 256^3
+    "downsample_factors": [[2, 2, 2], [2,2,2], [2,2,2]], # Adjust downsampling based on input size 
+    "fmap_num": 12,
+    "fmap_inc_factor": 5,
+    "unet_model": "dh_unet", # Double-headed UNet will be trained.
+    "learning_rate": 0.5e-4,
+    "loss_comb_type": "sum",
+    "m_loss_scale": 1.0,
+    "d_loss_scale": 1.0, # Scale the loss if needed, unscaled works too!
+    "reject_probability": 0.95, # 95% of batches with at least 1 post-syn to be processed, 5% of times an empty batch may be passed. 
+    "blob_radius": 20, # Lower radius. Min should be 10
+    "max_iteration": 300000, # Increase number of iterations. 1 batch is processed per iteation.
+    "blob_mode": "ball", # Options - ball, sphere
+    "d_scale": 1,
+    "d_blob_radius": 150, # Lower radius for direction vectors scope. Min should be 100.
+    "cliprange": [7e-4, 0.9993],
+    "voxel_size": [8,8,8], # Edit resolution in nm
+}
+```
+
+- Run `generate_network.py`
+You may adjust the `test_input_size` in the script by editing the last two lines in the script.
+```python
+# Bigger network used for large datasets, make it as big as gpu memory allows.
+parameter['input_size'] = (860, 860, 860)
+mknet(parameter, name='test_net')
+```
+
+```python
+python generate_network.py
+```
+
+
 
 
 ## Predict
