@@ -10,17 +10,18 @@ from skimage import measure, segmentation
 import logging
 import pandas as pd
 import numpy as np
+import json
 
-NEUPRINT_APPLICATION_CREDENTIALS="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNtMjY2N0BjYW0uYWMudWsiLCJsZXZlbCI6Im5vYXV0aCIsImltYWdlLXVybCI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hL0FDZzhvY0p2WTBzQURieG1OMW11OFAySldsb2Q4U296alpaajc3c1NJbG5RdXk1bD1zOTYtYz9zej01MD9zej01MCIsImV4cCI6MTg3NTc0Mzc3N30.oyY1HURafdq3mZAr1TU82M1Lr2TpG4q2HRB42LcnZ90"
+NEUPRINT_APPLICATION_CREDENTIALS = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNtMjY2N0BjYW0uYWMudWsiLCJsZXZlbCI6Im5vYXV0aCIsImltYWdlLXVybCI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hL0FDZzhvY0p2WTBzQURieG1OMW11OFAySldsb2Q4U296alpaajc3c1NJbG5RdXk1bD1zOTYtYz9zej01MD9zej01MCIsImV4cCI6MTg3NTc0Mzc3N30.oyY1HURafdq3mZAr1TU82M1Lr2TpG4q2HRB42LcnZ90"
 from neuprint import Client
 
 c = Client('neuprint.janelia.org', dataset='hemibrain:v1.2.1', token=NEUPRINT_APPLICATION_CREDENTIALS)
 c.fetch_version()
 
-
 dataset_em = ts.open({
     'driver': 'neuroglancer_precomputed',
-    'kvstore': 'gs://neuroglancer-janelia-flyem-hemibrain/emdata/raw/jpeg', # clahe_yz/jpeg
+    # 'kvstore': 'gs://neuroglancer-janelia-flyem-hemibrain/emdata/clahe_yz/jpeg',  #clahe
+    'kvstore': 'gs://neuroglancer-janelia-flyem-hemibrain/emdata/raw/jpeg',  # non-clahe
     'context': {'cache_pool': {'total_bytes_limit': 100_000_000}},
     'recheck_cached_data': 'open',
 }).result()[ts.d['channel'][0]]
@@ -36,6 +37,31 @@ dataset_neuron = ts.open({
 
 print(f"EM Dataset: {dataset_em}")
 print(f"Neuron Dataset: {dataset_neuron}")
+
+def save_synapse_info_to_json(synapses, distances, file_path):
+    """
+    Save synapse and distance statistics to a JSON file.
+
+    Args:
+        synapses (list): List of synapse data.
+        distances (list or numpy array): List or array of distances.
+        file_path (str): Path to save the JSON file.
+
+    Returns:
+        None
+    """
+    data = {
+        "number_of_synapses": len(synapses),
+        "statistics": {
+            "median": np.median(distances).item(),
+            "mean": np.mean(distances).item(),
+            "max": np.max(distances).item(),
+            "min": np.min(distances).item()
+        }
+    }
+
+    with open(file_path, 'w') as json_file:
+        json.dump(data, json_file, indent=4)
 
 
 # Function to write synapses into HDF5 format
@@ -57,11 +83,13 @@ def write_synapses_into_cremiformat(synapses, filename, offset=None, overwrite=F
         dist = np.linalg.norm(
             np.array(list(syn.location_pre), dtype=np.float32) - np.array(list(syn.location_post), dtype=np.float32))
         distances.append(dist)
-
+        
+    # some synapse stats printed and saved as json
     print('number of synapses in file {}'.format(len(synapses)))
     print('median {}, mean {}, max {}, min {}'.format(np.median(distances), np.mean(distances), np.max(distances),
                                                       np.min(distances)))
-
+    save_synapse_info_to_json(synapses, distances, outputfile+'.json')
+	
     if overwrite:
         h5_file = h5py.File(filename, 'w')
     else:
@@ -85,9 +113,8 @@ def write_synapses_into_cremiformat(synapses, filename, offset=None, overwrite=F
 def convert_to_synapses(df):
     synapses = []
     for _, row in df.iterrows():
-    
         synapses.append(
-            #synapse.Synapse(location_pre=(int(row['x_pre_roi']), int(row['y_pre_roi']), int(row['z_pre_roi'])),
+            # synapse.Synapse(location_pre=(int(row['x_pre_roi']), int(row['y_pre_roi']), int(row['z_pre_roi'])),
             #                location_post=(int(row['x_post_roi']), int(row['y_post_roi']), int(row['z_post_roi'])),
             #                id_segm_pre=int(row['bodyId_pre']), id_segm_post=int(row['bodyId_post'])
             #                )
@@ -97,13 +124,14 @@ def convert_to_synapses(df):
                             )
         )
     return synapses
-    
+
+
 def convert_to_pos_synapses(df):
     synapses = []
     for _, row in df.iterrows():
         pre_coords = (int(row['z_pre_roi']), int(row['y_pre_roi']), int(row['x_pre_roi']))
         post_coords = (int(row['z_post_roi']), int(row['y_post_roi']), int(row['x_post_roi']))
-        
+
         # Check if any coordinate is negative
         if all(coord >= 0 for coord in pre_coords + post_coords):
             synapses.append(
@@ -126,7 +154,7 @@ def check_lengths_and_convert_to_synapses(data_dict):
         raise ValueError("All arrays must be of the same length")
 
     df = pd.DataFrame(data_dict)
-    return convert_to_pos_synapses(df) # convert_to_synapses may include negative coords
+    return convert_to_pos_synapses(df)  # convert_to_synapses may include negative coords
 
 
 # Use the top 5 densely populated ROIs to create synapses and write to HDF5 files
@@ -134,14 +162,17 @@ totaldistances = []
 overwrite = True
 
 cluster_files = [
-    "/cephfs/smohinta/catena/helpers/Cluster1_0.75/V1_CH0_prepost_points_0.75.csv",
-    "/cephfs/smohinta/catena/helpers/Cluster1_0.75/V1_CH1_prepost_points_0.75.csv",
-    "/cephfs/smohinta/catena/helpers/Cluster1_0.75/V1_CH2_prepost_points_0.75.csv",
-    "/cephfs/smohinta/catena/helpers/Cluster1_0.75/V1_CH3_prepost_points_0.75.csv",
-    "/cephfs/smohinta/catena/helpers/Cluster1_0.75/V1_CH4_prepost_points_0.75.csv"
+    "/cephfs/smohinta/catena/helpers/Cluster1_noconfidencelevel/V1_CH0_prepost_points_0.csv",
+    "/cephfs/smohinta/catena/helpers/Cluster1_noconfidencelevel/V1_CH1_prepost_points_0.csv",
+    "/cephfs/smohinta/catena/helpers/Cluster1_noconfidencelevel/V1_CH2_prepost_points_0.csv",
+    "/cephfs/smohinta/catena/helpers/Cluster1_noconfidencelevel/V1_CH3_prepost_points_0.csv",
+    "/cephfs/smohinta/catena/helpers/Cluster1_noconfidencelevel/V1_CH4_prepost_points_0.csv"
+
+    # "/cephfs/smohinta/catena/helpers/Cluster1_noconfidencelevel/V1_CH0_prepost_points_0.csv",
+
 ]
 
-top_roi_bboxes = pd.read_csv("/cephfs/smohinta/catena/helpers/V1_boundingboxes_corrected.csv")
+top_roi_bboxes = pd.read_csv("/cephfs/smohinta/catena/helpers/bboxes/V1_boundingboxes_corrected.csv")
 
 for idx, roi in top_roi_bboxes.iterrows():
     x_min, x_max = roi['x_min'], roi['x_max']
@@ -150,15 +181,15 @@ for idx, roi in top_roi_bboxes.iterrows():
 
     syn_inputs = pd.read_csv(cluster_files[idx])
 
-    #em_vol = dataset_em[x_min:x_max, y_min:y_max, z_min:z_max].read().result()
-    #neuron_vol = dataset_neuron[x_min:x_max, y_min:y_max, z_min:z_max].read().result()
+    # em_vol = dataset_em[x_min:x_max, y_min:y_max, z_min:z_max].read().result()
+    # neuron_vol = dataset_neuron[x_min:x_max, y_min:y_max, z_min:z_max].read().result()
 
     # print the neuron_ids that exist within this roi
 
     em_vol = np.transpose(dataset_em[x_min:x_max, y_min:y_max, z_min:z_max].read().result(), (2, 1, 0))  # zyx
     neuron_vol = np.transpose(dataset_neuron[x_min:x_max, y_min:y_max, z_min:z_max].read().result(), (2, 1, 0))  # zyx
-    #np.unique(f" Unique ids in the cropped roi {neuron_vol}")
-    
+    # np.unique(f" Unique ids in the cropped roi {neuron_vol}")
+
     # Relabel the segmentations
     # relabeled_neuron_vol, forward, backward = segmentation.relabel_sequential(neuron_vol)
     # print(f"relabeled meta data: \n forward: {forward}, backward: {backward}")
@@ -166,12 +197,12 @@ for idx, roi in top_roi_bboxes.iterrows():
     synapse_data = {
         'bodyId_pre': syn_inputs['bodyId_pre'],
         'bodyId_post': syn_inputs['bodyId_post'],
-        'x_pre_roi': (syn_inputs['x_pre'] - x_min).astype(int),
-        'x_post_roi': (syn_inputs['x_post'] - x_min).astype(int),
-        'y_pre_roi': (syn_inputs['y_pre'] - y_min).astype(int),
-        'y_post_roi': (syn_inputs['y_post'] - y_min).astype(int),
-        'z_pre_roi': (syn_inputs['z_pre'] - z_min).astype(int),
-        'z_post_roi': (syn_inputs['z_post'] - z_min).astype(int)
+        'x_pre_roi': (syn_inputs['x_pre'] - x_min).astype(int) * 8,
+        'x_post_roi': (syn_inputs['x_post'] - x_min).astype(int) * 8,
+        'y_pre_roi': (syn_inputs['y_pre'] - y_min).astype(int) * 8,
+        'y_post_roi': (syn_inputs['y_post'] - y_min).astype(int) * 8,
+        'z_pre_roi': (syn_inputs['z_pre'] - z_min).astype(int) * 8,
+        'z_post_roi': (syn_inputs['z_post'] - z_min).astype(int) * 8
     }
 
     print(synapse_data)
@@ -188,7 +219,12 @@ for idx, roi in top_roi_bboxes.iterrows():
 
     dset = h5_file.create_dataset('volumes/raw', data=em_vol, compression='gzip')
     dset = h5_file.create_dataset('volumes/labels/neuron_ids', data=neuron_vol.astype(np.uint64), compression='gzip')
-
+    # set the resolution in raw and labels
+    print(f"resolution (8,8,8) and offset (0,0,0) are hardcoded, remember to change.")
+    h5_file["volumes/raw"].attrs["resolution"] = (8, 8, 8)
+    h5_file["volumes/raw"].attrs["offset"] = (0, 0, 0)
+    h5_file["volumes/labels/neuron_ids"].attrs["resolution"] = (8, 8, 8)
+    h5_file["volumes/labels/neuron_ids"].attrs["offset"] = (0, 0, 0)
     h5_file.close()
 
     totaldistances.extend(distances)
