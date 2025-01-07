@@ -14,11 +14,34 @@ We refactor this codebase only to the extent of enabling training and inference 
 - Additional tools from Funkelab for Synful: [SynfulCircuit - A neural circuit querying engine](https://github.com/funkelab/synfulcircuit), [Synful_FAFB - Entry point for particularly querying the FAFB dataset](https://github.com/funkelab/synful_fafb)
 
 ## Getting Started
-Technology Pre-requisites:
+### Technology Pre-requisites:
 - [System Requirements](https://github.com/Mohinta2892/catena/blob/dev/local_shape_descriptors/docs/source/systemrequirements.rst)
-- Installation instructions: [Docker](https://github.com/Mohinta2892/catena/blob/dev/local_shape_descriptors/docker/readme.md)
-- Dataset preparation
+- Installation instructions: [Docker](https://github.com/Mohinta2892/catena/blob/dev/local_shape_descriptors/docker/readme.md), [MongoDB](https://www.mongodb.com/docs/manual/installation/)
+- [Dataset preparation](https://github.com/Mohinta2892/catena/tree/dev/synful/pytorch/data_utils/download_data/meta_analysis)
+
+*Note*: MongoDB is required only during inference.
 
 
 
+### Pull the docker image:
+
+```bash
+docker pull mohinta2892/synful_tf1_py3:latest
+```
+
+
+### Check docker image exists
+  ```
+  docker images
+  ```
+
+## Train
+- Run the loaded docker image:
+  ```bash
+  nvidia-docker run --shm-size 128gb --pids-limit -1 -it -u `id -u`:`id -g` -v `pwd`:`pwd` -w `pwd` -v {/path/to}/synful/tensorflow/:/home --network=host {nvcr.io/nvidia/tensorflow:21.12-tf1-py3}
+  ```
+  
+
+
+## Predict
 
