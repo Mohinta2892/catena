@@ -133,5 +133,13 @@ It also assumes that the volumes are stored on disk in the ZYX orientation. So c
 ```
 *Note*: The EM downloaded will have the same contrast level as seen in your CATMAID volume. If you wish to enhance the contrast you can run [clahe_gconn.py](https://github.com/Mohinta2892/catena/blob/dev/local_shape_descriptors/data_utils/preprocess_volumes/clahe_gconn.py).
 
+##### RUN PYTHON SCRIPT:
+```bash
+conda activate syn
+```
+```python
+python download_local_synapses.py
+```
+
 
 </details>
