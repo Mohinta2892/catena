@@ -10,6 +10,9 @@ We train this implementation of Synful on public and local datasets. Our local d
 conda env create --name syn --file=syn_environment.yml
 ```
 
+>[!IMPORTANT]
+>Our pre-synaptic points (xyx coordinates) in public and local data curation are placed on the connector location.
+
 <details close>
  <summary><strong>Curating Hemi-brain for training</strong></summary>
 
