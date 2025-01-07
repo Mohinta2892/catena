@@ -74,11 +74,38 @@ You may adjust the `test_input_size` in the script by editing the last two lines
 parameter['input_size'] = (860, 860, 860)
 mknet(parameter, name='test_net')
 ```
-
+Then run:
 ```python
 python generate_network.py
 ```
 
+Assuming data is organised like (more elaborate example under [local_shape_descriptors](https://github.com/Mohinta2892/catena/tree/dev/local_shape_descriptors/data_utils/download_data)):
+```bash
+/home/catena/data
+  - BRAIN_VOL_NAME
+    - data_3d
+        - train
+        - test
+```
+
+- Edit `train.py` to point to data.
+```python
+data_dir = '/home/catena/data/{BRAIN_VOL_NAME}/data_3d/train'
+data_dir_syn = data_dir
+samples = [
+    'train_vol1_x7827_9021_y5622_6798_z4441_5575', # do not include the ext hdf, the loader handles it
+    ....
+]
+# calculate the roi in nm. If no offset then roi x starts at 0 and ends at |7827-9021|*8 as an example.
+roi_1 = gp.Roi(np.array((0, 0, 0)), np.array((9072, 9408, 9552))) # this is in ZYX, place values carefully!
+# make a list of all rois there are more than 1 input vols
+rois = [roi_1, ... roi_n]
+```
+
+- Run `train.py`. It will automatically read `parameter.json`.
+```python
+CUDA_VISIBLE_DEVICES=0 python train.py
+```
 
 
 
