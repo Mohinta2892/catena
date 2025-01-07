@@ -34,7 +34,7 @@ hemibrain
     - bbox2.csv
 
 ```
-- Edit and run [download_syns_from_hemibrain.py](https://github.com/Mohinta2892/catena/blob/dev/synful/pytorch/data_utils/download_data/meta_analysis/scripts/download_syns_from_hemibrain.py). This script will save EM and annotations in the CREMI format in `.HDF` files.
+- Edit and run [download_syns_from_hemibrain.py](https://github.com/Mohinta2892/catena/blob/dev/synful/pytorch/data_utils/download_data/meta_analysis/scripts/download_syns_from_hemibrain.py). This script will save EM and annotations in the [CREMI format](https://cremi.org/data/) in `.HDF` files.
 
   >[!Important] This script does not yet support command-line argument passing. Please edit `cluster_files` to point your synapse_points.csv, `top_roi_bboxes` to point to your bbox.csv and `outputpath` to where you would like save your volumes. 
 
@@ -103,7 +103,7 @@ localvol1
     - bbox2.csv
 
 ```
-- Edit and run [download_local_synapses.py](https://github.com/Mohinta2892/catena/blob/dev/synful/pytorch/data_utils/download_data/meta_analysis/scripts/download_local_synapses.py). This script will save EM and annotations in the CREMI format in `.HDF` files.
+- Edit and run [download_local_synapses.py](https://github.com/Mohinta2892/catena/blob/dev/synful/pytorch/data_utils/download_data/meta_analysis/scripts/download_local_synapses.py). This script will save EM and annotations in the [CREMI format](https://cremi.org/data/) in `.HDF` files.
 
   >[!Important] This script does not yet support command-line argument passing. Please edit `cluster_files` to point your synapse_points.csv, `top_roi_bboxes` to point to your bbox.csv and `outputpath` to where you would like save your volumes. 
 
