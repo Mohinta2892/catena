@@ -107,7 +107,10 @@ rois = [roi_1, ... roi_n]
 CUDA_VISIBLE_DEVICES=0 python train.py
 ```
 
-
-
 ## Predict
+
+## Visualization of results
+
+## Evaluation
+
 
