@@ -1,6 +1,6 @@
 # Catena
 
-Talk to us: [Discord](https://discord.gg/9XCrrSnu)
+Talk to us: [Discord](https://discord.gg/KEkmVGXRjn)
 
 ```bash
 +-----------------------------------------+
