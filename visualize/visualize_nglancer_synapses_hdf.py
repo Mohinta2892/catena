@@ -113,7 +113,7 @@ def add_cremi_synapses(s, filename, res):
     # currently data is loaded as zyx
     locs = [loc + np.array(offsets, dtype=np.float32) for loc in locs]
     # locs = [loc + offset for loc in locs]
-    print(locs)
+    # print(locs)
 
     if filename.lower().endswith((".h5", ".hdf", ".hdf5")):
         partners, offset = load_hdf5(filename, 'annotations/presynaptic_site/partners')
@@ -121,32 +121,83 @@ def add_cremi_synapses(s, filename, res):
     elif filename.lower().endswith(".zarr"):
         partners, offset = load_zarr(filename, 'annotations/presynaptic_site/partners')
         annotation_ids, offset = load_zarr(filename, 'annotations/ids')
+        # print(f"partners {partners}")
 
     (pre_sites, post_sites, connectors) = ([], [], [])
+    (pre_sites_coords, post_sites_coords, connectors_coords) = ([], [], [])
     for (pre, post) in partners:
-        pre_index = int(np.where(pre == annotation_ids)[0][0])
-        post_index = int(np.where(post == annotation_ids)[0][0])
-        # print(pre_index, post_index)
-        pre_site = locs[pre_index]
-        post_site = locs[post_index]
+
+        # Get indices of rows where pre matches the first column of annotation_ids
+        pre_indices = np.where(annotation_ids == pre)[0]
+        # Get indices of rows where post matches the second column of annotation_ids
+        post_indices = np.where(annotation_ids == post)[0]
+
+        # pre_index = int(np.where(pre == annotation_ids)[0][0])
+        # post_index = int(np.where(post == annotation_ids)[0][0])
+
+        # pre_indices = np.where(pre == annotation_ids)[0]
+        # post_indices = np.where(post == annotation_ids)[0]
+        #
+        # if len(pre_indices) == 0 or len(post_indices) == 0:
+        #     print(f"Skipping pair (pre: {pre}, post: {post}) - not found in annotation_ids")
+        #     continue
+
+        pre_index = int(pre_indices[0])
+        post_index = int(post_indices[0])
+
+        # print(pre_index, post_index)#
+        try:
+            pre_site = locs[pre_index]
+            post_site = locs[post_index]
+        except:
+            print(f"Exception: {pre_index, post_index}")
+
+        # print(pre_site, post_site)
+        # if all(pre_site == post_site):
+        #     print(f"common pre post {pre_site, post_site}")
+
+        # get rid of the transpose if the data is already transposed
+        # post_site = [post_site[2], post_site[1], post_site[0]]
+        # pre_site = [pre_site[2], pre_site[1], pre_site[0]]
+        # print(f"pre {pre_site}, post {post_site}")
+
 
         # pre_sites.append(neuroglancer.EllipsoidAnnotation(center=pre_site,
         #                                                   radii=(40, 40, 40),
         #                                                   id=next(ngid)))
-        post_sites.append(neuroglancer.EllipsoidAnnotation(center=post_site,
-                                                           radii=(40, 40, 40),
-                                                           id=next(ngid)))
 
+        # if list(post_site) not in post_sites_coords:
+        #     if list(post_site)[0] == 592:
+        #         print(f"post_site: {post_site}")
+                # import pdb
+                # pdb.set_trace()
+        post_sites_coords.append(list(post_site))
+        post_sites.append(neuroglancer.PointAnnotation(point=post_site,
+                                                           # radii=(10, 10, 10),
+                                                           id=next(ngid)))
+        # else:
+        #     print("post site exists")
+        # if list(pre_site) not in pre_sites_coords:
+        #     if list(pre_site)[0] == 592:
+        #         print(f"pre_site: {pre_site}")
+                # import pdb
+                # pdb.set_trace()
+        pre_sites_coords.append(list(pre_site))
         pre_sites.append(neuroglancer.PointAnnotation(point=pre_site,
-                                                      # radii=(40, 40, 40),
-                                                      id=next(ngid)))
+                                                          # radii=(10, 10, 10),
+                                                          id=next(ngid)))
+        # else:
+        #     print("pre site exists")
         # post_sites.append(neuroglancer.PointAnnotation(point=(100, 100, 100),
         #                                                    # radii=(40, 40, 40),
         #                                                    id=next(ngid)))
+
+        # if (list(pre_site) in pre_sites_coords) and (list(post_site) in post_sites_coords):
         connectors.append(
             neuroglancer.LineAnnotation(point_a=pre_site, point_b=post_site,
                                         id=next(ngid)))
 
+    #
     # print(f"Connectors: {connectors}")
     # print(f"pre_sites: {pre_sites}")
     # print(f"post sites: {post_sites}")
@@ -156,8 +207,9 @@ def add_cremi_synapses(s, filename, res):
         layer=neuroglancer.LocalAnnotationLayer(
             dimensions=neuroglancer.CoordinateSpace(
                 names=["z", "y", "x"],
+                # names=["x", "y", "z"],
                 units="nm",
-                scales=[1, 1, 1],
+                scales=[1, 1, 1],  # [8, 8, 8],
             ),
             annotation_relationships=['connectors'],
             # linked_segmentation_layer={'connectors': 'segmentation'},
@@ -179,8 +231,9 @@ def add_cremi_synapses(s, filename, res):
         layer=neuroglancer.LocalAnnotationLayer(
             dimensions=neuroglancer.CoordinateSpace(
                 names=["z", "y", "x"],
+                # names=["x", "y", "z"],
                 units="nm",
-                scales=[1, 1, 1],
+                scales=[1, 1, 1],  # [8, 8, 8],
             ),
             annotation_relationships=['connectors'],
             linked_segmentation_layer={'pre_sites': 'segmentation'},
@@ -190,7 +243,7 @@ def add_cremi_synapses(s, filename, res):
                 neuroglancer.AnnotationPropertySpec(
                     id='color',
                     type='rgb',
-                    default='#ff0000',  # '#ffff00',
+                    default='#FF0000'  # '#ff0000',  # '#ffff00',
                 )
             ],
             annotations=pre_sites
@@ -202,8 +255,9 @@ def add_cremi_synapses(s, filename, res):
         layer=neuroglancer.LocalAnnotationLayer(
             dimensions=neuroglancer.CoordinateSpace(
                 names=["z", "y", "x"],
+                # names=["x", "y", "z"],
                 units="nm",
-                scales=[1, 1, 1],
+                scales=[1, 1, 1],  # [8,8,8]
             ),
             annotation_relationships=['connectors'],
             # linked_segmentation_layer={'post_sites': 'segmentation'},
@@ -236,10 +290,10 @@ def resolution_tuple(resolution_str):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-sfile',
-                        default="/media/samia/DATA/ark/dan-samia/lsd/funke/fafb/synapses/tencubes/gt_fafb_cubes_zarr/cube_1.zarr",
+                        default="/media/samia/DATA/mounts/fibserver1/smohinta_data/local_synapses/sylee_local_syn_cubes/octo_cube3_synapsecube2_points/cutout1_12485_13164_y6231_6901_z3971_4640.hdf",
                         help="Synapse hdf file")
 
-    parser.add_argument('-res', nargs='+', default="40, 4, 4",
+    parser.add_argument('-res', nargs='+', default="8, 8, 8",
                         help="Provide the resolution/voxel_size as comma separated numbers of the dataset in ZYX"
                              " (e.g., `40, 4, 4` ).")
 
@@ -249,6 +303,7 @@ if __name__ == '__main__':
 
     dimensions = neuroglancer.CoordinateSpace(
         names=["z", "y", "x"],
+        # names=["x", "y", "z"],
         units="nm",
         scales=res,
     )
@@ -257,6 +312,8 @@ if __name__ == '__main__':
     if filename.lower().endswith((".h5", ".hdf", ".hdf5")):
         # load raw
         raw, r_offset = load_hdf5(args.sfile, 'volumes/raw')
+        # raw = raw[:, :, ::-1]
+
         # load neuron_ids
         neuron_ids, n_offset = load_hdf5(args.sfile, '/volumes/labels/neuron_ids')
 
@@ -265,9 +322,11 @@ if __name__ == '__main__':
 
     elif filename.lower().endswith(".zarr"):
         raw, r_offset = load_zarr(args.sfile, 'volumes/raw')
+        # raw = np.transpose(raw, (2, 1, 0))  # get rid of this if this is already in zyx
 
         # load neuron_ids
         neuron_ids, n_offset = load_zarr(args.sfile, '/volumes/labels/neuron_ids')
+        # neuron_ids = np.transpose(neuron_ids, (2, 1, 0))  # get rid of this if this is already in zyx
 
         # load clefts
         clefts, c_offset = load_zarr(args.sfile, '/volumes/labels/clefts')
@@ -285,7 +344,8 @@ with viewer.txn() as s:
     # add raw
     s.layers.append(name='image', layer=ngLayer(raw, dimensions, tt='image', oo=r_offset))
     # add segmentations
-    s.layers.append(name='neuron_ids', layer=ngLayer(neuron_ids, dimensions, tt='segmentation', oo=n_offset))
+    if neuron_ids is not None:
+        s.layers.append(name='neuron_ids', layer=ngLayer(neuron_ids, dimensions, tt='segmentation', oo=n_offset))
     if clefts is not None:
         s.layers.append(name='clefts', layer=ngLayer(clefts, dimensions, tt='segmentation', oo=c_offset))
 
