@@ -1,0 +1,453 @@
+from __future__ import annotations
+import hashlib
+import json
+import logging
+import numpy as np
+import os
+import daisy
+import sys
+import time
+import datetime
+import pymongo
+from funlib.persistence import open_ds
+from funlib.geometry import Roi, Coordinate
+import subprocess
+from re import sub
+from glob import glob
+import argparse
+from gunpowder import *
+
+# add current directory to path and allow absolute imports
+sys.path.insert(0, '.')
+from config.config_predict import *
+from data_utils.preprocess_volumes.utils import calculate_min_2d_samples
+from add_ons.funlib_persistence.persistence_utils import *
+
+logging.basicConfig(level=logging.INFO)
+
+logging.getLogger('daisy').setLevel(logging.DEBUG)
+module_logger = logging.getLogger(__name__)
+
+
+def get_last_processed_coordinates(db_host, db_name, collection_name):
+    client = pymongo.MongoClient(db_host)
+    db = client[db_name]
+    collection = db[collection_name]
+
+    # Get the last processed block
+    last_block = collection.find_one(sort=[("_id", pymongo.DESCENDING)])
+    if last_block:
+        return last_block["read_roi"][0], last_block["read_roi"][1]  # Return both begin and shape of read_roi
+    return None, None
+
+
+def check_block(completed_collection, complete_cache, block, last_begin=None, last_shape=None,
+                source_roi=Roi((0, 0, 0), (47280, 187136, 197376))):
+    if last_begin is not None:
+        # If block's write_roi end is before or equal to the last processed block's begin
+        # Mark it as done without checking MongoDB
+        block_begin = block.read_roi.get_begin()
+        if all(b <= l for b, l in zip(block_begin, last_begin)):
+            return True
+
+    # Check if block's read_roi extends beyond dataset boundaries
+    # source_roi = Roi((0, 0, 0), (47280, 187136, 197376))  # Get this from source.roi
+    if not source_roi.contains(block.read_roi):
+        module_logger.debug(f"Block {block.block_id} read_roi extends beyond dataset boundaries, marking as done")
+        # Optionally record this in MongoDB for tracking
+        completed_collection.insert_one({
+            "block_id": block.block_id,
+            "status": "boundary_block",
+            "read_roi": [block.read_roi.get_begin(), block.read_roi.get_shape()],
+            "write_roi": [block.write_roi.get_begin(), block.write_roi.get_shape()],
+            "skipped_at": datetime.datetime.now()
+        })
+        return True
+
+    # Otherwise check MongoDB as usual
+    done = (
+            block.block_id in complete_cache
+            or len(list(completed_collection.find({"block_id": block.block_id}))) >= 1
+    )
+    return done
+
+
+def predict_blockwise(
+        cfg,
+        sample_name='sample',
+        db_host="localhost:27017",
+        db_name="lsd_predictions_parallel",
+        drop=False
+):
+    """
+    All roi related code here!
+    :return:
+    """
+    # Add dbname and dbhost to cfg
+    cfg.DATA.DB_NAME = db_name
+    cfg.DATA.DB_HOST = db_host
+
+    # Mongo-related stuff
+    client = pymongo.MongoClient(db_host)
+    db = client[db_name]
+
+    completed_collection_name = f"{sample_name}_{os.path.basename(cfg.TRAIN.MODEL_TYPE)}_predicted_affs"
+    # Save to config for worker to use
+    cfg.DATA.DB_COLLECTION_NAME = completed_collection_name
+    completed_collection = None
+
+    if completed_collection_name in db.list_collection_names():
+        completed_collection = db[completed_collection_name]
+        if drop:
+            print(f"dropping {completed_collection}")
+            db.drop_collection(completed_collection)
+    if f"{sample_name}_nodes" in db.list_collection_names():
+        nodes_collection = db[f"{sample_name}_nodes"]
+        if drop:
+            print(f"dropping {nodes_collection}")
+            db.drop_collection(nodes_collection)
+    if f"{sample_name}_meta" in db.list_collection_names():
+        meta_collection = db[f"{sample_name}_meta"]
+        if drop:
+            print(f"dropping {meta_collection}")
+            db.drop_collection(meta_collection)
+    for collection_name in db.list_collection_names():
+        if collection_name.startswith(f"{sample_name}_edges"):
+            edges_collection = db[collection_name]
+            if drop:
+                print(f"dropping {edges_collection}")
+                db.drop_collection(edges_collection)
+
+    if completed_collection_name not in db.list_collection_names():
+        completed_collection = db[completed_collection_name]
+        completed_collection.create_index(
+            [("block_id", pymongo.ASCENDING)], name="block_id"
+        )
+
+    complete_cache = set(
+        [tuple(doc["block_id"]) for doc in completed_collection.find()]
+    )
+
+    # get ROI of source
+    raw_dataset = "volumes/raw"  # is always this
+    try:
+        source = open_ds(cfg.DATA.SAMPLE, raw_dataset)
+    except:
+        # perhaps for a n5
+        # TODO: readjust later
+        raw_dataset = raw_dataset + '/s0'
+        source = open_ds(cfg.DATA.SAMPLE, raw_dataset)
+    logging.info('Source dataset has shape %s, ROI %s, voxel size %s' % (source.shape, source.roi, source.voxel_size))
+
+    # must be cast as gunpowder Coordinates
+    voxel_size = Coordinate(cfg.MODEL.VOXEL_SIZE)
+    input_shape = Coordinate(cfg.MODEL.INPUT_SHAPE)  # + Coordinate(cfg.MODEL.GROW_INPUT)
+    output_shape = Coordinate(cfg.MODEL.OUTPUT_SHAPE)  # + Coordinate(cfg.MODEL.GROW_INPUT)
+    net_input_size = input_shape * voxel_size  # this was input_size in predict.py
+    net_output_size = output_shape * voxel_size
+    # context added/removed
+    context = (net_input_size - net_output_size) / 2
+    module_logger.debug(f"input_size: {net_input_size}; output_size: {net_output_size}")
+
+    source_roi = source.roi
+    total_input_roi = source_roi.grow(context, context)
+    output_roi = source_roi  # keeping in sync with existing example in `lsd_experiments` repo
+    module_logger.debug(f"Total output ROI {total_input_roi} and context {context}")
+
+    # create read and write ROI
+    block_read_roi = Roi((0, 0, 0), net_input_size) - context
+    block_write_roi = Roi((0, 0, 0), net_output_size)
+
+    logging.info('Preparing output dataset...')
+
+    # Creating datasets in output zarr
+    # Hard-code warning: the ds keys in the out-zarr are hardcoded for now, hence will ensure same output format
+    # Todo: move to config to allow customisation of ds keys
+    out_raw = "volumes/raw"
+    # prepare_predict_datasets_daisy(cfg, dtype=np.uint8, voxel_size=voxel_size, ds_key=out_raw, source_roi=output_roi,
+    #                                write_roi=block_write_roi,
+    #                                delete_ds=drop)
+    print(out_raw)
+
+    if cfg.TRAIN.MODEL_TYPE in ["MTLSD", "LSD"]:
+        out_lsds = "volumes/pred_lsds"
+        prepare_predict_datasets_daisy(cfg, dtype=np.float32, ds_key=out_lsds,
+                                       source_roi=output_roi, num_channels=10,
+                                       write_roi=block_write_roi,
+                                       voxel_size=voxel_size,
+                                       delete_ds=drop)  # shape C(10) x D x H x W
+
+    if cfg.TRAIN.MODEL_TYPE in ["MTLSD", "AFF"]:
+        out_affs = "volumes/pred_affs"
+        prepare_predict_datasets_daisy(cfg, dtype=np.float32,
+                                       ds_key=out_affs,
+                                       source_roi=output_roi,
+                                       num_channels=len(
+                                           cfg.TRAIN.NEIGHBORHOOD),
+                                       write_roi=block_write_roi,
+                                       voxel_size=voxel_size, delete_ds=drop)
+
+        if cfg.DATA.INVERT_PRED_AFFS and cfg.TRAIN.MODEL_TYPE in ["MTLSD", "AFF"]:
+            # this will choose a max affinity channel, cast to uint8 and invert
+            out_inv_affs = "volumes/inverted_pred_affs"
+            prepare_predict_datasets_daisy(cfg, dtype=np.uint8, ds_key=out_inv_affs,
+                                           source_roi=output_roi,
+                                           num_channels=1,
+                                           write_roi=block_write_roi,
+                                           voxel_size=voxel_size, delete_ds=drop)
+
+    if not drop:
+        last_begin, last_shape = get_last_processed_coordinates(db_host, db_name, completed_collection_name)
+        if last_begin:
+            # Adjust the total_roi to start from the last processed coordinates
+            new_begin = Coordinate(last_begin)
+            # Keep the original shape, just offset the beginning
+            total_input_roi = Roi(new_begin, total_input_roi.get_shape())
+            # Adjust block ROIs to start from the same coordinates
+            block_read_roi = Roi(new_begin, net_input_size) - context
+            block_write_roi = Roi(new_begin, net_output_size)
+            # Calculate remaining shape from new_begin to end
+            remaining_shape = total_input_roi.get_end() - new_begin
+            remaining_blocks = np.array(remaining_shape / net_output_size).prod()
+            module_logger.info(f"Remaining blocks: {remaining_blocks}")
+            print(f"Remaining blocks: {remaining_blocks}")
+            module_logger.info(
+                f"Original total blocks: {np.array(total_input_roi.get_shape() / net_output_size).prod()}")
+            print(f"Original total blocks: {np.array(total_input_roi.get_shape() / net_output_size).prod()}")
+            module_logger.info(f"Resuming from coordinates {new_begin}")
+            print(f"Resuming from coordinates {new_begin}")
+            print(f"block read_roi {block_read_roi}, block_write_roi {block_write_roi}")
+            # quit()
+    else:
+        last_begin, last_shape = None, None
+
+    predict_affs_task = daisy.Task(
+        f"{sample_name}_pred_affs",
+        total_roi=total_input_roi,
+        read_roi=block_read_roi,
+        write_roi=block_write_roi,
+        process_function=lambda: start_worker(cfg),
+        check_function=lambda b: check_block(completed_collection, complete_cache, b, last_begin, last_shape,
+                                             source_roi),
+        num_workers=cfg.SYSTEM.NUM_WORKERS,
+        read_write_conflict=False,
+        fit="shrink",
+    )
+
+    daisy.run_blockwise([predict_affs_task])
+
+
+def start_worker(cfg):
+    """
+    This calls the python predict.py
+    :return:
+    """
+
+    logging.info("Start worker")
+
+    worker_id = daisy.Context.from_env()["worker_id"]
+    task_id = daisy.Context.from_env()["task_id"]
+
+    logging.info(f"worker {worker_id} started for {task_id}")
+    output_basename = daisy.get_worker_log_basename(worker_id, task_id)
+
+    log_out = output_basename.parent / f"worker_{worker_id}.out"
+    log_err = output_basename.parent / f"worker_{worker_id}.err"
+    #
+    # config_str = "".join(["%s" % (v,) for v in config.values()])
+    # config_hash = abs(int(hashlib.md5(config_str.encode()).hexdigest(), 16))
+
+    config_file = os.path.join(f"{output_basename.parent}", f"config_{worker_id}.yaml")
+
+    # Based on worker id, reset the cuda device: experimental.
+    # This works when number of workers = 1, throws
+    # `RuntimeError: Cannot re-initialize CUDA in forked subprocess.
+    # To use CUDA with multiprocessing, you must use the 'spawn' start method`
+    # when using > 1 num_workers!
+    # Delay torch import till the worker process is called!!
+
+    # this option is only valid here and the devices will be changed 0-8 in DGX system. If `cuda:0`
+    # in `config_predict.py` is provided all models will be spawned in the same GPU when using multiple workers
+    # so restrict the number of workers in a single GPU system to prevent OOM errors.
+    if cfg.TRAIN.DEVICE == "multi_gpu":
+        cfg.TRAIN.DEVICE = f"cuda:{worker_id}"
+
+    logging.info("Dumping config file %s..." % config_file)
+
+    # print(cfg.dump())  # print formatted configs
+    with open(config_file, "w", encoding="utf-8") as f:
+        f.write(cfg.dump())
+
+    logging.info("Running block with config %s..." % config_file)
+
+    # abs path to the worker - make it relative
+    worker = "./engine/predict/predict_worker_daisy.py"
+
+    conda_env = "funkelsd_slurm"  # Replace with your Conda environment name
+    # SBATCH command should never have tabs/spaces after the bin/sh.
+    # It will execute it differently otherwise (we have seen getting only cpus instead of gpus when requested).
+    sbatch_command = f"""#!/bin/sh
+#SBATCH -t 90:40:00                # CPU time
+#SBATCH --partition=agpu           # Partition (queue)
+#SBATCH --gres=gpu:1               # GPU resource
+#SBATCH --mem=128G                 # Memory per node
+#SBATCH -c 20                       # Number of CPU cores
+
+#SBATCH -o ./test_logs/sbatch_test_%j.out     # STDOUT log
+#SBATCH -e ./test_logs/sbatch_test_%j.err     # STDERR log
+
+echo -e "Hello there - my name is sbatch script and I am running on $( hostname ).\nThese are my environmental variables:"
+env | grep -i slurm
+
+# Load Conda environment
+source ~/.bashrc
+conda activate {conda_env}
+
+# Run the Python worker script
+python {worker} {config_file}
+    """
+
+    #    #SBATCH --ntasks=1		       #number of tasks (analyses) to run
+    # SBATCH --gpus-per-task=1 	       # number of gpus per task
+    # SBATCH --nodelist=fmg42              # GPU resource
+
+    # Now call sbatch
+    subprocess.run(
+        ["sbatch"],
+        input=sbatch_command,
+        text=True,
+        capture_output=True
+    )
+
+    # subprocess.run(
+    #     ["python", f"{worker}", f"{config_file}"]
+    # )
+    # subprocess.run(["srun", "--gres=gpu:1", "--partition=ml", "--mem=64G", " --time=1:00:00", " --nodelist=fmg104",
+    #                 " --pty", "tcsh", "python", f"{worker}", f"{config_file}"])
+
+
+def rename_keys(original_config, key_mapping):
+    for new_key, old_key in key_mapping.items():
+        if hasattr(original_config, old_key):
+            original_config[new_key] = getattr(original_config, old_key)
+
+    return original_config
+
+
+if __name__ == '__main__':
+
+    parser = argparse.ArgumentParser("You can pass an explicit config file to train.")
+    parser.add_argument('-c', default=None, help='Pass the config file"!')
+    args = parser.parse_args()
+    config_file = args.c
+    if config_file is not None:
+        # parse the args file to become cfg
+        cfg = CN()
+        # Allow creating new keys recursively.: https://github.com/rbgirshick/yacs/issues/25
+        cfg.set_new_allowed(True)
+        cfg.merge_from_file(config_file)
+    else:
+        cfg = get_cfg_defaults()
+
+    # can be used to override pre-defined settings
+    if os.path.exists("./experiment.yaml"):
+        cfg.merge_from_file("experiment.yaml")
+
+    # adding a copy of global model params to avoid if-else in train based on input data
+    if cfg.DATA.FIB:
+        key_mapping = {
+            'MODEL': 'MODEL_ISO'
+        }
+    else:
+        key_mapping = {
+            'MODEL': 'MODEL_ANISO'
+        }
+
+    cfg = rename_keys(cfg, key_mapping)
+    # do not freeze this because we want to add other options in the predict script
+    # cfg.freeze()
+    print(cfg)
+
+    data_dir = os.path.join(cfg.DATA.HOME, cfg.DATA.DATA_DIR_PATH, cfg.DATA.BRAIN_VOL)
+    # data is expected to be here
+    if cfg.DATA.DIM_2D:
+        data_dir = os.path.join(data_dir, 'data_2d', 'test')
+    else:
+        data_dir = os.path.join(data_dir, 'data_3d', 'test')
+
+    # TODO: add the logger here and import the same logging file
+    # Follow: https://stackoverflow.com/questions/43947206/automatically-delete-old-python-log-files
+    # logger.debug(f"data_dir {data_dir}")
+
+    samples = glob(f"{data_dir}/*.zarr")
+
+    assert len(samples), \
+        "No data to run prediction on found. Check if data is placed under `{brain_vol}/data_{2/3d}/test`"
+    if not os.path.exists("./logs"):
+        os.makedirs("./logs")
+
+    # make the outfile path here - /basepath/modeltype/2d/checkpoint_name
+    out_filepath = os.path.join(cfg.DATA.OUTFILE, cfg.TRAIN.MODEL_TYPE,
+                                '2d' if cfg.DATA.DIM_2D else '3d',
+                                "/".join(cfg.TRAIN.CHECKPOINT.split("/")[-2:]))
+    if not os.path.exists(out_filepath):
+        os.makedirs(os.path.dirname(out_filepath), exist_ok=True)
+
+    # # we expect data going in at this point to be sequentially traversed one at a time.
+    # # TODO: batch inference could make it faster
+    if cfg.TRAIN.BATCH_SIZE > 1:
+        module_logger.debug("If you have trained your models with Batch_Size > 1, comment this whole `if` block."
+                            "This ensures you can load the model but the inference will still proceed"
+                            " with batch_size=1.")
+        # cfg.TRAIN.BATCH_SIZE = 1
+
+    if cfg.DATA.DIM_2D:
+        # sample == .zarr
+        for sample in samples:
+            # .zarr --> volumes/raw/{0}.. volumes/raw/{n}
+            num_samples = calculate_min_2d_samples([sample])
+            assert num_samples, "Something went wrong.. num_samples cannot be zero," \
+                                " it represents num of z-slices in the 2D zarrs."
+            cfg.DATA.SAMPLE = sample
+            # overwrite in the loop - otherwise will create zarr within zarr
+            cfg.DATA.OUTFILE = out_filepath
+            cfg.DATA.OUTFILE = os.path.join(cfg.DATA.OUTFILE, os.path.basename(cfg.DATA.SAMPLE))
+
+            """ This is a really bad implementation `Friday night blues`
+             because the model is reloaded for each sample!!"""
+            for n in range(num_samples):
+                cfg.DATA.SAMPLE_SLICE = n
+
+    else:
+        # we loop through the datasets here and call inference on them.
+        # Todo: add daisy support for spawning async for every dataset
+        for sample in samples:
+            cfg.DATA.SAMPLE = sample
+            # overwrite in the loop - otherwise will create zarr within zarr
+            cfg.DATA.OUTFILE = out_filepath
+            cfg.DATA.OUTFILE = os.path.join(cfg.DATA.OUTFILE, os.path.basename(cfg.DATA.SAMPLE))
+
+            start = time.time()
+
+            sample_name = os.path.basename(sample).split('.')[0]
+            sample_name = sub(r"(_|-|:)+", " ", sample_name).title().replace(" ", "")
+            sample_name = ''.join([sample_name[0].lower(), sample_name[1:]])
+            cfg.DATA.SAMPLE_NAME = sample_name
+            db_host = "localhost:27017" if cfg.DATA.DB_HOST == '' else cfg.DATA.DB_HOST  # default
+            db_name = "lsd_predictions_parallel" if cfg.DATA.DB_NAME == '' else cfg.DATA.DB_NAME  # default
+            predict_blockwise(
+                cfg, sample_name=sample_name, db_host=db_host, db_name=db_name,
+                drop=cfg.DATA.DROP_DS_MONGOTABLE
+            )
+
+            end = time.time()
+
+            seconds = end - start
+            minutes = seconds / 60
+            hours = minutes / 60
+            days = hours / 24
+
+            print(
+                "Total time to predict affinities: %f seconds / %f minutes / %f hours / %f days"
+                % (seconds, minutes, hours, days)
+            )
