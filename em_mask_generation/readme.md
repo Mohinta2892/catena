@@ -6,7 +6,7 @@ Classes:
 - Non-brain = Resin, tracheal membranes or any other sections of the volume that do not need to be segmented
 
 ## Conventional CV
-We apply a `Diffusion of Gaussion (DOG)` and a `local texture and structure analysis`-based maskings.
+We apply a `Difference of Gaussians (DOG)` and a `local texture and structure analysis`-based maskings.
 The DOG does not lead to good masks. However., the texture-based masking does.
 See example below.
 
