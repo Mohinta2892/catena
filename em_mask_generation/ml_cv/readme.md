@@ -18,7 +18,7 @@ Please run the cells [em_mask_generation.ipynb](https://github.com/Mohinta2892/c
 
 Please note we use MONAI for data-loading and model training.
 
-**QUICK RECAP IMP FEATURES OF THE CODE:**
+**QUICK RECAP OF IMP FEATURES IN THE NOTEBOOK:**
 - **Input EM and MASK**: Both `.tiff` and `.zarr` accepted
 - **Output**: `.tif`
 - Built in Train-val-test splitting 
