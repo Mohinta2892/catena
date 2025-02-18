@@ -88,7 +88,7 @@ Note: `predicter.py` does not accept a `config.py` args yet! Hence, all changes 
 > **WARNING** <br>
 > THIS HAS ONLY BEEN TESTED WITH 3D VOLUMES.
 
-You can place as many datasets in the `test` folder of your `BRAIN_VOLUME` as you want. Each will be processed but sequentially BUT WILL USE MULTIPLE-WORKERS, which makes the predictions faster.
+You can place as many datasets in the `test` folder of your `BRAIN_VOLUME` as you want. Each will be processed but sequentially USING MULTIPLE-WORKERS, which makes the predictions faster.
 
 Download **pretrained** models from [here](https://www.dropbox.com/scl/fo/uxmoj3v6i8mos6lwjjvio/h?rlkey=w10iia8rd8alkx3i67u88w0er&dl=0). These models have mostly been trained with default architectural params. We will share more details sooner.
 
@@ -97,10 +97,13 @@ Please modify `config_predict.py` to match your `config.py` used during training
 <strong> Run prediction parallely with Daisy task scheduling </strong> <br>
 
 ```
-python super_predicter_daisy.py
+python super_predicter_daisy.py -c config/config_predict_{brain_volume}.py
 ```
+<strong> Run `super_predicter_daisy_chunkskipping.py` to skip boundary blocks if they don't need to be segmented </strong> <br>
 
-Note: `super_predicter_daisy.py` does not accept a `config.py` args yet! Hence, all changes must be made in `config_predict.py` as this is default.
+```
+python super_predicter_daisy_chunkskipping.py -c config/config_predict_{brain_volume}.py
+```
 
 </details>
 
