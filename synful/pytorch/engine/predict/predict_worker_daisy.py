@@ -4,8 +4,9 @@ import logging
 import os
 import sys
 
-import gunpowder as gp
+from gunpowder import *
 from gunpowder.ext import torch
+from gunpowder.torch import *
 import numpy as np
 import pymongo
 from yacs.config import CfgNode as CN  # default config
@@ -106,6 +107,9 @@ def predict(cfg):
     # Initialize the model
     model = initialize_model(cfg)
     model.eval()
+    print(model)
+    print(f"Model Parameters: {(sum(p.numel() for p in model.parameters() if p.requires_grad) / 1e6):.3f}M")
+
 
     voxel_size = Coordinate(cfg.MODEL.VOXEL_SIZE)
     input_size = Coordinate(cfg.MODEL.INPUT_SHAPE) * voxel_size
@@ -115,11 +119,11 @@ def predict(cfg):
     module_logger.debug(f"input_size: {input_size}; output_size: {output_size}")
 
 
-    raw = gp.ArrayKey('RAW')
-    pred_postpre_vectors = gp.ArrayKey('PRED_POSTPRE_VECTORS')
-    pred_post_indicator = gp.ArrayKey('PRED_POST_INDICATOR')
+    raw = ArrayKey('RAW')
+    pred_postpre_vectors = ArrayKey('PRED_POSTPRE_VECTORS')
+    pred_post_indicator = ArrayKey('PRED_POST_INDICATOR')
 
-    chunk_request = gp.BatchRequest()
+    chunk_request = BatchRequest()
     chunk_request.add(raw, input_size)
     chunk_request.add(pred_postpre_vectors, output_size)
     chunk_request.add(pred_post_indicator, output_size)
@@ -131,44 +135,46 @@ def predict(cfg):
 
     # Hdf5Source
     if cfg.DATA.SAMPLE.endswith('.hdf') or cfg.DATA.SAMPLE.endswith('.h5'):
-        data_sources = gp.Hdf5Source(
+        data_sources = Hdf5Source(
             cfg.DATA.SAMPLE,
             datasets={
                 raw: cfg.DATA.RAW
             },
             array_specs={
-                raw: gp.ArraySpec(interpolatable=True),
+                raw: ArraySpec(interpolatable=True),
             }
         )
     # ZarrSource
     elif cfg.DATA.SAMPLE.endswith('.zarr') or cfg.DATA.SAMPLE.endswith('.n5'):
-        data_sources = gp.ZarrSource(
+        data_sources = ZarrSource(
             cfg.DATA.SAMPLE,
             datasets={
                 raw: cfg.DATA.RAW
             },
             array_specs={
-                raw: gp.ArraySpec(interpolatable=True),
+                raw: ArraySpec(interpolatable=True),
             }
         )
     else:
         raise RuntimeError('UNKNOWN input data format {}'.format(cfg.DATA.SAMPLE))
 
     # create an output roi anew based on context
-    with gp.build(data_sources):
+    with build(data_sources):
         raw_roi = data_sources.spec[raw].roi
     total_output_roi = raw_roi.grow(-context, -context)
     module_logger.debug(f"Total output ROI {total_output_roi} and context {context}")
 
     pipeline = data_sources
 
-    pipeline += gp.Pad(raw, size=None)
+    pipeline += Pad(raw, size=None)
 
-    pipeline += gp.Normalize(raw)
+    pipeline += Normalize(raw)
 
-    pipeline += gp.IntensityScaleShift(raw, 2, -1)
+    pipeline += IntensityScaleShift(raw, 2, -1)
+    pipeline += Unsqueeze([raw])
+    pipeline += Stack(1)
 
-    pipeline += gp.torch.Predict(
+    pipeline += Predict(
         model=model,
         checkpoint=cfg.TRAIN.CHECKPOINT,
         inputs={
@@ -177,20 +183,23 @@ def predict(cfg):
         outputs={
             0: pred_post_indicator,
             1: pred_postpre_vectors
-        })
+        },
+        spawn_subprocess=True,
+        device=cfg.TRAIN.DEVICE
+    )
     # d_scale = parameters['d_scale'] if 'd_scale' in parameters else None
     if cfg.MODEL.D_SCALE != 1 and cfg.MODEL.D_SCALE is not None:
         d_scale = cfg.MODEL.D_SCALE
         # if d_scale != 1 and d_scale is not None:
-        pipeline += gp.IntensityScaleShift(pred_postpre_vectors,
+        pipeline += IntensityScaleShift(pred_postpre_vectors,
                                            1. / d_scale,
                                            0)  # Map back to nm world.
     if m_property is not None and 'scale' in m_property:
         if m_property['scale'] != 1:
-            pipeline += gp.IntensityScaleShift(pred_post_indicator,
+            pipeline += IntensityScaleShift(pred_post_indicator,
                                                m_property['scale'], 0)
     if d_property is not None and 'scale' in d_property:
-        pipeline += gp.IntensityScaleShift(pred_postpre_vectors,
+        pipeline += IntensityScaleShift(pred_postpre_vectors,
                                            d_property['scale'], 0)
     if d_property is not None and 'dtype' in d_property:
         assert d_property['dtype'] == 'int8' or d_property[
@@ -199,21 +208,43 @@ def predict(cfg):
         if d_property['dtype'] == 'int8':
             pipeline += IntensityScaleShiftClip(pred_postpre_vectors,
                                                 1, 0, clip=(-128, 127))
+    # shape: b x c x d x h x w -->  c x d x h x w
+    pipeline += Squeeze([raw])
+    squeeze_output_list = [raw]
+    # have to squeeze selectively now
+    # if cfg.TRAIN.MODEL_TYPE in ["AFF", "MTLSD"]:
+    squeeze_output_list.extend([pred_post_indicator])
 
-    pipeline += gp.ZarrWrite(
+    # if cfg.TRAIN.MODEL_TYPE in ["LSD", "MTLSD"]:
+    squeeze_output_list.extend([pred_postpre_vectors])
+
+    # raw shape: c x d x h x w ---> d x h x w;
+    # affs/lsds: b x c x d x h x w --> c x d x h x w
+    pipeline += Squeeze(squeeze_output_list)
+
+    out_ind = "volumes/pred_syn_indicator_out"
+    out_vec = "volumes/pred_partner_vectors"
+    pipeline += ZarrWrite(
         dataset_names={
-            pred_post_indicator: 'volumes/pred_syn_indicator',
-            pred_postpre_vectors: 'volumes/pred_partner_vectors',
+            pred_post_indicator:  out_ind,
         },
         output_dir=os.path.dirname(cfg.DATA.OUTFILE),
         output_filename=os.path.basename(cfg.DATA.OUTFILE),
-        dataset_dtypes= {pred_post_indicator: gp.ArraySpec(roi=total_output_roi),
-                         pred_postpre_vectors: gp.ArraySpec(roi=total_output_roi)}
+        dataset_dtypes= {pred_post_indicator: ArraySpec(roi=total_output_roi)}
     )
 
-    pipeline += gp.PrintProfilingStats(every=10)
+    pipeline += ZarrWrite(
+        dataset_names={
+            pred_postpre_vectors:  out_vec,
+        },
+        output_dir=os.path.dirname(cfg.DATA.OUTFILE),
+        output_filename=os.path.basename(cfg.DATA.OUTFILE),
+        dataset_dtypes= {pred_postpre_vectors: ArraySpec(roi=total_output_roi)}
+    )
 
-    pipeline += gp.DaisyRequestBlocks(
+    pipeline += PrintProfilingStats(every=10)
+
+    pipeline += DaisyRequestBlocks(
         chunk_request,
         roi_map={
             raw: 'read_roi',
@@ -227,8 +258,8 @@ def predict(cfg):
             b, s, d, None))
 
     print("Starting prediction...")
-    with gp.build(pipeline):
-        pipeline.request_batch(gp.BatchRequest())
+    with build(pipeline):
+        pipeline.request_batch(BatchRequest())
     print("Prediction finished")
 
 
