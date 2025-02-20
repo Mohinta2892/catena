@@ -120,12 +120,17 @@ class WeightedSynLoss(torch.nn.MSELoss, torch.nn.BCEWithLogitsLoss):
         # print(gt_syn_vector.shape)
         # print(pred_syn_vector.shape)
         # print(vector_mask.shape)
+        # print(vector_mask.sum())
+        # print(gt_syn_indicator.float().sum())
+        # print(pred_syn_vector.sum())
         pred_syn_indicator = torch.squeeze(pred_syn_indicator, dim=0)
         # print(pred_syn_indicator.shape)
         # this is a matrix that needs to be scaled with weights
         scaled_post_mask = indicator_weight * self.bce_loss(pred_syn_indicator, gt_syn_indicator.float())
         # mse_loss - cannot multiply by vector_mask as shape:b=1xdxhxw
         scaled_post_vec = (vector_mask * (pred_syn_vector - gt_syn_vector.float()) ** 2)
+        flag_vec = False
+        flag_mask = False
         # print(torch.max(pred_syn_vector), torch.max(gt_syn_vector), torch.max(vector_mask))
         if len(torch.nonzero(scaled_post_vec)) != 0:
             # only mean the loss where the values are non-zero
@@ -135,6 +140,9 @@ class WeightedSynLoss(torch.nn.MSELoss, torch.nn.BCEWithLogitsLoss):
         else:
             # will return 0 since all elements in scaled loss == 0
             loss_post_vec = torch.mean(scaled_post_vec)
+            flag_vec = True
+
+        # print(f"loss_post_vec {loss_post_vec} and flag vec {flag_vec}")
 
         if len(torch.nonzero(scaled_post_mask)) != 0:
             # only mean the loss where the values are non-zero
@@ -143,13 +151,21 @@ class WeightedSynLoss(torch.nn.MSELoss, torch.nn.BCEWithLogitsLoss):
         else:
             # will return 0 since all elements in scaled loss == 0
             loss_post_mask = torch.mean(scaled_post_mask)
+            flag_mask = True
 
+        # if flag_vec or flag_mask:
+        #     print(f"loss_post_mask {loss_post_mask}")
+        #     print(f"loss_post_vec {loss_post_vec} and flag vec {flag_vec}")
+
+        # if flag_vec:
+        #     return None
+        # m_scale = 1 d_scale=0.0001
         return loss_post_mask * self.m_scale + loss_post_vec * self.d_scale
 
 
 def initialize_loss(cfg):
     if cfg.TRAIN.MODEL_TYPE == "SynMT1":
-        return WeightedSynLoss()
+        return WeightedSynLoss(m_scale=cfg.MODEL.M_LOSS_SCALE, d_scale=cfg.MODEL.D_LOSS_SCALE)
     elif cfg.TRAIN.MODEL_TYPE == "STMASK":
         # use this for now since the activation at the model head is `Sigmoid`
         return SynPostMaskBCELoss()

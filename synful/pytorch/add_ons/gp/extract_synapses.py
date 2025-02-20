@@ -3,7 +3,9 @@ from __future__ import division
 from .. import detection, synapse, database
 from funlib.math import cantor_number
 from gunpowder import BatchFilter
-from ..gp.points import PreSynPoint, PostSynPoint
+from ..gp.points import PreSynPoint, PostSynPoint, Points
+
+from gunpowder.graph_spec import GraphSpec
 from pymongo import MongoClient
 import gunpowder as gp
 import logging
@@ -94,8 +96,10 @@ class ExtractSynapses(BatchFilter):
 
     def setup(self):
 
-        self.spec_src = gp.PointsSpec()
-        self.spec_trg = gp.PointsSpec()
+        # self.spec_src = gp.PointsSpec()
+        self.spec_src = gp.GraphSpec()
+        # self.spec_trg = gp.PointsSpec()
+        self.spec_trg = gp.GraphSpec()
 
         self.provides(self.srcpoints, self.spec_src)
         self.provides(self.trgpoints, self.spec_trg)

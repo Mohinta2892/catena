@@ -2,7 +2,7 @@ import logging
 
 import numpy as np
 
-from gunpowder import BatchFilter
+from gunpowder import BatchFilter, BatchRequest
 from gunpowder.array import Array
 from gunpowder.array_spec import ArraySpec
 from gunpowder.coordinate import Coordinate
@@ -154,9 +154,12 @@ class AddPartnerVectorMap(BatchFilter):
     def process(self, batch, request):
 
         # src_points = batch.points[self.src_points]
+        # assert len(self.src_points), f"{self.src_points} empty src points  "
+
         src_points = batch.graphs[self.src_points]  # points now graphs
         voxel_size = self.spec[self.array].voxel_size
-
+        # for i, p in enumerate(src_points.nodes):
+        #     print(f'src', p)
         # get roi used for creating the new array (points_roi does not
         # necessarily align with voxel size)
         enlarged_vol_roi = src_points.spec.roi.snap_to_grid(voxel_size)
@@ -185,12 +188,12 @@ class AddPartnerVectorMap(BatchFilter):
             mask_array)
 
         # if np.sum(partner_vectors_data) == 0.:
-        #
         #     print("----------------------------------")
         #     print(f"sum of partner_vectors_data is zero")
         #     # # instead of returning setting self.point_mask = None
         #     print(f"Sum of pointmask is {np.sum(pointmask)}")
         #     print("----------------------------------")
+            # self.prepare(BatchRequest())
         #     # quit()
 
         # print(request)
@@ -274,12 +277,12 @@ class AddPartnerVectorMap(BatchFilter):
 
         target_vectors = np.zeros_like(coords)
 
-        logger.debug(
+        logger.info(
             "Adding vectors for %d points...",
             # len(src_points.data)
             src_points.num_vertices()
         )
-
+        # print(src_points.num_vertices())
         # For each src point, get a point mask.
         union_mask = np.zeros(shape, dtype=np.int32)
         point_masks = []
@@ -390,4 +393,5 @@ class AddPartnerVectorMap(BatchFilter):
         #     print('target vectors', target_vectors)
         # print(f'Max target vector value: {np.max(target_vectors)}')
         # print(f'shape of point mask: {np.array(union_mask, dtype=bool).shape}')
-        return target_vectors, np.broadcast_to(np.array(union_mask, dtype=bool), (3,)+np.array(union_mask, dtype=bool).shape)
+        return target_vectors, np.broadcast_to(np.array(union_mask, dtype=bool),
+                                               (3,) + np.array(union_mask, dtype=bool).shape)
