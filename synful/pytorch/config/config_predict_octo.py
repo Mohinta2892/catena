@@ -13,8 +13,8 @@ _C.SYSTEM = CN()
 # Number of GPUS to use in the experiment
 _C.SYSTEM.NUM_GPUS = 1
 # Number of workers for doing things, may not be used in this context
-_C.SYSTEM.NUM_WORKERS = 1
-_C.SYSTEM.CACHE_SIZE = 40
+_C.SYSTEM.NUM_WORKERS = 4
+_C.SYSTEM.CACHE_SIZE = 4
 _C.SYSTEM.VERBOSE = True
 
 _C.DATA = CN()
@@ -59,8 +59,8 @@ _C.TRAIN.LR_NEIGHBORHOOD = [[-1, 0, 0], [0, -1, 0], [0, 0, -1], [-3, 0, 0], [0, 
                             [0, -9, 0], [0, 0, -9]]
 _C.TRAIN.EPOCHS = 300000
 _C.TRAIN.SAVE_EVERY = 5000
-# if gpu is found trains on 1 gpu else falls back to cpu, can be explicit here like '
-_C.TRAIN.DEVICE = "cuda:0"  # options `cuda:0`, `multi_gpu`, `cpu`
+# if gpu is found trains on 1 gpu else falls back to cpu
+_C.TRAIN.DEVICE = "cpu"  # options `cuda:0`, `multi_gpu`, `cpu`
 _C.TRAIN.INITIAL_LR = 0.5e-4
 _C.TRAIN.LR_BETAS = (0.95, 0.999)
 _C.TRAIN.MODEL_TYPE = "SynMT1"  # options: `STMASK`, `STVEC`, `SynMT1`, `ACMASK`, `ACVEC`
@@ -86,7 +86,7 @@ if _C.TRAIN.AC_EPOCHS is None:
     assert _C.TRAIN.CHECKPOINT_AC is not None or _C.TRAIN.CHECKPOINT_AC != "", \
         "Please provide a checkpoint for your auto-context model!"
 
-_C.TRAIN.AUGMENT = True  # should we augment
+_C.TRAIN.AUGMENT = False  # should we augment
 
 # Isotropic model and augmentation hyper-params
 _C.MODEL_ISO = CN()

@@ -1,22 +1,18 @@
 from __future__ import print_function
-
-import logging
 import os
 import sys
+from pathlib import Path
 
 from gunpowder import *
 from gunpowder.ext import torch
 from gunpowder.torch import *
 import numpy as np
 import pymongo
-from yacs.config import CfgNode as CN  # default config
-import argparse
 from funlib.geometry import Roi, Coordinate
-from pathlib import Path
-import glob
 import random
 import datetime
-import math
+from yacs.config import CfgNode as CN  # default config
+import torch
 
 sys.path.append(str(Path(__file__).resolve().parent.parent.parent))
 from models.models import *
@@ -62,7 +58,7 @@ def block_done_callback(
     # print('Connected!')
 
     # print(dict(worker_config))
-    document = dict(worker_config)
+    document = dict()
     document.update({
         'block_id': block.block_id,
         'read_roi': (block.read_roi.get_begin(), block.read_roi.get_shape()),
@@ -72,8 +68,6 @@ def block_done_callback(
     })
 
     x = collection.insert_one(document)
-    # print('------Inserted ID------ \n', x.inserted_id)
-    # print('------Document------ \n', document)
 
     print("Recorded block-done for %s" % (block,))
 
@@ -174,6 +168,7 @@ def predict(cfg):
     pipeline += Unsqueeze([raw])
     pipeline += Stack(1)
 
+    module_logger.debug(f"cuda device {cfg.TRAIN.DEVICE}")
     pipeline += Predict(
         model=model,
         checkpoint=cfg.TRAIN.CHECKPOINT,

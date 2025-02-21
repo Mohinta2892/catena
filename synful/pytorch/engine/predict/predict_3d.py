@@ -60,7 +60,7 @@ def block_done_callback(
     # print('Connected!')
 
     # print(dict(worker_config))
-    document = dict(worker_config)
+    document = dict()
     document.update({
         'block_id': block.block_id,
         'read_roi': (block.read_roi.get_begin(), block.read_roi.get_shape()),
@@ -189,6 +189,7 @@ def predict(cfg):
     if d_property is not None and 'scale' in d_property:
         pipeline += gp.IntensityScaleShift(pred_postpre_vectors,
                                            d_property['scale'], 0)
+
     if d_property is not None and 'dtype' in d_property:
         assert d_property['dtype'] == 'int8' or d_property[
             'dtype'] == 'float32', 'predict not adapted to dtype {}'.format(

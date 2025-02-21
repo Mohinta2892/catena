@@ -3,13 +3,15 @@ import os
 import sys
 import time
 import glob
-from funlib.persistence import open_ds
-import subprocess
 from re import sub
 import daisy
 import numpy as np
 import pymongo
 import argparse
+from funlib.persistence import open_ds
+import subprocess
+# from gunpowder import *
+# from funlib.geometry import Roi, Coordinate
 
 # add current directory to path and allow absolute imports
 sys.path.insert(0, '.')
@@ -134,46 +136,13 @@ def predict_blockwise(
                                        source_roi=output_roi,
                                        write_roi=block_write_roi,
                                        voxel_size=voxel_size,
-                                       delete_ds=drop)  # shape C(10) x D x H x W
+                                       delete_ds=drop)  # shape D x H x W
         prepare_predict_datasets_daisy(cfg, dtype=np.int8, ds_key=out_vec,
+                                       num_channels=3,
                                        source_roi=output_roi,
                                        write_roi=block_write_roi,
                                        voxel_size=voxel_size,
-                                       delete_ds=drop)  # shape C(10) x D x H x W
-
-    # logging.info('Preparing output dataset')
-    # print("Preparing output dataset...")
-    # for outputname, val in outputs.items():
-    #     out_dims = val['out_dims']
-    #     out_dtype = val['out_dtype']
-    #     scale = None
-    #     print(outputname)
-    #     if outputname in out_properties:
-    #         out_property = out_properties[outputname]
-    #         out_dtype = out_property[
-    #             'dtype'] if 'dtype' in out_property else out_dtype
-    #         scale = out_property['scale'] if 'scale' in out_property else None
-    #         outputname = out_property[
-    #             'dsname'] if 'dsname' in out_property else outputname
-    #     print('setting dtype to {}'.format(out_dtype))
-    #     out_dataset = 'volumes/%s' % outputname
-    #     print('Creatining dataset: {}'.format(out_dataset))
-    #     print('Number of dimensions is %i' % out_dims)
-    #     ds = daisy.prepare_ds(
-    #         out_file,
-    #         out_dataset,
-    #         output_roi,
-    #         source.voxel_size,
-    #         out_dtype,
-    #         write_roi=block_write_roi,
-    #         num_channels=out_dims,
-    #         # temporary fix until
-    #         # https://github.com/zarr-developers/numcodecs/pull/87 gets approved
-    #         # (we want gzip to be the default)
-    #         compressor={'id': 'gzip', 'level': 5}
-    #     )
-    #     if scale is not None:
-    #         ds.data.attrs['scale'] = scale
+                                       delete_ds=drop)  # shape C(3) x D x H x W
 
     print("Starting block-wise processing...")
 
@@ -261,40 +230,6 @@ def rename_keys(original_config, key_mapping):
 
 if __name__ == "__main__":
 
-    # config_file = sys.argv[1]
-    #
-    # if config_file.endswith('.json'):
-    #     with open(config_file, 'r') as f:
-    #         config = json.load(f)
-    #     print('loaded config file')
-    #     if 'overwrite' in config:
-    #         config['overwrite'] = bool(config['overwrite'])
-    #     start = time.time()
-    #
-    #     predict_blockwise(**config)
-    #
-    #     end = time.time()
-    #
-    #     seconds = end - start
-    #     print('Total time to predict: %f seconds' % seconds)
-    # else:
-    #     print('assuming directory, reading config files from directory')
-    #     configs = glob.glob(config_file + '/*.json')
-    #     print('processing {} config files'.format(len(configs)))
-    #     for ii, config_file in enumerate(configs):
-    #         print('processing {}: {}/{}'.format(config_file, ii, len(configs)))
-    #         with open(config_file, 'r') as f:
-    #             config = json.load(f)
-    #         print('loaded config file')
-    #         if 'overwrite' in config:
-    #             config['overwrite'] = bool(config['overwrite'])
-    #         start = time.time()
-    #
-    #         predict_blockwise(**config)
-    #
-    #         end = time.time()
-    #
-    #         seconds = end - start
     parser = argparse.ArgumentParser("You can pass an explicit config file to train.")
     parser.add_argument('-c', default=None, help='Pass the config file"!')
     args = parser.parse_args()
