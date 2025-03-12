@@ -72,14 +72,14 @@ def fill_3d_holes(binary_mask, structure=None):
 
 
 # Load mask
-mask = io.imread("/ceph.groups/mzlatic.grp/smohinta/predicted_em_masks/octo_cns_s5_pred_mask_w_transforms.tif")
+mask = io.imread("/Volumes/SamiaSan/Camb/EM_masking/EM_mask_generation/plots_results/run6/sam_vol_pred_mask_w_transforms.tif")
 # size = (1085, 670, 640)
 
 # Create a structuring element (disk kernel)
 selem = disk(radius=3)  # You can adjust the radius based on your needs
 processed_mask = np.zeros_like(mask)
 # Process each slice of the 3D mask
-for z in tqdm(range(mask.shape[0])):
+for z in tqdm(range(mask.shape[2]), desc="Processing slices"):
     # Perform erosion
     eroded = binary_erosion(mask[z], selem)
     # Perform dilation on the eroded image
@@ -88,21 +88,26 @@ for z in tqdm(range(mask.shape[0])):
     processed_mask[z] = dilated
 
 # Get mask regions
+print("Getting mask regions...")
 mask_labelled = label(processed_mask)
 labels = regionprops(mask_labelled)
 
 # Get region sizes
+print("Getting region sizes...")
 region_sizes = [label.area for label in labels]
 
 # Get region with the largest size
+print("Getting largest region...")
 largest_region = max(labels, key=lambda x: x.area)
 largest_region_id = largest_region.label
 
 # Get largest region mask
+print("Getting largest region mask...")
 largest_region_mask = mask_labelled == largest_region_id
 
 # Fill holes in mask
 # largest_region_mask_reconstructed = reconstruction(largest_region_mask, largest_region_mask, method="erosion")
+print("Filling holes in largest region mask...")
 largest_region_mask_filled = fill_3d_holes(largest_region_mask)
 
 
@@ -119,27 +124,28 @@ def create_solid_sphere(radius, shape):
 sphere = create_solid_sphere(radius=15, shape=(30, 30, 30))
 
 # Convolve the sphere with the largest_region_mask
+print("Convolving sphere with largest region mask...")
 convolved_mask = ndimage.convolve(largest_region_mask_filled.astype(float), sphere.astype(float), mode='constant',
                                   cval=0.0)
 
 largest_region_mask_filled = convolved_mask > 0.5  # Threshold to get binary mask
 
 # Cheat, and copy the -40 slice to all the slice after it
-largest_region_mask_filled[-40:] = largest_region_mask_filled[-40]
+# largest_region_mask_filled[-40:] = largest_region_mask_filled[-40]
 
 # Plot region sizes
 n_slices = 10
-slices_ = np.linspace(0, mask.shape[0], n_slices)[1:-1].astype(int)
+slices_ = np.linspace(0, mask.shape[2], n_slices)[1:-1].astype(int)
 n_slices = len(slices_)
 fig, ax = plt.subplots(n_slices, 2, figsize=(10, 5 * n_slices))
-for i, s in enumerate(slices_):
+for i, s in tqdm(enumerate(slices_), desc="Plotting slices"):
     ax[i, 0].imshow(mask[s], cmap="binary", origin="lower", aspect="auto")
     ax[i, 1].imshow(largest_region_mask_filled[s], cmap="binary", origin="lower", aspect="auto")
 
 plt.tight_layout()
 plt.savefig("eroded_regions.png")
 
-np.save("largest_region_mask.npy", largest_region_mask_filled)
+np.save("sam_vol_largest_mask.npy", largest_region_mask_filled)
 
 # Erode the mask
 # eroded_mask = binary_erosion(largest_region_mask, disk(3))
