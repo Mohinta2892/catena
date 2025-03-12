@@ -61,7 +61,7 @@ def fill_3d_holes(binary_mask, structure=None):
         ]))
         # Create mask of holes (background regions that don't touch border)
         holes = np.zeros_like(binary_mask, dtype=bool)
-        for i in range(1, num_labels + 1):
+        for i in tqdm(range(1, num_labels + 1), desc="Filling holes"):
             if i not in border_labels:
                 holes[labels == i] = True
         # Fill the holes
@@ -72,7 +72,8 @@ def fill_3d_holes(binary_mask, structure=None):
 
 
 # Load mask
-mask = io.imread("/Volumes/SamiaSan/Camb/EM_masking/EM_mask_generation/plots_results/run6/sam_vol_pred_mask_w_transforms.tif")
+mask = io.imread(
+    "/media/samia/DATA/PhD/codebases/synapse_extra_projects/Camb/EM_mask_generation/plots_results/run6/sam_vol_pred_mask_w_transforms.tif")
 # size = (1085, 670, 640)
 
 # Create a structuring element (disk kernel)
