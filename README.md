@@ -1,34 +1,15 @@
-# Catena
+# CATENA
+<div align="center">
+  <img width="411" alt="image" src="https://github.com/user-attachments/assets/701de2ef-502e-4397-8adb-8ae365e7ae74" />
+</div>
 
-Talk to us: [Discord](https://discord.gg/KEkmVGXRjn)
-
-```bash
-+-----------------------------------------+
-|                Catena                   |
-|                                         |
-|  +-----------------+-----------------+  |
-|  | Neuron          | Synaptic Pair    | |
-|  | Segmentation    | Detection        | |
-|  |                 |                  | |
-|  +-----------------+-----------------+  |
-|  +-----------------+-----------------+  |
-|  | Microtubule     | Neurotransmitter | |
-|  | Tracking        | Classification   | |
-|  |                 |                  | |
-|  +-----------------+-----------------+  |
-|  +-----------------+-----------------+  |
-|  |                                    | |
-|  |           Generative AI            | |
-|  |              EM-to-EM              | |
-|  |                                    | |
-|  +-----------------+-----------------+  |
-+-----------------------------------------+
-```
+<div align="center">
+  Talk to us: <a href="https://discord.gg/KEkmVGXRjn">Discord</a>
+</div>
 
 
-
-
-Catena provides a comprehensive workflow for automated connectome reconstruction based on SOTA Funke-lab pipelines for Neuron Segmentation `Local Shape Descriptors (Sheridan et al. 2022)`, Synapse Detection `Synful (Buhmann et al. 2020)`, Microtubule tracking `Micron (Eckstein et al. 2019)` and Neurotransmitter classification `Synister (Eckstein, Bates et al. 2024)` from large-scale volume Electron Microscopy (EM). To cope with the variability across EM datasets, Catena includes popular domain adaptation techniques tailored for EM-to-EM translation.
+# Overview of CATENA
+CATENA provides a comprehensive workflow for automated connectome reconstruction based on SOTA Funke-lab pipelines for Neuron Segmentation `Local Shape Descriptors (Sheridan et al. 2022)`, Synapse Detection `Synful (Buhmann et al. 2020)`, Microtubule tracking `Micron (Eckstein et al. 2019)` and Neurotransmitter classification `Synister (Eckstein, Bates et al. 2024)` from large-scale volume Electron Microscopy (EM). To cope with the variability across EM datasets, Catena includes popular domain adaptation techniques tailored for EM-to-EM translation.
 
 🛠️ Features:
 - Pytorch implementations of `LSDs` and `Synful`.
