@@ -9,6 +9,86 @@ import logging
 import os
 from synful import synapse
 
+
+def write_synapses_into_cremiformat_same_preid(synapses, filename, offset=None, overwrite=False):
+    logging.warning(
+        "All orientations must be same, that is if coordinates are saved as XYZ, the EM vol should also be in XYZ")
+
+    # Dictionary to store pre_location -> id mapping
+    pre_location_to_id = {}
+    next_id = 0
+
+    id_nr, ids, locations, partners, types = 0, [], [], [], []
+    distances = []
+
+    for syn in synapses:
+        # Convert pre_location to tuple for dictionary key
+        pre_loc_tuple = tuple(syn.location_pre)
+
+        # Get or assign ID for pre-synaptic location
+        if pre_loc_tuple in pre_location_to_id:
+            pre_id = pre_location_to_id[pre_loc_tuple]
+        else:
+            pre_id = next_id
+            pre_location_to_id[pre_loc_tuple] = pre_id
+            next_id += 1
+
+        # Assign new ID for post-synaptic location
+        post_id = next_id
+        next_id += 1
+
+        types.extend(['presynaptic_site', 'postsynaptic_site'])
+        ids.extend([pre_id, post_id])
+        partners.extend([np.array((pre_id, post_id))])
+
+        assert syn.location_pre is not None and syn.location_post is not None
+        locations.extend([np.array(syn.location_pre), np.array(syn.location_post)])
+
+        dist = np.linalg.norm(
+            np.array(list(syn.location_pre), dtype=np.float32) - np.array(list(syn.location_post), dtype=np.float32))
+        distances.append(dist)
+
+    print('number of synapses in file {}'.format(len(synapses)))
+    print('Distances: median {}, mean {}, max {}, min {}'.format(np.median(distances), np.mean(distances),
+                                                                 np.max(distances),
+                                                                 np.min(distances)))
+
+    if filename.endswith(('.h5', '.hdf', '.hdf5')):
+        if overwrite:
+            h5_file = h5py.File(filename, 'w')
+        else:
+            h5_file = h5py.File(filename, 'a')
+
+        dset = h5_file.create_dataset('annotations/ids', data=ids, compression='gzip')
+        dset = h5_file.create_dataset('annotations/locations', data=np.stack(locations, axis=0).astype(np.float32),
+                                      compression='gzip')
+        dset = h5_file.create_dataset('annotations/presynaptic_site/partners',
+                                      data=np.stack(partners, axis=0).astype(np.uint32), compression='gzip')
+        dset = h5_file.create_dataset('annotations/types', data=np.array(types, dtype='S'), compression='gzip')
+
+        if offset is not None:
+            h5_file['annotations'].attrs['offset'] = offset
+        h5_file.close()
+    elif filename.endswith('.zarr'):
+        if overwrite:
+            h5_file = zarr.open(filename, 'w')
+        else:
+            h5_file = zarr.open(filename, 'a')
+
+        dset = h5_file.create_dataset('annotations/ids', data=ids, compression='gzip')
+        dset = h5_file.create_dataset('annotations/locations', data=np.stack(locations, axis=0).astype(np.float32),
+                                      compression='gzip')
+        dset = h5_file.create_dataset('annotations/presynaptic_site/partners',
+                                      data=np.stack(partners, axis=0).astype(np.uint32), compression='gzip')
+        dset = h5_file.create_dataset('annotations/types', data=np.array(types, dtype='S'), compression='gzip')
+
+        if offset is not None:
+            h5_file['annotations'].attrs['offset'] = offset
+
+    print('File written to {}'.format(filename))
+    return distances
+
+
 # Function to write synapses into HDF5 format
 def write_synapses_into_cremiformat(synapses, filename, offset=None, overwrite=False, image_shape=None):
     logging.warning(
@@ -31,7 +111,7 @@ def write_synapses_into_cremiformat(synapses, filename, offset=None, overwrite=F
     print('Distances: median {}, mean {}, max {}, min {}'.format(np.median(distances), np.mean(distances),
                                                                  np.max(distances),
                                                                  np.min(distances)))
-    
+
     # Save statistics to JSON file
     import json
     stats = {
@@ -43,14 +123,14 @@ def write_synapses_into_cremiformat(synapses, filename, offset=None, overwrite=F
             "min": float(np.min(distances))
         }
     }
-    
+
     if image_shape is not None:
         stats["raw_shape"] = {
             "z": int(image_shape[0]),
             "y": int(image_shape[1]),
             "x": int(image_shape[2])
         }
-    
+
     json_filename = filename.replace('.hdf', '.json').replace('.h5', '.json')
     with open(json_filename, 'w') as f:
         json.dump(stats, f, indent=4)
@@ -114,13 +194,13 @@ def convert_wasp_to_synapses(pre_data, post_data, image_shape=None):
             # Check if coordinates are within bounds of the image and not zero
             if image_shape is not None:
                 # Check bounds (must be within image and not on the edge)
-                pre_in_bounds = all(0 < c < s-1 for c, s in zip(pre_coords, image_shape))
-                post_in_bounds = all(0 < c < s-1 for c, s in zip(post_coords, image_shape))
-                
+                pre_in_bounds = all(0 < c < s - 1 for c, s in zip(pre_coords, image_shape))
+                post_in_bounds = all(0 < c < s - 1 for c, s in zip(post_coords, image_shape))
+
                 # Check that no coordinate is zero in either pixel or nm space
-                pre_has_zeros = any(c == 0 for c in pre_coords) or any(c*8 == 0 for c in pre_coords)
-                post_has_zeros = any(c == 0 for c in post_coords) or any(c*8 == 0 for c in post_coords)
-                
+                pre_has_zeros = any(c == 0 for c in pre_coords) or any(c * 8 == 0 for c in pre_coords)
+                post_has_zeros = any(c == 0 for c in post_coords) or any(c * 8 == 0 for c in post_coords)
+
                 if not (pre_in_bounds and post_in_bounds) or pre_has_zeros or post_has_zeros:
                     out_of_bounds_count += 1
                     continue  # Skip this synapse
@@ -192,23 +272,39 @@ if __name__ == "__main__":
     synapses = convert_wasp_to_synapses(pre_adjusted, post_adjusted, image_shape=image.shape)
     print(f"Created {len(synapses)} synapse objects")
     print(f"Sample synapse object:\n{synapses[0:10]}")
-    
+
     # Extract the volume number from the path
-    vol_num = path_label.split('vol')[1][0] 
+    vol_num = path_label.split('vol')[1][0]
 
     # Write to CREMI format
-    output_path = os.path.join(os.path.dirname(path_label),  f"train_vol{vol_num}_{os.path.basename(path_label).replace('.h5', '_cremi.hdf')}")
+    output_path = os.path.join(os.path.dirname(path_label),
+                               f"train_vol{vol_num}_{os.path.basename(path_label).replace('.h5', '_cremi.hdf')}")
 
     # Add raw image data to the output file
     with h5py.File(output_path, 'w') as h5_file:
         # Create volumes group and raw dataset
         h5_file.create_dataset('volumes/raw', data=image, compression='gzip')
         # Add offset attribute if needed - convert to nm resolution
-        h5_file['volumes/raw'].attrs['offset'] = (0,0,0)
+        h5_file['volumes/raw'].attrs['offset'] = (0, 0, 0)
         h5_file['volumes/raw'].attrs['resolution'] = (8, 8, 8)  # Resolution in nm
 
     # Now add the synapse annotations
     distances = write_synapses_into_cremiformat(synapses, output_path, offset=tuple(o * 8 for o in offset),
                                                 overwrite=False, image_shape=image.shape)
 
-    print(f"Conversion complete. Output file: {output_path}")
+    # Create a second output using the same_preid method
+    output_path_same_preid = output_path.replace('_cremi.hdf', '_cremi_same_preid.hdf')
+
+    # Add raw image data to the output file
+    with h5py.File(output_path_same_preid, 'w') as h5_file:
+        # Create volumes group and raw dataset
+        h5_file.create_dataset('volumes/raw', data=image, compression='gzip')
+        # Add offset attribute if needed - convert to nm resolution
+        h5_file['volumes/raw'].attrs['offset'] = (0, 0, 0)
+        h5_file['volumes/raw'].attrs['resolution'] = (8, 8, 8)  # Resolution in nm
+
+    distances_same_preid = write_synapses_into_cremiformat_same_preid(synapses, output_path_same_preid,
+                                                                      offset=tuple(o * 8 for o in offset),
+                                                                      overwrite=False)
+
+    print(f"Conversion complete. Output files:\n{output_path}\n{output_path_same_preid}")
