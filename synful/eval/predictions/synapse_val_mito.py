@@ -59,7 +59,7 @@ def assign_synapses_to_neurons(
     #     pre_positions_zyx = pre_positions[:, ::-1]
     #     post_positions_zyx = post_positions[:, ::-1]
     #     print("Converted synapse positions from XYZ to ZYX order")
-    
+
     pre_voxels = np.round(pre_positions_zyx / resolution).astype(int)
     post_voxels = np.round(post_positions_zyx / resolution).astype(int)
 
@@ -99,43 +99,43 @@ def assign_mitochondria_to_neurons(
     if hasattr(mito_segmentation, 'is_zarr_array') or str(type(mito_segmentation)).find('zarr') != -1:
         print("Converting mito segmentation from Zarr to NumPy array...")
         mito_segmentation = np.array(mito_segmentation[:])
-    
+
     if hasattr(neuron_segmentation, 'is_zarr_array') or str(type(neuron_segmentation)).find('zarr') != -1:
         print("Converting neuron segmentation from Zarr to NumPy array...")
         neuron_segmentation = np.array(neuron_segmentation[:])
-    
+
     # Get all unique mitochondria IDs (excluding background)
     mito_ids = np.unique(mito_segmentation)
     mito_ids = mito_ids[mito_ids > 0]
-    
+
     # Get all unique neuron IDs (excluding background)
     neuron_ids = np.unique(neuron_segmentation)
     neuron_ids = neuron_ids[neuron_ids > 0]
-    
+
     print(f"Found {len(mito_ids)} unique mitochondria IDs")
     print(f"Found {len(neuron_ids)} unique neuron IDs")
-    
+
     # Now assign each mitochondrion to its containing neuron
     mito_to_neuron = {}
-    
+
     for mito_id in tqdm(mito_ids, desc="Assigning mitochondria to neurons", total=len(mito_ids)):
         mito_mask = mito_segmentation == mito_id
-        
+
         # Find overlapping neuron IDs
         overlapping_neurons = neuron_segmentation[mito_mask]
-        
+
         # Count occurrences of each neuron ID
         neuron_counts = {}
         for nid in np.unique(overlapping_neurons):
             if nid > 0:  # Skip background
                 count = np.sum(overlapping_neurons == nid)
                 neuron_counts[nid] = count
-        
+
         # Assign to neuron with maximum overlap
         if neuron_counts:
             best_neuron = max(neuron_counts.items(), key=lambda x: x[1])[0]
             mito_to_neuron[mito_id] = best_neuron
-    
+
     return mito_to_neuron, mito_ids.tolist(), neuron_ids.tolist()
 
 
@@ -298,6 +298,80 @@ def calculate_distances_to_mitochondria(
 
     return distances
 
+
+def save_synapses_to_csv(
+        out_dir: str,
+        pre_positions: npt.NDArray,
+        post_positions: npt.NDArray,
+        pre_assignments: Dict[int, int],
+        post_assignments: Dict[int, int],
+        mito_distances: Dict[int, float],
+        to_suppress: List[int],
+        prefix: str = "synapses"
+) -> str:
+    """
+    Save synapse information to a CSV file.
+    
+    Args:
+        out_dir: Output directory
+        pre_positions: Pre-synaptic positions
+        post_positions: Post-synaptic positions
+        pre_assignments: Dict mapping synapse indices to neuron IDs for pre-synaptic sites
+        post_assignments: Dict mapping synapse indices to neuron IDs for post-synaptic sites
+        mito_distances: Dict mapping synapse indices to distances to mitochondria
+        to_suppress: List of synapse indices to suppress (same neuron)
+        prefix: Prefix for output file
+    
+    Returns:
+        Path to the saved CSV file
+    """
+    # Create a DataFrame to store the synapse information
+    data = []
+
+    for i in range(len(pre_positions)):
+        # Get pre and post positions
+        pre_pos = pre_positions[i]
+        post_pos = post_positions[i]
+
+        # Get neuron assignments if available
+        pre_neuron_id = pre_assignments.get(i)
+        post_neuron_id = post_assignments.get(i)
+
+        # Get mitochondria distance if available
+        mito_distance = mito_distances.get(i)
+
+        # Check if this synapse should be suppressed
+        is_same_neuron = i in to_suppress
+
+        # Create a row for this synapse
+        row = {
+            'synapse_id': i,
+            'pre_x': pre_pos[0],
+            'pre_y': pre_pos[1],
+            'pre_z': pre_pos[2],
+            'post_x': post_pos[0],
+            'post_y': post_pos[1],
+            'post_z': post_pos[2],
+            'pre_neuron_id': pre_neuron_id if pre_neuron_id is not None else -1,
+            'post_neuron_id': post_neuron_id if post_neuron_id is not None else -1,
+            'mito_distance': mito_distance if mito_distance is not None else -1,
+            'same_neuron': is_same_neuron,
+            'valid': not is_same_neuron and pre_neuron_id is not None and post_neuron_id is not None
+        }
+
+        data.append(row)
+
+    # Create DataFrame
+    df = pd.DataFrame(data)
+
+    # Save to CSV
+    csv_path = os.path.join(out_dir, f"{prefix}.csv")
+    df.to_csv(csv_path, index=False)
+
+    print(f"Saved {len(data)} synapses to {csv_path}")
+    return csv_path
+
+
 def save_results_to_json(
         out_dir: str,
         gt_pre_positions: npt.NDArray,
@@ -336,67 +410,107 @@ def save_results_to_json(
     Returns:
         Path to the saved JSON file
     """
+
+    # Create a custom JSON encoder to handle NumPy types
+    class NumpyEncoder(json.JSONEncoder):
+        def default(self, obj):
+            if isinstance(obj, np.integer):
+                return int(obj)
+            elif isinstance(obj, np.floating):
+                return float(obj)
+            elif isinstance(obj, np.ndarray):
+                return obj.tolist()
+            return super(NumpyEncoder, self).default(obj)
+
     results = {
         "dataset_name": dataset_name,
         "ground_truth": {
             "synapses": [],
             "stats": {
-                "total_synapses": len(gt_pre_positions),
-                "assigned_pre": len(gt_pre_assignments),
-                "assigned_post": len(gt_post_assignments),
-                "with_mito_distance": len(gt_mito_distances),
-                "same_neuron_synapses": len(gt_to_suppress)
+                "total_synapses": int(len(gt_pre_positions)),
+                "assigned_pre": int(len(gt_pre_assignments)),
+                "assigned_post": int(len(gt_post_assignments)),
+                "with_mito_distance": int(len(gt_mito_distances)),
+                "same_neuron_synapses": int(len(gt_to_suppress))
             }
         }
     }
-    
+
     # Add ground truth synapse data
     for i in range(len(gt_pre_positions)):
+        # Convert neuron IDs to standard Python int
+        pre_neuron_id = gt_pre_assignments.get(i)
+        if pre_neuron_id is not None:
+            pre_neuron_id = int(pre_neuron_id)
+
+        post_neuron_id = gt_post_assignments.get(i)
+        if post_neuron_id is not None:
+            post_neuron_id = int(post_neuron_id)
+
+        # Convert mito distance to standard Python float
+        mito_distance = gt_mito_distances.get(i)
+        if mito_distance is not None:
+            mito_distance = float(mito_distance)
+
         synapse = {
-            "id": i,
+            "id": int(i),
             "pre_position": gt_pre_positions[i].tolist(),
             "post_position": gt_post_positions[i].tolist(),
-            "pre_neuron_id": gt_pre_assignments.get(i),
-            "post_neuron_id": gt_post_assignments.get(i),
-            "mito_distance": gt_mito_distances.get(i),
+            "pre_neuron_id": pre_neuron_id,
+            "post_neuron_id": post_neuron_id,
+            "mito_distance": mito_distance,
             "same_neuron": i in gt_to_suppress
         }
         results["ground_truth"]["synapses"].append(synapse)
-    
+
     # Add predicted data if available
     if pred_pre_positions is not None:
         results["prediction"] = {
             "synapses": [],
             "stats": {
-                "total_synapses": len(pred_pre_positions),
-                "assigned_pre": len(pred_pre_assignments) if pred_pre_assignments else 0,
-                "assigned_post": len(pred_post_assignments) if pred_post_assignments else 0,
-                "with_mito_distance": len(pred_mito_distances) if pred_mito_distances else 0,
-                "same_neuron_synapses": len(pred_to_suppress) if pred_to_suppress else 0
+                "total_synapses": int(len(pred_pre_positions)),
+                "assigned_pre": int(len(pred_pre_assignments) if pred_pre_assignments else 0),
+                "assigned_post": int(len(pred_post_assignments) if pred_post_assignments else 0),
+                "with_mito_distance": int(len(pred_mito_distances) if pred_mito_distances else 0),
+                "same_neuron_synapses": int(len(pred_to_suppress) if pred_to_suppress else 0)
             }
         }
-        
+
         for i in range(len(pred_pre_positions)):
+            # Convert neuron IDs to standard Python int
+            pre_neuron_id = pred_pre_assignments.get(i) if pred_pre_assignments else None
+            if pre_neuron_id is not None:
+                pre_neuron_id = int(pre_neuron_id)
+
+            post_neuron_id = pred_post_assignments.get(i) if pred_post_assignments else None
+            if post_neuron_id is not None:
+                post_neuron_id = int(post_neuron_id)
+
+            # Convert mito distance to standard Python float
+            mito_distance = pred_mito_distances.get(i) if pred_mito_distances else None
+            if mito_distance is not None:
+                mito_distance = float(mito_distance)
+
             synapse = {
-                "id": i,
+                "id": int(i),
                 "pre_position": pred_pre_positions[i].tolist(),
                 "post_position": pred_post_positions[i].tolist(),
-                "pre_neuron_id": pred_pre_assignments.get(i) if pred_pre_assignments else None,
-                "post_neuron_id": pred_post_assignments.get(i) if pred_post_assignments else None,
-                "mito_distance": pred_mito_distances.get(i) if pred_mito_distances else None,
+                "pre_neuron_id": pre_neuron_id,
+                "post_neuron_id": post_neuron_id,
+                "mito_distance": mito_distance,
                 "same_neuron": i in pred_to_suppress if pred_to_suppress else False
             }
             results["prediction"]["synapses"].append(synapse)
-    
+
     # Save to JSON file
     json_path = os.path.join(out_dir, f"synapse_analysis_{dataset_name}.json")
     with open(json_path, 'w') as f:
-        json.dump(results, f, indent=2)
-    
+        json.dump(results, f, indent=2, cls=NumpyEncoder)
+
     print(f"Saved results to {json_path}")
     return json_path
 
-    
+
 def visualize_synapses(
         pre_positions: npt.NDArray,
         post_positions: npt.NDArray,
@@ -404,51 +518,55 @@ def visualize_synapses(
         prefix: str = "synapse",
         to_suppress: Optional[List[int]] = None,
         mito_distances: Optional[Dict[int, float]] = None,
-        max_synapses: int = 20
+        max_synapses: int = 20,
+        em_data: Optional[npt.NDArray] = None,
+        resolution: Optional[npt.NDArray] = None
 ):
     """
-    Visualize synapses with pre and post-synaptic sites and arrows.
+    Visualize synapses with pre and post-synaptic sites and arrows, optionally with EM data.
     
     Args:
-        pre_positions: Pre-synaptic positions
-        post_positions: Post-synaptic positions
+        pre_positions: Pre-synaptic positions (in nm)
+        post_positions: Post-synaptic positions (in nm)
         out_dir: Output directory
         prefix: Prefix for output files
         to_suppress: List of synapse indices to suppress (same neuron)
         mito_distances: Dict mapping synapse indices to distances to mitochondria
         max_synapses: Maximum number of synapses to visualize
+        em_data: Optional EM data array for background visualization (in pixel coordinates)
+        resolution: Resolution of the EM data in nm per pixel (3-element array)
     """
     import matplotlib.pyplot as plt
     from mpl_toolkits.mplot3d import Axes3D
-    
+
     # Create output directory for visualizations
     vis_dir = os.path.join(out_dir, "visualizations")
     os.makedirs(vis_dir, exist_ok=True)
-    
+
     # Select a subset of synapses to visualize
     if to_suppress is None:
         to_suppress = []
-    
+
     # Prioritize synapses with mitochondria distances if available
     if mito_distances:
         indices = list(mito_distances.keys())
         # Sort by distance (closest first)
         indices.sort(key=lambda i: mito_distances[i])
         # Take the first max_synapses/2 and last max_synapses/2
-        indices = indices[:max_synapses//2] + indices[-max_synapses//2:]
+        indices = indices[:max_synapses // 2] + indices[-max_synapses // 2:]
     else:
         # Otherwise, just take the first max_synapses
         indices = list(range(min(max_synapses, len(pre_positions))))
-    
+
     # Add some same-neuron synapses if available
     same_neuron_indices = [i for i in to_suppress if i < len(pre_positions)]
     if same_neuron_indices:
         # Add up to 5 same-neuron synapses
         indices.extend(same_neuron_indices[:5])
-    
+
     # Make indices unique
     indices = list(set(indices))
-    
+
     # Create a figure for each axis view
     views = [
         ('xy', 0, 1, 'XY Plane (Top View)'),
@@ -456,97 +574,140 @@ def visualize_synapses(
         ('yz', 1, 2, 'YZ Plane (Side View)'),
         ('3d', None, None, '3D View')
     ]
-    
+
     for view_name, axis1, axis2, title in views:
         plt.figure(figsize=(12, 10))
-        
+
         if view_name == '3d':
             ax = plt.subplot(111, projection='3d')
-            
+
             # Plot each synapse
             for i in indices:
                 pre = pre_positions[i]
                 post = post_positions[i]
-                
+
                 # Determine color based on whether it's a same-neuron synapse
                 color = 'red' if i in to_suppress else 'blue'
-                
+
                 # Plot pre-synaptic site (red)
                 ax.scatter(pre[0], pre[1], pre[2], color='red', s=100, label='Pre-synaptic' if i == indices[0] else "")
-                
+
                 # Plot post-synaptic site (green)
-                ax.scatter(post[0], post[1], post[2], color='green', s=100, label='Post-synaptic' if i == indices[0] else "")
-                
+                ax.scatter(post[0], post[1], post[2], color='green', s=100,
+                           label='Post-synaptic' if i == indices[0] else "")
+
                 # Draw arrow from pre to post (orange)
-                ax.quiver(pre[0], pre[1], pre[2], 
-                         post[0]-pre[0], post[1]-pre[1], post[2]-pre[2],
-                         color='orange', arrow_length_ratio=0.1, label='Connection' if i == indices[0] else "")
-                
+                ax.quiver(pre[0], pre[1], pre[2],
+                          post[0] - pre[0], post[1] - pre[1], post[2] - pre[2],
+                          color='orange', arrow_length_ratio=0.1, label='Connection' if i == indices[0] else "")
+
                 # Add text label with synapse ID and mito distance if available
                 label = f"ID: {i}"
                 if mito_distances and i in mito_distances:
                     label += f"\nMito: {mito_distances[i]:.1f}nm"
                 if i in to_suppress:
                     label += "\nSame neuron"
-                
+
                 ax.text(pre[0], pre[1], pre[2], label, fontsize=8)
-            
+
             ax.set_xlabel('X (nm)')
             ax.set_ylabel('Y (nm)')
             ax.set_zlabel('Z (nm)')
             ax.set_title(f"{title} - {prefix}")
-            
+
             # Add legend
             handles, labels = ax.get_legend_handles_labels()
             by_label = dict(zip(labels, handles))
             ax.legend(by_label.values(), by_label.keys(), loc='upper right')
-            
+
         else:
             ax = plt.subplot(111)
-            
+
+            # If EM data is provided, show it as background
+            if em_data is not None and resolution is not None:
+                # Calculate average position of synapses in nm
+                avg_pos_nm = np.mean([pre_positions[i] for i in indices], axis=0)
+
+                # Convert average position from nm to pixel coordinates
+                # Note: resolution is in nm/pixel, so divide nm by resolution to get pixels
+                avg_pos_pixel = np.round(avg_pos_nm / resolution).astype(int)
+
+                # Get the appropriate slice based on the view
+                if view_name == 'xy':
+                    # Make sure slice index is within bounds
+                    slice_idx = min(max(0, avg_pos_pixel[2]), em_data.shape[2] - 1)
+                    em_slice = em_data[:, :, slice_idx]
+
+                    # Calculate the extent in nm coordinates for proper alignment
+                    # extent = [left, right, bottom, top] in data coordinates
+                    extent = [0, em_slice.shape[1] * resolution[1],
+                              em_slice.shape[0] * resolution[0], 0]  # Flip Y-axis for image coordinates
+
+                    # Display the EM slice with correct scaling
+                    ax.imshow(em_slice, cmap='gray', alpha=0.7, extent=extent)
+
+                elif view_name == 'xz':
+                    slice_idx = min(max(0, avg_pos_pixel[1]), em_data.shape[1] - 1)
+                    em_slice = em_data[:, slice_idx, :]
+
+                    extent = [0, em_slice.shape[1] * resolution[2],
+                              em_slice.shape[0] * resolution[0], 0]  # Flip Y-axis
+
+                    ax.imshow(em_slice, cmap='gray', alpha=0.7, extent=extent)
+
+                elif view_name == 'yz':
+                    slice_idx = min(max(0, avg_pos_pixel[0]), em_data.shape[0] - 1)
+                    em_slice = em_data[slice_idx, :, :]
+
+                    extent = [0, em_slice.shape[1] * resolution[2],
+                              em_slice.shape[0] * resolution[1], 0]  # Flip Y-axis
+
+                    ax.imshow(em_slice, cmap='gray', alpha=0.7, extent=extent)
+
             # Plot each synapse
             for i in indices:
                 pre = pre_positions[i]
                 post = post_positions[i]
-                
+
                 # Determine color based on whether it's a same-neuron synapse
                 color = 'red' if i in to_suppress else 'blue'
-                
+
                 # Plot pre-synaptic site (red)
                 ax.scatter(pre[axis1], pre[axis2], color='red', s=100, label='Pre-synaptic' if i == indices[0] else "")
-                
+
                 # Plot post-synaptic site (green)
-                ax.scatter(post[axis1], post[axis2], color='green', s=100, label='Post-synaptic' if i == indices[0] else "")
-                
+                ax.scatter(post[axis1], post[axis2], color='green', s=100,
+                           label='Post-synaptic' if i == indices[0] else "")
+
                 # Draw arrow from pre to post (orange)
-                ax.arrow(pre[axis1], pre[axis2], 
-                        post[axis1]-pre[axis1], post[axis2]-pre[axis2],
-                        color='orange', width=5, head_width=20, head_length=20, 
-                        length_includes_head=True, label='Connection' if i == indices[0] else "")
-                
+                ax.arrow(pre[axis1], pre[axis2],
+                         post[axis1] - pre[axis1], post[axis2] - pre[axis2],
+                         color='orange', width=5, head_width=20, head_length=20,
+                         length_includes_head=True, label='Connection' if i == indices[0] else "")
+
                 # Add text label with synapse ID and mito distance if available
                 label = f"ID: {i}"
                 if mito_distances and i in mito_distances:
                     label += f"\nMito: {mito_distances[i]:.1f}nm"
                 if i in to_suppress:
                     label += "\nSame neuron"
-                
+
                 ax.text(pre[axis1], pre[axis2], label, fontsize=8)
-            
-            ax.set_xlabel(f"{'X' if axis1 == 0 else 'Y'} (nm)")
+
+            ax.set_xlabel(f"{'X' if axis1 == 0 else 'Y' if axis1 == 1 else 'Z'} (nm)")
             ax.set_ylabel(f"{'Y' if axis2 == 1 else 'Z'} (nm)")
             ax.set_title(f"{title} - {prefix}")
-            
+
             # Add legend
             handles, labels = ax.get_legend_handles_labels()
             by_label = dict(zip(labels, handles))
             ax.legend(by_label.values(), by_label.keys(), loc='upper right')
-        
+
         # Save the figure
         plt.tight_layout()
         plt.savefig(os.path.join(vis_dir, f"{prefix}_{view_name}.png"), dpi=300)
         plt.close()
-    
+
     print(f"Saved visualizations to {vis_dir}")
 
 
@@ -671,7 +832,6 @@ def main():
             print("Please check the zarr file structure and update the path.")
             return
 
-
     # Parse command line arguments
     parser = argparse.ArgumentParser(description='Validate synapses with mitochondria data')
     parser.add_argument('--gt-pre', required=True,
@@ -735,13 +895,12 @@ def main():
     print(f"Assigned {len(gt_pre_assignments)} GT pre-synaptic sites to neurons")
     print(f"Assigned {len(gt_post_assignments)} GT post-synaptic sites to neurons")
 
-    # Find same-neuron synapses to suppress in ground truth
-    gt_to_suppress = filter_same_neuron_synapses(gt_pre_assignments, gt_post_assignments)
-    print(f"Found {len(gt_to_suppress)} GT synapses to suppress (same neuron)")
+    # # Should not suppress any synapses in GT
+    gt_to_suppress = []
 
     # Calculate distances to mitochondria for ground truth
     gt_mito_distances = calculate_distances_to_mitochondria(
-                        gt_pre_positions, mito_data, neuron_segmentation, gt_pre_assignments, resolution, args.mito_distance_threshold)
+        gt_pre_positions, mito_data, neuron_segmentation, gt_pre_assignments, resolution, args.mito_distance_threshold)
     print(f"Calculated distances to mitochondria for {len(gt_mito_distances)} GT pre-synaptic sites")
 
     # Analyze the distribution of distances
@@ -788,44 +947,60 @@ def main():
             pred_pre_positions, mito_data, neuron_segmentation, pred_pre_assignments, resolution,
             args.mito_distance_threshold)
 
-        # Extract dataset name from the input file path
+    # Extract dataset name from the input file path
     dataset_name = os.path.basename(args.gt_pre).split('_')[0]
     if not dataset_name:
         dataset_name = "unknown"
-    
-    # Save results to JSON
-    json_path = save_results_to_json(
+
+    if not args.gt_only:
+
+        # Save results to JSON
+        json_path = save_results_to_json(
+            out_dir,
+            gt_pre_positions, gt_post_positions,
+            gt_pre_assignments, gt_post_assignments,
+            gt_mito_distances, gt_to_suppress,
+            pred_pre_positions if not args.gt_only else None,
+            pred_post_positions if not args.gt_only else None,
+            pred_pre_assignments if not args.gt_only else None,
+            pred_post_assignments if not args.gt_only else None,
+            pred_mito_distances if not args.gt_only else None,
+            pred_to_suppress if not args.gt_only else None,
+            dataset_name
+        )
+
+        # Generate visualizations for synapses when they are on the same neuron
+        if args.visualize:
+            print("Generating visualizations...")
+
+            # Visualize predicted synapses if available
+            if not args.gt_only:
+                visualize_synapses(
+                    pred_pre_positions, pred_post_positions,
+                    out_dir, "pred_synapse",
+                    pred_to_suppress, pred_mito_distances,
+                    em_data=zarr_root["volumes/raw"][:],  # Load EM data from zarr
+                    resolution=resolution
+                )
+
+    # Save ground truth synapses to CSV
+    gt_csv_path = save_synapses_to_csv(
         out_dir,
         gt_pre_positions, gt_post_positions,
         gt_pre_assignments, gt_post_assignments,
         gt_mito_distances, gt_to_suppress,
-        pred_pre_positions if not args.gt_only else None,
-        pred_post_positions if not args.gt_only else None,
-        pred_pre_assignments if not args.gt_only else None,
-        pred_post_assignments if not args.gt_only else None,
-        pred_mito_distances if not args.gt_only else None,
-        pred_to_suppress if not args.gt_only else None,
-        dataset_name
-    )   
+        prefix="gt_synapses"
+    )
 
-    # Generate visualizations for synapses when they are on the same neuron
-    if args.visualize:
-        print("Generating visualizations...")
-        
-        # Visualize ground truth synapses
-        visualize_synapses(
-            gt_pre_positions, gt_post_positions,
-            out_dir, "gt_synapse",
-            gt_to_suppress, gt_mito_distances
+    # Save predicted synapses to CSV if available
+    if not args.gt_only:
+        pred_csv_path = save_synapses_to_csv(
+            out_dir,
+            pred_pre_positions, pred_post_positions,
+            pred_pre_assignments, pred_post_assignments,
+            pred_mito_distances, pred_to_suppress,
+            prefix="pred_synapses"
         )
-        
-        # Visualize predicted synapses if available
-        if not args.gt_only:
-            visualize_synapses(
-                pred_pre_positions, pred_post_positions,
-                out_dir, "pred_synapse",
-                pred_to_suppress, pred_mito_distances
-            )
 
     # Generate visualizations if requested
     if args.visualize:
@@ -941,3 +1116,15 @@ def main():
 if __name__ == "__main__":
     # Uncomment the following lines to run the script
     main()
+    """"
+    --gt-pre
+/Users/sam/Library/CloudStorage/OneDrive-UniversityofCambridge/Phd_Data/synapse_detection/COMBINED_NEURIPS_SAME_PREID/combined_same_preid_nips_gt_test/hemi_synapses_x15035-15635_y28559-29159_z9602-10202_gt_pre_locations.csv
+--gt-post
+/Users/sam/Library/CloudStorage/OneDrive-UniversityofCambridge/Phd_Data/synapse_detection/COMBINED_NEURIPS_SAME_PREID/combined_same_preid_nips_gt_test/hemi_synapses_x15035-15635_y28559-29159_z9602-10202_gt_post_locations.csv
+--pred-pre
+/Users/sam/Library/CloudStorage/OneDrive-UniversityofCambridge/Phd_Data/synapse_detection/COMBINED_NEURIPS_SAME_PREID/dani_synapse_mapping_results_nm/hemi_nm/HEMIBRAIN_synapses_x15035-15635_y28559-29159_z9602-10202_pred_pre_locations.csv
+--pred-post
+/Users/sam/Library/CloudStorage/OneDrive-UniversityofCambridge/Phd_Data/synapse_detection/COMBINED_NEURIPS_SAME_PREID/dani_synapse_mapping_results_nm/hemi_nm/HEMIBRAIN_synapses_x15035-15635_y28559-29159_z9602-10202_pred_post_locations.csv
+--pred-mapping
+/Users/sam/Library/CloudStorage/OneDrive-UniversityofCambridge/Phd_Data/synapse_detection/COMBINED_NEURIPS_SAME_PREID/dani_synapse_mapping_results_nm/hemi_nm/HEMIBRAIN_synapses_x15035-15635_y28559-29159_z9602-10202_pre_post_mapping.csv
+--visualize"""
