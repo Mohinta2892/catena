@@ -299,7 +299,12 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    res = resolution_tuple(args.res)
+    if isinstance(args.res, list):
+        res = resolution_tuple(args.res[0])
+    elif isinstance(args.res, str):
+        res = resolution_tuple(args.res)
+    else:
+        raise Exception(f"Cannot parse {args.res}")
 
     dimensions = neuroglancer.CoordinateSpace(
         names=["z", "y", "x"],
