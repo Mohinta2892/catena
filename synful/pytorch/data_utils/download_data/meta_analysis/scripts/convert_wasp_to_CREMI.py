@@ -10,6 +10,7 @@ import logging
 import os
 from synful import synapse
 
+
 def pad_data_and_adjust_locations(raw_em, locations, output_shape, voxel_size_nm=(8, 8, 8)):
     """
     Pad the raw EM data and adjust synapse locations accordingly.
@@ -48,6 +49,7 @@ def pad_data_and_adjust_locations(raw_em, locations, output_shape, voxel_size_nm
 
     return padded_em, adjusted_locations
 
+
 def write_padded_cremi_file(input_file, output_shape):
     """Read a CREMI format file, pad the data, and write to a new file.
     
@@ -61,50 +63,55 @@ def write_padded_cremi_file(input_file, output_shape):
     import h5py
     import os
     import numpy as np
-    
+
     # Create padded directory
     padded_dir = os.path.join(os.path.dirname(input_file), 'padded')
     os.makedirs(padded_dir, exist_ok=True)
-    
+
     # Create output filename for padded data
     output_file = os.path.join(padded_dir, f"padded_{os.path.basename(input_file)}")
-    
+
     # Read the input file
     with h5py.File(input_file, 'r') as h5_file:
         # Read raw EM data
         raw_em = h5_file['volumes/raw'][:]
-        
+
         # Read annotations
         locations = h5_file['annotations/locations'][:]
         ids = h5_file['annotations/ids'][:] if 'annotations/ids' in h5_file else None
-        partners = h5_file['annotations/presynaptic_site/partners'][:] if 'annotations/presynaptic_site/partners' in h5_file else None
+        partners = h5_file['annotations/presynaptic_site/partners'][
+                   :] if 'annotations/presynaptic_site/partners' in h5_file else None
         types = h5_file['annotations/types'][:] if 'annotations/types' in h5_file else None
-        
+
         # Read offset if it exists
         offset = h5_file['annotations'].attrs.get('offset', None)
-    
+
     # Pad the data and adjust locations
     padded_em, adjusted_locations = pad_data_and_adjust_locations(raw_em, locations, output_shape)
-    
+
     # Write to output file
     with h5py.File(output_file, 'w') as h5_file:
         # Create datasets
         h5_file.create_dataset('volumes/raw', data=padded_em, compression='gzip')
         h5_file.create_dataset('annotations/locations', data=adjusted_locations, compression='gzip')
-        
+
         if ids is not None:
             h5_file.create_dataset('annotations/ids', data=ids, compression='gzip')
-        
+
         if partners is not None:
             h5_file.create_dataset('annotations/presynaptic_site/partners', data=partners, compression='gzip')
-        
+
         if types is not None:
             h5_file.create_dataset('annotations/types', data=types, compression='gzip')
-        
+
         # Set offset if it exists
         if offset is not None:
             h5_file['annotations'].attrs['offset'] = offset
-    
+
+        # set these important to run synful
+        h5_file['volumes/raw'].attrs['offset'] = (0, 0, 0)
+        h5_file['volumes/raw'].attrs['resolution'] = (8, 8, 8)  # Resolution in nm
+
     print(f"Padded data saved to: {output_file}")
     return output_file
 
@@ -332,8 +339,8 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
 
     # You may need to change the following paths according to your file structure.
-    path_image = '/Users/sam/Library/CloudStorage/OneDrive-UniversityofCambridge/Phd_Data/synapse_detection/wasp/WASPSYN_Dataset/training_set/train_sample3_vol4/img_zyx_1920-2336_4832-5248_6528-6944.h5'
-    path_label = '/Users/sam/Library/CloudStorage/OneDrive-UniversityofCambridge/Phd_Data/synapse_detection/wasp/WASPSYN_Dataset/training_set/train_sample3_vol4/syns_zyx_1920-2336_4832-5248_6528-6944.h5'
+    path_image = '/Users/sam/Library/CloudStorage/OneDrive-UniversityofCambridge/Phd_Data/synapse_detection/wasp/WASPSYN_Dataset/training_set/train_sample3_vol0/img_zyx_2217-2617_4038-4448_6335-6735.h5'
+    path_label = '/Users/sam/Library/CloudStorage/OneDrive-UniversityofCambridge/Phd_Data/synapse_detection/wasp/WASPSYN_Dataset/training_set/train_sample3_vol0/syns_zyx_2217-2617_4038-4448_6335-6735.h5'
 
     # Extract offset from filename
     offset_zyx = path_label.split('/')[-1].split('_')
