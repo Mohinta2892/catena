@@ -1,5 +1,6 @@
 # Convert the wasp-synapse pairs to the CREMI format
 """
+Run env (mac os): conda activate /Users/sam/opt/anaconda3/envs/syndaisy/bin/python
 python convert_wasp_to_cremi.py 
 Hard-coded paths for input now. Output will be saved in the same directory as the input.
 """
@@ -8,6 +9,104 @@ import numpy as np
 import logging
 import os
 from synful import synapse
+
+def pad_data_and_adjust_locations(raw_em, locations, output_shape, voxel_size_nm=(8, 8, 8)):
+    """
+    Pad the raw EM data and adjust synapse locations accordingly.
+    
+    Args:
+        raw_em: The raw EM data to be padded
+        locations: Synapse locations in nm
+        output_shape: Desired output shape after padding
+    
+    Returns:
+        padded_em: Padded EM data
+        adjusted_locations: Adjusted locations in nm
+    """
+
+    # Get input shape
+    input_shape = raw_em.shape
+
+    # Calculate the padding required for each dimension
+    pad_sizes = []
+    for dim_in, dim_out in zip(input_shape, output_shape):
+        pad_total = dim_out - dim_in
+        pad_sizes.append((pad_total // 2, pad_total - pad_total // 2))
+
+    # Pad the raw EM data
+    padded_em = np.pad(raw_em, pad_sizes, mode='constant', constant_values=0)
+
+    # Adjust locations based on padding
+    # Assuming locations are in nm and need to be adjusted by the padding amount
+    # The adjustment depends on the resolution/voxel size of your data
+    adjusted_locations = locations.copy()
+
+    for i in range(len(pad_sizes)):
+        # Add the padding offset (in nm) to each coordinate
+        pad_offset_nm = pad_sizes[i][0] * voxel_size_nm[i]
+        adjusted_locations[:, i] += pad_offset_nm
+
+    return padded_em, adjusted_locations
+
+def write_padded_cremi_file(input_file, output_shape):
+    """Read a CREMI format file, pad the data, and write to a new file.
+    
+    Args:
+        input_file: Path to the input HDF file in CREMI format
+        output_shape: Desired output shape after padding
+    
+    Returns:
+        output_file: Path to the output padded HDF file
+    """
+    import h5py
+    import os
+    import numpy as np
+    
+    # Create padded directory
+    padded_dir = os.path.join(os.path.dirname(input_file), 'padded')
+    os.makedirs(padded_dir, exist_ok=True)
+    
+    # Create output filename for padded data
+    output_file = os.path.join(padded_dir, f"padded_{os.path.basename(input_file)}")
+    
+    # Read the input file
+    with h5py.File(input_file, 'r') as h5_file:
+        # Read raw EM data
+        raw_em = h5_file['volumes/raw'][:]
+        
+        # Read annotations
+        locations = h5_file['annotations/locations'][:]
+        ids = h5_file['annotations/ids'][:] if 'annotations/ids' in h5_file else None
+        partners = h5_file['annotations/presynaptic_site/partners'][:] if 'annotations/presynaptic_site/partners' in h5_file else None
+        types = h5_file['annotations/types'][:] if 'annotations/types' in h5_file else None
+        
+        # Read offset if it exists
+        offset = h5_file['annotations'].attrs.get('offset', None)
+    
+    # Pad the data and adjust locations
+    padded_em, adjusted_locations = pad_data_and_adjust_locations(raw_em, locations, output_shape)
+    
+    # Write to output file
+    with h5py.File(output_file, 'w') as h5_file:
+        # Create datasets
+        h5_file.create_dataset('volumes/raw', data=padded_em, compression='gzip')
+        h5_file.create_dataset('annotations/locations', data=adjusted_locations, compression='gzip')
+        
+        if ids is not None:
+            h5_file.create_dataset('annotations/ids', data=ids, compression='gzip')
+        
+        if partners is not None:
+            h5_file.create_dataset('annotations/presynaptic_site/partners', data=partners, compression='gzip')
+        
+        if types is not None:
+            h5_file.create_dataset('annotations/types', data=types, compression='gzip')
+        
+        # Set offset if it exists
+        if offset is not None:
+            h5_file['annotations'].attrs['offset'] = offset
+    
+    print(f"Padded data saved to: {output_file}")
+    return output_file
 
 
 def write_synapses_into_cremiformat_same_preid(synapses, filename, offset=None, overwrite=False):
@@ -308,3 +407,7 @@ if __name__ == "__main__":
                                                                       overwrite=False)
 
     print(f"Conversion complete. Output files:\n{output_path}\n{output_path_same_preid}")
+
+    # Create a third output: read the same_preid and pad the EM and adjust locations and save
+    # Read the same_preid output file
+    padded_output_path = write_padded_cremi_file(output_path_same_preid, output_shape=(512, 512, 512))
