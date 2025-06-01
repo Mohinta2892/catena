@@ -1,4 +1,4 @@
-# Convert WASP to CREMI format: `convert_wasp_to_CREMI.py`
+# Convert WASP data to CREMI format: `convert_wasp_to_CREMI.py`
 
 To test synful on WASP datasets, we have to first convert it into the CREMI format.
 For us CREMI data format is the standardised format for all synapse prediction models.
