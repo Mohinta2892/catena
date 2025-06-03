@@ -88,8 +88,10 @@ This work is being used in other institutes:
 
 ### 💥 Research Outputs
 #### 🤝 Conferences
-- Berlin Connectomics 2024, MPI Berlin, Germany - invited for Poster Presentation
-- UK Neural Computation 2024, Sheffield University, Sheffield UK - invited for [Poster Presentation](https://www.dropbox.com/scl/fi/8ei8ff1ygqbym5mcvi47n/PosterJuly_UKNeuralComp2024_UCLNeuroAI.zip?rlkey=annh1n5sbxhy0h5o29fydtzq9&dl=0)
-- UCL NeuroAI 2024, UCL, London UK - invited for Poster Presentation
+- Berlin Connectomics 2024, MPI Berlin, Germany - accepted for Poster Presentation
+- UK Neural Computation 2024, Sheffield University, Sheffield UK - accepted for [Poster Presentation](https://www.dropbox.com/scl/fi/8ei8ff1ygqbym5mcvi47n/PosterJuly_UKNeuralComp2024_UCLNeuroAI.zip?rlkey=annh1n5sbxhy0h5o29fydtzq9&dl=0)
+- UCL NeuroAI 2024, UCL, London UK - accepted for Poster Presentation
+- AI Revolution Meets 4D Cellular Physiology March 2025, HHMI Janelia, USA - accepted for [Poster Presentation](https://tinyurl.com/4dcp-janelia)
+- Analysis and Modelling of Connectomes June 2025, HHMI Janelia, USA - accepted for [Poster Presentations](https://ncr25-hhmi.ipostersessions.com/default.aspx?s=A5-9B-8C-8F-83-90-D0-27-96-1B-E9-B8-85-47-2B-46&guestview=true)
 
 
