@@ -1,6 +1,8 @@
 """
 Objectives:
-1. First assign all pre-post detected points to their neuron segmentation.
+0. First group all Pre-site and Post-sites in GT by position to make uniques. Get Coordinate Columns because they may differ across models (people developing them)
+
+1. Assign all pre-post detected points to their neuron segmentation.
 
 2. Assign all segmentation mitochondria to their corresponding neuron segmentation
 
@@ -14,7 +16,7 @@ Objectives:
 import numpy as np
 from scipy.spatial.distance import cdist
 from scipy.spatial import cKDTree
-from typing import Dict, List, Tuple, Set, Optional
+from typing import Dict, List, Tuple, Set, Optional, Union
 import numpy.typing as npt
 from scipy.ndimage import binary_dilation, distance_transform_edt
 import os
@@ -25,23 +27,68 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 from tqdm import tqdm
+from scipy.stats import ks_2samp
+
+
+def get_coordinate_columns(df, prefix):
+    """
+    Identify coordinate columns in a dataframe.
+
+    Args:
+        df: Pandas DataFrame
+        prefix: Prefix for column names (e.g., 'Pre' or 'Post')
+
+    Returns:
+        cols: List of coordinate column names
+        id_col: Name of ID column if found, otherwise None
+    """
+    # Try standard naming conventions
+    if prefix + '_X' in df.columns and prefix + '_Y' in df.columns and prefix + '_Z' in df.columns:
+        cols = [prefix + '_X', prefix + '_Y', prefix + '_Z']
+    # Try alternative naming (axis-based)
+    elif 'axis-0' in df.columns and 'axis-1' in df.columns and 'axis-2' in df.columns:
+        cols = ['axis-0', 'axis-1', 'axis-2']
+    # Try x, y, z naming
+    elif 'x' in df.columns and 'y' in df.columns and 'z' in df.columns:
+        cols = ['x', 'y', 'z']
+    else:
+        # Look for any columns with X, Y, Z in their names
+        x_cols = [col for col in df.columns if 'x' in col.lower()]
+        y_cols = [col for col in df.columns if 'y' in col.lower()]
+        z_cols = [col for col in df.columns if 'z' in col.lower()]
+
+        if x_cols and y_cols and z_cols:
+            cols = [x_cols[0], y_cols[0], z_cols[0]]
+        else:
+            raise ValueError(f"Cannot identify coordinate columns in dataframe with columns: {df.columns}")
+
+    # Look for ID column
+    id_col = None
+    id_candidates = [prefix + '_ID', prefix + 'ID', prefix.lower() + '_id', prefix.lower() + 'id', 'id', 'ID']
+    for candidate in id_candidates:
+        if candidate in df.columns:
+            id_col = candidate
+            break
+
+    return cols, id_col
 
 
 def assign_synapses_to_neurons(
-        pre_positions: npt.NDArray,
-        post_positions: npt.NDArray,
+        pre_positions: npt.NDArray | dict,
+        post_positions: npt.NDArray | dict,
         neuron_segmentation: npt.NDArray,
-        resolution: npt.NDArray
+        resolution: npt.NDArray,
+        out_path: str = "./gt_presyn-to-mito.csv"
 ) -> Tuple[Dict[int, int], Dict[int, int]]:
     """
     Assign pre and post-synaptic sites to their corresponding neurons.
-    
+
     Args:
         pre_positions: Nx3 array of pre-synaptic positions (in nm)
         post_positions: Nx3 array of post-synaptic positions (in nm)
         neuron_segmentation: 3D array of neuron labels
         resolution: 3-element array of voxel sizes in nm
-    
+
     Returns:
         pre_assignments: Dict mapping synapse indices to neuron IDs for pre-synaptic sites
         post_assignments: Dict mapping synapse indices to neuron IDs for post-synaptic sites
@@ -60,8 +107,25 @@ def assign_synapses_to_neurons(
     #     post_positions_zyx = post_positions[:, ::-1]
     #     print("Converted synapse positions from XYZ to ZYX order")
 
-    pre_voxels = np.round(pre_positions_zyx / resolution).astype(int)
-    post_voxels = np.round(post_positions_zyx / resolution).astype(int)
+    # print(type(pre_positions_zyx))
+    if isinstance(pre_positions_zyx, set):
+        pre_voxels = np.array(
+            [np.round(x / resolution).astype(int) for x in pre_positions_zyx])  # needed to handle the unique gt pos
+    else:
+        pre_voxels = np.round(pre_positions_zyx / resolution).astype(int)  # when ndarray no conversion needed
+
+    if isinstance(post_positions_zyx, set):
+        post_voxels = np.array(
+            [np.round(x / resolution).astype(int) for x in post_positions_zyx])  # needed to handle the unique gt pos
+    else:
+        post_voxels = np.round(post_positions_zyx / resolution).astype(int)  # when ndarray no conversion needed
+
+    # save which pos could not be assigned
+    pre_assignments_missing = {}
+    post_assignments_missing = {}
+
+    # save which pos could be assigned with id
+    pre_assignments_pos = []
 
     # Ensure coordinates are within bounds
     for i, pos in enumerate(pre_voxels):
@@ -69,40 +133,66 @@ def assign_synapses_to_neurons(
             neuron_id = neuron_segmentation[pos[0], pos[1], pos[2]]
             if neuron_id > 0:  # Ignore background (usually label 0)
                 pre_assignments[i] = neuron_id
+                pre_assignments_pos.append({
+                    "id": i,
+                    "loc_zyx": tuple(pos),
+                    "neuron_id": neuron_id
+                })
+            else:
+                pre_assignments_missing[tuple(pos)] = 'Neuron id  = 0'  # cannot be assigned
+        else:
+            pre_assignments_missing[tuple(pos)] = 'Not within bounds'  # cannot be assigned
 
     for i, pos in enumerate(post_voxels):
         if all(0 <= p < s for p, s in zip(pos, neuron_segmentation.shape)):
             neuron_id = neuron_segmentation[pos[0], pos[1], pos[2]]
             if neuron_id > 0:
                 post_assignments[i] = neuron_id
+            else:
+                post_assignments_missing[tuple(pos)] = 'Neuron id  = 0'  # cannot be assigned
+        else:
+            post_assignments_missing[tuple(pos)] = 'Not within bounds'  # cannot be assigned
+
+    print("Missing assignments pre-post")
+    print(f"pre \n {pre_assignments_missing}")
+    print(f"post \n {post_assignments_missing}")
+
+    print(f"Saving presyn-to-neuron assignments: {out_path}")
+    df = pd.DataFrame(pre_assignments_pos)
+    df[['z', 'y', 'x']] = pd.DataFrame(df['loc_zyx'].tolist(), index=df.index)
+    #   drop the original 'loc' column if you like:
+    df = df.drop(columns='loc_zyx')
+
+    # 3) Save to CSV (or Excel, pickle, etc.)
+    df.to_csv(f'{out_path}', index=False)
 
     return pre_assignments, post_assignments
 
 
 def assign_mitochondria_to_neurons(
-        mito_segmentation: npt.NDArray,
-        neuron_segmentation: npt.NDArray
-) -> Tuple[Dict[int, int], List[int], List[int]]:
+        mito_segmentation,
+        neuron_segmentation,
+        out_path: str = "./mito_to_neuron_mapping.csv") -> Tuple[Dict[int, int], List[int], List[int]]:
     """
     Assign mitochondria to their corresponding neurons.
-    
+
     Args:
         mito_segmentation: 3D array containing mitochondria labels
         neuron_segmentation: 3D array containing neuron labels
-    
+
     Returns:
         mito_to_neuron: Dict mapping mitochondria IDs to neuron IDs
         mito_ids: List of identified mitochondria IDs
         neuron_ids: List of identified neuron IDs
     """
-    # Convert Zarr arrays to numpy arrays for processing
-    if hasattr(mito_segmentation, 'is_zarr_array') or str(type(mito_segmentation)).find('zarr') != -1:
-        print("Converting mito segmentation from Zarr to NumPy array...")
-        mito_segmentation = np.array(mito_segmentation[:])
-
-    if hasattr(neuron_segmentation, 'is_zarr_array') or str(type(neuron_segmentation)).find('zarr') != -1:
-        print("Converting neuron segmentation from Zarr to NumPy array...")
-        neuron_segmentation = np.array(neuron_segmentation[:])
+    # # Convert Zarr arrays to numpy arrays for processing
+    # if hasattr(mito_segmentation, 'is_zarr_array') or str(type(mito_segmentation)).find('zarr') != -1:
+    #     print("Converting mito segmentation from Zarr to NumPy array...")
+    #     mito_segmentation = np.array(mito_segmentation[:])
+    #
+    # if hasattr(neuron_segmentation, 'is_zarr_array') or str(type(neuron_segmentation)).find('zarr') != -1:
+    #     print("Converting neuron segmentation from Zarr to NumPy array...")
+    #     neuron_segmentation = np.array(neuron_segmentation[:])
 
     # Get all unique mitochondria IDs (excluding background)
     mito_ids = np.unique(mito_segmentation)
@@ -117,12 +207,14 @@ def assign_mitochondria_to_neurons(
 
     # Now assign each mitochondrion to its containing neuron
     mito_to_neuron = {}
+    mito_to_neuron_mapping = []
 
     for mito_id in tqdm(mito_ids, desc="Assigning mitochondria to neurons", total=len(mito_ids)):
         mito_mask = mito_segmentation == mito_id
 
         # Find overlapping neuron IDs
-        overlapping_neurons = neuron_segmentation[mito_mask]
+        dilated_mito_mask = binary_dilation(mito_mask, iterations=1)
+        overlapping_neurons = neuron_segmentation[dilated_mito_mask]
 
         # Count occurrences of each neuron ID
         neuron_counts = {}
@@ -136,73 +228,45 @@ def assign_mitochondria_to_neurons(
             best_neuron = max(neuron_counts.items(), key=lambda x: x[1])[0]
             mito_to_neuron[mito_id] = best_neuron
 
+            # now append **all** mappings, flagging the best one
+            for neuron_id, count in neuron_counts.items():
+                mito_to_neuron_mapping.append({
+                    "mito_id": mito_id,
+                    "neuron_id": neuron_id,
+                    "overlap": count,
+                    "is_best": (neuron_id == best_neuron)
+                })
+
+    # convert to DataFrame
+    df = pd.DataFrame(mito_to_neuron_mapping)
+
+    # if you like, sort so that best ones appear first
+    df = df.sort_values(["mito_id", "is_best"], ascending=[True, False])
+
+    # and save it
+    df.to_csv(f"{out_path}", index=False)
+
     return mito_to_neuron, mito_ids.tolist(), neuron_ids.tolist()
 
 
-def find_duplicate_synapses(
-        pre_positions: npt.NDArray,
-        post_positions: npt.NDArray,
-        pre_assignments: Dict[int, int],
-        post_assignments: Dict[int, int],
-        distance_threshold: float = 500.0  # nm
-) -> List[Set[int]]:
-    """
-    Find groups of duplicate synapse detections between the same neuron pairs.
-    
-    Args:
-        pre_positions: Nx3 array of pre-synaptic positions
-        post_positions: Nx3 array of post-synaptic positions
-        pre_assignments: Dict mapping synapse indices to neuron IDs for pre-synaptic sites
-        post_assignments: Dict mapping synapse indices to neuron IDs for post-synaptic sites
-        distance_threshold: Maximum distance (nm) to consider synapses as duplicates
-    
-    Returns:
-        List of sets containing indices of duplicate synapses
-    """
-    duplicate_groups = []
-    processed = set()
-
-    # Create a KD-tree for efficient spatial searching
-    positions = np.concatenate([pre_positions, post_positions], axis=1)  # Nx6
-    tree = cKDTree(positions)
-
-    for i in range(len(pre_positions)):
-        if i in processed:
-            continue
-
-        if i not in pre_assignments or i not in post_assignments:
-            continue
-
-        # Find all points within distance threshold
-        nearby_indices = tree.query_ball_point(positions[i], distance_threshold)
-
-        # Check which nearby points are between the same neurons
-        duplicates = {i}
-        for j in nearby_indices:
-            if (j != i and j not in processed and
-                    j in pre_assignments and j in post_assignments and
-                    pre_assignments[i] == pre_assignments[j] and
-                    post_assignments[i] == post_assignments[j]):
-                duplicates.add(j)
-
-        if len(duplicates) > 1:
-            duplicate_groups.append(duplicates)
-            processed.update(duplicates)
-
-    return duplicate_groups
+def check_duplicate_assignments_in_pred_n_flag():
+    pass
 
 
 def calculate_distances_to_mitochondria(
         pre_positions: npt.NDArray,
         mito_segmentation: npt.NDArray,
         neuron_segmentation: npt.NDArray,
+        mito_to_neuron,
+        mito_ids,
         pre_assignments: Dict[int, int],
         resolution: npt.NDArray,
-        max_search_radius: float = 1000.0  # nm
+        max_search_radius: float = 1000.0,  # nm
+        out_path: str = "./pre_to_mito_mapping.csv"
 ) -> Dict[int, float]:
     """
     Calculate distances from pre-synaptic sites to their nearest mitochondria within the same neuron.
-    
+
     Args:
         pre_positions: Nx3 array of pre-synaptic positions (in nm)
         mito_segmentation: 3D array of mitochondria labels
@@ -210,18 +274,18 @@ def calculate_distances_to_mitochondria(
         pre_assignments: Dict mapping synapse indices to neuron IDs for pre-synaptic sites
         resolution: 3-element array of voxel sizes in nm
         max_search_radius: Maximum search radius in nm
-    
+
     Returns:
         Dict mapping synapse indices to distances (nm) to nearest mitochondria within the same neuron
     """
     # Convert Zarr arrays to numpy arrays for processing
-    if hasattr(mito_segmentation, 'is_zarr_array') or str(type(mito_segmentation)).find('zarr') != -1:
-        print("Converting mito segmentation from Zarr to NumPy array...")
-        mito_segmentation = np.array(mito_segmentation[:])
-
-    if hasattr(neuron_segmentation, 'is_zarr_array') or str(type(neuron_segmentation)).find('zarr') != -1:
-        print("Converting neuron segmentation from Zarr to NumPy array...")
-        neuron_segmentation = np.array(neuron_segmentation[:])
+    # if hasattr(mito_segmentation, 'is_zarr_array') or str(type(mito_segmentation)).find('zarr') != -1:
+    #     print("Converting mito segmentation from Zarr to NumPy array...")
+    #     mito_segmentation = np.array(mito_segmentation[:])
+    #
+    # if hasattr(neuron_segmentation, 'is_zarr_array') or str(type(neuron_segmentation)).find('zarr') != -1:
+    #     print("Converting neuron segmentation from Zarr to NumPy array...")
+    #     neuron_segmentation = np.array(neuron_segmentation[:])
 
     # Check unique neuron IDs
     unique_neuron_ids = np.unique(neuron_segmentation)
@@ -237,8 +301,8 @@ def calculate_distances_to_mitochondria(
     if len(unique_mito_ids) == 0:
         raise Exception("No mitochondria found in segmentation.")
 
-    # First, assign mitochondria to neurons
-    mito_to_neuron, mito_ids, _ = assign_mitochondria_to_neurons(mito_segmentation, neuron_segmentation)
+    # # First, assign mitochondria to neurons
+    # mito_to_neuron, mito_ids, _ = assign_mitochondria_to_neurons(mito_segmentation, neuron_segmentation)
 
     # Group mitochondria by neuron ID
     neuron_to_mitos = {}
@@ -263,6 +327,7 @@ def calculate_distances_to_mitochondria(
 
     # Calculate distances for each pre-synaptic site
     distances = {}
+    mappings: List[Dict[str, float]] = []  # find syn to mito mappings
 
     # Convert pre-positions to ZYX order if they're not already
     # Assuming pre_positions are in XYZ order, we need to flip them to ZYX
@@ -285,18 +350,41 @@ def calculate_distances_to_mitochondria(
 
         # Find distances to all mitochondria in the same neuron
         mito_distances = []
-        for mito_id in neuron_to_mitos[neuron_id]:
+        for mito_id in tqdm(neuron_to_mitos[neuron_id], total=len(neuron_to_mitos[neuron_id]),
+                            desc="Num of mitos in neuron"):
+            min_dist = np.inf
             if mito_id in mito_coords:
                 mito_pos = mito_coords[mito_id]
                 dist = np.linalg.norm(pos - mito_pos)
-                if dist <= max_search_radius:
-                    mito_distances.append(dist)
+                # if dist <= max_search_radius: Do we need a search radius?
+                mito_distances.append(dist)
+                mappings.append({
+                    "pre_index": i,
+                    "pre_locs_zyx": pos,
+                    "neuron_id": neuron_id,
+                    "mito_id": mito_id,
+                    "distance_nm": dist
+                })
 
         # Record the minimum distance if any mitochondria were found
         if mito_distances:
             distances[i] = min(mito_distances)
 
-    return distances
+            for item in mappings:
+                if item["pre_index"] == i:
+                    if item["distance_nm"] == min(mito_distances):
+                        item.update({"is_min_dist": True})
+                    else:
+                        item.update({"is_min_dist": False})
+
+    # Build DataFrame and save
+    df = pd.DataFrame(mappings)
+    df[['z', 'y', 'x']] = pd.DataFrame(df['pre_locs_zyx'].tolist(), index=df.index)
+    #   drop the original 'loc' column if you like:
+    df = df.drop(columns='pre_locs_zyx')
+    df.to_csv(f"{out_path}", index=False)
+
+    return distances, mito_coords
 
 
 def save_synapses_to_csv(
@@ -311,7 +399,7 @@ def save_synapses_to_csv(
 ) -> str:
     """
     Save synapse information to a CSV file.
-    
+
     Args:
         out_dir: Output directory
         pre_positions: Pre-synaptic positions
@@ -321,7 +409,7 @@ def save_synapses_to_csv(
         mito_distances: Dict mapping synapse indices to distances to mitochondria
         to_suppress: List of synapse indices to suppress (same neuron)
         prefix: Prefix for output file
-    
+
     Returns:
         Path to the saved CSV file
     """
@@ -390,7 +478,7 @@ def save_results_to_json(
 ) -> str:
     """
     Save analysis results to a JSON file.
-    
+
     Args:
         out_dir: Output directory
         gt_pre_positions: Ground truth pre-synaptic positions
@@ -406,7 +494,7 @@ def save_results_to_json(
         pred_mito_distances: Predicted distances to mitochondria
         pred_to_suppress: Predicted synapses to suppress (same neuron)
         dataset_name: Name of the dataset
-    
+
     Returns:
         Path to the saved JSON file
     """
@@ -524,7 +612,7 @@ def visualize_synapses(
 ):
     """
     Visualize synapses with pre and post-synaptic sites and arrows, optionally with EM data.
-    
+
     Args:
         pre_positions: Pre-synaptic positions (in nm)
         post_positions: Post-synaptic positions (in nm)
@@ -705,7 +793,9 @@ def visualize_synapses(
 
         # Save the figure
         plt.tight_layout()
+        sns.despine()
         plt.savefig(os.path.join(vis_dir, f"{prefix}_{view_name}.png"), dpi=300)
+        plt.savefig(os.path.join(vis_dir, f"{prefix}_{view_name}.svg"), dpi=300)
         plt.close()
 
     print(f"Saved visualizations to {vis_dir}")
@@ -717,11 +807,11 @@ def filter_same_neuron_synapses(
 ) -> List[int]:
     """
     Find synapses where pre and post-synaptic sites are on the same neuron.
-    
+
     Args:
         pre_assignments: Dict mapping synapse indices to neuron IDs for pre-synaptic sites
         post_assignments: Dict mapping synapse indices to neuron IDs for post-synaptic sites
-    
+
     Returns:
         List of synapse indices to suppress
     """
@@ -735,63 +825,270 @@ def filter_same_neuron_synapses(
     return to_suppress
 
 
-def get_coordinate_columns(df, prefix):
+def get_nearest_mito_for_pre(
+        pre_positions: npt.NDArray,
+        pre_assignments: Dict[int, int],
+        mito_coords: Dict[int, npt.NDArray],
+        neuron_to_mitos: Dict[int, List[int]]
+) -> Dict[int, Tuple[int, float]]:
     """
-    Identify coordinate columns in a dataframe.
+    For each pre-synapse index i (in pre_positions), find its nearest mitochondrion:
+      - returns a dict: i -> (mito_id, distance_nm)
+    """
+    nearest = {}
+    for i, pos in enumerate(pre_positions):
+        if i not in pre_assignments:
+            continue
+        neuron_id = pre_assignments[i]
+        candidates = neuron_to_mitos.get(neuron_id, [])
+        best = None
+        best_d = np.inf
+        for m in candidates:
+            if m not in mito_coords:
+                continue
+            d = np.linalg.norm(pos - mito_coords[m])
+            if d < best_d:
+                best_d, best = d, m
+        if best is not None:
+            nearest[i] = (best, best_d)
+    return nearest
+
+
+def visualize_pre_synapse_with_mito(
+        pre_idx: int,
+        raw_em: npt.NDArray,
+        mito_seg: npt.NDArray,
+        pre_positions: Union[npt.NDArray, Dict[int, npt.NDArray]],
+        nearest_map: Dict[int, Tuple[int, float]],
+        resolution: npt.NDArray,
+        window: int = 50
+):
+    """
+    Show a single Z-slice of raw EM, overlaying the pre-syn point
+    and its assigned mito mask.
+    Accepts pre_positions either as:
+      • ndarray of shape [N,3], or
+      • dict mapping pre_idx -> 3-element array.
+    """
+
+    # ---- sanity check ----
+    if isinstance(pre_positions, set):
+        raise TypeError(
+            "visualize_pre_synapse_with_mito: pre_positions is a set; "
+            "please pass an np.ndarray (shape [N,3]) or a dict."
+        )
+
+    # ---- fetch the 3D nm-coordinate ----
+    if isinstance(pre_positions, dict):
+        pos_nm = pre_positions[pre_idx]
+    else:
+        pos_nm = pre_positions[pre_idx]
+
+    if pre_idx not in nearest_map:
+        raise ValueError(f"pre_idx {pre_idx} has no mito assignment")
+
+    mito_id, dist = nearest_map[pre_idx]
+
+    # ---- convert nm → voxels and crop ----
+    voxel = np.round(pos_nm / resolution).astype(int)
+    z, y, x = voxel
+
+    y0, y1 = max(0, y - window), min(raw_em.shape[1], y + window)
+    x0, x1 = max(0, x - window), min(raw_em.shape[2], x + window)
+
+    em_slice = raw_em[z, y0:y1, x0:x1]
+    mito_mask = (mito_seg[z, y0:y1, x0:x1] == mito_id)
+
+    # ---- plot ----
+    plt.figure(figsize=(6, 6))
+    plt.imshow(em_slice, cmap='gray')
+    plt.contour(mito_mask, colors='orange', linewidths=1,
+                extent=(0, x1 - x0, y1 - y0, 0))
+    py, px = y - y0, x - x0
+    plt.scatter([px], [py], c='red', s=50, label=f'Pre #{pre_idx}')
+    plt.title(f"Pre {pre_idx} ↔ Mito {mito_id} ({dist:.1f} nm)")
+    plt.legend(loc='upper right')
+    plt.axis('off')
+    plt.show()
+
+
+def get_mitos_within_radius(
+        pre_positions: npt.NDArray,  # [N_pre,3] in nm
+        pre_assignments: Dict[int, int],  # pre_idx -> neuron_id
+        mito_coords: Dict[int, npt.NDArray],  # mito_id -> [3] in nm
+        neuron_to_mitos: Dict[int, List[int]],  # neuron_id -> [mito_ids]
+        radius_nm: float
+) -> Dict[int, List[Tuple[int, float]]]:
+    """
+    For each pre-synapse i, find all mito IDs *in the same neuron* within `radius_nm`.
+    Returns: pre_idx -> [(mito_id, distance_nm), ...], sorted by distance.
+    """
+    multi_map: Dict[int, List[Tuple[int, float]]] = {}
+    for i, pos in enumerate(pre_positions):
+        neuron_id = pre_assignments.get(i)
+        if neuron_id is None:
+            continue
+        hits: List[Tuple[int, float]] = []
+        for m_id in neuron_to_mitos.get(neuron_id, []):
+            m_pos = mito_coords.get(m_id)
+            if m_pos is None:
+                continue
+            d = float(np.linalg.norm(pos - m_pos))
+            if d <= radius_nm:
+                hits.append((m_id, d))
+        if hits:
+            multi_map[i] = sorted(hits, key=lambda x: x[1])
+    return multi_map
+
+
+def analyze_and_plot_mito_to_presynapse_distances(
+        mito_ids: List[int],
+        mito_coords: Dict[int, npt.NDArray],
+        mito_to_neuron: Dict[int, int],
+        pre_positions: Union[npt.NDArray, set],
+        neuron_to_presynapses: Dict[int, List[int]],
+        out_dir: str
+) -> List[float]:
+    """
+    For every mitochondrion, finds the distance to the nearest pre-synaptic site
+    in the same neuron and plots the distribution of these distances.
 
     Args:
-        df: Pandas DataFrame
-        prefix: Prefix for column names (e.g., 'Pre' or 'Post')
+        mito_ids (List[int]): A list of all mitochondrion IDs to analyze.
+        mito_coords (Dict[int, npt.NDArray]): Dict mapping mito ID to its coordinates.
+        mito_to_neuron (Dict[int, int]): Dict mapping mito ID to its host neuron ID.
+        pre_positions (Union[npt.NDArray, set]): Collection of all pre-synaptic positions.
+        neuron_to_presynapses (Dict[int, List[int]]): Dict mapping neuron ID to a list of its pre-synapse indices.
+        out_dir (str): Directory to save the output plots.
 
     Returns:
-        cols: List of coordinate column names
-        id_col: Name of ID column if found, otherwise None
+        A list of the minimum distances found for each mitochondrion.
     """
-    # Try standard naming conventions
-    if prefix + '_X' in df.columns and prefix + '_Y' in df.columns and prefix + '_Z' in df.columns:
-        cols = [prefix + '_X', prefix + '_Y', prefix + '_Z']
-    # Try alternative naming (axis-based)
-    elif 'axis-0' in df.columns and 'axis-1' in df.columns and 'axis-2' in df.columns:
-        cols = ['axis-0', 'axis-1', 'axis-2']
-    # Try x, y, z naming
-    elif 'x' in df.columns and 'y' in df.columns and 'z' in df.columns:
-        cols = ['x', 'y', 'z']
+    print("\n--- Analyzing distances from each mitochondrion to its nearest pre-synapse ---")
+
+    # Ensure pre_positions is an indexable numpy array
+    if isinstance(pre_positions, set):
+        pre_positions = np.array(list(pre_positions))
+
+    mito_to_nearest_presyn_dist = {}
+
+    # Iterate through all mitochondria to find the nearest pre-synaptic site for each
+    for mito_id in tqdm(mito_ids, desc="Calculating mito-to-presynapse distances"):
+        neuron_id = mito_to_neuron.get(mito_id)
+        if neuron_id is None:
+            continue
+
+        mito_pos = mito_coords.get(mito_id)
+        if mito_pos is None:
+            continue
+
+        presynapse_indices_in_neuron = neuron_to_presynapses.get(neuron_id, [])
+        if not presynapse_indices_in_neuron:
+            continue
+
+        presynapse_positions_in_neuron = pre_positions[presynapse_indices_in_neuron]
+
+        if presynapse_positions_in_neuron.size == 0:
+            continue
+
+        # Calculate distances from the current mitochondrion to all pre-synapses in the same neuron
+        distances = cdist(mito_pos.reshape(1, -1), presynapse_positions_in_neuron)[0]
+        min_dist = np.min(distances)
+        mito_to_nearest_presyn_dist[mito_id] = min_dist
+
+    if not mito_to_nearest_presyn_dist:
+        print("Could not calculate any mito-to-presynapse distances. Skipping plot generation.")
+        return []
+
+    # Now, plot the aggregated distribution of these minimum distances
+    all_distances = list(mito_to_nearest_presyn_dist.values())
+    print(f"\nCalculated nearest pre-synapse distance for {len(all_distances)} mitochondria.")
+    print(
+        f"Distance stats (nm): Min={np.min(all_distances):.2f}, Max={np.max(all_distances):.2f}, Mean={np.mean(all_distances):.2f}")
+
+    try:
+        import matplotlib.pyplot as plt
+        import seaborn as sns
+
+        vis_dir = os.path.join(out_dir, 'visualizations')
+        os.makedirs(vis_dir, exist_ok=True)
+
+        # Plot 1: Histogram of distances
+        plt.figure(figsize=(10, 6))
+        sns.histplot(all_distances, bins=30, kde=True)
+        plt.title('Distribution of Distances from Mitochondria to Nearest Pre-Synaptic Site')
+        plt.xlabel('Distance to Nearest Pre-Synapse (nm)')
+        plt.ylabel('Mitochondrion Count')
+        sns.despine()
+        plt.savefig(os.path.join(vis_dir, 'mito_to_presynapse_distance_distribution.png'), dpi=300)
+        plt.close()
+
+        # Plot 2: Cumulative Distribution Plot
+        plt.figure(figsize=(10, 6))
+        sns.ecdfplot(all_distances, stat="count")
+        plt.title('Cumulative Count of Mitochondria by Distance to Nearest Pre-Synapse')
+        plt.xlabel('Distance to Nearest Pre-Synapse (nm)')
+        plt.ylabel('Cumulative Number of Mitochondria')
+        plt.grid(True, which='both', linestyle='--', linewidth=0.5)
+        sns.despine()
+        plt.savefig(os.path.join(vis_dir, 'mito_to_presynapse_distance_cumulative.png'), dpi=300)
+        plt.close()
+
+        print(f"Saved mito-to-presynapse distance plots to {vis_dir}")
+
+    except ImportError:
+        print("Visualization requires matplotlib and seaborn. Please install them to generate plots.")
+
+    return all_distances
+
+
+def perform_statistical_comparison(distances1: List[float], distances2: List[float], label1: str, label2: str,
+                                   out_dir: str = "./"):
+    """
+    Performs a two-sample Kolmogorov-Smirnov (K-S) test to compare two distance distributions.
+
+    Args:
+        distances1 (List[float]): First list of distances.
+        distances2 (List[float]): Second list of distances.
+        label1 (str): Label for the first distribution.
+        label2 (str): Label for the second distribution.
+    """
+    print("\n--- Statistical Comparison of Distance Distributions ---")
+    print(f"Comparing '{label1}' (N={len(distances1)}) vs. '{label2}' (N={len(distances2)})")
+
+    if not distances1 or not distances2:
+        print("One or both distance lists are empty. Cannot perform K-S test.")
+        return
+
+    # Perform the two-sample K-S test
+    ks_statistic, p_value = ks_2samp(distances1, distances2)
+
+    print("\nKolmogorov-Smirnov Test Results:")
+    print(f"  K-S Statistic: {ks_statistic:.4f}")
+    print(f"  P-value: {p_value:.4g}")
+
+    content_to_write = f"\nKolmogorov-Smirnov Test Results:\n  K-S Statistic: {ks_statistic:.4f} \n  P-value: {p_value:.4g}"
+
+    alpha = 0.05
+    if p_value < alpha:
+        print(f"\nConclusion: The p-value is less than {alpha}, so we reject the null hypothesis.")
+        print("The two distance distributions are statistically different.")
+        content_to_write += f"\nConclusion: The p-value is less than {alpha}, so we reject the null hypothesis. " \
+                            f"\n The two distance distributions are statistically different."
     else:
-        # Look for any columns with X, Y, Z in their names
-        x_cols = [col for col in df.columns if 'x' in col.lower()]
-        y_cols = [col for col in df.columns if 'y' in col.lower()]
-        z_cols = [col for col in df.columns if 'z' in col.lower()]
+        print(
+            f"\nConclusion: The p-value is greater than or equal to {alpha}, so we fail to reject the null hypothesis.")
+        print("We cannot conclude that the two distributions are different.")
+        content_to_write += f"\nConclusion: The p-value is greater than or equal to {alpha}, so we fail to reject the null hypothesis." \
+                            f"We cannot conclude that the two distributions are different."
 
-        if x_cols and y_cols and z_cols:
-            cols = [x_cols[0], y_cols[0], z_cols[0]]
-        else:
-            raise ValueError(f"Cannot identify coordinate columns in dataframe with columns: {df.columns}")
-
-    # Look for ID column
-    id_col = None
-    id_candidates = [prefix + '_ID', prefix + 'ID', prefix.lower() + '_id', prefix.lower() + 'id', 'id', 'ID']
-    for candidate in id_candidates:
-        if candidate in df.columns:
-            id_col = candidate
-            break
-
-    return cols, id_col
+    with open(f"{out_dir}/KS_stat_results.txt", 'w', encoding='utf-8') as file:
+        file.write(content_to_write)
 
 
-def main():
-    """Run GT-Only:
-    python /Users/sam/Library/CloudStorage/OneDrive-UniversityofCambridge/Synapse_localisation/synapse_curation/synapse_val_mito.py \
-     --gt-pre /Users/sam/Library/CloudStorage/OneDrive-UniversityofCambridge/Phd_Data/synapse_detection/COMBINED_NEURIPS_SAME_PREID/combined_same_preid_nips_gt_test/hemi_synapses_x15035-15635_y28559-29159_z9602-10202_gt_pre_locations.csv \
-    --gt-post /Users/sam/Library/CloudStorage/OneDrive-UniversityofCambridge/Phd_Data/synapse_detection/COMBINED_NEURIPS_SAME_PREID/combined_same_preid_nips_gt_test/hemi_synapses_x15035-15635_y28559-29159_z9602-10202_gt_post_locations.csv \
-    --pred-pre /Users/sam/Library/CloudStorage/OneDrive-UniversityofCambridge/Phd_Data/synapse_detection/COMBINED_NEURIPS_SAME_PREID/dani_synapse_mapping_results/hemi/HEMIBRAIN_synapses_x15035-15635_y28559-29159_z9602-10202_pred_pre_locations.csv \
-    --pred-post /Users/sam/Library/CloudStorage/OneDrive-UniversityofCambridge/Phd_Data/synapse_detection/COMBINED_NEURIPS_SAME_PREID/dani_synapse_mapping_results/hemi/HEMIBRAIN_synapses_x15035-15635_y28559-29159_z9602-10202_pred_post_locations.csv \
-    --pred-mapping /Users/sam/Library/CloudStorage/OneDrive-UniversityofCambridge/Phd_Data/synapse_detection/COMBINED_NEURIPS_SAME_PREID/dani_synapse_mapping_results/hemi/HEMIBRAIN_synapses_x15035-15635_y28559-29159_z9602-10202_pre_post_mapping.csv \
-    --gt-only --visualize
-
-    """
-    # read the zarr first
-    zarr_path = "/Users/sam/Library/CloudStorage/OneDrive-UniversityofCambridge/Phd_Data/synapse_detection/COMBINED_NEURIPS_SAME_PREID/data_3d/mito_tests/mito_hemi_x15035-15635_y28559-29159_z9602-10202.zarr"
-
+def load_raw_seg(zarr_path):
+    """ One single zarr must contain the raw EM, neuron seg and mito seg.
+    Offsets are not considered"""
     # Print available datasets in the zarr file
     print("Available datasets in zarr file:")
     zarr_root = zarr.open(zarr_path, mode='r')
@@ -803,6 +1100,20 @@ def main():
                 if isinstance(zarr_root[key][subkey], zarr.hierarchy.Group):
                     for subsubkey in zarr_root[key][subkey]:
                         print(f"    - {key}/{subkey}/{subsubkey}")
+
+    # Load the raw EM
+    try:
+        raw_em = zarr_root["volumes/raw"]
+        print(f"Loaded raw EM data with shape: {raw_em.shape}")
+    except KeyError:
+        print("Could not find raw EM data at volumes/raw, trying volumes/raw/s0...")
+        try:
+            raw_em = zarr_root["volumes/raw/s0"]
+            print(f"Loaded raw EM with shape: {raw_em.shape}")
+        except KeyError:
+            print("Error: Could not find raw EM in the zarr file.")
+            print("Please check the zarr file structure and update the path.")
+            return
 
     # Load the mito data - adjust path if needed based on the output above
     try:
@@ -832,8 +1143,85 @@ def main():
             print("Please check the zarr file structure and update the path.")
             return
 
-    # Parse command line arguments
+    # Get resolution from zarr metadata if available
+    try:
+        resolution = np.array(mito_data.attrs.get('resolution', [8, 8, 8]))
+        print(f"Using resolution from zarr: {resolution} nm")
+    except Exception as e:
+        resolution = np.array([8, 8, 8])  # Default resolution in nm
+        raise Warning(f"Using default resolution: {resolution} nm")
+
+    # Convert Zarr arrays to numpy arrays for processing
+    if hasattr(mito_data, 'is_zarr_array') or str(type(mito_data)).find('zarr') != -1:
+        print("Converting mito segmentation from Zarr to NumPy array...")
+        mito_segmentation = np.array(mito_data[:])
+
+    if hasattr(neuron_segmentation, 'is_zarr_array') or str(type(neuron_segmentation)).find('zarr') != -1:
+        print("Converting neuron segmentation from Zarr to NumPy array...")
+        neuron_segmentation = np.array(neuron_segmentation[:])
+
+    return raw_em, neuron_segmentation, mito_segmentation, resolution
+
+
+def load_synapses(gt_pre, gt_post):
+    # Load synapse data from CSV files
+    gt_pre_df = pd.read_csv(gt_pre)
+    gt_post_df = pd.read_csv(gt_post)
+
+    print(f"Loaded ground truth synapse data:")
+    print(f"GT Pre: {gt_pre_df.shape}, GT Post: {gt_post_df.shape}")
+
+    # Extract coordinate columns for ground truth
+    gt_pre_cols, gt_pre_id = get_coordinate_columns(gt_pre_df, 'Pre')
+    gt_post_cols, gt_post_id = get_coordinate_columns(gt_post_df, 'Post')
+
+    # Convert to numpy arrays
+    gt_pre_positions = gt_pre_df[gt_pre_cols].values
+    gt_post_positions = gt_post_df[gt_post_cols].values
+
+    print(f"First few pre-synaptic positions: {gt_pre_positions[:3]}")
+
+    ## Group by pre-post points
+    gt_pre_grouped = gt_pre_df.groupby(gt_pre_cols)
+    gt_post_grouped = gt_post_df.groupby(gt_post_cols)
+
+    print("Show gt_pre_grouped and post_grouped dfs...")
+    print(f"gt_pre_grouped \n: {gt_pre_grouped.apply(lambda a: a.drop(gt_pre_cols, axis=1)[:])}")
+    # print(f"gt_post_grouped \n: {gt_post_grouped.apply(print)}")
+
+    # Find uniques directly based on the positions?
+    positions_gt_pre_tuple = [tuple(pos) for pos in gt_pre_positions]
+    gt_pre_unique_positions = set(positions_gt_pre_tuple)
+
+    positions_gt_positions_tuple = [tuple(pos) for pos in gt_post_positions]
+    gt_post_unique_positions = set(positions_gt_positions_tuple)
+
+    # print(gt_pre_unique_positions)
+    # print(len(gt_pre_unique_positions))
+    #
+    # print(gt_post_unique_positions)
+    # print(len(gt_post_unique_positions))
+
+    return gt_pre_grouped, gt_post_grouped, gt_pre_unique_positions, gt_post_unique_positions
+
+
+def main():
+    """Run GT-Only:
+    python /Users/sam/Library/CloudStorage/OneDrive-UniversityofCambridge/Synapse_localisation/synapse_curation/synapse_val_mito.py \
+     --gt-pre /Users/sam/Library/CloudStorage/OneDrive-UniversityofCambridge/Phd_Data/synapse_detection/COMBINED_NEURIPS_SAME_PREID/combined_same_preid_nips_gt_test/hemi_synapses_x15035-15635_y28559-29159_z9602-10202_gt_pre_locations.csv \
+    --gt-post /Users/sam/Library/CloudStorage/OneDrive-UniversityofCambridge/Phd_Data/synapse_detection/COMBINED_NEURIPS_SAME_PREID/combined_same_preid_nips_gt_test/hemi_synapses_x15035-15635_y28559-29159_z9602-10202_gt_post_locations.csv \
+    --pred-pre /Users/sam/Library/CloudStorage/OneDrive-UniversityofCambridge/Phd_Data/synapse_detection/COMBINED_NEURIPS_SAME_PREID/dani_synapse_mapping_results/hemi/HEMIBRAIN_synapses_x15035-15635_y28559-29159_z9602-10202_pred_pre_locations.csv \
+    --pred-post /Users/sam/Library/CloudStorage/OneDrive-UniversityofCambridge/Phd_Data/synapse_detection/COMBINED_NEURIPS_SAME_PREID/dani_synapse_mapping_results/hemi/HEMIBRAIN_synapses_x15035-15635_y28559-29159_z9602-10202_pred_post_locations.csv \
+    --pred-mapping /Users/sam/Library/CloudStorage/OneDrive-UniversityofCambridge/Phd_Data/synapse_detection/COMBINED_NEURIPS_SAME_PREID/dani_synapse_mapping_results/hemi/HEMIBRAIN_synapses_x15035-15635_y28559-29159_z9602-10202_pre_post_mapping.csv \
+    --gt-only --visualize
+
+    """
+
     parser = argparse.ArgumentParser(description='Validate synapses with mitochondria data')
+    parser.add_argument('--zarr-path', required=True,
+                        help='Path containing the neuron and mito segmentations and raw EM data')
+    # Parse command line arguments
+
     parser.add_argument('--gt-pre', required=True,
                         help='CSV file containing ground truth pre-synaptic locations')
     parser.add_argument('--gt-post', required=True,
@@ -848,7 +1236,7 @@ def main():
                         help='Distance threshold for matching synapses (default: 550nm)')
     parser.add_argument('--output-dir', default='./results_mito',
                         help='Directory to save results (default: results)')
-    parser.add_argument('--mito-distance-threshold', type=float, default=3000,
+    parser.add_argument('--mito-distance-threshold', type=float, default=6000,
                         help='Distance threshold for mitochondria in nm (default: 3000nm)')
     parser.add_argument('--visualize', action='store_true',
                         help='Generate visualizations of the results')
@@ -856,52 +1244,118 @@ def main():
                         help='Only analyze ground truth data')
     args = parser.parse_args()
 
+    # Extract dataset name from the input file path
+    dataset_name = os.path.basename(args.gt_pre).split('_')[0]
+    if not dataset_name:
+        dataset_name = "unknown"
+
     # Create output directory
     out_dir = args.output_dir
     os.makedirs(out_dir, exist_ok=True)
 
-    # Get resolution from zarr metadata if available
-    try:
-        resolution = np.array(mito_data.attrs.get('resolution', [8, 8, 8]))
-        print(f"Using resolution from zarr: {resolution} nm")
-    except:
-        resolution = np.array([8, 8, 8])  # Default resolution in nm
-        print(f"Using default resolution: {resolution} nm")
+    zarr_path = args.zarr_path
 
-    # Load synapse data from CSV files
-    gt_pre_df = pd.read_csv(args.gt_pre)
-    gt_post_df = pd.read_csv(args.gt_post)
+    raw_em, neuron_segmentation, mito_segmentation, resolution = load_raw_seg(zarr_path)
 
-    print(f"Loaded ground truth synapse data:")
-    print(f"GT Pre: {gt_pre_df.shape}, GT Post: {gt_post_df.shape}")
-
-    # Extract coordinate columns for ground truth
-    gt_pre_cols, gt_pre_id = get_coordinate_columns(gt_pre_df, 'Pre')
-    gt_post_cols, gt_post_id = get_coordinate_columns(gt_post_df, 'Post')
-
-    # Convert to numpy arrays
-    gt_pre_positions = gt_pre_df[gt_pre_cols].values
-    gt_post_positions = gt_post_df[gt_post_cols].values
-
-    print(f"Neuron segmentation shape (ZYX): {neuron_segmentation.shape}")
-    print(f"Mito segmentation shape (ZYX): {mito_data.shape}")
-    print(f"First few pre-synaptic positions: {gt_pre_positions[:3]}")
-    print(f"Resolution (ZYX): {resolution}")
+    gt_pre_grouped, gt_post_grouped, gt_pre_unique_positions, gt_post_unique_positions = load_synapses(
+        gt_pre=args.gt_pre, gt_post=args.gt_post)
 
     # Assign ground truth synapses to neurons
     gt_pre_assignments, gt_post_assignments = assign_synapses_to_neurons(
-        gt_pre_positions, gt_post_positions, neuron_segmentation, resolution)
+        gt_pre_unique_positions, gt_post_unique_positions, neuron_segmentation, resolution,
+        out_path=f"{out_dir}/gt_presyn-neuron-assignments.csv")
 
-    print(f"Assigned {len(gt_pre_assignments)} GT pre-synaptic sites to neurons")
-    print(f"Assigned {len(gt_post_assignments)} GT post-synaptic sites to neurons")
-
-    # # Should not suppress any synapses in GT
-    gt_to_suppress = []
+    # Assign mitochondria to neurons. Calculating this once is enough because this mapping will not change for syn preds
+    mito_to_neuron, mito_ids, neuron_ids = assign_mitochondria_to_neurons(mito_segmentation, neuron_segmentation,
+                                                                          out_path=f"{out_dir}/gt_mito_to_neuron_mapping.csv")
 
     # Calculate distances to mitochondria for ground truth
-    gt_mito_distances = calculate_distances_to_mitochondria(
-        gt_pre_positions, mito_data, neuron_segmentation, gt_pre_assignments, resolution, args.mito_distance_threshold)
+    gt_mito_distances, mito_coords = calculate_distances_to_mitochondria(
+        pre_positions=gt_pre_unique_positions,
+        mito_segmentation=mito_segmentation,
+        neuron_segmentation=neuron_segmentation,
+        mito_to_neuron=mito_to_neuron,
+        mito_ids=mito_ids,
+        pre_assignments=gt_pre_assignments,
+        resolution=resolution,
+        max_search_radius=args.mito_distance_threshold,
+        out_path=f"{out_dir}/gt_pre_to_mito_mapping_at_distances.csv"
+    )
     print(f"Calculated distances to mitochondria for {len(gt_mito_distances)} GT pre-synaptic sites")
+
+    # --- New Analysis: For every mito, find nearest pre-synapse and plot distributions ---
+    mito_to_pre_distances = []
+    if mito_ids and gt_pre_assignments and mito_coords:
+        # Create a reverse map from neuron_id to its pre-synapse indices for efficient lookup
+        neuron_to_gt_presynapses = {}
+        for pre_idx, neuron_id in gt_pre_assignments.items():
+            if neuron_id not in neuron_to_gt_presynapses:
+                neuron_to_gt_presynapses[neuron_id] = []
+            neuron_to_gt_presynapses[neuron_id].append(pre_idx)
+
+        mito_to_pre_distances = analyze_and_plot_mito_to_presynapse_distances(
+            mito_ids=mito_ids,
+            mito_coords=mito_coords,
+            mito_to_neuron=mito_to_neuron,
+            pre_positions=gt_pre_unique_positions,
+            neuron_to_presynapses=neuron_to_gt_presynapses,
+            out_dir=out_dir
+        )
+
+    # --- Perform Statistical Comparison ---
+    syn_to_mito_distances = list(gt_mito_distances.values())
+    if syn_to_mito_distances and mito_to_pre_distances:
+        perform_statistical_comparison(
+            syn_to_mito_distances,
+            mito_to_pre_distances,
+            label1="Pre-Synapse to nearest Mito",
+            label2="Mito to nearest Pre-Synapse",
+            out_dir=out_dir
+        )
+
+    if mito_coords:
+
+        mito_coords = {m: cm for m, cm in mito_coords.items()}  # from calculate_distances_to_mitochondria
+        neuron_to_mitos = {}
+        for m, n in mito_to_neuron.items():
+            neuron_to_mitos.setdefault(n, []).append(m)
+        # Build nearest-mito map:
+        gt_nearest = get_nearest_mito_for_pre(
+            pre_positions=gt_pre_unique_positions,
+            pre_assignments=gt_pre_assignments,
+            mito_coords=mito_coords,
+            neuron_to_mitos=neuron_to_mitos
+        )
+        for pre_i, (mito_id, d) in gt_nearest.items():
+            print(f"Pre-syn {pre_i} → Mito {mito_id} @ {d:.1f} nm")
+
+        # define your search radius
+        radius = 3000.0
+
+        multi_mito_map = get_mitos_within_radius(
+            pre_positions=gt_pre_unique_positions,
+            pre_assignments=gt_pre_assignments,
+            mito_coords=mito_coords,
+            neuron_to_mitos=neuron_to_mitos,
+            radius_nm=radius
+        )
+
+        # save to disk
+        import json
+        with open(f'{out_dir}/multi_mito_map.json', 'w') as f:
+            # {pre_idx: [[mito_id, dist_nm], ...]}
+            json.dump({str(k): [[int(m), d] for m, d in hits]
+                       for k, hits in multi_mito_map.items()}, f)
+
+        # if args.visualize: # this is worthless
+        #     visualize_pre_synapse_with_mito(
+        #         pre_idx=5, # take the last pre_i from above
+        #         raw_em=raw_em,
+        #         mito_seg=mito_segmentation,
+        #         pre_positions=np.array(list(gt_pre_unique_positions)),
+        #         nearest_map=gt_nearest,
+        #         resolution=resolution
+        #     )
 
     # Analyze the distribution of distances
     if gt_mito_distances:
@@ -913,13 +1367,29 @@ def main():
         print(f"  Median: {np.median(distances):.2f} nm")
 
         # Count synapses within different distance thresholds
-        thresholds = [500, 1000, 1500, 2000, 3000, 4000]
+        thresholds = [500, 1000, 1500, 2000, 3000, 4000, 6000]
         for threshold in thresholds:
             count = sum(1 for d in distances if d <= threshold)
-            percentage = (count / len(distances)) * 100
+            percentage = (count / len(gt_mito_distances)) * 100
             print(f"  Synapses within {threshold} nm: {count} ({percentage:.1f}%)")
 
-    # Only process predicted data if not in gt-only mode
+    # convert the pre_positions to ndarray
+    gt_pre_unique_positions = np.array(list(gt_pre_unique_positions))
+    gt_post_unique_positions = np.array(list(gt_post_unique_positions))
+    # Save ground truth synapses to CSV
+    gt_to_suppress = []
+    gt_csv_path = save_synapses_to_csv(
+        out_dir,
+        gt_pre_unique_positions, gt_post_unique_positions,
+        gt_pre_assignments, gt_post_assignments,
+        gt_mito_distances, gt_to_suppress,
+        prefix="gt_synapses"
+    )
+
+    print(f"GT Synapses saved: {gt_csv_path}")
+
+    ## Predicted:
+    # Assign predicted synapses to neurons and calculate distances to mitochondria
     if not args.gt_only:
         pred_pre_df = pd.read_csv(args.pred_pre)
         pred_post_df = pd.read_csv(args.pred_post)
@@ -931,33 +1401,34 @@ def main():
         pred_pre_cols, pred_pre_id = get_coordinate_columns(pred_pre_df, 'Pre')
         pred_post_cols, pred_post_id = get_coordinate_columns(pred_post_df, 'Post')
 
-        # Convert to numpy arrays
+        # Convert to numpy arrays. Ungrouped because we want to get all assignments without losing the duplicate FPs
         pred_pre_positions = pred_pre_df[pred_pre_cols].values
         pred_post_positions = pred_post_df[pred_post_cols].values
 
         # Assign predicted synapses to neurons
         pred_pre_assignments, pred_post_assignments = assign_synapses_to_neurons(
-            pred_pre_positions, pred_post_positions, neuron_segmentation, resolution)
+            pred_pre_positions, pred_post_positions, neuron_segmentation, resolution,
+            out_path=f"{out_dir}/pred_presyn-neuron-assignments.csv")
 
         # Find same-neuron synapses to suppress in predictions
         pred_to_suppress = filter_same_neuron_synapses(pred_pre_assignments, pred_post_assignments)
 
         # Calculate distances to mitochondria for predictions
-        pred_mito_distances = calculate_distances_to_mitochondria(
-            pred_pre_positions, mito_data, neuron_segmentation, pred_pre_assignments, resolution,
-            args.mito_distance_threshold)
-
-    # Extract dataset name from the input file path
-    dataset_name = os.path.basename(args.gt_pre).split('_')[0]
-    if not dataset_name:
-        dataset_name = "unknown"
-
-    if not args.gt_only:
+        pred_mito_distances, pred_mito_coords = calculate_distances_to_mitochondria(
+            pre_positions=pred_pre_positions,
+            mito_segmentation=mito_segmentation,
+            neuron_segmentation=neuron_segmentation,
+            mito_to_neuron=mito_to_neuron,
+            mito_ids=mito_ids,
+            pre_assignments=pred_pre_assignments,
+            resolution=resolution,
+            max_search_radius=args.mito_distance_threshold,
+            out_path=f"{out_dir}/pred_pre_to_mito_mapping_at_distances.csv")
 
         # Save results to JSON
         json_path = save_results_to_json(
             out_dir,
-            gt_pre_positions, gt_post_positions,
+            gt_pre_unique_positions, gt_post_unique_positions,
             gt_pre_assignments, gt_post_assignments,
             gt_mito_distances, gt_to_suppress,
             pred_pre_positions if not args.gt_only else None,
@@ -969,31 +1440,6 @@ def main():
             dataset_name
         )
 
-        # Generate visualizations for synapses when they are on the same neuron
-        if args.visualize:
-            print("Generating visualizations...")
-
-            # Visualize predicted synapses if available
-            if not args.gt_only:
-                visualize_synapses(
-                    pred_pre_positions, pred_post_positions,
-                    out_dir, "pred_synapse",
-                    pred_to_suppress, pred_mito_distances,
-                    em_data=zarr_root["volumes/raw"][:],  # Load EM data from zarr
-                    resolution=resolution
-                )
-
-    # Save ground truth synapses to CSV
-    gt_csv_path = save_synapses_to_csv(
-        out_dir,
-        gt_pre_positions, gt_post_positions,
-        gt_pre_assignments, gt_post_assignments,
-        gt_mito_distances, gt_to_suppress,
-        prefix="gt_synapses"
-    )
-
-    # Save predicted synapses to CSV if available
-    if not args.gt_only:
         pred_csv_path = save_synapses_to_csv(
             out_dir,
             pred_pre_positions, pred_post_positions,
@@ -1002,6 +1448,22 @@ def main():
             prefix="pred_synapses"
         )
 
+        print(f"p"
+              f"Predicted Synapses saved: {pred_csv_path} with saved json {json_path}")
+
+        # Generate visualizations for synapses when they are on the same neuron
+        if args.visualize:
+            print("Generating visualizations...")
+            visualize_synapses(
+                pred_pre_positions, pred_post_positions,
+                out_dir, "pred_synapse",
+                pred_to_suppress, pred_mito_distances,
+                em_data=raw_em,  # Load EM data from zarr
+                resolution=resolution
+
+            )
+
+    ## Visualizations:
     # Generate visualizations if requested
     if args.visualize:
         try:
@@ -1024,7 +1486,9 @@ def main():
                 plt.axvline(x=2000, color='y', linestyle='--', label='2000 nm')
                 plt.axvline(x=3000, color='b', linestyle='--', label='3000 nm')
                 plt.legend()
-                plt.savefig(os.path.join(vis_dir, 'gt_mito_distance_distribution.png'))
+                sns.despine()
+                plt.savefig(os.path.join(vis_dir, 'gt_mito_distance_distribution.png'), dpi=300)
+                plt.savefig(os.path.join(vis_dir, 'gt_mito_distance_distribution.svg'), dpi=300)
                 plt.close()
 
                 # Create a cumulative distribution plot
@@ -1036,9 +1500,14 @@ def main():
                 plt.axvline(x=500, color='r', linestyle='--', label='500 nm')
                 plt.axvline(x=1000, color='g', linestyle='--', label='1000 nm')
                 plt.axvline(x=2000, color='y', linestyle='--', label='2000 nm')
-                plt.axvline(x=3000, color='y', linestyle='--', label='2000 nm')
+                plt.axvline(x=3000, color='y', linestyle='--', label='3000 nm')
+                plt.axvline(x=4000, color='gray', linestyle='--', label='4000 nm')
+                plt.axvline(x=5000, color='gray', linestyle='--', label='5000 nm')
+                plt.axvline(x=6000, color='gray', linestyle='--', label='6000 nm')
                 plt.legend()
-                plt.savefig(os.path.join(vis_dir, 'gt_mito_distance_cumulative.png'))
+                sns.despine()
+                plt.savefig(os.path.join(vis_dir, 'gt_mito_distance_cumulative.png'), dpi=300)
+                plt.savefig(os.path.join(vis_dir, 'gt_mito_distance_cumulative.svg'), dpi=300)
                 plt.close()
 
             # Compare GT and predicted distances if both are available
@@ -1059,10 +1528,13 @@ def main():
                     'Ground Truth': list(gt_mito_distances.values()),
                     'Predicted': list(pred_mito_distances.values())
                 }
-                sns.boxplot(data=data)
+                # This handles lists of different lengths by creating a DataFrame with NaN padding
+                sns.boxplot(data=pd.DataFrame(dict([(k, pd.Series(v)) for k, v in data.items()])))
                 plt.title('Comparison of Distances to Nearest Mitochondria')
                 plt.ylabel('Distance (nm)')
-                plt.savefig(os.path.join(vis_dir, 'mito_distance_boxplot.png'))
+                sns.despine()
+                plt.savefig(os.path.join(vis_dir, 'mito_distance_boxplot.png'), dpi=300)
+                plt.savefig(os.path.join(vis_dir, 'mito_distance_boxplot.svg'), dpi=300)
                 plt.close()
 
             print(f"Visualizations saved to {vis_dir}")
@@ -1071,60 +1543,8 @@ def main():
             print("Visualization requires matplotlib and seaborn. Please install with:")
             print("pip install matplotlib seaborn")
 
-    # Save results to file
-    results = {
-        'gt_synapses': len(gt_pre_positions),
-        'gt_assigned': len(gt_pre_assignments),
-        'gt_same_neuron': len(gt_to_suppress),
-        'gt_with_mito_distance': len(gt_mito_distances),
-    }
-
-    if not args.gt_only:
-        results.update({
-            'pred_synapses': len(pred_pre_positions),
-            'pred_assigned': len(pred_pre_assignments),
-            'pred_same_neuron': len(pred_to_suppress),
-            'pred_with_mito_distance': len(pred_mito_distances),
-        })
-
-    # Add distance statistics
-    if gt_mito_distances:
-        distances = list(gt_mito_distances.values())
-        results['gt_mito_distance_stats'] = {
-            'min': float(np.min(distances)),
-            'max': float(np.max(distances)),
-            'mean': float(np.mean(distances)),
-            'median': float(np.median(distances)),
-        }
-
-        # Count synapses within different distance thresholds
-        for threshold in [500, 1000, 2000, 3000]:
-            count = sum(1 for d in distances if d <= threshold)
-            percentage = (count / len(distances)) * 100
-            results[f'gt_within_{threshold}nm'] = {
-                'count': count,
-                'percentage': float(percentage)
-            }
-
-    # Save results to file
-    with open(os.path.join(out_dir, 'mito_analysis_results.json'), 'w') as f:
-        json.dump(results, f, indent=2)
-
-    print(f"Analysis complete. Results saved to {out_dir}")
+    print()
 
 
-if __name__ == "__main__":
-    # Uncomment the following lines to run the script
+if __name__ == '__main__':
     main()
-    """"
-    --gt-pre
-/Users/sam/Library/CloudStorage/OneDrive-UniversityofCambridge/Phd_Data/synapse_detection/COMBINED_NEURIPS_SAME_PREID/combined_same_preid_nips_gt_test/hemi_synapses_x15035-15635_y28559-29159_z9602-10202_gt_pre_locations.csv
---gt-post
-/Users/sam/Library/CloudStorage/OneDrive-UniversityofCambridge/Phd_Data/synapse_detection/COMBINED_NEURIPS_SAME_PREID/combined_same_preid_nips_gt_test/hemi_synapses_x15035-15635_y28559-29159_z9602-10202_gt_post_locations.csv
---pred-pre
-/Users/sam/Library/CloudStorage/OneDrive-UniversityofCambridge/Phd_Data/synapse_detection/COMBINED_NEURIPS_SAME_PREID/dani_synapse_mapping_results_nm/hemi_nm/HEMIBRAIN_synapses_x15035-15635_y28559-29159_z9602-10202_pred_pre_locations.csv
---pred-post
-/Users/sam/Library/CloudStorage/OneDrive-UniversityofCambridge/Phd_Data/synapse_detection/COMBINED_NEURIPS_SAME_PREID/dani_synapse_mapping_results_nm/hemi_nm/HEMIBRAIN_synapses_x15035-15635_y28559-29159_z9602-10202_pred_post_locations.csv
---pred-mapping
-/Users/sam/Library/CloudStorage/OneDrive-UniversityofCambridge/Phd_Data/synapse_detection/COMBINED_NEURIPS_SAME_PREID/dani_synapse_mapping_results_nm/hemi_nm/HEMIBRAIN_synapses_x15035-15635_y28559-29159_z9602-10202_pre_post_mapping.csv
---visualize"""
