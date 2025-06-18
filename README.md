@@ -11,6 +11,8 @@
 # Overview of CATENA
 CATENA provides a comprehensive workflow for automated connectome reconstruction based on SOTA Funke-lab pipelines for Neuron Segmentation `Local Shape Descriptors (Sheridan et al. 2022)`, Synapse Detection `Synful (Buhmann et al. 2020)`, Microtubule tracking `Micron (Eckstein et al. 2019)` and Neurotransmitter classification `Synister (Eckstein, Bates et al. 2024)` from large-scale volume Electron Microscopy (EM). To cope with the variability across EM datasets, Catena includes popular domain adaptation techniques tailored for EM-to-EM translation.
 
+Directory Structure (in its present state) is [here](https://github.com/Mohinta2892/catena/blob/dev/assets/directory_structure.md).
+
 🛠️ Features:
 - Pytorch implementations of `LSDs` and `Synful`.
 - Exploration of `LSDs` and `Synful` for other task objectives.
