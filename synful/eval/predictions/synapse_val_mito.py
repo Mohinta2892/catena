@@ -249,10 +249,6 @@ def assign_mitochondria_to_neurons(
     return mito_to_neuron, mito_ids.tolist(), neuron_ids.tolist()
 
 
-def check_duplicate_assignments_in_pred_n_flag():
-    pass
-
-
 def calculate_distances_to_mitochondria(
         pre_positions: npt.NDArray,
         mito_segmentation: npt.NDArray,
@@ -352,7 +348,6 @@ def calculate_distances_to_mitochondria(
         mito_distances = []
         for mito_id in tqdm(neuron_to_mitos[neuron_id], total=len(neuron_to_mitos[neuron_id]),
                             desc="Num of mitos in neuron"):
-            min_dist = np.inf
             if mito_id in mito_coords:
                 mito_pos = mito_coords[mito_id]
                 dist = np.linalg.norm(pos - mito_pos)
@@ -363,7 +358,8 @@ def calculate_distances_to_mitochondria(
                     "pre_locs_zyx": pos,
                     "neuron_id": neuron_id,
                     "mito_id": mito_id,
-                    "distance_nm": dist
+                    "distance_nm": dist,
+                    "mito_locs_zyx": mito_pos
                 })
 
         # Record the minimum distance if any mitochondria were found
@@ -380,8 +376,10 @@ def calculate_distances_to_mitochondria(
     # Build DataFrame and save
     df = pd.DataFrame(mappings)
     df[['z', 'y', 'x']] = pd.DataFrame(df['pre_locs_zyx'].tolist(), index=df.index)
-    #   drop the original 'loc' column if you like:
+    df[['mito_z', 'mito_y', 'mito_x']] = pd.DataFrame(df['mito_locs_zyx'].tolist(), index=df.index)
+#   drop the original 'loc' column if you like:
     df = df.drop(columns='pre_locs_zyx')
+    df = df.drop(columns='mito_locs_zyx')
     df.to_csv(f"{out_path}", index=False)
 
     return distances, mito_coords
@@ -1082,8 +1080,8 @@ def perform_statistical_comparison(distances1: List[float], distances2: List[flo
         content_to_write += f"\nConclusion: The p-value is greater than or equal to {alpha}, so we fail to reject the null hypothesis." \
                             f"We cannot conclude that the two distributions are different."
 
-    with open(f"{out_dir}/KS_stat_results.txt", 'w', encoding='utf-8') as file:
-        file.write(content_to_write)
+    with open(f"{out_dir}/KS_stat_results.txt", 'w', encoding='utf-8') as file_:
+        file_.write(content_to_write)
 
 
 def load_raw_seg(zarr_path):
@@ -1269,7 +1267,7 @@ def main():
     mito_to_neuron, mito_ids, neuron_ids = assign_mitochondria_to_neurons(mito_segmentation, neuron_segmentation,
                                                                           out_path=f"{out_dir}/gt_mito_to_neuron_mapping.csv")
 
-    # Calculate distances to mitochondria for ground truth
+    # Calculate distances to mitochondria for ground truth pre-synapses
     gt_mito_distances, mito_coords = calculate_distances_to_mitochondria(
         pre_positions=gt_pre_unique_positions,
         mito_segmentation=mito_segmentation,
@@ -1282,6 +1280,20 @@ def main():
         out_path=f"{out_dir}/gt_pre_to_mito_mapping_at_distances.csv"
     )
     print(f"Calculated distances to mitochondria for {len(gt_mito_distances)} GT pre-synaptic sites")
+
+    # Calculate distances to mitochondria for ground truth post-synapses
+    gt_mito_distances_from_post, mito_coords_from_post = calculate_distances_to_mitochondria(
+        pre_positions=gt_post_unique_positions,
+        mito_segmentation=mito_segmentation,
+        neuron_segmentation=neuron_segmentation,
+        mito_to_neuron=mito_to_neuron,
+        mito_ids=mito_ids,
+        pre_assignments=gt_post_assignments,
+        resolution=resolution,
+        max_search_radius=args.mito_distance_threshold,
+        out_path=f"{out_dir}/gt_post_to_mito_mapping_at_distances.csv"
+    )
+    print(f"Calculated distances to mitochondria for {len(gt_mito_distances_from_post)} GT post-synaptic sites")
 
     # --- New Analysis: For every mito, find nearest pre-synapse and plot distributions ---
     mito_to_pre_distances = []
@@ -1366,12 +1378,22 @@ def main():
         print(f"  Mean: {np.mean(distances):.2f} nm")
         print(f"  Median: {np.median(distances):.2f} nm")
 
+        gt_mito_distances_write = f"GT Mito distance statistics: \n" \
+                                  f"  Min: {np.min(distances):.2f} nm \n" \
+                                  f"  Max: {np.max(distances):.2f} nm \n" \
+                                  f"  Mean: {np.mean(distances):.2f} nm \n" \
+                                  f"  Median: {np.median(distances):.2f} nm"
+
         # Count synapses within different distance thresholds
         thresholds = [500, 1000, 1500, 2000, 3000, 4000, 6000]
         for threshold in thresholds:
             count = sum(1 for d in distances if d <= threshold)
             percentage = (count / len(gt_mito_distances)) * 100
             print(f"  Synapses within {threshold} nm: {count} ({percentage:.1f}%)")
+            gt_mito_distances_write +=  f"\n Synapses within {threshold} nm: {count} ({percentage:.1f}%)"
+
+        with open(f"{out_dir}/gt_pre2mito_statistics.txt", 'w', encoding='utf-8') as file_:
+            file_.write(gt_mito_distances_write)
 
     # convert the pre_positions to ndarray
     gt_pre_unique_positions = np.array(list(gt_pre_unique_positions))
@@ -1508,6 +1530,23 @@ def main():
                 sns.despine()
                 plt.savefig(os.path.join(vis_dir, 'gt_mito_distance_cumulative.png'), dpi=300)
                 plt.savefig(os.path.join(vis_dir, 'gt_mito_distance_cumulative.svg'), dpi=300)
+                plt.close()
+
+            # Visualize distance distribution for ground truth
+            if gt_mito_distances_from_post:
+                plt.figure(figsize=(10, 6))
+                sns.histplot(list(gt_mito_distances_from_post.values()), bins=30, kde=True)
+                plt.title('Distribution of Distances from GT Post-synaptic Sites to Nearest Mitochondria')
+                plt.xlabel('Distance (nm)')
+                plt.ylabel('Count')
+                plt.axvline(x=500, color='r', linestyle='--', label='500 nm')
+                plt.axvline(x=1000, color='g', linestyle='--', label='1000 nm')
+                plt.axvline(x=2000, color='y', linestyle='--', label='2000 nm')
+                plt.axvline(x=3000, color='b', linestyle='--', label='3000 nm')
+                plt.legend()
+                sns.despine()
+                plt.savefig(os.path.join(vis_dir, 'gt_mito_distance_distribution_from_post.png'), dpi=300)
+                plt.savefig(os.path.join(vis_dir, 'gt_mito_distance_distribution_from_post.svg'), dpi=300)
                 plt.close()
 
             # Compare GT and predicted distances if both are available
