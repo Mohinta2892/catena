@@ -54,8 +54,11 @@ The project is organized as follows:
 
 1.  **Clone the repository:**
     ```bash
-    git clone <your-repository-url>
-    cd <your-repository-name>
+    git clone <catena-repository-url>
+    cd catena
+    git checkout dev
+    cd neurotransmitter_classification 
+
     ```
 
 2.  **Create and activate the Conda environment:**
@@ -102,7 +105,7 @@ Training is launched via the `trainer.py` script, which uses `config/config.py` 
     python trainer.py -c config/config.py
     ```
 
-## Step 3: Prediction
+## Step 3: Prediction [Untested currently]
 
 Prediction is launched via `predicter.py` and configured using `config/config_predict.py`. It is highly flexible and can source synapse locations from multiple backends.
 
