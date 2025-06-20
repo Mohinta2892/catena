@@ -15,7 +15,7 @@ This project provides a complete pipeline to train deep learning models (VGG or 
 
 The project is organized as follows:
 
-
+```bash
 .
 ├── config/
 │   ├── config.py           # Main configuration for training
@@ -41,6 +41,7 @@ The project is organized as follows:
 ├── trainer.py              # Launcher for training runs
 └── readme.md
 
+```
 
 ## Getting Started
 
