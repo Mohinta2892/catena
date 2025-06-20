@@ -63,11 +63,11 @@ The project is organized as follows:
 
 2.  **Create and activate the Conda environment:**
     ```bash
-    conda create -n synister python=3.8
+    conda env create -n synister -f http://github.com/Mohinta2892/catena/tree/dev/neurotransmitter_classification/conda_env/[choose a file that suits your requirements based on if you are running on local workstation or RHEL slurm cluster]
     conda activate synister
     ```
 
-3.  **Install dependencies:**
+3.  TODO: **Install dependencies: via pip:**
     *(Note: You will need to create a `requirements.txt` file based on your project's specific dependencies, including `gunpowder`, `torch`, `yacs`, `pandas`, `sklearn`, `tqdm`, `h5py`, and `pymongo`.)*
     ```bash
     pip install -r requirements.txt
