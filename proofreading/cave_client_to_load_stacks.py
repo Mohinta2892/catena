@@ -19,17 +19,21 @@ print(f"My current token is: {auth.token}")
 # # we need to get a token to make the connection
 # print(auth.get_new_token()) # this should show a message
 
-new_token = 'x'  # This is the text you see after you visit the website.
-if new_token != current_token:
-    auth.save_token(token=new_token)  # save to disk
-    print(f"My token is now: {auth.token}")
+new_token = 'f6721f14bd4a5ee68df9f725fdb47c92'  # This is the text you see after you visit the website.
+try:
+    if new_token != current_token:
+        auth.save_token(token=new_token)  # save to disk
+        print(f"My token is now: {auth.token}")
+
+except Exception as e:
+    pass
 
 # Prints like: ['zlatic_octo_8x8x8_datastack', 'zlatic_sam3g_090625_rsg32_datastack', 'zlatic_octo_8x8x8_full_200525_datastack']
 print(client.info.get_datastacks())
 
 # Choose a datastack to initialize with
 datastack_name = 'zlatic_octo_8x8x8_full_200525_datastack'
-client = CAVEclient(datastack_name=datastack_name)
+client = CAVEclient(datastack_name=datastack_name, server_address=server_addrs)
 
 # Try to find all leaves for a root-id
 root_id = 648518346363224861
@@ -41,8 +45,8 @@ input_leaves = [150994947, 1216348164]
 root_from_leaves = client.chunkedgraph.get_roots(input_leaves)
 print(f"root for leaves {root_from_leaves}")
 
-nodes = client.chunkedgraph.get_minimal_covering_nodes([root_id])
-print(f"nodes from rootid {nodes}")
+# nodes = client.chunkedgraph.get_minimal_covering_nodes([root_id])
+# print(f"nodes from rootid {nodes}")
 
 # find the base segmentation
 # print(f"base segmentation {client.chunkedgraph.segmentation_info}")
@@ -79,3 +83,31 @@ print(f"nodes from rootid {nodes}")
 # try to find the lineage tree
 # proofread_neuron = 648518346360884739
 # print(client.chunkedgraph.get_lineage_graph(proofread_neuron))
+
+# This works: the point coords must be in pixels to get ids
+import pandas as pd
+
+df = pd.read_csv(
+    "/media/samia/DATA/mounts/fibserver1/smohinta_data/proofreading/tracedCATMAID_neuroglancer/octo_229050_nodes.csv")
+resolution = (8, 8, 8)
+x, y, z = df["x"] // resolution[0], df["y"] // resolution[1], df["z"] // resolution[2]
+all_node_locs = [(int(xi), int(yi), int(zi)) for xi, yi, zi in zip(x, y, z)]
+# client = CAVEclient(datastack_name)
+cv = client.info.segmentation_cloudvolume()
+pts = cv.scattered_points(
+    all_node_locs,  # points to look up
+    coord_resolution=cv.meta.resolution(0),  # resolution those points are specified in, here I specify voxel space
+    agglomerate=True  # lookup supervoxels, if you want root set agglomerate=True but this adds overhead
+)
+print(pts)
+
+df = pd.DataFrame.from_dict(pts)
+df.to_csv("/media/samia/DATA/mounts/fibserver1/smohinta_data/proofreading/octo_229050_nodes_flywire.csv", index=False)
+
+pts_id = pts.values()
+print(pts_id)
+
+# skel = cv.skeleton.get(pts_id)
+mesh = cv.mesh.get(pts_id)  # return the mesh as vertices and faces instead of writing to disk
+
+print(mesh)
