@@ -19,7 +19,7 @@ print(f"My current token is: {auth.token}")
 # # we need to get a token to make the connection
 # print(auth.get_new_token()) # this should show a message
 
-new_token = 'f6721f14bd4a5ee68df9f725fdb47c92'  # This is the text you see after you visit the website.
+new_token = 'x'  # This is the text you see after you visit the website.
 try:
     if new_token != current_token:
         auth.save_token(token=new_token)  # save to disk
