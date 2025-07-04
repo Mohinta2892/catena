@@ -3,7 +3,7 @@
 Synful is the code implementation of Julia Buhmann's
 ` Automatic detection of synaptic partners in a whole-brain Drosophila electron microscopy data set `
 paper that automatically detects synaptic partners from volumetric Electron Microscopy (EM) datasets using a UNet-based machine learning models following a single-task or mult-task training paradigm.
-To that end, U-Net based network that learns to predict post-synaptic masks and pre-synaptic direction vectors either simultaneously or independently.
+To that end, U-Net based network learns to predict post-synaptic masks and pre-synaptic direction vectors either simultaneously or independently.
 The predicted synaptic partnerships facilitate extraction neural connectivity maps at scale. Synful originally was tested on adult fly EM.
 We extend that capability to larval *Drosophila* both isotropic (e.g., `8nm^3`)  and anisotropic (e.g., `4x4x50 nm` in xyz ) EM data.
 We refactor this codebase only to the extent of enabling training and inference with it again within a docker environment.
