@@ -28,15 +28,14 @@ The project is organized as follows:
 │   │   └── predict_3d.py   # Core prediction logic
 │   └── train/
 │       └── train_3d.py     # Core training logic
-├── gunpowder_nodes/
-|   └── mongo_source.py     # Custom Gunpowder node for MongoDB
+│   └── post/
+│       └── evaluate_3d.py     # Result evaluation
+├── add_ons/
+│   └── gp/
+|       └── mongo_source.py     # Custom Gunpowder node for MongoDB
 ├── models/
 │   ├── resnet3d.py         # 3D ResNet model definition
 │   └── vgg3d.py            # 3D VGG model definition
-├── scripts/
-│   ├── create_split.py     # Script to generate data splits
-│   ├── predict.py          # Core prediction script
-│   └── evaluate.py         # Script to evaluate predictions
 ├── predicter.py            # Launcher for prediction runs
 ├── trainer.py              # Launcher for training runs
 └── readme.md
