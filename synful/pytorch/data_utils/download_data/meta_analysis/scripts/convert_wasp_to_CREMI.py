@@ -50,7 +50,7 @@ def pad_data_and_adjust_locations(raw_em, locations, output_shape, voxel_size_nm
     return padded_em, adjusted_locations
 
 
-def write_padded_cremi_file(input_file, output_shape):
+def write_padded_cremi_file(input_file, output_shape, offset=None):
     """Read a CREMI format file, pad the data, and write to a new file.
     
     Args:
@@ -69,7 +69,7 @@ def write_padded_cremi_file(input_file, output_shape):
     os.makedirs(padded_dir, exist_ok=True)
 
     # Create output filename for padded data
-    output_file = os.path.join(padded_dir, f"padded_{os.path.basename(input_file)}")
+    output_file = os.path.join(padded_dir, f"{os.path.basename(input_file)}")
 
     # Read the input file
     with h5py.File(input_file, 'r') as h5_file:
@@ -107,6 +107,8 @@ def write_padded_cremi_file(input_file, output_shape):
         # Set offset if it exists
         if offset is not None:
             h5_file['annotations'].attrs['offset'] = offset
+        else:
+            h5_file['annotations'].attrs['offset'] = (0, 0, 0)
 
         # set these important to run synful
         h5_file['volumes/raw'].attrs['offset'] = (0, 0, 0)
@@ -174,6 +176,8 @@ def write_synapses_into_cremiformat_same_preid(synapses, filename, offset=None, 
 
         if offset is not None:
             h5_file['annotations'].attrs['offset'] = offset
+        else:
+            h5_file['annotations'].attrs['offset'] = (0, 0, 0)
         h5_file.close()
     elif filename.endswith('.zarr'):
         if overwrite:
@@ -339,8 +343,8 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
 
     # You may need to change the following paths according to your file structure.
-    path_image = '/Users/sam/Library/CloudStorage/OneDrive-UniversityofCambridge/Phd_Data/synapse_detection/wasp/WASPSYN_Dataset/training_set/train_sample3_vol0/img_zyx_2217-2617_4038-4448_6335-6735.h5'
-    path_label = '/Users/sam/Library/CloudStorage/OneDrive-UniversityofCambridge/Phd_Data/synapse_detection/wasp/WASPSYN_Dataset/training_set/train_sample3_vol0/syns_zyx_2217-2617_4038-4448_6335-6735.h5'
+    path_image = '/Users/sam/Library/CloudStorage/OneDrive-UniversityofCambridge/Phd_Data/synapse_detection/wasp/WASPSYN_Dataset/training_set/train_sample3_vol4/img_zyx_1920-2336_4832-5248_6528-6944.h5'
+    path_label = '/Users/sam/Library/CloudStorage/OneDrive-UniversityofCambridge/Phd_Data/synapse_detection/wasp/WASPSYN_Dataset/training_set/train_sample3_vol4/syns_zyx_1920-2336_4832-5248_6528-6944.h5'
 
     # Extract offset from filename
     offset_zyx = path_label.split('/')[-1].split('_')
@@ -410,11 +414,11 @@ if __name__ == "__main__":
         h5_file['volumes/raw'].attrs['resolution'] = (8, 8, 8)  # Resolution in nm
 
     distances_same_preid = write_synapses_into_cremiformat_same_preid(synapses, output_path_same_preid,
-                                                                      offset=tuple(o * 8 for o in offset),
+                                                                      offset=None,
                                                                       overwrite=False)
 
     print(f"Conversion complete. Output files:\n{output_path}\n{output_path_same_preid}")
 
     # Create a third output: read the same_preid and pad the EM and adjust locations and save
     # Read the same_preid output file
-    padded_output_path = write_padded_cremi_file(output_path_same_preid, output_shape=(512, 512, 512))
+    padded_output_path = write_padded_cremi_file(output_path_same_preid, output_shape=(600, 600, 600), offset=None)
