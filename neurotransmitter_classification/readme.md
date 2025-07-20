@@ -4,7 +4,7 @@
 This is a very initial reimplementation of the Nil Eckstein's [Synister](https://github.com/funkelab/synister/tree/master) project. It has been restructured based on Synister's [ dev branch updates by Diane Adjavon; HHMI Janelia](https://github.com/funkelab/synister/tree/dev)  to work with local datasets that have been carefully curated from publicly available adult fly brain datasets. These local datasets are much smaller in size, with the biggest dataset containing around 1000 examples for each of the major neurotransmitters: `acetylcholine`, `serotonin`, `dopamine`, `glutamate`, `gaba`, `octopamine`, and `tyramine`.
 
 >[!IMPORTANT]
-> This re-implementation will slightly deviate from the original one as it include multiple architectures besides the VGG.
+> This re-implementation will slightly deviate from the original one as it will include multiple architectures besides the VGG.
 > It will continue to use `Gunpowder` and `Daisy` for data loading and task scheduling.
  
 ## Overview
