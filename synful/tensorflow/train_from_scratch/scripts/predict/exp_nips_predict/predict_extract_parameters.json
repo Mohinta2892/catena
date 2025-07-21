@@ -1,0 +1,18 @@
+{
+  "experiment": "nips",
+  "setup": "setup_03_neurips_wasp_preid_256",
+  "iteration": 300000, 
+  "raw_file" : "/zstore/catena/data/COMBINED_NEURIPS_SAME_PREID/data_3d/test/hemi_synapses_x15035-15635_y28559-29159_z9602-10202.hdf",
+  "raw_dataset" : "volumes/raw",
+  "num_workers": 1,
+  "db_host": "localhost:27017",
+  "db_name": "hemi",
+  "out_basedir": "output_predict_on_train/",
+  "overwrite":false,
+  "configname": "train",
+  "extraction_parameters": "./extract_parameters_setup32_score10.json",
+  "synapse_context": [0,0,0],
+  "mask" : "",
+  "mask_ds" : "",
+  "max_retries": 3
+}
