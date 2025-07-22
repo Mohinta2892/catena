@@ -182,7 +182,7 @@ Please edit the following paths to point to your data:
     gt_synfile = trainingfile # this is the file that contains raw or raw + gt
 ```
 
-This visualize script is actively changes, hence slightly unclean. We will release a cleaner version sooner.
+This visualize script is actively changes, hence slightly unclean. We will release a cleaner version soon.
 
 ## Evaluation
 
