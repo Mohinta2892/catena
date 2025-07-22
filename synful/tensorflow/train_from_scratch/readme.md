@@ -144,10 +144,38 @@ CUDA_VISIBLE_DEVICES=0 python train.py
     "nms_radius": null # You can choose to pass a radius to suppress False positives. It should be large enough to make a difference. Make a calculated guess based on your training parameters.
   }
   ```
-
-
+- Run inference to save only the synapses
+  ```bash
+  python 04_predict_extract_blockwise.py predict_extract_parameters.json
+  ```
+- To save the predictions of the post masks and pre direction vectors from the post-sites, run:
+  ```bash
+    python predict_blockwise.py predict_extract_parameters.json
+  ```
 
 ## Visualization of results
+
+- To visualize the predicted synapses, you should use [visualize_synful_inference](https://github.com/Mohinta2892/catena/blob/dev/visualize/visualize_synful_inference.py).
+Please edit the following paths to point to your data:
+```python
+    trainingfile = '/media/samia/DATA/mounts/zstore1/catena/data/SYN_OCTO_CUBE1_RUN2/data_3d/train/cutout1_7827_9021_y5622_6798_z4441_5575.hdf'
+    # neuron_ds = '/volumes/labels/neuron_ids'
+    # mask_ds = 'volumes/masks/groundtruth'
+    raw_ds = 'volumes/raw'
+    # neuron = daisy.open_ds(trainingfile, neuron_ds)
+    # mask = daisy.open_ds(trainingfile, mask_ds)
+    raw = open_ds(trainingfile, raw_ds)
+
+    inferencefile = '/media/samia/DATA/mounts/zstore1/synful/scripts/predict/output_predict_on_train/octo/setup03_octo_hemi/300000/cutout1_7827_9021_y5622_6798_z4441_5575.zarr'
+    pred_post_syn = 'volumes/pred_syn_indicator'
+    pred_post_dir = 'volumes/pred_partner_vectors'
+    pred_post_syn = open_ds(inferencefile, pred_post_syn)
+    pred_post_dir = open_ds(inferencefile, pred_post_dir)
+
+    synapsedir = '/media/samia/DATA/mounts/zstore1/synful/scripts/predict/output_predict_on_train/train_syn_cube1_setup03_octo_hemi_300000/syn_cc_thr095000_sum'
+    #
+    gt_synfile = '/media/samia/DATA/mounts/zstore1/catena/data/SYN_OCTO_CUBE1_RUN2/data_3d/train/cutout1_7827_9021_y5622_6798_z4441_5575.hdf'
+    #
 
 ## Evaluation
 
