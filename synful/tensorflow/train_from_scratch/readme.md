@@ -109,6 +109,44 @@ CUDA_VISIBLE_DEVICES=0 python train.py
 
 ## Predict
 
+>[!IMPORTANT]
+>Inference must be called from a folder named `predict`. Especially when calling from within a docker.
+
+- Go into the predict folder. Please edit the below parameters in `predict_extract_parameters_*.json`.
+  ```json
+    {
+    "experiment": "nips", # This can be anything. Choose something that makes sense to you for your set of experiments.
+    "setup": "setup_03_neurips_wasp_preid_256", # Change this to your train setup's folder name.
+    "iteration": 300000,  # Choose a checkpoint number.
+    "raw_file" : "/zstore/catena/data/COMBINED_NEURIPS_SAME_PREID/data_3d/test/wasp_train_vol0_syns_zyx_2217-2617_4038-4448_6335-6735_cremi_same_preid.hdf", # Provide the path to your RAW EM file
+    "raw_dataset" : "volumes/raw", # The dataset in the .hdf file that contains the RAW EM
+    "num_workers": 1, # If running from within a docker, leave this as 1. 
+    "db_host": "localhost:27017", # Your mongo DB host. In general, if mongo is not being served via a network, MongoDB is served in localhost:27017
+    "db_name": "wasp_score100", # Give a DB name, you should give different names if you run multiple inferences on the same dataset. Else Daisy will say that the DB is already exists.
+    "out_basedir": "output_predict_on_train/", # Choose a folder name where your outputs will be saved.
+    "overwrite":false, # Leave this as false if you do not want to overwrite the DB and predictions
+    "configname": "train", # We use the train config which uses a 256^3 sliding window on the RAW data. You should use `test` to run prediction on very large datasets on bigger GPUs. OPTIONS: train, test
+    "extraction_parameters": "./extract_parameters_setup32_score100.json", # Leave this as it is if you make no changes to the extract parameters.
+    "synapse_context": [0,0,0], # Increase this to use context like [36,36,36] if you have a larger dataset.
+    "mask" : "", # You can provide a mask to skip regions in the input data. Useful when skipping resin can speed up inference during whole brain inference 
+    "mask_ds" : "", # Dataset which contains the ds in the mask
+    "max_retries": 3 # It will retty to make an entry to MongoDB at least 3 times
+    }
+  ```
+- Make edits to the `extract_parameters.json`. This is optional.
+  ```json
+  {
+    "extract_type": "cc", # Uses connected components
+    "cc_threshold": 0.95, # Uses a CC threshold of 0.95 to find the post-synaptic masks. Anything above this threshold becomes a detected post-site mask
+    "loc_type": "edt", # Distance transform
+    "score_thr": 100, # Use a score value to join pre-to-post. All sites that are >= this score will be saved as synapses.
+    "score_type": "sum", # Scores are summed up to find the post sites. For more details you should see the paper's Connection Prediction section.
+    "nms_radius": null # You can choose to pass a radius to suppress False positives. It should be large enough to make a difference. Make a calculated guess based on your training parameters.
+  }
+  ```
+
+
+
 ## Visualization of results
 
 ## Evaluation
