@@ -1,0 +1,18 @@
+{
+  "experiment": "nips",
+  "setup": "setup_03_neurips_wasp_preid_256",
+  "iteration": 300000, 
+  "raw_file" : "/zstore/catena/data/COMBINED_NEURIPS_SAME_PREID/data_3d/test/wasp_train_vol0_syns_zyx_2217-2617_4038-4448_6335-6735_cremi_same_preid.hdf",
+  "raw_dataset" : "volumes/raw",
+  "num_workers": 1,
+  "db_host": "localhost:27017",
+  "db_name": "wasp_score100",
+  "out_basedir": "output_predict_on_train/",
+  "overwrite":false,
+  "configname": "train",
+  "extraction_parameters": "./extract_parameters_setup32_score100.json",
+  "synapse_context": [0,0,0],
+  "mask" : "",
+  "mask_ds" : "",
+  "max_retries": 3
+}
