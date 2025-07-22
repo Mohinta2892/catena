@@ -153,30 +153,72 @@ CUDA_VISIBLE_DEVICES=0 python train.py
     python predict_blockwise.py predict_extract_parameters.json
   ```
 
+>[!NOTE]
+>You can use [run_predict_jobs](https://github.com/Mohinta2892/catena/blob/dev/synful/tensorflow/train_from_scratch/scripts/predict/run_predict_jobs.sh) to run prediction on multiple datasets and using multiple `parameters.json` files.
+>It is bash script which will call the model inference on the specified json files sequentially. Please edit the GPU parameter. Currently set to 3.
+
 ## Visualization of results
 
 - To visualize the predicted synapses, you should use [visualize_synful_inference](https://github.com/Mohinta2892/catena/blob/dev/visualize/visualize_synful_inference.py).
 Please edit the following paths to point to your data:
 ```python
-    trainingfile = '/media/samia/DATA/mounts/zstore1/catena/data/SYN_OCTO_CUBE1_RUN2/data_3d/train/cutout1_7827_9021_y5622_6798_z4441_5575.hdf'
-    # neuron_ds = '/volumes/labels/neuron_ids'
-    # mask_ds = 'volumes/masks/groundtruth'
+    # trainingfile = '/groups/flyem/home/huangg/cln/exp/cx_smallcubes/synful/5_bf350.h5'
+    trainingfile = '/media/samia/DATA/mounts/zstore1/catena/data/preprocessed_3d/PARKER_s_vsize_8_8_8/parker_cube1_16852_17620_y7286_8054_z1506_2274_clahed.hdf'
+    # neuron_ds = '/volumes/labels/neuron_ids' # optional
+    # mask_ds = 'volumes/masks/groundtruth' #optional
     raw_ds = 'volumes/raw'
-    # neuron = daisy.open_ds(trainingfile, neuron_ds)
-    # mask = daisy.open_ds(trainingfile, mask_ds)
+    # neuron = daisy.open_ds(trainingfile, neuron_ds) # optional
+    # mask = daisy.open_ds(trainingfile, mask_ds)  # optional
     raw = open_ds(trainingfile, raw_ds)
 
-    inferencefile = '/media/samia/DATA/mounts/zstore1/synful/scripts/predict/output_predict_on_train/octo/setup03_octo_hemi/300000/cutout1_7827_9021_y5622_6798_z4441_5575.zarr'
-    pred_post_syn = 'volumes/pred_syn_indicator'
-    pred_post_dir = 'volumes/pred_partner_vectors'
-    pred_post_syn = open_ds(inferencefile, pred_post_syn)
-    pred_post_dir = open_ds(inferencefile, pred_post_dir)
+    # inferencefile = '/media/samia/DATA/mounts/zstore1/synful/scripts/predict_dec_cube2/output_predict_on_train/octo/setup_03_octo_cube2/300000/octo_cube2_12485_13164_y6231_6901_z3971_4640.zarr'
+    # pred_post_syn = 'volumes/pred_syn_indicator'
+    # pred_post_dir = 'volumes/pred_partner_vectors'
+    # pred_post_syn = open_ds(inferencefile, pred_post_syn)
+    # pred_post_dir = open_ds(inferencefile, pred_post_dir)
 
-    synapsedir = '/media/samia/DATA/mounts/zstore1/synful/scripts/predict/output_predict_on_train/train_syn_cube1_setup03_octo_hemi_300000/syn_cc_thr095000_sum'
-    #
-    gt_synfile = '/media/samia/DATA/mounts/zstore1/catena/data/SYN_OCTO_CUBE1_RUN2/data_3d/train/cutout1_7827_9021_y5622_6798_z4441_5575.hdf'
-    #
+    # Path to your synapses output directory, should be within the  `predict` folder
+    synapsedir = '/media/samia/DATA/mounts/zstore1/synful/scripts/predict/output_predict_on_train/parker_cube1_8_setup_03_octo_cube_all3_same_preid_256_300000/syn_cc_thr095000_sum'
+    gt_synfile = trainingfile # this is the file that contains raw or raw + gt
+```
+
+This visualize script is actively changes, hence slightly unclean. We will release a cleaner version sooner.
 
 ## Evaluation
 
+- To run eval you will need to save the predictions into 3 csvs, namely, pre-site locations csv, post-site locations csv and a pre-post mapping csv. Both GT and the predictions should follow the same format. Please check sample files shared to get an idea to check what they look like.
+  We can generate the csvs by running `find_matches_n_vizualize.py`. Please edit the datapaths in the file, they follow the same structure as the aforementioned visualize script.
 
+  ```bash
+      python https://github.com/Mohinta2892/catena/blob/dev/synful/eval/predictions/find_matches_n_vizualize.py
+  ```
+
+- We repurpose Synful's original evaluation script, which is based on the CREMI eval standards. If you have held-out test sets, you run eval like:
+  
+```bash
+python https://github.com/Mohinta2892/catena/blob/dev/synful/eval/predictions/synapse_partners_pairwise.py \
+--gt-pre /media/samia/DATA/mounts/zstore1/catena/data/COMBINED_NEURIPS_SAME_PREID/data_3d/test/octo_cube1_8083_8765_y5878_6542_z4697_5319_gt_pre_locations.csv \
+--gt-post /media/samia/DATA/mounts/zstore1/catena/data/COMBINED_NEURIPS_SAME_PREID/data_3d/test/octo_cube1_8083_8765_y5878_6542_z4697_5319_gt_post_locations.csv \
+--pred-pre /media/samia/DATA/mounts/zstore1/synful/scripts/predict/output_predict_on_train/octo_cube1_sc100_setup_03_neurips_octo_labels_300000/pred_pre_locations_score770.csv \ 
+--pred-post /media/samia/DATA/mounts/zstore1/synful/scripts/predict/output_predict_on_train/octo_cube1_sc100_setup_03_neurips_octo_labels_300000/pred_post_locations_score770.csv \
+--pred-mapping-csv /media/samia/DATA/mounts/zstore1/synful/scripts/predict/output_predict_on_train/octo_cube1_sc100_setup_03_neurips_octo_labels_300000/pre_post_mapping_score770.csv \
+--resolution-x 1 \ # change the resolution if your outputs in pixel space and will need to be converted nm space
+--resolution-y 1 \ 
+--resolution-z 1 \
+--output-dir /media/samia/DATA/mounts/zstore1/synful/scripts/predict/output_predict_on_train/octo_cube1_sc100_setup_03_neurips_octo_labels_300000 \
+--matching-threshold 550 # this is default and is in nm
+```
+
+This script will save F1-scores, Precision and Recall for every pair of synapse. The `matching-threshold` is an important parameter that tells you how far to look away from GT locations to find a corresponding predicted match.
+
+- To calculate F1,Precision and Recall only at pre or post site predictions, you can run [calculate_detection_metrics_samia](https://github.com/Mohinta2892/catena/blob/dev/synful/eval/predictions/calculate_detection_metrics_samia.py):
+  ```bash
+  python python -u /data/dfranco/datasets/synapses/scripts/calculate_detection_metrics_samia.py \
+  --input_pred_dir /data/dfranco/datasets/synapses/samia_results/new_run_256_patch_samia \
+  --input_gt_dir /data/dfranco/datasets/synapses/OCTO/test/raw.original \ 
+  --output_dir "/data/dfranco/datasets/synapses/samia_results/OUT/new_run_256_patch_samia" \
+  --BiaPy_dir /data/dfranco/BiaPy \
+  --tolerance 120 # this is default and is in pixels 
+  ```
+
+  
