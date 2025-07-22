@@ -111,6 +111,41 @@ CUDA_VISIBLE_DEVICES=0 python train.py
 
 >[!IMPORTANT]
 >Inference must be called from a folder named `predict`. Especially when calling from within a docker.
+> You must copy the checkpoints into this predict directory alongside their `.meta` and `train_net.json` and `test_net.json` files. See example below.
+
+- Typical contents of a predict folder:
+  ```bash
+    04_predict_extract_blockwise.py
+    extract_cremi.json
+    extract_parameters_setup32_score10.json
+    extract_parameters_setup32_score100.json
+    extract_parameters_setup32_score100_nms.json
+    output_predict_on_train
+    predict_and_extract.py
+    predict_blockwise.py
+    predict_extract_parameters.json
+    predict_extract_parameters_manc.json
+    predict_extract_parameters_manc_score100.json
+    predict_extract_parameters_octo_cube1.json
+    predict_extract_parameters_octo_cube1_score100.json
+    predict_extract_parameters_octo_cube2.json
+    predict_extract_parameters_octo_cube2_score100.json
+    predict_extract_parameters_octo_cube2_score557.json
+    predict_extract_parameters_octo_cube3.json
+    predict_extract_parameters_octo_cube3_score100 .json
+    predict_extract_parameters_octo_train.json
+    predict_extract_parameters_score100.json
+    predict_extract_parameters_wasp.json
+    predict_extract_parameters_wasp_score100.json
+  
+    test_net.meta # These must be copied from the train folder to the predict folder
+    test_net_config.json
+    train_net.meta
+    train_net_checkpoint_300000.data-00000-of-00001
+    train_net_checkpoint_300000.index
+    train_net_checkpoint_300000.meta
+    train_net_config.json
+  ```
 
 - Go into the predict folder. Please edit the below parameters in `predict_extract_parameters_*.json`.
   ```json
