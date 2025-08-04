@@ -87,6 +87,25 @@ This work is being used in other institutes:
 </div>
 <br>
 
+## 💬 What People Are Saying
+
+<table>
+<tr>
+    <td align="center" valign="top" width="100px">
+    <a href="https://www.crick.ac.uk/research/labs/michael-winding">
+        <img src="https://github.com/Mohinta2892/catena/blob/dev/assets/CRICK_Logo1.jpg?size=100" alt="crick logo" width="100" />
+        <br />
+        <b>Winding Lab, The Crick</b>
+    </a>
+    </td>
+    <td valign="top">
+    "I was very positively surprised by the quality of the segmentations, especially given that the model had not been trained on our data and that only minimal enhancement was applied to the EM images. Larger spines, in particular, are segmented with incredible precision and the identities of individual neurons appear to be well maintained across the z-plane. I was especially impressed to see the model perform well even on noisier regions with low contrast or staining residue in the intracellular space. There are occasional minor errors around small dendritic spines, so I’m very excited to see how the model performs on a dataset that has undergone the full suite of preprocessing steps.
+"
+    <br /><br />
+    <a href="https://twitter.com/some_user/status/1234567890">View on Twitter →</a>
+    </td>
+</tr>
+</table>
 
 ### 💥 Research Outputs
 #### 🤝 Conferences
