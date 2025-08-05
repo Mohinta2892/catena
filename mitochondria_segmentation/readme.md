@@ -147,7 +147,33 @@ If you only need semantic segmentation of mitochondria, you can use the saved se
 > We will report further details once we have managed to run very large EM datasets.
 
 # Instance Segmentation of mitochondria masks
-TODO
+At this stage we run connected components over the binary semantic masks naively.
+
+- To run instance segmentation, first edit the config below contained with `instance_segmentater.py`.
+```bash
+class ConversionArgs:
+    def __init__(self):
+        # Path to your saved semantic prediction file (from inference script)
+        self.input_prediction_path = "/media/samia/DATA/PhD/codebases/MitoEM/inference_results/merged_predictions_hemi_test.tif"  # <--- UPDATE THIS
+
+        self.output_instance_dir = "instance_results"
+        self.output_format = "tiff"  # "zarr" or "tiff"
+
+        # Parameters for chunking
+        self.chunk_size = (128, 128, 128)  # Size of chunks to process
+        self.overlap = (16, 16, 16)  # Overlap between chunks (must be even for simple overlap)
+
+        # Parameters for instance segmentation method (binary_connected)
+        self.thres_foreground = 0.5  # Threshold for binarizing semantic prediction (0-1)
+        self.thres_small_instances = 128  # Size threshold for removing small objects (pixels)
+        self.scale_factors = (1.0, 1.0, 1.0)  # Keep at 1.0 for no resizing
+        self.remove_small_mode = 'background'
+```
+
+- Run the instance segmentation.
+```bash
+python instance_segmentater.py
+```
 
 # Results overview
 TODO
