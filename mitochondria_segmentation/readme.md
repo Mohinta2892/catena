@@ -149,7 +149,7 @@ If you only need semantic segmentation of mitochondria, you can use the saved se
 # Instance Segmentation of mitochondria masks
 At this stage we run connected components over the binary semantic masks naively.
 
-- To run instance segmentation, first edit the config below contained with `instance_segmentater.py`.
+- To run instance segmentation, first edit the config below contained with `[instance_segmenter.py](https://github.com/Mohinta2892/catena/blob/dev/mitochondria_segmentation/instance_segmenter.py)`.
 ```bash
 class ConversionArgs:
     def __init__(self):
@@ -172,7 +172,7 @@ class ConversionArgs:
 
 - Run the instance segmentation.
 ```bash
-python instance_segmentater.py
+python instance_segmenter.py
 ```
 
 # Results overview
