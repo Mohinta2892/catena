@@ -14,9 +14,26 @@ Both models and data loading has been adapted for FIBSEM isotropic datasets. How
 - Conda (for managing the Python environment)
 
 ## Setup
+- Clone the git and go to the dev branch.
+  ```bash
+    git clone https://github.com/Mohinta2892/catena.git
+    cd catena
+    git checkout dev
+    cd mitochondria_segmentation
+   ```
+- Create and activate the Conda environment:
 
+```bash
+  conda env create -n mito -f conda_env/torch_environment.yml
+  conda activate mito
+```
+
+>[!WARNING]
+> The package has been developed and tested with `python=3.8.13`. However, it should work on newer versions of `python` too. 
+> The dependencies for `monai`, `torch`, `torch_metrics` and `zarr/h5py` will need to be adjusted accordingly.
 
 # Train Models
+
 
 # Infer with trained models
 
