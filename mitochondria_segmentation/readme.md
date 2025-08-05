@@ -2,7 +2,7 @@
 
 Knowledge of mitochondrial distribution in an EM dataset is of great importance. Mitochondria segmentation can be used to not only derive biological insights but also proofread spurious synapse detections.
 Hence, for mitochondria **semantic** segmentation, we currently support two models: 1) a naive UNet from MONAI and 2) a custom Residual UNet inspired from [Xie et al.](https://academic.oup.com/bioinformaticsadvances/article/5/1/vbaf021/8104107).
-Both models and data loading has been adapted for FIBSEM isotropic datasets. However, they are not limited to it.
+Both models and data loading have been adapted for FIBSEM (not limited to) isotropic datasets.
 
 >[!IMPORTANT]
 > You can use Local Shape Descriptors (LSDs) for mitochondria segmentation. However, the resulting predictions will generate labels for both mito and neuron segmentation jointly and in an entangled fashion.
@@ -149,7 +149,7 @@ If you only need semantic segmentation of mitochondria, you can use the saved se
 # Instance Segmentation of mitochondria masks
 At this stage we run connected components over the binary semantic masks naively.
 
-- To run instance segmentation, first edit the config below contained with `[instance_segmenter.py](https://github.com/Mohinta2892/catena/blob/dev/mitochondria_segmentation/instance_segmenter.py)`.
+- To run instance segmentation, first edit the config below contained with [instance_segmenter.py](https://github.com/Mohinta2892/catena/blob/dev/mitochondria_segmentation/instance_segmenter.py).
 ```bash
 class ConversionArgs:
     def __init__(self):
