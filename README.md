@@ -87,7 +87,7 @@ This work is being used in other institutes:
 </div>
 <br>
 
-## 💬 What People Are Saying
+## 💬 What People Are Saying About Catena
 
 <table>
 <tr>
