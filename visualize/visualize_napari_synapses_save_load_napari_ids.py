@@ -1,4 +1,5 @@
-# python your_script_name.py --load_mapping id_map.json
+# Run with (save mapping) python your_script_name.py --save_mapping id_map.csv 
+#Run with (load saved mapping) python your_script_name.py --load_mapping id_map.csv
 
 import sys
 import json  # Added for saving/loading the mapping
