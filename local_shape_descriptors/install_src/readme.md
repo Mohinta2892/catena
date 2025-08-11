@@ -16,7 +16,7 @@ So, this a workaround for now, which let's us place a pre-installed directly int
   ```
   Please ensure you have `numpy==1.24.4` and `cython==0.29.34` in the `.yml`.
   
-- Download the above zip files. Unzip them.
+- Download the above zip files. **Unzip** them.
 - Find the path to `site-packages` for this conda environment's python with:
 ```bash 
   pip show wandb
