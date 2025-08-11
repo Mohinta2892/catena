@@ -90,3 +90,29 @@ Once `Napari` is installed successfully, you can run `visualise_napari.py`:
 ```
 - The script expects an affinity dataset and a segmentation. Our raws generally contain `raw`, `pred_affs` and `segmentation` in the same `zarr` file.
 You must either comment these lines or provide the files with these datasets to plot them in neuroglancer.
+
+
+
+# Script features and functionalities
+[nglancer_pyconnectomics_example.py](https://github.com/Mohinta2892/catena/blob/dev/visualize/nglancer_pyconnectomics_example.py)
+#### Functionality:
+This is an example script that demonstrates how to use neuroglancer to visualize 3D (or 4D for predicted affinities) datasets. It expects an affinity dataset and a segmentation. The script sets up a neuroglancer viewer, defines coordinate spaces, and loads raw data, segmentation, and affinities from a zarr file.
+
+#### Usage:
+
+>[!WARNING]
+> You must edit nglancer_pyconnectomics_example.py to suit your datasets that you want to visualise.
+> This is currently an example script.
+
+- Specially, you need to edit the following:
+```python
+  raw_file: pass your own file with contains raw EM
+  scales: change the scales which are set as 8nm in zyx
+  names: change the zyx to xyz if your data is in that format
+```
+- To run the script:
+```bash
+conda activate nglancer
+python nglancer_pyconnectomics_example.py
+```
+The script will print a URL to the console that you can open in your browser to see the visualization.
