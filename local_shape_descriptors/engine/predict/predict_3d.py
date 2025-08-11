@@ -18,7 +18,7 @@ from add_ons.funlib_persistence.persistence_utils import *
 import ast
 from tqdm import tqdm
 from glob import glob
-# from config.config_predict import get_cfg_defaults  # import but do no use
+# from config.config_predict import get_cfg_defaults  # import but do not use
 import random
 import torch
 from funlib.persistence import prepare_ds
