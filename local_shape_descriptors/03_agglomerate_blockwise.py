@@ -190,6 +190,7 @@ def start_worker(
     cfg.INS_SEGMENT.THRESHOLD = float(agglom_next)
     logging.info(f"cfg.INS_SEGMENT.THRESHOLD {cfg.INS_SEGMENT.THRESHOLD}")
     logging.info('Running block with config %s...' % config_file)
+    print(f"Config dumped here: {config_file}")
 
     with open(config_file, "w", encoding="utf-8") as f:
         f.write(cfg.dump())
@@ -247,7 +248,7 @@ if __name__ == "__main__":
     voxel_size = Coordinate(cfg.MODEL.VOXEL_SIZE)
 
     block_size = Coordinate(256, 256, 256) * voxel_size  # hardcoded
-    context = Coordinate(16, 16, 16) * voxel_size
+    context = Coordinate(24, 24, 24) * voxel_size
     # add the context to cfg:
     cfg.DATA.CONTEXT = tuple(context)
     # we want to run agglomerate multiple times based on range of values

@@ -15,6 +15,8 @@ import subprocess
 from re import sub
 from glob import glob
 import argparse
+from yacs.config import CfgNode as CN  # default config
+
 from gunpowder import *
 
 # add current directory to path and allow absolute imports
@@ -27,6 +29,99 @@ logging.basicConfig(level=logging.INFO)
 
 logging.getLogger('daisy').setLevel(logging.DEBUG)
 module_logger = logging.getLogger(__name__)
+
+
+def find_next_unprocessed_roi(
+        completed_collection,
+        source_roi: Roi,
+        context: Coordinate,
+        net_input_size: Coordinate
+) -> Optional[Roi]:
+    """
+    Find the next unprocessed region in the volume by analyzing MongoDB records.
+    Returns a new total_input_roi starting from the first unprocessed region.
+    """
+    # Get all processed blocks sorted by position
+    pipeline = [
+        {
+            "$project": {
+                "start_coords": {"$arrayElemAt": ["$read_roi", 0]},
+                "size": {"$arrayElemAt": ["$read_roi", 1]}
+            }
+        },
+        {
+            "$sort": {
+                "start_coords.0": 1,
+                "start_coords.1": 1,
+                "start_coords.2": 1
+            }
+        }
+    ]
+
+    processed_blocks = list(completed_collection.aggregate(pipeline))
+
+    if not processed_blocks:
+        # If no blocks processed, return the original total_input_roi
+        return source_roi.grow(context, context)
+
+    # Convert to numpy for easier processing
+    starts = np.array([block['start_coords'] for block in processed_blocks])
+    sizes = np.array([block['size'] for block in processed_blocks])
+    ends = starts + sizes
+
+    # Get source ROI bounds
+    source_begin = source_roi.get_begin()
+    source_shape = source_roi.get_shape()
+    source_end = source_begin + source_shape
+
+    # Find gaps in processed regions
+    def find_gap(sorted_intervals: np.ndarray, min_val: int, max_val: int) -> Optional[Tuple[int, int]]:
+        """Find first gap in sorted intervals that's large enough for processing"""
+        current = min_val
+        for start, end in sorted_intervals:
+            if current + net_input_size[0] <= start:  # Found gap big enough for processing
+                return (current, max_val - current)
+            current = max(current, end)
+        if current < max_val:  # Gap at the end
+            return (current, max_val - current)
+        return None
+
+    # Check each dimension in order (z, y, x)
+    for dim in range(3):
+        # Sort intervals for current dimension
+        dim_intervals = np.sort(np.column_stack((starts[:, dim], ends[:, dim])), axis=0)
+
+        gap = find_gap(
+            dim_intervals,
+            source_begin[dim],
+            source_end[dim]
+        )
+
+        if gap:
+            # Found unprocessed region
+            new_begin = list(source_begin)
+            new_shape = list(source_shape)
+
+            # Adjust beginning and shape for found gap
+            new_begin[dim] = gap[0]
+            for d in range(dim + 1, 3):
+                new_begin[d] = source_begin[d]
+
+            new_shape[dim] = gap[1]
+            for d in range(dim + 1, 3):
+                new_shape[d] = source_shape[d]
+
+            # Create new ROI starting from unprocessed region
+            new_source_roi = Roi(
+                Coordinate(new_begin),
+                Coordinate(new_shape)
+            )
+
+            # Grow with context and return
+            return new_source_roi.grow(context, context)
+
+    # If we get here, everything is processed
+    return None
 
 
 def predict_blockwise(
@@ -81,9 +176,14 @@ def predict_blockwise(
             [("block_id", pymongo.ASCENDING)], name="block_id"
         )
 
-    complete_cache = set(
-        [tuple(doc["block_id"]) for doc in completed_collection.find()]
-    )
+    # Calculating a cache to see which blocks are done
+    # complete_cache = set(
+    #     [tuple(doc["block_id"]) for doc in completed_collection.find()]
+    # )
+    complete_cache = {
+        tuple(doc["block_id"]) for doc in completed_collection.find({}, {"block_id": 1})
+    }
+    # print(complete_cache)
 
     # get ROI of source
     raw_dataset = "volumes/raw"  # is always this
@@ -108,12 +208,28 @@ def predict_blockwise(
 
     source_roi = source.roi
     total_input_roi = source_roi.grow(context, context)
+    module_logger.debug(f"Total input ROI {total_input_roi} and context {context}")
     output_roi = source_roi  # keeping in sync with existing example in `lsd_experiments` repo
-    module_logger.debug(f"Total output ROI {total_input_roi} and context {context}")
+    module_logger.debug(f"Total output ROI {output_roi} has no context")
 
     # create read and write ROI
     block_read_roi = Roi((0, 0, 0), net_input_size) - context
     block_write_roi = Roi((0, 0, 0), net_output_size)
+
+    ### EXPERIMENTAL ADJUSTING THE ROI BASED ON WHAT HAS BEEN PROCESSED ###
+    # # Get dynamic total_input_roi based on processed blocks
+    # total_input_roi = find_next_unprocessed_roi(
+    #     completed_collection,
+    #     source.roi,
+    #     context,
+    #     net_input_size
+    # )
+
+    if total_input_roi is None:
+        logger.info("All blocks have been processed!")
+        return
+
+    module_logger.info(f"Starting processing new from ROI: {total_input_roi}")
 
     logging.info('Preparing output dataset...')
 
@@ -165,7 +281,10 @@ def predict_blockwise(
         fit="shrink",
     )
 
-    daisy.run_blockwise([predict_affs_task])
+    try:
+        daisy.run_blockwise([predict_affs_task])
+    except Exception as e:
+        print(f"Task ended: {str(e)}")
 
 
 def check_block(completed_collection, complete_cache, block):
@@ -173,7 +292,6 @@ def check_block(completed_collection, complete_cache, block):
             block.block_id in complete_cache
             or len(list(completed_collection.find({"block_id": block.block_id}))) >= 1
     )
-
     return done
 
 
@@ -223,11 +341,48 @@ def start_worker(cfg):
     # abs path to the worker - make it relative
     worker = "./engine/predict/predict_worker_daisy.py"
 
-    subprocess.run(
-        ["python", f"{worker}", f"{config_file}"]
-    )
+    # subprocess.run(
+    #     ["python", f"{worker}", f"{config_file}"]
+    # )
     # subprocess.run(["srun", "--gres=gpu:1", "--partition=ml", "--mem=64G", " --time=1:00:00", " --nodelist=fmg104",
     #                 " --pty", "tcsh", "python", f"{worker}", f"{config_file}"])
+
+    # Define the sbatch command to run inline
+    conda_env = "funkelsd_slurm"  # Replace with your Conda environment name
+    # SBATCH command should never have tabs/spaces after the bin/sh.
+    # It will execute it differently otherwise (we have seen getting only cpus instead of gpus when requested).
+    sbatch_command = f"""#!/bin/sh
+#SBATCH -t 90:40:00                # CPU time
+#SBATCH --partition=agpu           # Partition (queue)
+#SBATCH --gres=gpu:1               # GPU resource
+#SBATCH --mem=128G                 # Memory per node
+#SBATCH -c 20                       # Number of CPU cores
+
+#SBATCH -o ./test_logs/sbatch_test_%j.out     # STDOUT log
+#SBATCH -e ./test_logs/sbatch_test_%j.err     # STDERR log
+
+echo -e "Hello there - my name is sbatch script and I am running on $( hostname ).\nThese are my environmental variables:"
+env | grep -i slurm
+
+# Load Conda environment
+source ~/.bashrc
+conda activate {conda_env}
+
+# Run the Python worker script
+python {worker} {config_file}
+    """
+
+    #    #SBATCH --ntasks=1		       #number of tasks (analyses) to run
+    # SBATCH --gpus-per-task=1 	       # number of gpus per task
+    # SBATCH --nodelist=fmg42              # GPU resource
+
+    # Now call sbatch
+    subprocess.run(
+        ["sbatch"],
+        input=sbatch_command,
+        text=True,
+        capture_output=True
+    )
 
 
 def rename_keys(original_config, key_mapping):
@@ -300,9 +455,9 @@ if __name__ == '__main__':
     # # we expect data going in at this point to be sequentially traversed one at a time.
     # # TODO: batch inference could make it faster
     if cfg.TRAIN.BATCH_SIZE > 1:
-        module_logger.debug("If you have trained your models with Batch_Size > 1, comment this whole `if` block."
-                            "This ensures you can load the model but the inference will still proceed"
-                            " with batch_size=1.")
+        module_logger.warning("If you have trained your models with Batch_Size > 1, comment this whole `if` block."
+                              "This ensures you can load the model but the inference will still proceed"
+                              " with batch_size=1.")
         # cfg.TRAIN.BATCH_SIZE = 1
 
     if cfg.DATA.DIM_2D:
@@ -341,7 +496,7 @@ if __name__ == '__main__':
             db_name = "lsd_predictions_parallel" if cfg.DATA.DB_NAME == '' else cfg.DATA.DB_NAME  # default
             predict_blockwise(
                 cfg, sample_name=sample_name, db_host=db_host, db_name=db_name,
-                drop=True
+                drop=cfg.DATA.DROP_DS_MONGOTABLE  # set to false always
             )
 
             end = time.time()

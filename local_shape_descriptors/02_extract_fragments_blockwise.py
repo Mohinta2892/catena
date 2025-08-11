@@ -23,6 +23,7 @@ from funlib.geometry import Roi, Coordinate
 from funlib.persistence import open_ds
 import subprocess
 from re import sub
+import argparse
 
 # add current directory to path and allow absolute imports
 sys.path.insert(0, '.')
@@ -74,6 +75,9 @@ def extract_fragments(
     # Add dbname and dbhost to cfg
     cfg.DATA.DB_NAME = db_name
     cfg.DATA.DB_HOST = db_host
+
+    if drop:  # TODO: change it to have a continuation based on user input
+        raise Exception("You are dropping your DB! We do not allow that!")
 
     # network_dir = os.path.join(experiment, setup, str(iteration))
 
@@ -230,10 +234,51 @@ def start_worker(
 
     worker = "./engine/post/02_extract_fragments_worker.py"
 
-    # IF error daisy is not installed/ TypeError: 'type' object is not subscriptable due to  attr_filter: Optional[dict[str, Any]]
-    # in mongodb graph provider, it might be due to suybprocess below pointing to a different python, not the python you have in your conda
-    # env. A workaround -replace python with sys.executable: https://stackoverflow.com/questions/51819719/using-subprocess-in-anaconda-environment
+    # If error daisy is not installed/ TypeError: 'type' object is not subscriptable due to  attr_filter: Optional[dict[str, Any]]
+    # in mongodb graph provider, it might be due to subprocess below pointing to a different python,
+    # not the python you have in your conda env.
+    # A workaround -replace python with sys.executable: https://stackoverflow.com/questions/51819719/using-subprocess-in-anaconda-environment
     subprocess.run(["python", worker, config_file])
+
+    # Define the sbatch command to run inline
+    # conda_env = "funkelsd_slurm"  # Replace with your Conda environment name
+    # SBATCH command should never have tabs/spaces after the bin/sh.
+    # It will execute it differently otherwise (we have seen getting only cpus instead of gpus when requested).
+    # NB: Always specify the partition to agpu, because only that node has GLIBC_2.29 installed as dependency.
+    # USE HAL in LMB which has the same glib as in agpu nodes.
+
+
+#     sbatch_command = f"""#!/bin/sh
+# #SBATCH -t 72:40:00                # CPU time
+# #SBATCH --mem=256G                 # Memory per node
+# #SBATCH --partition=agpu           # Partition (queue)
+# #SBATCH -c 40                       # Number of CPU cores
+#
+# #SBATCH -o ./test_logs/sbatch_test_%j.out     # STDOUT log
+# #SBATCH -e ./test_logs/sbatch_test_%j.err     # STDERR log
+#
+# echo -e "Hello there - my name is sbatch script and I am running on $( hostname ).\nThese are my environmental variables:"
+# env | grep -i slurm
+#
+# # Load Conda environment
+# source ~/.bashrc
+# conda activate {conda_env}
+#
+# # Run the Python worker script
+# python {worker} {config_file}
+#     """
+
+#    #SBATCH --ntasks=1		       #number of tasks (analyses) to run
+# SBATCH --gpus-per-task=1 	       # number of gpus per task
+# SBATCH --nodelist=fmg42              # GPU resource
+
+# Now call sbatch
+# subprocess.run(
+#     ["sbatch"],
+#     input=sbatch_command,
+#     text=True,
+#     capture_output=True
+# )
 
 
 def check_block(completed_collection, complete_cache, block):
@@ -255,8 +300,19 @@ def rename_keys(original_config, key_mapping):
 
 if __name__ == "__main__":
 
-    cfg = get_cfg_defaults()
-    # can be used to override pre-defined settings
+    parser = argparse.ArgumentParser("You can pass an explicit config file to train.")
+    parser.add_argument('-c', default=None, help='Pass the config file"!')
+    args = parser.parse_args()
+    config_file = args.c
+    if config_file is not None:
+        # parse the args file to become cfg
+        cfg = CN()
+        # Allow creating new keys recursively.: https://github.com/rbgirshick/yacs/issues/25
+        cfg.set_new_allowed(True)
+        cfg.merge_from_file(config_file)
+    else:
+        cfg = get_cfg_defaults()  # can be used to override pre-defined settings
+
     if os.path.exists("./experiment.yaml"):
         cfg.merge_from_file("experiment.yaml")
 
@@ -281,6 +337,9 @@ if __name__ == "__main__":
     # do not freeze this because we want to add other options in the predict script
     # cfg.freeze()
     print(cfg)
+
+    if cfg.DATA.DROP_DS_MONGOTABLE:
+        raise Exception("Droppong DB tables is not allowed. Comment this portion od code, if you want to drop.")
 
     # make the outfile path here - /basepath/modeltype/2d/checkpoint_name
     # this should exist already given that instance segmentation will run on affinity predictions
