@@ -6,7 +6,7 @@ import os
 sys.path.insert(0, '.')
 from config.config_predict import *
 from engine.predict.predict_3d import predict
-from engine.predict.predict_2d_all_yacs import predict_2d
+from engine.predict.predict_2d import predict_2d
 from engine.post.run_waterz import run_waterz
 from data_utils.preprocess_volumes.utils import calculate_min_2d_samples
 from glob import glob

@@ -1,0 +1,206 @@
+20:35:03,641 engine.predict.predict_3d DEBUG data_dir /media/samia/DATA/mounts/fibserver1/smohinta_data/catena_data/OCTO_ORNS
+20:35:03,641 engine.predict.predict_3d DEBUG If you are wondering why data_dir is missing your root dir, troubleshoot tip here: https://stackoverflow.com/questions/1945920/why-doesnt-os-path-join-work-in-this-case
+20:35:04,513 engine.predict.predict_3d DEBUG Model
+20:35:04,514 gunpowder.array DEBUG Registering array key RAW
+20:35:04,514 gunpowder.array DEBUG Registering array key PRED_AFFS
+20:35:04,515 gunpowder.array DEBUG Registering array key PRED_LSDS
+20:35:04,515 engine.predict.predict_3d DEBUG input_size: (2048, 2048, 2048); output_size: (1056, 1056, 1056)
+20:35:04,559 gunpowder.nodes.batch_provider DEBUG Current spec of ZarrSource[/media/samia/DATA/mounts/fibserver1/smohinta_data/catena_data/OCTO_ORNS/data_3d/test/octo_orns_s0_z4036-5567_y10370-10882_x5055-5567.zarr]:
+None
+20:35:04,559 gunpowder.nodes.batch_provider DEBUG ZarrSource[/media/samia/DATA/mounts/fibserver1/smohinta_data/catena_data/OCTO_ORNS/data_3d/test/octo_orns_s0_z4036-5567_y10370-10882_x5055-5567.zarr] provides RAW with spec ROI: [0:12248, 0:4096, 0:4096] (12248, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: uint8, placeholder: False
+20:35:04,559 gunpowder.build DEBUG leaving context, tearing down pipeline
+20:35:04,560 gunpowder.nodes.batch_provider DEBUG Resetting spec of ZarrSource[/media/samia/DATA/mounts/fibserver1/smohinta_data/catena_data/OCTO_ORNS/data_3d/test/octo_orns_s0_z4036-5567_y10370-10882_x5055-5567.zarr]
+20:35:04,560 gunpowder.build DEBUG tear down completed
+20:35:04,560 engine.predict.predict_3d DEBUG Total output ROI [496:11752, 496:3600, 496:3600] (11256, 3104, 3104) and context (496, 496, 496)
+20:35:04,560 add_ons.funlib_persistence.persistence_utils WARNING Warning: The datasets if they exist in the output  will always be re-created. Hence pass delete_ds=False if you wish to preserve them and only add something new.
+20:35:04,560 funlib.persistence.arrays.datasets DEBUG Setting chunk size to (256, 256, 256)
+20:35:04,564 funlib.persistence.arrays.datasets DEBUG Trying to reuse existing dataset volumes/raw in /media/samia/DATA/mounts/fibserver1/smohinta_data/catena/lsd_outputs/MTLSD/3d/run-aclsd-together/model_checkpoint_300000/octo_orns_s0_z4036-5567_y10370-10882_x5055-5567.zarr...
+20:35:04,564 funlib.persistence.arrays.datasets DEBUG opening zarr dataset volumes/raw in /media/samia/DATA/mounts/fibserver1/smohinta_data/catena/lsd_outputs/MTLSD/3d/run-aclsd-together/model_checkpoint_300000/octo_orns_s0_z4036-5567_y10370-10882_x5055-5567.zarr
+20:35:04,570 funlib.persistence.arrays.datasets DEBUG opened zarr dataset volumes/raw in /media/samia/DATA/mounts/fibserver1/smohinta_data/catena/lsd_outputs/MTLSD/3d/run-aclsd-together/model_checkpoint_300000/octo_orns_s0_z4036-5567_y10370-10882_x5055-5567.zarr
+20:35:04,570 funlib.persistence.arrays.datasets INFO Reusing existing dataset
+20:35:04,570 add_ons.funlib_persistence.persistence_utils WARNING Warning: The datasets if they exist in the output  will always be re-created. Hence pass delete_ds=False if you wish to preserve them and only add something new.
+20:35:04,570 funlib.persistence.arrays.datasets DEBUG Setting chunk size to (132, 132, 132)
+20:35:04,571 funlib.persistence.arrays.datasets DEBUG Trying to reuse existing dataset volumes/pred_lsds in /media/samia/DATA/mounts/fibserver1/smohinta_data/catena/lsd_outputs/MTLSD/3d/run-aclsd-together/model_checkpoint_300000/octo_orns_s0_z4036-5567_y10370-10882_x5055-5567.zarr...
+20:35:04,571 funlib.persistence.arrays.datasets DEBUG opening zarr dataset volumes/pred_lsds in /media/samia/DATA/mounts/fibserver1/smohinta_data/catena/lsd_outputs/MTLSD/3d/run-aclsd-together/model_checkpoint_300000/octo_orns_s0_z4036-5567_y10370-10882_x5055-5567.zarr
+20:35:04,595 funlib.persistence.arrays.datasets DEBUG opened zarr dataset volumes/pred_lsds in /media/samia/DATA/mounts/fibserver1/smohinta_data/catena/lsd_outputs/MTLSD/3d/run-aclsd-together/model_checkpoint_300000/octo_orns_s0_z4036-5567_y10370-10882_x5055-5567.zarr
+20:35:04,595 funlib.persistence.arrays.datasets INFO Reusing existing dataset
+20:35:04,595 add_ons.funlib_persistence.persistence_utils WARNING Warning: The datasets if they exist in the output  will always be re-created. Hence pass delete_ds=False if you wish to preserve them and only add something new.
+20:35:04,596 funlib.persistence.arrays.datasets DEBUG Setting chunk size to (132, 132, 132)
+20:35:04,596 funlib.persistence.arrays.datasets DEBUG Trying to reuse existing dataset volumes/pred_affs in /media/samia/DATA/mounts/fibserver1/smohinta_data/catena/lsd_outputs/MTLSD/3d/run-aclsd-together/model_checkpoint_300000/octo_orns_s0_z4036-5567_y10370-10882_x5055-5567.zarr...
+20:35:04,596 funlib.persistence.arrays.datasets DEBUG opening zarr dataset volumes/pred_affs in /media/samia/DATA/mounts/fibserver1/smohinta_data/catena/lsd_outputs/MTLSD/3d/run-aclsd-together/model_checkpoint_300000/octo_orns_s0_z4036-5567_y10370-10882_x5055-5567.zarr
+20:35:04,618 funlib.persistence.arrays.datasets DEBUG opened zarr dataset volumes/pred_affs in /media/samia/DATA/mounts/fibserver1/smohinta_data/catena/lsd_outputs/MTLSD/3d/run-aclsd-together/model_checkpoint_300000/octo_orns_s0_z4036-5567_y10370-10882_x5055-5567.zarr
+20:35:04,619 funlib.persistence.arrays.datasets INFO Reusing existing dataset
+20:35:04,631 gunpowder.nodes.batch_provider DEBUG Current spec of ZarrSource[/media/samia/DATA/mounts/fibserver1/smohinta_data/catena_data/OCTO_ORNS/data_3d/test/octo_orns_s0_z4036-5567_y10370-10882_x5055-5567.zarr]:
+None
+20:35:04,632 gunpowder.nodes.batch_provider DEBUG ZarrSource[/media/samia/DATA/mounts/fibserver1/smohinta_data/catena_data/OCTO_ORNS/data_3d/test/octo_orns_s0_z4036-5567_y10370-10882_x5055-5567.zarr] provides RAW with spec ROI: [0:12248, 0:4096, 0:4096] (12248, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: uint8, placeholder: False
+20:35:04,632 gunpowder.nodes.batch_filter DEBUG ZarrWrite updates RAW with ROI: [0:12248, 0:4096, 0:4096] (12248, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: uint8, placeholder: False
+20:35:04,633 gunpowder.nodes.batch_filter DEBUG Normalize updates RAW with ROI: [0:12248, 0:4096, 0:4096] (12248, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+20:35:04,634 gunpowder.nodes.batch_filter DEBUG Unsqueeze updates RAW with ROI: [0:12248, 0:4096, 0:4096] (12248, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+20:35:04,634 gunpowder.nodes.batch_provider DEBUG Current spec of Predict:
+
+	RAW: ROI: [0:12248, 0:4096, 0:4096] (12248, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+
+20:35:04,634 gunpowder.nodes.batch_provider DEBUG Predict provides PRED_LSDS with spec ROI: None, voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: None, placeholder: False
+20:35:04,634 gunpowder.nodes.batch_provider DEBUG Current spec of Predict:
+
+	RAW: ROI: [0:12248, 0:4096, 0:4096] (12248, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+	PRED_LSDS: ROI: None, voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: None, placeholder: False
+
+20:35:04,635 gunpowder.nodes.batch_provider DEBUG Predict provides PRED_AFFS with spec ROI: None, voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: None, placeholder: False
+20:35:04,635 gunpowder.nodes.batch_filter DEBUG Squeeze updates RAW with ROI: [0:12248, 0:4096, 0:4096] (12248, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+20:35:04,636 gunpowder.nodes.batch_filter DEBUG Squeeze updates RAW with ROI: [0:12248, 0:4096, 0:4096] (12248, 4096, 4096), voxel size: (8, 8, 8), interpolatable: True, non-spatial: False, dtype: <class 'numpy.float32'>, placeholder: False
+20:35:04,636 gunpowder.nodes.batch_filter DEBUG Squeeze updates PRED_AFFS with ROI: None, voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: None, placeholder: False
+20:35:04,636 gunpowder.nodes.batch_filter DEBUG Squeeze updates PRED_LSDS with ROI: None, voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: None, placeholder: False
+20:35:04,637 gunpowder.nodes.batch_filter DEBUG ZarrWrite updates PRED_AFFS with ROI: None, voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: None, placeholder: False
+20:35:04,637 gunpowder.nodes.batch_filter DEBUG ZarrWrite updates PRED_LSDS with ROI: None, voxel size: (8, 8, 8), interpolatable: False, non-spatial: False, dtype: None, placeholder: False
+20:35:04,637 gunpowder.nodes.batch_provider DEBUG Scan got request 
+
+20:35:04,638 gunpowder.nodes.scan DEBUG getting shift roi for RAW with spec ROI: [0:2048, 0:2048, 0:2048] (2048, 2048, 2048), voxel size: None, interpolatable: None, non-spatial: False, dtype: None, placeholder: False
+20:35:04,638 gunpowder.nodes.scan DEBUG upstream ROI is [0:12248, 0:4096, 0:4096] (12248, 4096, 4096)
+20:35:04,638 gunpowder.nodes.scan DEBUG shift ROI for RAW is [0:10201, 0:2049, 0:2049] (10201, 2049, 2049)
+20:35:04,638 gunpowder.nodes.scan DEBUG intersected with total shift ROI this yields [0:10201, 0:2049, 0:2049] (10201, 2049, 2049)
+20:35:04,639 gunpowder.nodes.scan DEBUG getting shift roi for PRED_LSDS with spec ROI: [496:1552, 496:1552, 496:1552] (1056, 1056, 1056), voxel size: None, interpolatable: None, non-spatial: False, dtype: None, placeholder: False
+20:35:04,639 gunpowder.nodes.scan DEBUG skipping, PRED_LSDS has not ROI
+20:35:04,639 gunpowder.nodes.scan DEBUG getting shift roi for PRED_AFFS with spec ROI: [496:1552, 496:1552, 496:1552] (1056, 1056, 1056), voxel size: None, interpolatable: None, non-spatial: False, dtype: None, placeholder: False
+20:35:04,639 gunpowder.nodes.scan DEBUG skipping, PRED_AFFS has not ROI
+20:35:04,639 gunpowder.nodes.scan DEBUG enumerating possible shifts of (1056, 1056, 1056) in [0:10201, 0:2049, 0:2049] (10201, 2049, 2049)
+20:35:04,639 gunpowder.nodes.scan DEBUG adding [0 0 0]
+20:35:04,640 gunpowder.nodes.scan DEBUG adding [1056    0    0]
+20:35:04,640 gunpowder.nodes.scan DEBUG adding [2112    0    0]
+20:35:04,640 gunpowder.nodes.scan DEBUG adding [3168    0    0]
+20:35:04,641 gunpowder.nodes.scan DEBUG adding [4224    0    0]
+20:35:04,641 gunpowder.nodes.scan DEBUG adding [5280    0    0]
+20:35:04,641 gunpowder.nodes.scan DEBUG adding [6336    0    0]
+20:35:04,641 gunpowder.nodes.scan DEBUG adding [7392    0    0]
+20:35:04,641 gunpowder.nodes.scan DEBUG adding [8448    0    0]
+20:35:04,641 gunpowder.nodes.scan DEBUG adding [9504    0    0]
+20:35:04,642 gunpowder.nodes.scan DEBUG adding [10200     0     0]
+20:35:04,642 gunpowder.nodes.scan DEBUG adding [   0 1056    0]
+20:35:04,642 gunpowder.nodes.scan DEBUG adding [1056 1056    0]
+20:35:04,642 gunpowder.nodes.scan DEBUG adding [2112 1056    0]
+20:35:04,642 gunpowder.nodes.scan DEBUG adding [3168 1056    0]
+20:35:04,643 gunpowder.nodes.scan DEBUG adding [4224 1056    0]
+20:35:04,643 gunpowder.nodes.scan DEBUG adding [5280 1056    0]
+20:35:04,643 gunpowder.nodes.scan DEBUG adding [6336 1056    0]
+20:35:04,643 gunpowder.nodes.scan DEBUG adding [7392 1056    0]
+20:35:04,643 gunpowder.nodes.scan DEBUG adding [8448 1056    0]
+20:35:04,644 gunpowder.nodes.scan DEBUG adding [9504 1056    0]
+20:35:04,644 gunpowder.nodes.scan DEBUG adding [10200  1056     0]
+20:35:04,644 gunpowder.nodes.scan DEBUG adding [   0 2048    0]
+20:35:04,644 gunpowder.nodes.scan DEBUG adding [1056 2048    0]
+20:35:04,644 gunpowder.nodes.scan DEBUG adding [2112 2048    0]
+20:35:04,645 gunpowder.nodes.scan DEBUG adding [3168 2048    0]
+20:35:04,645 gunpowder.nodes.scan DEBUG adding [4224 2048    0]
+20:35:04,645 gunpowder.nodes.scan DEBUG adding [5280 2048    0]
+20:35:04,645 gunpowder.nodes.scan DEBUG adding [6336 2048    0]
+20:35:04,645 gunpowder.nodes.scan DEBUG adding [7392 2048    0]
+20:35:04,645 gunpowder.nodes.scan DEBUG adding [8448 2048    0]
+20:35:04,646 gunpowder.nodes.scan DEBUG adding [9504 2048    0]
+20:35:04,646 gunpowder.nodes.scan DEBUG adding [10200  2048     0]
+20:35:04,646 gunpowder.nodes.scan DEBUG adding [   0    0 1056]
+20:35:04,646 gunpowder.nodes.scan DEBUG adding [1056    0 1056]
+20:35:04,646 gunpowder.nodes.scan DEBUG adding [2112    0 1056]
+20:35:04,647 gunpowder.nodes.scan DEBUG adding [3168    0 1056]
+20:35:04,647 gunpowder.nodes.scan DEBUG adding [4224    0 1056]
+20:35:04,647 gunpowder.nodes.scan DEBUG adding [5280    0 1056]
+20:35:04,647 gunpowder.nodes.scan DEBUG adding [6336    0 1056]
+20:35:04,647 gunpowder.nodes.scan DEBUG adding [7392    0 1056]
+20:35:04,647 gunpowder.nodes.scan DEBUG adding [8448    0 1056]
+20:35:04,648 gunpowder.nodes.scan DEBUG adding [9504    0 1056]
+20:35:04,648 gunpowder.nodes.scan DEBUG adding [10200     0  1056]
+20:35:04,648 gunpowder.nodes.scan DEBUG adding [   0 1056 1056]
+20:35:04,648 gunpowder.nodes.scan DEBUG adding [1056 1056 1056]
+20:35:04,648 gunpowder.nodes.scan DEBUG adding [2112 1056 1056]
+20:35:04,648 gunpowder.nodes.scan DEBUG adding [3168 1056 1056]
+20:35:04,649 gunpowder.nodes.scan DEBUG adding [4224 1056 1056]
+20:35:04,649 gunpowder.nodes.scan DEBUG adding [5280 1056 1056]
+20:35:04,649 gunpowder.nodes.scan DEBUG adding [6336 1056 1056]
+20:35:04,649 gunpowder.nodes.scan DEBUG adding [7392 1056 1056]
+20:35:04,649 gunpowder.nodes.scan DEBUG adding [8448 1056 1056]
+20:35:04,650 gunpowder.nodes.scan DEBUG adding [9504 1056 1056]
+20:35:04,650 gunpowder.nodes.scan DEBUG adding [10200  1056  1056]
+20:35:04,650 gunpowder.nodes.scan DEBUG adding [   0 2048 1056]
+20:35:04,650 gunpowder.nodes.scan DEBUG adding [1056 2048 1056]
+20:35:04,650 gunpowder.nodes.scan DEBUG adding [2112 2048 1056]
+20:35:04,650 gunpowder.nodes.scan DEBUG adding [3168 2048 1056]
+20:35:04,651 gunpowder.nodes.scan DEBUG adding [4224 2048 1056]
+20:35:04,651 gunpowder.nodes.scan DEBUG adding [5280 2048 1056]
+20:35:04,651 gunpowder.nodes.scan DEBUG adding [6336 2048 1056]
+20:35:04,651 gunpowder.nodes.scan DEBUG adding [7392 2048 1056]
+20:35:04,651 gunpowder.nodes.scan DEBUG adding [8448 2048 1056]
+20:35:04,651 gunpowder.nodes.scan DEBUG adding [9504 2048 1056]
+20:35:04,652 gunpowder.nodes.scan DEBUG adding [10200  2048  1056]
+20:35:04,652 gunpowder.nodes.scan DEBUG adding [   0    0 2048]
+20:35:04,652 gunpowder.nodes.scan DEBUG adding [1056    0 2048]
+20:35:04,652 gunpowder.nodes.scan DEBUG adding [2112    0 2048]
+20:35:04,652 gunpowder.nodes.scan DEBUG adding [3168    0 2048]
+20:35:04,652 gunpowder.nodes.scan DEBUG adding [4224    0 2048]
+20:35:04,653 gunpowder.nodes.scan DEBUG adding [5280    0 2048]
+20:35:04,653 gunpowder.nodes.scan DEBUG adding [6336    0 2048]
+20:35:04,653 gunpowder.nodes.scan DEBUG adding [7392    0 2048]
+20:35:04,653 gunpowder.nodes.scan DEBUG adding [8448    0 2048]
+20:35:04,653 gunpowder.nodes.scan DEBUG adding [9504    0 2048]
+20:35:04,653 gunpowder.nodes.scan DEBUG adding [10200     0  2048]
+20:35:04,654 gunpowder.nodes.scan DEBUG adding [   0 1056 2048]
+20:35:04,654 gunpowder.nodes.scan DEBUG adding [1056 1056 2048]
+20:35:04,654 gunpowder.nodes.scan DEBUG adding [2112 1056 2048]
+20:35:04,654 gunpowder.nodes.scan DEBUG adding [3168 1056 2048]
+20:35:04,654 gunpowder.nodes.scan DEBUG adding [4224 1056 2048]
+20:35:04,655 gunpowder.nodes.scan DEBUG adding [5280 1056 2048]
+20:35:04,655 gunpowder.nodes.scan DEBUG adding [6336 1056 2048]
+20:35:04,655 gunpowder.nodes.scan DEBUG adding [7392 1056 2048]
+20:35:04,655 gunpowder.nodes.scan DEBUG adding [8448 1056 2048]
+20:35:04,655 gunpowder.nodes.scan DEBUG adding [9504 1056 2048]
+20:35:04,655 gunpowder.nodes.scan DEBUG adding [10200  1056  2048]
+20:35:04,656 gunpowder.nodes.scan DEBUG adding [   0 2048 2048]
+20:35:04,656 gunpowder.nodes.scan DEBUG adding [1056 2048 2048]
+20:35:04,656 gunpowder.nodes.scan DEBUG adding [2112 2048 2048]
+20:35:04,656 gunpowder.nodes.scan DEBUG adding [3168 2048 2048]
+20:35:04,656 gunpowder.nodes.scan DEBUG adding [4224 2048 2048]
+20:35:04,656 gunpowder.nodes.scan DEBUG adding [5280 2048 2048]
+20:35:04,657 gunpowder.nodes.scan DEBUG adding [6336 2048 2048]
+20:35:04,657 gunpowder.nodes.scan DEBUG adding [7392 2048 2048]
+20:35:04,657 gunpowder.nodes.scan DEBUG adding [8448 2048 2048]
+20:35:04,657 gunpowder.nodes.scan DEBUG adding [9504 2048 2048]
+20:35:04,657 gunpowder.nodes.scan DEBUG adding [10200  2048  2048]
+20:35:04,658 gunpowder.nodes.scan INFO scanning over 99 chunks
+20:35:04,661 gunpowder.nodes.batch_provider DEBUG ZarrWrite got request 
+	RAW: ROI: [0:2048, 0:2048, 0:2048] (2048, 2048, 2048), voxel size: None, interpolatable: None, non-spatial: False, dtype: None, placeholder: False
+	PRED_LSDS: ROI: [496:1552, 496:1552, 496:1552] (1056, 1056, 1056), voxel size: None, interpolatable: None, non-spatial: False, dtype: None, placeholder: False
+	PRED_AFFS: ROI: [496:1552, 496:1552, 496:1552] (1056, 1056, 1056), voxel size: None, interpolatable: None, non-spatial: False, dtype: None, placeholder: False
+
+20:35:04,662 gunpowder.nodes.batch_provider DEBUG ZarrWrite got request 
+	RAW: ROI: [0:2048, 0:2048, 0:2048] (2048, 2048, 2048), voxel size: None, interpolatable: None, non-spatial: False, dtype: None, placeholder: False
+	PRED_LSDS: ROI: [496:1552, 496:1552, 496:1552] (1056, 1056, 1056), voxel size: None, interpolatable: None, non-spatial: False, dtype: None, placeholder: False
+	PRED_AFFS: ROI: [496:1552, 496:1552, 496:1552] (1056, 1056, 1056), voxel size: None, interpolatable: None, non-spatial: False, dtype: None, placeholder: False
+
+20:35:04,663 gunpowder.nodes.batch_provider DEBUG Squeeze got request 
+	RAW: ROI: [0:2048, 0:2048, 0:2048] (2048, 2048, 2048), voxel size: None, interpolatable: None, non-spatial: False, dtype: None, placeholder: False
+	PRED_LSDS: ROI: [496:1552, 496:1552, 496:1552] (1056, 1056, 1056), voxel size: None, interpolatable: None, non-spatial: False, dtype: None, placeholder: False
+	PRED_AFFS: ROI: [496:1552, 496:1552, 496:1552] (1056, 1056, 1056), voxel size: None, interpolatable: None, non-spatial: False, dtype: None, placeholder: False
+
+20:35:04,665 gunpowder.nodes.batch_provider DEBUG Squeeze got request 
+	RAW: ROI: [0:2048, 0:2048, 0:2048] (2048, 2048, 2048), voxel size: None, interpolatable: None, non-spatial: False, dtype: None, placeholder: False
+	PRED_LSDS: ROI: [496:1552, 496:1552, 496:1552] (1056, 1056, 1056), voxel size: None, interpolatable: None, non-spatial: False, dtype: None, placeholder: False
+	PRED_AFFS: ROI: [496:1552, 496:1552, 496:1552] (1056, 1056, 1056), voxel size: None, interpolatable: None, non-spatial: False, dtype: None, placeholder: False
+
+20:35:04,666 gunpowder.nodes.batch_provider DEBUG Predict got request 
+	RAW: ROI: [0:2048, 0:2048, 0:2048] (2048, 2048, 2048), voxel size: None, interpolatable: None, non-spatial: False, dtype: None, placeholder: False
+	PRED_LSDS: ROI: [496:1552, 496:1552, 496:1552] (1056, 1056, 1056), voxel size: None, interpolatable: None, non-spatial: False, dtype: None, placeholder: False
+	PRED_AFFS: ROI: [496:1552, 496:1552, 496:1552] (1056, 1056, 1056), voxel size: None, interpolatable: None, non-spatial: False, dtype: None, placeholder: False
+
+20:35:04,686 gunpowder.torch.nodes.predict_v2 INFO Predicting on gpu
+20:35:44,861 gunpowder.build DEBUG leaving context, tearing down pipeline
+20:35:44,862 gunpowder.nodes.batch_provider DEBUG Resetting spec of ZarrSource[/media/samia/DATA/mounts/fibserver1/smohinta_data/catena_data/OCTO_ORNS/data_3d/test/octo_orns_s0_z4036-5567_y10370-10882_x5055-5567.zarr]
+20:35:44,862 gunpowder.nodes.batch_filter DEBUG Resetting spec of ZarrWrite
+20:35:44,862 gunpowder.nodes.batch_filter DEBUG Resetting spec of Normalize
+20:35:44,862 gunpowder.nodes.batch_filter DEBUG Resetting spec of IntensityScaleShift
+20:35:44,862 gunpowder.nodes.batch_filter DEBUG Resetting spec of Unsqueeze
+20:35:44,862 gunpowder.nodes.batch_filter DEBUG Resetting spec of Stack
+20:35:44,862 gunpowder.nodes.batch_filter DEBUG Resetting spec of Predict
+20:35:44,862 gunpowder.nodes.batch_filter DEBUG Resetting spec of Squeeze
+20:35:44,862 gunpowder.nodes.batch_filter DEBUG Resetting spec of Squeeze
+20:35:44,862 gunpowder.nodes.batch_filter DEBUG Resetting spec of ZarrWrite
+20:35:44,862 gunpowder.nodes.batch_filter DEBUG Resetting spec of ZarrWrite
+20:35:44,862 gunpowder.nodes.batch_filter DEBUG Resetting spec of Scan
+20:35:44,863 gunpowder.build DEBUG tear down completed
