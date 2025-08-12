@@ -21,7 +21,8 @@ class MtlsdModel(torch.nn.Module):
             pad_conv='valid',  # default valid convolutions, which result in smaller output shape than input
             nhood=3,
             use_2d=False,
-            lsds=10  # num of local shape descriptors; 10 for 3D/ 6 for 2D
+            lsds=10,  # num of local shape descriptors; 10 for 3D/ 6 for 2D,
+            batch_normalise='b'  # batch_norm?
     ):
         super().__init__()
 
@@ -34,21 +35,29 @@ class MtlsdModel(torch.nn.Module):
             kernel_size_down=kernel_size_down,
             kernel_size_up=kernel_size_up,
             num_fmaps_out=num_fmaps_out,
-            padding=pad_conv
+            padding=pad_conv,
+            batch_normalise=batch_normalise
         )
 
         if use_2d:
             self.lsds_features = 6
             self.lsd_head = ConvPass(num_fmaps_out, self.lsds_features, [[1, 1]],
-                                     activation='Sigmoid')  # LSD feature maps: 6 x D x H X W
+                                     activation='Sigmoid', batch_normalise=batch_normalise
+                                     )  # LSD feature maps: 6 x D x H X W
             # Affinity default: 2 x D x H X W; could also 6 x D x H x W if LR-affs
-            self.aff_head = ConvPass(num_fmaps_out, nhood, [[1, 1]], activation='Sigmoid')
+            self.aff_head = ConvPass(num_fmaps_out, nhood, [[1, 1]], activation='Sigmoid',
+                                     batch_normalise=batch_normalise
+                                     )
 
         else:
             # LSD feature maps: 10 x D x H X W
-            self.lsd_head = ConvPass(num_fmaps_out, self.lsds_features, [[1, 1, 1]], activation='Sigmoid')
+            self.lsd_head = ConvPass(num_fmaps_out, self.lsds_features, [[1, 1, 1]], activation='Sigmoid',
+                                     batch_normalise=batch_normalise
+                                     )
             # Affinity default: 3 x D x H X W; could also >3 x D x H x W if LR-affs
-            self.aff_head = ConvPass(num_fmaps_out, nhood, [[1, 1, 1]], activation='Sigmoid')
+            self.aff_head = ConvPass(num_fmaps_out, nhood, [[1, 1, 1]], activation='Sigmoid',
+                                     batch_normalise=batch_normalise
+                                     )
 
     def forward(self, x):
         z = self.unet(x)
@@ -75,7 +84,9 @@ class MtlsdMitoModel(torch.nn.Module):
             pad_conv='valid',  # default valid convolutions, which result in smaller output shape than input
             nhood=3,
             use_2d=False,
-            lsds=10  # num of local shape descriptors; 10 for 3D/ 6 for 2D
+            lsds=10,  # num of local shape descriptors; 10 for 3D/ 6 for 2D
+            batch_normalise='b'
+
     ):
         super().__init__()
 
@@ -88,7 +99,9 @@ class MtlsdMitoModel(torch.nn.Module):
             kernel_size_down=kernel_size_down,
             kernel_size_up=kernel_size_up,
             num_fmaps_out=num_fmaps_out,
-            padding=pad_conv
+            padding=pad_conv,
+            batch_normalise=batch_normalise
+
         )
 
         if use_2d:
@@ -96,17 +109,27 @@ class MtlsdMitoModel(torch.nn.Module):
             self.lsd_head = ConvPass(num_fmaps_out, self.lsds_features, [[1, 1]],
                                      activation='Sigmoid')  # LSD feature maps: 6 x D x H X W
             # Affinity default: 2 x D x H X W; could also 6 x D x H x W if LR-affs
-            self.aff_head = ConvPass(num_fmaps_out, nhood, [[1, 1]], activation='Sigmoid')
+            self.aff_head = ConvPass(num_fmaps_out, nhood, [[1, 1]], activation='Sigmoid',
+                                     batch_normalise=batch_normalise
+                                     )
             # Mito affinities: 2 x D x H x W
-            self.mito_head = ConvPass(num_fmaps_out, nhood, [[1, 1]], activation='Sigmoid')
+            self.mito_head = ConvPass(num_fmaps_out, nhood, [[1, 1]], activation='Sigmoid',
+                                      batch_normalise=batch_normalise
+                                      )
 
         else:
             # LSD feature maps: 10 x D x H X W
-            self.lsd_head = ConvPass(num_fmaps_out, self.lsds_features, [[1, 1, 1]], activation='Sigmoid')
+            self.lsd_head = ConvPass(num_fmaps_out, self.lsds_features, [[1, 1, 1]], activation='Sigmoid',
+                                     batch_normalise=batch_normalise
+                                     )
             # Affinity default: 3 x D x H X W; could also >3 x D x H x W if LR-affs
-            self.aff_head = ConvPass(num_fmaps_out, nhood, [[1, 1, 1]], activation='Sigmoid')
+            self.aff_head = ConvPass(num_fmaps_out, nhood, [[1, 1, 1]], activation='Sigmoid',
+                                     batch_normalise=batch_normalise
+                                     )
             # Mito affinities: 3 x D x H x W
-            self.mito_head = ConvPass(num_fmaps_out, nhood, [[1, 1, 1]], activation='Sigmoid')
+            self.mito_head = ConvPass(num_fmaps_out, nhood, [[1, 1, 1]], activation='Sigmoid',
+                                      batch_normalise=batch_normalise
+                                      )
 
     def forward(self, x):
         z = self.unet(x)
@@ -135,7 +158,9 @@ class LsdModel(torch.nn.Module):
             nhood=3,  # does not affect the output dims
             use_2d=False,
             lsds=10,  # num of local shape descriptors; 10 for 3D/ 6 for 2D,
-            cfg=None
+            cfg=None,
+            batch_normalise='b'
+
     ):
         super().__init__()
         self.lsds_features = lsds
@@ -151,16 +176,21 @@ class LsdModel(torch.nn.Module):
             kernel_size_down=kernel_size_down,
             kernel_size_up=kernel_size_up,
             num_fmaps_out=num_fmaps_out,
-            padding=pad_conv
+            padding=pad_conv,
+            batch_normalise=batch_normalise
+
         )
         if use_2d:
             self.lsds_features = 6  # overwrite here for now
             self.lsd_head = ConvPass(num_fmaps_out, self.lsds_features, [[1, 1]],
-                                     activation='Sigmoid')  # LSD feature maps: 6 x D x H X W
+                                     activation='Sigmoid', batch_normalise=batch_normalise
+                                     )  # LSD feature maps: 6 x D x H X W
 
         else:
             # LSD feature maps: 10 x D x H X W
-            self.lsd_head = ConvPass(num_fmaps_out, self.lsds_features, [[1, 1, 1]], activation='Sigmoid')
+            self.lsd_head = ConvPass(num_fmaps_out, self.lsds_features, [[1, 1, 1]], activation='Sigmoid',
+                                     batch_normalise=batch_normalise
+                                     )
 
     def crop(self, x, shape):
         '''Center-crop x to match spatial dimensions given by shape.'''
@@ -213,7 +243,9 @@ class AffModel(torch.nn.Module):
             pad_conv='valid',
             num_fmaps_out=12,
             nhood=3,
-            use_2d=False
+            use_2d=False,
+            batch_normalise='b'
+
     ):
         super().__init__()
 
@@ -225,16 +257,22 @@ class AffModel(torch.nn.Module):
             kernel_size_down=kernel_size_down,
             kernel_size_up=kernel_size_up,
             num_fmaps_out=num_fmaps_out,
-            padding=pad_conv
+            padding=pad_conv,
+            batch_normalise=batch_normalise
+
         )
 
         if use_2d:
             # Affinity default: 2 x D x H X W; could also 6 x D x H x W if LR-affs
-            self.aff_head = ConvPass(num_fmaps_out, nhood, [[1, 1]], activation='Sigmoid')
+            self.aff_head = ConvPass(num_fmaps_out, nhood, [[1, 1]], activation='Sigmoid',
+                                     batch_normalise=batch_normalise
+                                     )
 
         else:
             # Affinity default: 3 x D x H X W; could also 6 x D x H x W if LongRange-affinities
-            self.aff_head = ConvPass(num_fmaps_out, nhood, [[1, 1, 1]], activation='Sigmoid')
+            self.aff_head = ConvPass(num_fmaps_out, nhood, [[1, 1, 1]], activation='Sigmoid',
+                                     batch_normalise=batch_normalise
+                                     )
 
     def forward(self, x):
         z = self.unet(x)
@@ -295,7 +333,8 @@ def initialize_model(cfg):
             kernel_size_up=cfg.MODEL.KERNEL_SIZE_UP if not cfg.DATA.DIM_2D else cfg.MODEL.KERNEL_SIZE_UP_2D,
             num_fmaps_out=cfg.MODEL.NUM_FMAPS_OUT,
             nhood=len(cfg.TRAIN.NEIGHBORHOOD) if not cfg.DATA.DIM_2D else len(cfg.TRAIN.NEIGHBORHOOD_2D),
-            use_2d=cfg.DATA.DIM_2D)
+            use_2d=cfg.DATA.DIM_2D,
+            batch_normalise='b' if cfg.TRAIN.BATCH_SIZE > 1 else None)
 
     elif cfg.TRAIN.MODEL_TYPE == "LSD":
         return LsdModel(
@@ -309,7 +348,8 @@ def initialize_model(cfg):
             pad_conv=cfg.MODEL.PAD_CONV,
             nhood=len(cfg.TRAIN.NEIGHBORHOOD) if not cfg.DATA.DIM_2D else len(cfg.TRAIN.NEIGHBORHOOD_2D),
             use_2d=cfg.DATA.DIM_2D,
-            cfg=cfg)
+            cfg=cfg,
+            batch_normalise='b' if cfg.TRAIN.BATCH_SIZE > 1 else None)
 
     elif cfg.TRAIN.MODEL_TYPE == "AFF":
         return AffModel(
@@ -322,7 +362,8 @@ def initialize_model(cfg):
             num_fmaps_out=cfg.MODEL.NUM_FMAPS_OUT,
             pad_conv=cfg.MODEL.PAD_CONV,
             nhood=len(cfg.TRAIN.NEIGHBORHOOD) if not cfg.DATA.DIM_2D else len(cfg.TRAIN.NEIGHBORHOOD_2D),
-            use_2d=cfg.DATA.DIM_2D)
+            use_2d=cfg.DATA.DIM_2D,
+            batch_normalise='b' if cfg.TRAIN.BATCH_SIZE > 1 else None)
 
     elif cfg.TRAIN.MODEL_TYPE == "ACLSD":
         # we need to return two models for auto-context setup,
@@ -338,7 +379,9 @@ def initialize_model(cfg):
                 num_fmaps_out=cfg.MODEL.NUM_FMAPS_OUT,
                 pad_conv=cfg.MODEL.PAD_CONV,
                 nhood=len(cfg.TRAIN.NEIGHBORHOOD) if not cfg.DATA.DIM_2D else len(cfg.TRAIN.NEIGHBORHOOD_2D),
-                use_2d=cfg.DATA.DIM_2D, cfg=cfg),
+                use_2d=cfg.DATA.DIM_2D, cfg=cfg,
+                batch_normalise='b' if cfg.TRAIN.BATCH_SIZE > 1 else None)
+            ,
 
             AffModel(
                 in_channels=cfg.MODEL.LSDS,
@@ -350,8 +393,10 @@ def initialize_model(cfg):
                 num_fmaps_out=cfg.MODEL.NUM_FMAPS_OUT,
                 pad_conv=cfg.MODEL.PAD_CONV,
                 nhood=len(cfg.TRAIN.NEIGHBORHOOD) if not cfg.DATA.DIM_2D else len(cfg.TRAIN.NEIGHBORHOOD_2D),
-                use_2d=cfg.DATA.DIM_2D)
+                use_2d=cfg.DATA.DIM_2D,
+                batch_normalise='b' if cfg.TRAIN.BATCH_SIZE > 1 else None)
         )
+
     elif cfg.TRAIN.MODEL_TYPE == "ACRLSD":
         # we need to return two models for auto-context setup,
         # such that AFFModel gets trained with the predictions from LSDModel
@@ -366,7 +411,9 @@ def initialize_model(cfg):
                 num_fmaps_out=cfg.MODEL.NUM_FMAPS_OUT,
                 pad_conv=cfg.MODEL.PAD_CONV,
                 nhood=len(cfg.TRAIN.NEIGHBORHOOD) if not cfg.DATA.DIM_2D else len(cfg.TRAIN.NEIGHBORHOOD_2D),
-                use_2d=cfg.DATA.DIM_2D, cfg=cfg),
+                use_2d=cfg.DATA.DIM_2D, cfg=cfg,
+                batch_normalise='b' if cfg.TRAIN.BATCH_SIZE > 1 else None)
+            ,
 
             AffModel(
                 in_channels=cfg.MODEL.LSDS + 1,  # an additional channel for concatenated raw
@@ -378,7 +425,9 @@ def initialize_model(cfg):
                 num_fmaps_out=cfg.MODEL.NUM_FMAPS_OUT,
                 pad_conv=cfg.MODEL.PAD_CONV,
                 nhood=len(cfg.TRAIN.NEIGHBORHOOD) if not cfg.DATA.DIM_2D else len(cfg.TRAIN.NEIGHBORHOOD_2D),
-                use_2d=cfg.DATA.DIM_2D)
+                use_2d=cfg.DATA.DIM_2D,
+                batch_normalise='b' if cfg.TRAIN.BATCH_SIZE > 1 else None)  # Todo: PUT this in config
+
         )
 
 # if __name__ == "__main__":
