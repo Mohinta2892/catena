@@ -3,6 +3,7 @@ channels:
   - conda-forge
   - defaults
 dependencies:
+  - pip
   - archspec=0.2.3
   - boltons=24.0.0
   - brotli-python=1.1.0
@@ -83,7 +84,6 @@ dependencies:
     - click==8.1.7
     - cloudpickle==3.0.0
     - comm==0.2.2
-    - conda==24.3.0
     - daisy==1.1
     - dask==2024.4.2
     - debugpy==1.8.1
