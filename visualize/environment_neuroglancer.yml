@@ -127,7 +127,6 @@ dependencies:
     - jupyterlab-server==2.27.1
     - libmambapy==1.5.8
     - locket==1.0.0
-    - mamba==1.5.8
     - markupsafe==2.1.5
     - matplotlib-inline==0.1.7
     - menuinst==2.0.2
