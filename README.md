@@ -27,7 +27,7 @@ Directory Structure (in its present state) is [here](https://github.com/Mohinta2
 - Neuron Segmentation `Local Shape Descriptors (Sheridan et al. 2022)`: [Installation and Usage ](https://github.com/Mohinta2892/catena/tree/dev/local_shape_descriptors)
 - Synapse Detection `Synful(Buhmann et al. 2020)`: [Installation and Usage](https://github.com/Mohinta2892/catena/tree/dev/synful)
 - Microtubule tracking `Micron (Eckstein et al. 2019)`: [Installation and Usage ](https://github.com/Mohinta2892/micron-repackaging)
-  > [!WARNING] TENSORFLOW 1.x and Gurobi dependencies for ILP
+  >[!WARNING] Microtubule Tracking uses TENSORFLOW 1.x and Gurobi dependencies for ILP
 - Neurotransmitter classification `Synister (Eckstein, Bates et al. 2024)`: [Installation and Usage](https://github.com/Mohinta2892/catena/tree/dev/neurotransmitter_classification)
 - Generative AI for EM-to-EM translation: TO BE ADDED
 
