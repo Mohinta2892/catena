@@ -138,7 +138,6 @@ dependencies:
     - nest-asyncio==1.6.0
     - networkx==3.3
     - neuroglancer==2.37
-    - nglui==3.0.2
     - notebook-shim==0.2.4
     - numcodecs==0.12.1
     - numexpr==2.10.0
