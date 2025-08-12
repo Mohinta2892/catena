@@ -8,9 +8,10 @@ from tqdm import tqdm
 sys.path.insert(0, '.')
 from config.config_predict import *
 from engine.predict.predict_3d import predict
-from engine.predict.predict_2d_all_yacs import predict_2d
+from engine.predict.predict_2d import predict_2d
 from engine.post.run_waterz import run_waterz
 from data_utils.preprocess_volumes.utils import calculate_min_2d_samples
+import argparse
 
 
 def rename_keys(original_config, key_mapping):
@@ -26,7 +27,19 @@ if __name__ == '__main__':
     Reads params/args from `config_predict.py`.
     
     """
-    cfg = get_cfg_defaults()
+    parser = argparse.ArgumentParser("You can pass an explicit config file to train.")
+    parser.add_argument('-c', default=None, help='Pass the config file"!')
+    args = parser.parse_args()
+    config_file = args.c
+    if config_file is not None:
+        # parse the args file to become cfg
+        cfg = CN()
+        # Allow creating new keys recursively.: https://github.com/rbgirshick/yacs/issues/25
+        cfg.set_new_allowed(True)
+        cfg.merge_from_file(config_file)
+    else:
+        cfg = get_cfg_defaults()
+
     # can be used to override pre-defined settings
     if os.path.exists("./experiment.yaml"):
         cfg.merge_from_file("experiment.yaml")
