@@ -10,7 +10,7 @@ This is a very initial reimplementation of the Nil Eckstein's [Synister](https:/
 ## Overview
 
 This project provides a complete pipeline to train deep learning models (VGG or ResNet) to classify neurotransmitter types from electron microscopy images at synaptic sites. It includes scripts for:
--   **Data Curation**: Data curation scripts for inhouse and public datasets are [here](https://github.com/shiyanlee/synapse_neurotransmitters).
+-   **Data Curation**: Data curation scripts by Shi Yan Lee for inhouse and public datasets are [here](https://github.com/shiyanlee/synapse_neurotransmitters).
 -   **Data Preparation**: Splitting raw data into training and testing sets.
 -   **Training**: Training a model on the prepared data.
 -   **Prediction**: Running inference on new or held-out data from various sources.
