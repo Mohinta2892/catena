@@ -14,7 +14,7 @@ Synful leverages supervised machine learning to automate the detection of synapt
 ## Getting Started
 Read these:
 - [System Requirements](https://github.com/Mohinta2892/catena/blob/dev/local_shape_descriptors/docs/source/systemrequirements.rst)
-- Installation instructions: Docker, Conda
+- Installation instructions: Docker, [Conda](https://github.com/Mohinta2892/catena/tree/dev/synful/pytorch/conda_env)
 - Dataset preparation
 
 ## Usage instructions
