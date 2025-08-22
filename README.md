@@ -9,7 +9,8 @@
 
 
 # Overview of CATENA
-CATENA provides a comprehensive workflow for automated connectome reconstruction based on SOTA Funke-lab pipelines for Neuron Segmentation `Local Shape Descriptors (Sheridan et al. 2022)`, Synapse Detection `Synful (Buhmann et al. 2020)`, Microtubule tracking `Micron (Eckstein et al. 2019)` and Neurotransmitter classification `Synister (Eckstein, Bates et al. 2024)` from large-scale volume Electron Microscopy (EM). To cope with the variability across EM datasets, Catena includes popular domain adaptation techniques tailored for EM-to-EM translation.
+
+CATENA is an end-to-end, `developer-friendly` pipeline for large-scale connectomics—engineered to train and evaluate on terabyte-scale EM datasets. It integrates state-of-the-art Funke-lab components for neuron segmentation `(Local Shape Descriptors; Sheridan et al., 2022)`, synapse detection `(Synful; Buhmann et al., 2020)`, microtubule tracking `(Micron; Eckstein et al., 2019)`, and neurotransmitter classification `(Synister; Eckstein, Bates et al., 2024)`, alongside EM-to-EM domain adaptation, mitochondria segmentation, tissue vs. non-tissue masking, and robust pre-/post-processing tools.
 
 Directory Structure (in its present state) is [here](https://github.com/Mohinta2892/catena/blob/dev/assets/directory_structure.md).
 
@@ -18,6 +19,8 @@ Directory Structure (in its present state) is [here](https://github.com/Mohinta2
 - Exploration of `LSDs` and `Synful` for other task objectives.
 - Docker-based containerisation and release of development environments.
 - Style transfer and domain adaptation with Generative AI models.
+- - Mitochondria segmentation pipelines that use both `LSDs` and `MONAI`
+- `MONAI` Tissue vs Non-Tissue detection pipelines
 - Large scale data analysis over public and local EM datasets.
 - Artefact logging with Weights and Biases.
 
