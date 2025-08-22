@@ -59,8 +59,10 @@ dependencies:
       - fpzip==1.2.2
       - fsspec==2023.10.0
       - funlib-geometry==0.2
-      - funlib-learn-torch==0.1
+      - -e git+https://github.com/Mohinta2892/funlib.learn.torch.git@add_batch_norm#egg=funlib.learn.torch # added batchnorm, not pip released
       - funlib-math==0.1
+      - funlib-persistence==0.1.0 # must be this otherwise MongoDBProvider dependencies will be missing
+      - -e git+https://github.com/funkelab/funlib.segment.git#egg=funlib.segment # funlib-segment==0.1, not pip released
       - fuzzywuzzy==0.18.0
       - gevent==23.9.1
       - google-api-core==2.12.0
@@ -72,7 +74,7 @@ dependencies:
       - google-resumable-media==2.6.0
       - googleapis-common-protos==1.61.0
       - greenlet==3.0.1
-      - gunpowder==1.3.1
+      - -e git+https://github.com/Mohinta2892/gunpowder.git@rasterize_graph_fix#egg=gunpowder # this allows to pass specific cuda devices and wandb in train and predict
       - h5py==3.10.0
       - httplib2==0.22.0
       - idna==3.4
@@ -156,6 +158,7 @@ dependencies:
       - six==1.16.0
       - skeletor==1.2.3
       - sympy==1.12
+      - e git+https://github.com/funkelab/synful.git#egg=synful
       - tenacity==8.2.3
       - tensorboardx==2.6.2.2
       - texttable==1.7.0
