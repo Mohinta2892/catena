@@ -24,7 +24,7 @@ from models.models import *
 from models.losses import *
 
 from add_ons.gp import AddPartnerVectorMap, Hdf5PointsSource  # , BatchRequest
-from add_ons.gp import SpecifiedLocationHack
+# from add_ons.gp import SpecifiedLocationHack
 
 # from synful.models import CalculateModelSummary, initialize_model, initialize_loss
 
