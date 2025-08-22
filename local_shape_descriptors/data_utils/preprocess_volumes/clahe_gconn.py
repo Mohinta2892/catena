@@ -5,6 +5,12 @@ Adapted from: https://github.com/google-research/connectomics/blob/main/connecto
 Todo:
  - Expand this to process all files (zarrs/tiff) in a folder.
  - Allow clahe on large volumes via daisy
+
+Usage:
+conda activate funkelsd
+python clahe_gconn.py -f /media/samia/DATA/mounts/zstore1/catena/data/COMBINED_NEURIPS_SAME_PREID/data_3d/octo_corr_tpfp_19aug2025/octo_cube1_19aug25_tpfp_8083_8765_y5878_6542_z4697_5319.hdf \
+-k 30 120 120 -mp 4
+
 Author: Samia Mohinta
 Affiliation: Cardona lab, Cambridge University, UK
 """
@@ -19,6 +25,7 @@ import skimage
 import numpy as np
 import tifffile
 import zarr
+import h5py
 import multiprocessing as mp
 import matplotlib.pyplot as plt
 from sys import stdout
@@ -26,10 +33,9 @@ import sys
 from pathlib import Path
 from tqdm.dask import TqdmCallback
 
-
 sys.path.append(str(Path(__file__).resolve().parent.parent.parent))
 
-from data_utils.preprocess_volumes.utils import read_zarr, list_keys, collect_items, natural_keys
+from data_utils.preprocess_volumes.utils import read_zarr, list_keys, collect_items, natural_keys, read_hdf
 
 
 class CLAHE:
@@ -107,7 +113,7 @@ def apply_clahe_to_chunk(chunk, clahe_params):
     return apply_clahe.process_plane(chunk)
 
 
-def copy_datasets_from_multiple_sources(in_zarr, out_zarr, datasets_to_copy=None, is_2d=False):
+def copy_datasets_from_multiple_sources(in_zarr, out_zarr, datasets_to_copy=None, is_2d=False, flag_file_type="zarr"):
     """
     Overriding `copy_datasets_from_multiple_sources` under histogram match because this one must behave differently.
     Copy specified datasets from multiple source Zarr stores to the destination Zarr store.
@@ -119,25 +125,49 @@ def copy_datasets_from_multiple_sources(in_zarr, out_zarr, datasets_to_copy=None
     """
     # cast a None argument passed to empty list; it's just easier to pass a None through the `config.py`
     datasets_to_copy = [] if datasets_to_copy is None else datasets_to_copy
-    source_z = read_zarr(in_zarr)
-    source_z_keys = list_keys(source_z)
-    with zarr.open(out_zarr, mode="a") as dest_z:
+    if flag_file_type == "zarr":
+        source_z = read_zarr(in_zarr)
+        source_z_keys = list_keys(source_z)
+        with zarr.open(out_zarr, mode="a") as dest_z:
+    
+            for dataset_name in datasets_to_copy:
+                # Copy the dataset from source to destination as a whole
+                if is_2d:
+                    zarr.copy(source_z[dataset_name], dest_z[dataset_name.split('/')[0]], log=stdout,
+                              if_exists='replace')
+                else:
+                    zarr.copy(source_z[dataset_name], dest_z, name=dataset_name,
+                              # [f"/{'/'.join(dataset_name.split('/')[:-1])}"],
+                              log=stdout, if_exists='replace', dry_run=False)
+                    
+    elif flag_file_type == "hdf":
+        source_z = read_hdf(in_zarr)
+        source_z_keys = list_keys(source_z)
+        with h5py.File(out_zarr, mode="a") as dest_z:
 
-        for dataset_name in datasets_to_copy:
-            # Copy the dataset from source to destination as a whole
-            if is_2d:
-                zarr.copy(source_z[dataset_name], dest_z[dataset_name.split('/')[0]], log=stdout,
-                          if_exists='replace')
-            else:
-                zarr.copy(source_z[dataset_name], dest_z, name=dataset_name,
-                          # [f"/{'/'.join(dataset_name.split('/')[:-1])}"],
-                          log=stdout, if_exists='replace', dry_run=False)
+            for dataset_name in datasets_to_copy:
+                # Copy the dataset from source to destination as a whole
+                if is_2d:
+                    source_z.copy(source_z[dataset_name], dest_z[dataset_name.split('/')[0]])
+                else:
+                    source_z.copy(source_z[dataset_name], dest_z, name=dataset_name,
+                              # [f"/{'/'.join(dataset_name.split('/')[:-1])}"],
+                              )
+
+            for dataset_name in source_z_keys:
+                if dataset_name not in dest_z:
+                    if is_2d:
+                        source_z.copy(source_z[dataset_name], dest_z[dataset_name.split('/')[0]])
+                    else:
+                        source_z.copy(source_z[dataset_name], dest_z, name=dataset_name
+                                      # [f"/{'/'.join(dataset_name.split('/')[:-1])}"],
+                                     )
 
     print("Datasets copied successfully")
 
 
 if __name__ == '__main__':
-    # read a zarr
+
     parser = argparse.ArgumentParser("This script applies CLAHE on 3D/2D RAW EM. Credits-Google Connectomics"
                                      "2D is supported through multiprocessing (smaller) and dask (larger volumes). "
                                      "Dask should be used if the volume will not fit in RAM. "
@@ -199,6 +229,11 @@ if __name__ == '__main__':
         zfile_ = zarr.open(args.f, mode='r')
         # remember to provide the correct dataset, no checks are performed
         file_ = zfile_[args.ds]
+    elif args.f.endswith((".hdf", ".h5", ".hdf5")):
+        flag_file_type = 'hdf'
+        zfile_ = h5py.File(args.f, mode='r')
+        # remember to provide the correct dataset, no checks are performed
+        file_ = zfile_[args.ds]
     else:
         raise Exception("File type not supported. Only Zarrs/tiffs allowed!")
 
@@ -240,6 +275,8 @@ if __name__ == '__main__':
             outfile_name += ".tiff"
         elif flag_file_type == 'zarr':
             outfile_name += ".zarr"
+        elif flag_file_type == "hdf":
+            outfile_name += ".hdf"
     else:
         outfile_name = args.of
 
@@ -259,6 +296,18 @@ if __name__ == '__main__':
         copy_datasets_from_multiple_sources(in_zarr=args.f, out_zarr=outfile_name,
                                             datasets_to_copy=tuple(args.ds_copy) if args.ds_copy is not None else None,
                                             is_2d=False)
+
+    elif flag_file_type == "hdf":
+        outfile = h5py.File(outfile_name, "a")
+        outfile[args.ds] = clahed_image
+        # Copy attributes - fix
+        for attr in ['resolution', 'offset']:
+            outfile[args.ds].attrs[attr] = zfile_[args.ds].attrs[attr]
+
+        # copy labels across to the clahed zarr now??
+        copy_datasets_from_multiple_sources(in_zarr=args.f, out_zarr=outfile_name,
+                                            datasets_to_copy=tuple(args.ds_copy) if args.ds_copy is not None else None,
+                                            is_2d=False, flag_file_type=flag_file_type)
 
     if args.show_hist:
         # Histogram plots are true by default
