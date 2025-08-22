@@ -19,7 +19,7 @@ Directory Structure (in its present state) is [here](https://github.com/Mohinta2
 - Exploration of `LSDs` and `Synful` for other task objectives.
 - Docker-based containerisation and release of development environments.
 - Style transfer and domain adaptation with Generative AI models.
-- - Mitochondria segmentation pipelines that use both `LSDs` and `MONAI`
+- Mitochondria segmentation pipelines that use both `LSDs` and `MONAI`
 - `MONAI` Tissue vs Non-Tissue detection pipelines
 - Large scale data analysis over public and local EM datasets.
 - Artefact logging with Weights and Biases.
