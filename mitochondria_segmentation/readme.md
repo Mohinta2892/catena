@@ -6,7 +6,7 @@ Both models and data loading have been adapted for FIBSEM (not limited to) isotr
 
 >[!IMPORTANT]
 > You can use Local Shape Descriptors (LSDs) for mitochondria segmentation. However, the resulting predictions will generate labels for both mito and neuron segmentation jointly and in an entangled fashion.
-> LSDs with when trained with mito + neuron labels, generally result in better neuron segmentation, since the model is less confused about what constitutes neuron and mito boundaries. To be clear, the model no longer considers the mito as neurons.
+> LSDs when trained with `mito + neuron` labels, generally result in better neuron segmentation, since the model is less confused about what constitutes neuron vs mito boundaries. To be clear, the model no longer considers the mito as neurons.
 > You must have dense ground-truth spanning mito and neuron instances to validate the metrics.
 
 # Getting Started
