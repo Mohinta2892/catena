@@ -1,24 +1,32 @@
 from __future__ import annotations
+import hashlib
+import json
+import logging
+import numpy as np
 import os
+import daisy
 import sys
 import time
-import glob
-from re import sub
-import daisy
-import numpy as np
+import datetime
 import pymongo
-import argparse
 from funlib.persistence import open_ds
+from funlib.geometry import Roi, Coordinate
 import subprocess
-# from gunpowder import *
-# from funlib.geometry import Roi, Coordinate
+from re import sub
+from glob import glob
+import argparse
+from pathlib import Path
+from gunpowder import *
 
 # add current directory to path and allow absolute imports
-sys.path.insert(0, '.')
+sys.path.append(str(Path(__file__).resolve().parent.parent))
+print(str(Path(__file__).resolve().parent.parent))
 from config.config_predict import *
+# from data_utils.preprocess_volumes.utils import calculate_min_2d_samples
 from add_ons.funlib_persistence.persistence_utils import *
 
 logging.basicConfig(level=logging.INFO)
+
 logging.getLogger('daisy').setLevel(logging.DEBUG)
 module_logger = logging.getLogger(__name__)
 
@@ -27,14 +35,13 @@ def predict_blockwise(
         cfg,
         sample_name='sample',
         db_host="localhost:27017",
-        db_name="synful_predictions",
+        db_name="lsd_parallel_predictions",
         drop=False
 ):
     """
     All roi related code here!
     :return:
     """
-
     # Add dbname and dbhost to cfg
     cfg.DATA.DB_NAME = db_name
     cfg.DATA.DB_HOST = db_host
@@ -43,7 +50,7 @@ def predict_blockwise(
     client = pymongo.MongoClient(db_host)
     db = client[db_name]
 
-    completed_collection_name = f"{sample_name}_{os.path.basename(cfg.TRAIN.MODEL_TYPE)}_predicted_affs"
+    completed_collection_name = f"{sample_name}_{os.path.basename(cfg.TRAIN.MODEL_TYPE)}_pred_syn"
     # Save to config for worker to use
     cfg.DATA.DB_COLLECTION_NAME = completed_collection_name
     completed_collection = None
@@ -91,8 +98,6 @@ def predict_blockwise(
         source = open_ds(cfg.DATA.SAMPLE, raw_dataset)
     logging.info('Source dataset has shape %s, ROI %s, voxel size %s' % (source.shape, source.roi, source.voxel_size))
 
-    logging.info('Source dataset has shape %s, ROI %s, voxel size %s' % (source.shape, source.roi, source.voxel_size))
-
     # must be cast as gunpowder Coordinates
     voxel_size = Coordinate(cfg.MODEL.VOXEL_SIZE)
     input_shape = Coordinate(cfg.MODEL.INPUT_SHAPE)  # + Coordinate(cfg.MODEL.GROW_INPUT)
@@ -112,43 +117,36 @@ def predict_blockwise(
     block_read_roi = Roi((0, 0, 0), net_input_size) - context
     block_write_roi = Roi((0, 0, 0), net_output_size)
 
-    print("Following sizes in world units:")
-    print("net input size  = %s" % (net_input_size,))
-    print("net output size = %s" % (net_output_size,))
-    print("context         = %s" % (context,))
-
-    # create read and write ROI
-    block_read_roi = daisy.Roi((0, 0, 0), net_input_size) - context
-    block_write_roi = daisy.Roi((0, 0, 0), net_output_size)
-
-    print("Following ROIs in world units:")
-    print("Block read  ROI  = %s" % block_read_roi)
-    print("Block write ROI  = %s" % block_write_roi)
-    print("Total input  ROI  = %s" % total_input_roi)
-    print("Total output ROI  = %s" % output_roi)
-
     logging.info('Preparing output dataset...')
 
-    if cfg.TRAIN.MODEL_TYPE == "SynMT1":
-        out_ind = "volumes/pred_syn_indicator_out"
-        out_vec = "volumes/pred_partner_vectors"
-        prepare_predict_datasets_daisy(cfg, dtype=np.uint8, ds_key=out_ind,
+    # Creating datasets in output zarr
+    # Hard-code warning: the ds keys in the out-zarr are hardcoded for now, hence will ensure same output format
+    # Todo: move to config to allow customisation of ds keys
+    out_raw = "volumes/raw"
+    prepare_predict_datasets_daisy(cfg, dtype=np.uint8, voxel_size=voxel_size, ds_key=out_raw, source_roi=output_roi,
+                                   write_roi=block_write_roi,
+                                   delete_ds=drop)
+    print(out_raw)
+
+    if cfg.TRAIN.MODEL_TYPE in ["SynMT1", "STMASK"]:
+        out_lsds = "volumes/pred_indicator"
+        prepare_predict_datasets_daisy(cfg, dtype=np.uint8, ds_key=out_lsds,
                                        source_roi=output_roi,
                                        write_roi=block_write_roi,
                                        voxel_size=voxel_size,
-                                       delete_ds=drop)  # shape D x H x W
-        prepare_predict_datasets_daisy(cfg, dtype=np.int8, ds_key=out_vec,
+                                       delete_ds=drop)  # shape C(10) x D x H x W
+
+    if cfg.TRAIN.MODEL_TYPE in ["SynMT1", "STVEC"]:
+        out_affs = "volumes/pred_vectors"
+        prepare_predict_datasets_daisy(cfg, dtype=np.int8,
+                                       ds_key=out_affs,
+                                       source_roi=output_roi,
                                        num_channels=3,
-                                       source_roi=output_roi,
                                        write_roi=block_write_roi,
-                                       voxel_size=voxel_size,
-                                       delete_ds=drop)  # shape C(3) x D x H x W
+                                       voxel_size=voxel_size, delete_ds=drop)
 
-    print("Starting block-wise processing...")
-
-    predict_mtsynful_task = daisy.Task(
+    predict_affs_task = daisy.Task(
         f"{sample_name}_pred_syn",
-        # f"pred_syn",
         total_roi=total_input_roi,
         read_roi=block_read_roi,
         write_roi=block_write_roi,
@@ -159,10 +157,16 @@ def predict_blockwise(
         fit="shrink",
     )
 
-    succeeded = daisy.run_blockwise([predict_mtsynful_task])
+    daisy.run_blockwise([predict_affs_task])
 
-    if not succeeded:
-        raise RuntimeError("Prediction failed for (at least) one block")
+
+def check_block(completed_collection, complete_cache, block):
+    done = (
+            block.block_id in complete_cache
+            or len(list(completed_collection.find({"block_id": block.block_id}))) >= 1
+    )
+
+    return done
 
 
 def start_worker(cfg):
@@ -211,15 +215,6 @@ def start_worker(cfg):
     )
 
 
-def check_block(completed_collection, complete_cache, block):
-    done = (
-            block.block_id in complete_cache
-            or len(list(completed_collection.find({"block_id": block.block_id}))) >= 1
-    )
-
-    return done
-
-
 def rename_keys(original_config, key_mapping):
     for new_key, old_key in key_mapping.items():
         if hasattr(original_config, old_key):
@@ -228,7 +223,7 @@ def rename_keys(original_config, key_mapping):
     return original_config
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
 
     parser = argparse.ArgumentParser("You can pass an explicit config file to train.")
     parser.add_argument('-c', default=None, help='Pass the config file"!')
@@ -272,17 +267,11 @@ if __name__ == "__main__":
     # TODO: add the logger here and import the same logging file
     # Follow: https://stackoverflow.com/questions/43947206/automatically-delete-old-python-log-files
     # logger.debug(f"data_dir {data_dir}")
-    if not os.path.exists("./logs"):
-        os.makedirs("./logs")
 
-    try:
-        samples = glob.glob(f"{data_dir}/*.h*") + glob.glob(f"{data_dir}/*.zarr")
-    except Exception as e:
-        print(e)
+    samples = glob(f"{data_dir}/*.zarr") + glob(f"{data_dir}/*.h*")
 
     assert len(samples), \
         "No data to run prediction on found. Check if data is placed under `{brain_vol}/data_{2/3d}/test`"
-
     if not os.path.exists("./logs"):
         os.makedirs("./logs")
 
@@ -302,40 +291,55 @@ if __name__ == "__main__":
                         " with batch_size=1.")
         # cfg.TRAIN.BATCH_SIZE = 1
 
-    if cfg.DATA.DIM_2D:
-        raise Exception("2D Synful Not implemented!")
+    # if cfg.DATA.DIM_2D:
+    #     # sample == .zarr
+    #     for sample in samples:
+    #         # .zarr --> volumes/raw/{0}.. volumes/raw/{n}
+    #         num_samples = calculate_min_2d_samples([sample])
+    #         assert num_samples, "Something went wrong.. num_samples cannot be zero," \
+    #                             " it represents num of z-slices in the 2D zarrs."
+    #         cfg.DATA.SAMPLE = sample
+    #         # overwrite in the loop - otherwise will create zarr within zarr
+    #         cfg.DATA.OUTFILE = out_filepath
+    #         cfg.DATA.OUTFILE = os.path.join(cfg.DATA.OUTFILE, os.path.basename(cfg.DATA.SAMPLE))
+    #
+    #         """ This is a really bad implementation `Friday night blues`
+    #          because the model is reloaded for each sample!!"""
+    #         for n in range(num_samples):
+    #             cfg.DATA.SAMPLE_SLICE = n
+    #
+    # else:
+    # we loop through the datasets here and call inference on them.
+    # Todo: add daisy support for spawning async for every dataset
+    for sample in samples:
+        cfg.DATA.SAMPLE = sample
+        # overwrite in the loop - otherwise will create zarr within zarr
+        cfg.DATA.OUTFILE = out_filepath
+        # cfg.DATA.OUTFILE = os.path.join(cfg.DATA.OUTFILE, os.path.basename(cfg.DATA.SAMPLE))
+        # prepare_ds only works with zarrs
+        cfg.DATA.OUTFILE = os.path.join(cfg.DATA.OUTFILE, os.path.basename(cfg.DATA.SAMPLE.split('.')[0]) + ".zarr")
 
-    else:
-        # we loop through the datasets here and call inference on them.
-        # Todo: add daisy support for spawning async for every dataset
-        for sample in samples:
-            cfg.DATA.SAMPLE = sample
-            # overwrite in the loop - otherwise will create zarr within zarr
-            cfg.DATA.OUTFILE = out_filepath
-            # prepare_ds only works with zarrs
-            cfg.DATA.OUTFILE = os.path.join(cfg.DATA.OUTFILE, os.path.basename(cfg.DATA.SAMPLE.split('.')[0]) + ".zarr")
+        start = time.time()
 
-            start = time.time()
+        sample_name = os.path.basename(sample).split('.')[0]
+        sample_name = sub(r"(_|-|:)+", " ", sample_name).title().replace(" ", "")
+        sample_name = ''.join([sample_name[0].lower(), sample_name[1:]])
+        cfg.DATA.SAMPLE_NAME = sample_name
+        db_host = "localhost:27017" if cfg.DATA.DB_HOST == '' else cfg.DATA.DB_HOST  # default
+        db_name = "synful_predictions" if cfg.DATA.DB_NAME == '' else cfg.DATA.DB_NAME  # default
+        predict_blockwise(
+            cfg, sample_name=sample_name, db_host=db_host, db_name=db_name,
+            drop=cfg.DATA.DROP_DS_MONGOTABLE
+        )
 
-            sample_name = os.path.basename(sample).split('.')[0]
-            sample_name = sub(r"(_|-|:)+", " ", sample_name).title().replace(" ", "")
-            sample_name = ''.join([sample_name[0].lower(), sample_name[1:]])
-            cfg.DATA.SAMPLE_NAME = sample_name
-            db_host = "localhost:27017" if cfg.DATA.DB_HOST == '' else cfg.DATA.DB_HOST  # default
-            db_name = "synful_predictions" if cfg.DATA.DB_NAME == '' else cfg.DATA.DB_NAME  # default
-            predict_blockwise(
-                cfg, sample_name=sample_name, db_host=db_host, db_name=db_name,
-                drop=cfg.DATA.DROP_DS_MONGOTABLE
-            )
+        end = time.time()
 
-            end = time.time()
+        seconds = end - start
+        minutes = seconds / 60
+        hours = minutes / 60
+        days = hours / 24
 
-            seconds = end - start
-            minutes = seconds / 60
-            hours = minutes / 60
-            days = hours / 24
-
-            print(
-                "Total time to predict affinities: %f seconds / %f minutes / %f hours / %f days"
-                % (seconds, minutes, hours, days)
-            )
+        print(
+            "Total time to predict affinities: %f seconds / %f minutes / %f hours / %f days"
+            % (seconds, minutes, hours, days)
+        )
