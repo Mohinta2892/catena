@@ -9,6 +9,8 @@ So, this a workaround for now, which let's us place a pre-installed directly int
 ## Follow these steps
 
 ⭐ Shortcut: Run the [bash script](https://github.com/Mohinta2892/catena/blob/dev/local_shape_descriptors/install_src/install_waterz.sh).
+>[!Note]
+> Run `sudo chmod +x install_waterz.sh` prior to calling the bash script `./install_waterz.sh`.
 
 - Conda create the environment from the `.yml` file.
 - ```bash 
