@@ -27,7 +27,7 @@ conda activate $ENV_NAME
 NUMPY_VERSION=$(python -m pip show numpy | grep Version | awk '{print $2}')
 CYTHON_VERSION=$(python -m pip show cython | grep Version | awk '{print $2}')
 
-if [ "$NUMPY_VERSION" != "1.24.4" ]; then
+if [ "$NUMPY_VERSION" != "1.24.4" or "$NUMPY_VERSION" != "1.26.4"]; then 
     echo "Error: numpy version is $NUMPY_VERSION, expected 1.24.4"
     exit 1
 fi
