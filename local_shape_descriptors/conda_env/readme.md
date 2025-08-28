@@ -24,10 +24,11 @@
 conda env create -f /catena/local_shape_descriptors/conda_env/<environment.yml> -n funkelsd
 ```
 `waterz` is currently not part of the `complete_py310_environment.yml`. You can try running `pip install git+https://github.com/funkey/waterz.git` **after the conda env** is built.
-If it does not work please following the instructions in the [Troubleshooting below](#Troubleshoting).
+If it does not work please following the instructions in the [Troubleshooting below](#Troubleshooting).
 
 >[!NOTE]
 > You can choose any name for the environment with `-n`. Default if none specified is `funkelsd_test`.
+> `complete_py38_environment.yml` may work in some machines (U but we recommend building the `complete_py310_environment.yml` 
 
 <details><summary>Remove the conda environment</summary>
 <br>
@@ -40,4 +41,5 @@ conda remove -n funkelsd --all
 ### Troubleshooting
 
 - We have an ongoing issue with install waterz in newer machines. First remove it from the `.yml` env file and then please follow the instructions [here](https://github.com/Mohinta2892/catena/tree/dev/local_shape_descriptors/install_src).
-  
+
+
