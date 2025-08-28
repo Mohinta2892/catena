@@ -10,7 +10,9 @@
 
 # Overview of CATENA
 
-CATENA is an end-to-end, `developer-friendly` pipeline for large-scale connectomics—engineered to train and evaluate on terabyte-scale EM datasets. It integrates state-of-the-art Funke-lab components for neuron segmentation `(Local Shape Descriptors; Sheridan et al., 2022)`, synapse detection `(Synful; Buhmann et al., 2020)`, microtubule tracking `(Micron; Eckstein et al., 2019)`, and neurotransmitter classification `(Synister; Eckstein, Bates et al., 2024)`, alongside EM-to-EM domain adaptation, mitochondria segmentation, tissue vs. non-tissue masking, and robust pre-/post-processing tools.
+CATENA is an end-to-end, **developer-friendly** pipeline for large-scale connectomics—engineered to train and evaluate on terabyte-scale EM datasets. It integrates state-of-the-art Funke-lab components for neuron segmentation `(Local Shape Descriptors; Sheridan et al., 2022)`, synapse detection `(Synful; Buhmann et al., 2020)`, microtubule tracking `(Micron; Eckstein et al., 2019)`, and neurotransmitter classification `(Synister; Eckstein, Bates et al., 2024)`, alongside EM-to-EM domain adaptation, mitochondria segmentation, tissue vs. non-tissue masking, and robust pre-/post-processing tools.
+
+CATENA brings together tools and models, including some state-of-the-art models for large-scale connectomics under one hood Designed for technically proficient users, each module remains decoupled and self-contained, yet collectively they lower barriers with elaborate documentation, default examples, and error reporting from our own trials, making advanced connectomics accessible without sacrificing flexibility.
 
 ***PLEASE NOTE THIS IS UNDER HEAVY DEVELOPMENT. FOLLOW `DEV` BRANCH LINKS BELOW!***
 
