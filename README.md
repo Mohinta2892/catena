@@ -12,19 +12,6 @@
 
 CATENA is an end-to-end, `developer-friendly` pipeline for large-scale connectomics—engineered to train and evaluate on terabyte-scale EM datasets. It integrates state-of-the-art Funke-lab components for neuron segmentation `(Local Shape Descriptors; Sheridan et al., 2022)`, synapse detection `(Synful; Buhmann et al., 2020)`, microtubule tracking `(Micron; Eckstein et al., 2019)`, and neurotransmitter classification `(Synister; Eckstein, Bates et al., 2024)`, alongside EM-to-EM domain adaptation, mitochondria segmentation, tissue vs. non-tissue masking, and robust pre-/post-processing tools.
 
-Directory Structure (in its present state) is [here](https://github.com/Mohinta2892/catena/blob/dev/assets/directory_structure.md).
-
-🛠️ Features:
-- Pytorch implementations of `LSDs` and `Synful`.
-- Exploration of `LSDs` and `Synful` for other task objectives.
-- Docker-based containerisation and release of development environments.
-- Style transfer and domain adaptation with Generative AI models.
-- Mitochondria segmentation pipelines that use both `LSDs` and `MONAI`
-- `MONAI` Tissue vs Non-Tissue detection pipelines
-- Large scale data analysis over public and local EM datasets.
-- Artefact logging with Weights and Biases.
-
-
 ***PLEASE NOTE THIS IS UNDER HEAVY DEVELOPMENT. FOLLOW `DEV` BRANCH LINKS BELOW!***
 
 - Neuron Segmentation `Local Shape Descriptors (Sheridan et al. 2022)`: [Installation and Usage ](https://github.com/Mohinta2892/catena/tree/dev/local_shape_descriptors)
@@ -36,6 +23,15 @@ Directory Structure (in its present state) is [here](https://github.com/Mohinta2
 
 - For visualisation: [Napari and Neuroglancer](https://github.com/Mohinta2892/catena/tree/dev/visualize)
 
+🛠️ Detailed Features:
+- Pytorch implementations of `LSDs` and `Synful`.
+- Exploration of `LSDs` and `Synful` for other task objectives.
+- Docker-based containerisation and release of development environments.
+- Style transfer and domain adaptation with Generative AI models.
+- Mitochondria segmentation pipelines that use both `LSDs` and `MONAI`
+- `MONAI` Tissue vs Non-Tissue detection pipelines
+- Large scale data analysis over public and local EM datasets.
+- Artefact logging with Weights and Biases.
 
 Please check `Issues` for basic troubleshooting tips. Kindly note these packages are being tested gradually and not all issues have made it to the list yet.
 
