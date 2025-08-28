@@ -21,6 +21,9 @@ We use a super simple `UNET` to train with downsampled version of an EM volume w
 We use MONAI to train this network, with minimum data augmentation to allow generalisation to other EM volumes.
 This model is trained in pixel space (voxel resolution is not taken into account).
 The model at inference generalises well (though not perfect as can be expected) to completely unseen EM volumes. 
+
 A post processing step must follow after model inference to fill in gaps or grow/erode the masks to properly overlay it on the EM.
+Example post-processing script is [here](https://github.com/Mohinta2892/catena/tree/dev/em_mask_generation/post_process).
 
 A qualitative comparison of the predicted and post-processed masks overlayed on the unseen EM dataset can be found [here.](https://www.dropbox.com/scl/fi/a7c8wqm4xtanwewxrobs0/pred_post_octo-ezgif.com-optimize.gif?rlkey=f9qg0slbpbr96lg20m91waz60&st=agpb6b9h&dl=0)
+
