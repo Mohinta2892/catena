@@ -18,9 +18,12 @@
 ```
 
 ### Build the conda env for Local Shape Descriptors
+- Choose [complete_py310_environment.yml](https://github.com/Mohinta2892/catena/blob/dev/local_shape_descriptors/conda_env/complete_py310_environment.yml) for installing python=3.10 in machines with latest CUDA drivers
+
 ```shell
-conda env create -f /catena/local_shape_descriptors/conda_env/environment.yml -n funkelsd
+conda env create -f /catena/local_shape_descriptors/conda_env/<environment.yml> -n funkelsd
 ```
+
 >[!NOTE]
 > You can choose any name for the environment with `-n`. Default if none specified is `funkelsd_test`.
 
