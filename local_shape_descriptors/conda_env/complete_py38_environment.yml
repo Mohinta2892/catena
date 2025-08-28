@@ -116,7 +116,7 @@ dependencies:
       - fsspec==2022.11.0
       - psycopg2-binary==2.9.9
       - funlib-geometry==0.2
-      - -e git+https://github.com/funkelab/funlib.learn.torch.git#egg=funlib.learn.torch # funlib-learn-torch==0.1, not pip released
+      - -e git+https://github.com/Mohinta2892/funlib.learn.torch.git@add_batch_norm#egg=funlib.learn.torch # funlib-learn-torch==0.1, not pip released
       - funlib-math==0.1
       - funlib-persistence==0.1.0
       - -e git+https://github.com/funkelab/funlib.segment.git#egg=funlib.segment # funlib-segment==0.1, not pip released
