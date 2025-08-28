@@ -23,7 +23,7 @@
 ```shell
 conda env create -f /catena/local_shape_descriptors/conda_env/<environment.yml> -n funkelsd
 ```
-`waterz` is currently not part part of the `complete_py310_environment.yml`. You can try running `pip install git+https://github.com/funkey/waterz.git` **after the conda env** is built.
+`waterz` is currently not part of the `complete_py310_environment.yml`. You can try running `pip install git+https://github.com/funkey/waterz.git` **after the conda env** is built.
 If it does not work please following the instructions in the [Troubleshooting below](#Troubleshoting).
 
 >[!NOTE]
