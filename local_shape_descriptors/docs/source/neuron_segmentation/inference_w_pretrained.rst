@@ -27,6 +27,9 @@ created by the code.
             - run_1
                 - model_checkpoint_300000
 
+Download Checkpoints
+---------
+We share our best MTLSD model's checkpoint `here <https://www.dropbox.com/scl/fo/7i0fubgdredt1z9jguz8x/APceQkRdquwTEXEVgL4vJWo?rlkey=ml5aqoha24vxdlu09obo07dyl&st=4f1lmiii&dl=0>`_.
 
 Edit the config file `config_predict.py <https://github.com/Mohinta2892/catena/blob/dev/local_shape_descriptors/config/config_predict.py>`_
 ---------
