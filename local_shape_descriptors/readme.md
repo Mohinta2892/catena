@@ -8,7 +8,7 @@ Local Shape Descriptors (LSDs) introduce an auxiliary learning task aimed at imp
 - **Read the blogpost [here](https://localshapedescriptors.github.io/)**
 
 > [!Note]
-> These are supervised ML models, hence you need ground truth. Primary tests reveal 40 microns of densely segmented volumes is good to begin with.
+> These are supervised ML models, hence you need ground truth. Primary tests reveal 40 cubic microns of densely segmented volumes is good to begin with.
  
 ## Getting started
 
