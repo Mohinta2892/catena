@@ -28,7 +28,7 @@ Read these:
 #### Semantic Segmentation to get the affinity maps
 
 <details close>
- <summary>Understand and modify as needed the <a href="config/config.py">config.py</a></summary>
+ <summary>1. Understand and modify as needed the <a href="config/config.py">config.py</a></summary>
 
 <br>
 
@@ -47,7 +47,7 @@ Also, ensure you put the data in the correct path inside a `test` folder, and pa
 </details>
 
 <details close>
- <summary> Train models with <a href="trainer.py">trainer.py</a></summary>
+ <summary>2. Train models with <a href="trainer.py">trainer.py</a></summary>
 <br>
 <strong> For training models </strong> <br>
 
