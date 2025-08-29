@@ -113,7 +113,7 @@ python super_predicter_daisy_chunkskipping.py -c config/config_predict_{brain_vo
 > Agglomeration thresholds are appended to dataset names: `volumes/segmentation_055`
 
 <details>
-<summary> Extract supervoxels and agglomerate for small ROIs with <a href="instance_segmenter.py">instance_segmenter.py</a></summary>
+<summary>4.1 Extract supervoxels and agglomerate for small ROIs with <a href="instance_segmenter.py">instance_segmenter.py</a></summary>
 
 > **WARNING** <br>
 > This script should be used with volumes that fit into memory. Predicted affinities are cast as before watershedding float32, so you should have enough RAM.
@@ -132,7 +132,7 @@ python instance_segmenter.py
 </details>
 
 <details>
-<summary> Extract supervoxels chunk-wise from large volumes with <a href="02_extract_fragments_blockwise.py">02_extract_fragments_blockwise.py</a></summary>
+<summary>4.2 Extract supervoxels chunk-wise from large volumes with <a href="02_extract_fragments_blockwise.py">02_extract_fragments_blockwise.py</a></summary>
 
 > **IMPORTANT** <br>
 > Install [MongoDB](https://www.mongodb.com/docs/manual/installation/) before you begin. <br>
@@ -151,7 +151,7 @@ python 02_extract_fragments_blockwise.py
 </details>
 
 <details>
-<summary> Agglomerate supervoxels of large volumes chunk-wise with <a href="03_agglomerate_blockwise.py">03_agglomerate_blockwise.py</a></summary>
+<summary>5. Agglomerate supervoxels of large volumes chunk-wise with <a href="03_agglomerate_blockwise.py">03_agglomerate_blockwise.py</a></summary>
 
 > **WARNING** <br>
 > This cannot be run if `02_extract_fragments_blockwise.py` has not been run.
@@ -167,7 +167,7 @@ python 03_agglomerate_blockwise.py
 ##### Final steps to extract final segmentation for LARGE volumes
 
 <details>
-<summary> Finding all segments and saving them as Look-Up-Tables (LUTs) <a href="engine/post/04_find_segments_full.py">04_find_segments_full.py</a></summary>
+<summary>6. Finding all segments and saving them as Look-Up-Tables (LUTs) <a href="engine/post/04_find_segments_full.py">04_find_segments_full.py</a></summary>
 
 > **WARNING** <br>
 > This cannot be run if `03_agglomerate_blockwise.py` has not been run. <br>
