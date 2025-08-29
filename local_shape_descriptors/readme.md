@@ -62,7 +62,7 @@ Note: When a config file is not passed, the default is `config.py`.
 </details>
 
 <details close>
- <summary> Run affinity predictions as a single process with <a href="predicter.py">predicter.py</a></summary>
+ <summary>3.1 Run affinity predictions as a single process with <a href="predicter.py">predicter.py</a></summary>
 
 <br>
 
@@ -83,7 +83,7 @@ Note: `predicter.py` does not accept a `config.py` args yet! Hence, all changes 
 </details>
 
 <details>
-<summary> Run affinity predictions blockwise multiprocessing with <a href="super_predicter_daisy.py">super_predicter_daisy.py</a></summary>
+<summary>3.2 Run affinity predictions blockwise multiprocessing with <a href="super_predicter_daisy.py">super_predicter_daisy.py</a></summary>
 
 > **WARNING** <br>
 > THIS HAS ONLY BEEN TESTED WITH 3D VOLUMES.
