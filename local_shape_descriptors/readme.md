@@ -86,7 +86,8 @@ Note: `predicter.py` does not accept a `config.py` args yet! Hence, all changes 
 <summary>3.2 Run affinity predictions blockwise multiprocessing with <a href="super_predicter_daisy.py">super_predicter_daisy.py</a></summary>
 
 > **WARNING** <br>
-> THIS HAS ONLY BEEN TESTED WITH 3D VOLUMES.
+> THIS HAS ONLY BEEN TESTED WITH 3D VOLUMES AND USE `SBATCH` FOR SLURM TO SPAWN ACROSS MULTIPLE CARDS AND A VERY LARGE DATASET.
+> YOU CAN CHANGE IT TO A LOCAL `SUBPROCESS` RUN. WE WILL ALLOW A `ARGS` INPUT FOR THIS SOON.
 
 You can place as many datasets in the `test` folder of your `BRAIN_VOLUME` as you want. Each will be processed but sequentially USING MULTIPLE-WORKERS, which makes the predictions faster.
 
