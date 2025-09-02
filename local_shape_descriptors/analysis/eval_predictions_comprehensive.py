@@ -6,7 +6,10 @@ conda install -c conda-forge graph-tool
 pip install kimimaro
 
 Usage:
-python eval_predictions_all.py --gt /mnt/scratch/mounts/ark/dan-samia/lsd/funke/otto/tiff/octo_z7392-7904_y6586-7098_x5388-5900_z120-140_y100-300_x100-300_wgt.zarr --gt_ds volumes/labels/neuron_ids --seg /mnt/scratch/mounts/ark/dan-samia/lsd/funke/otto/tiff/octo_z7392-7904_y6586-7098_x5388-5900_z120-140_y100-300_x100-300_wgt.zarr --seg_ds volumes/segmentation_0.55 --aff /mnt/scratch/mounts/ark/dan-samia/lsd/funke/otto/tiff/octo_z7392-7904_y6586-7098_x5388-5900_z120-140_y100-300_x100-300_wgt.zarr --aff_ds volumes/pred_affs --raw_ds volumes/raw --voxel_size 8 8 8
+python eval_predictions_all_v2.py --gt /mnt/scratch/mounts/ark/dan-samia/lsd/funke/otto/tiff/octo_z7392-7904_y6586-7098_x5388-5900_z120-140_y100-300_x100-300_wgt.zarr --gt_ds volumes/labels/neuron_ids --seg /mnt/scratch/mounts/ark/dan-samia/lsd/funke/otto/tiff/octo_z7392-7904_y6586-7098_x5388-5900_z120-140_y100-300_x100-300_wgt.zarr --seg_ds volumes/segmentation_0.55 --aff /mnt/scratch/mounts/ark/dan-samia/lsd/funke/otto/tiff/octo_z7392-7904_y6586-7098_x5388-5900_z120-140_y100-300_x100-300_wgt.zarr --aff_ds volumes/pred_affs --raw_ds volumes/raw --voxel_size 8 8 8
+
+python eval_predictions_all_v2.py --gt /mnt/scratch/mounts/ark/dan-samia/lsd/funke/otto/tiff/octo_z7392-7904_y6586-7098_x5388-5900_z120-140_y100-300_x100-300_wgt.zarr --gt_ds volumes/labels/neuron_ids --seg /mnt/scratch/lsd_outputs/MTLSD/3d/hemi_histomatched_octo/model_checkpoint_300000/otto_z7392-7904_y6586-7098_x5388-5900_z120-140_y100-300_x100-300.zarr --seg_ds volumes/segmentation_05 --aff /mnt/scratch/lsd_outputs/MTLSD/3d/hemi_histomatched_octo/model_checkpoint_300000/otto_z7392-7904_y6586-7098_x5388-5900_z120-140_y100-300_x100-300.zarr --aff_ds volumes/pred_affs --raw_ds volumes/raw --voxel_size 8 8 8
+
 """
 
 import numpy as np
@@ -65,6 +68,36 @@ def save_metrics_to_file(metrics, filename):
                     f.write(f"  {key}: {value:.6f}\n")
             f.write("\n")
     print(f"\nMetrics successfully saved to {filename}")
+
+
+def open_zarr_array(path, dataset):
+    """
+    Opens a Zarr array, trying v2 and v3 methods for compatibility.
+    """
+    # Try Zarr v2 style first: open the root group and get the dataset by key.
+    # This is common for Zarr stores containing multiple arrays in one .zarr directory.
+    try:
+        root = zarr.open(path, mode='r')
+        if dataset in root:
+            print(f"Reading '{dataset}' from '{path}' using Zarr v2 method.")
+            return root[dataset][...]
+    except Exception as e_v2:
+        print(f"Note: Could not open '{path}' as a Zarr v2 group ({type(e_v2).__name__}). Will attempt v3 style.")
+        pass
+
+    # Try Zarr v3 style: open the full path to the dataset directly.
+    # This is required when each array is its own store within a parent directory.
+    try:
+        full_path = os.path.join(path, dataset)
+        print(f"Attempting to read '{full_path}' using Zarr v3 method.")
+        return zarr.open(full_path, mode='r')[...]
+    except Exception as e_v3:
+        # If both methods fail, raise a comprehensive error.
+        print(f"Fatal: Failed to open Zarr dataset '{dataset}' at path '{path}' with both v2 and v3 methods.")
+        if 'e_v2' in locals():
+             print(f"  - v2 attempt failed, likely because the path is not a valid group or does not contain the key.")
+        print(f"  - v3 attempt failed with error: {e_v3}")
+        raise IOError(f"Could not read Zarr dataset {dataset} from {path}")
 
 
 def calculate_skeleton_lengths_with_voxel_size(
@@ -382,13 +415,14 @@ def main():
 
     # --- Load Data ---
     print("Loading data...")
-    seg = zarr.open(args.seg)[args.seg_ds][...]
-    gt = zarr.open(args.gt)[args.gt_ds][...]
-    raw = zarr.open(args.gt)[args.raw_ds][...]
+    # Use helper function to handle both Zarr v2 and v3 formats
+    seg = open_zarr_array(args.seg, args.seg_ds)
+    gt = open_zarr_array(args.gt, args.gt_ds)
+    raw = open_zarr_array(args.gt, args.raw_ds)
 
     boundary_map_3d = None
     if args.aff:
-        aff = zarr.open(args.aff)[args.aff_ds][...]
+        aff = open_zarr_array(args.aff, args.aff_ds)
         if aff.ndim == 4:
             print(f"Collapsing {aff.shape[0]}-ch aff map to 3D using '{args.aff_collapse_method}'...")
             collapse_func = getattr(np, args.aff_collapse_method)
