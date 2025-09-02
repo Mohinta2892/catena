@@ -13,7 +13,7 @@ Synful implements the partner-detection approach from Julia Buhmann et al.’s p
 </p>
 </div>
 
-We have refactored Synful's TensorFlow code and re-implemented it in PyTorch for more flexibility on newer CUDA machines.
+We have refactored Synful's TensorFlow code and re-implemented it in PyTorch for more flexibility on newer CUDA machines and for eager execution of model operators while training.
 
 ## TensorFlow 
 TensorFlow scripts are subdivided into running only inference with Buhmann et. al's pretrained networks, which were released [here](https://github.com/funkelab/synful) and also training Synful models in `TensorFlow from Scratch` on your own datasets.
