@@ -4,7 +4,7 @@ Synful implements the partner-detection approach from Julia Buhmann et al.’s p
 
 - Read the paper here: [Buhmann et al., Nature Methods, 2021](https://tinyurl.com/ywahwmwj)
 
-### Synful's Architecture at a glance (multi-task U-Net)
+### Synful's Architecture at a glance (multi-task UNet)
 
 <br>
 <div>
