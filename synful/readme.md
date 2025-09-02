@@ -1,6 +1,6 @@
 # Synful PyTorch and TensorFlow Usage
 
-Synful implements the partner-detection approach from Julia Buhmann et al.’s paper, `Automatic detection of synaptic partners in a whole-brain Drosophila electron microscopy dataset`. It uses a U-Net–style encoder–decoder to jointly (1) localize post-synaptic sites (PSDs) and (2) predict a direction vector field from each post-synaptic site toward its pre-synaptic partner. This multi-task setup lets the network learn where synapses are and who they connect to—within a single model.
+Synful implements the partner-detection approach from Julia Buhmann et al.’s paper, `Automatic detection of synaptic partners in a whole-brain Drosophila electron microscopy dataset`. It uses a U-Net–style encoder–decoder to jointly (1) localize post-synaptic sites (potentially annotations are on top of PSDs) and (2) predict a direction vector field from each post-synaptic site toward its pre-synaptic partner. This multi-task setup lets the network learn where synapses are and who they connect to—within a single model.
 
 - Read the paper here: [Buhmann et al., Nature Methods, 2021](https://tinyurl.com/ywahwmwj)
 
