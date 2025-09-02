@@ -26,7 +26,7 @@ TensorFlow scripts are subdivided into running only inference with Buhmann et. a
 
 - Please go [here](https://github.com/Mohinta2892/catena/tree/dev/synful/tensorflow/train_from_scratch) to train the models in from scratch on your own datasets.
 > [!Note]
-> Input is expected in `.hdf` in the [CREMI](https://cremi.org/data/) format. If you do not know how to convert to CREMI format, please follow the [example script].(https://github.com/Mohinta2892/catena/blob/dev/synful/pytorch/data_utils/download_data/meta_analysis/scripts/convert_wasp_to_CREMI.py) 
+> Input is expected in `.hdf` in the [CREMI](https://cremi.org/data/) format. If you do not know how to convert to CREMI format, please follow the [example script](https://github.com/Mohinta2892/catena/blob/dev/synful/pytorch/data_utils/download_data/meta_analysis/scripts/convert_wasp_to_CREMI.py). 
 > Synful can run with and without neuron segmentation.
 
 ## PyTorch
