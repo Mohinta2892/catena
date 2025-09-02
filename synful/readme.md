@@ -9,7 +9,7 @@ Synful implements the partner-detection approach from Julia Buhmann et al.’s p
 <br>
 <div>
 <p align="center">
-<img src='https://github.com/Mohinta2892/catena/blob/dev/synful/assets/sup_fig_synful-1.png' align="center" width=800px>
+<img src='https://github.com/Mohinta2892/catena/blob/dev/local_shape_descriptors/assets/lsds_schematic.png' align="center" width=800px>
 </p>
 </div>
 
