@@ -7,7 +7,7 @@ Local Shape Descriptors (LSDs) introduce an auxiliary learning task aimed at imp
 - **Read the paper here: [Sheridan et al., Nature Methods, 2023](https://www.nature.com/articles/s41592-022-01711-z)**
 - **Read the original LSD blogpost [here](https://localshapedescriptors.github.io/)**
 
-***LSDs architecture at a glance (multi-task U-Net)**
+**LSDs architecture at a glance (multi-task U-Net)**
 <br>
 <div>
 <p align="center">
