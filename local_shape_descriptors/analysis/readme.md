@@ -11,8 +11,12 @@
   pip install git+https://github.com/funkelab/funlib.evaluate.git
   pip install git+https://github.com/funkelab/funlib.segment.git
   ```
+- Install Graph-Tool. It is a requirement in funlib.evaluate, but will not be installed automatically.
+```
+conda install -c conda-forge graph-tool
+```
 
-Troubleshooting issues: [Issue #37](https://github.com/Mohinta2892/catena/issues/37), [Issue #36](https://github.com/Mohinta2892/catena/issues/36)
+**Troubleshooting issues**: [Issue #37](https://github.com/Mohinta2892/catena/issues/37), [Issue #36](https://github.com/Mohinta2892/catena/issues/36)
   
 
 Please install all of the above into the same conda env that you perhaps create for Napari.
