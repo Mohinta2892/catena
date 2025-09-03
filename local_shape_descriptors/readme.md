@@ -11,7 +11,7 @@ Local Shape Descriptors (LSDs) introduce an auxiliary learning task aimed at imp
 <br>
 <div>
 <p align="center">
-<img src='https://github.com/Mohinta2892/catena/blob/dev/local_shape_descriptors/assets/lsds_schematic.png' align="center" width=800px>
+<img src='assets/lsds_schematic.png' align="center" width=800px>
 </p>
 </div>
 
