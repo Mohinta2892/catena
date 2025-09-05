@@ -22,7 +22,7 @@ CATENA brings together tools and models, including some state-of-the-art models 
 - Microtubule tracking `Micron (Eckstein et al. 2019)`: [Installation and Usage ](https://github.com/Mohinta2892/micron-repackaging) [TO BE INTEGRATED WITH CATENA SOON..]
   >[!WARNING] Microtubule Tracking uses TENSORFLOW 1.x and Gurobi dependencies for ILP
 - Neurotransmitter classification `Synister (Eckstein, Bates et al. 2024)`: [Installation and Usage](https://github.com/Mohinta2892/catena/tree/dev/neurotransmitter_classification)
-- Mitochondria segmentation using `MONAI` and adapted Residual UNets for isotropic FIBSEM data from [Xie et al.](https://academic.oup.com/bioinformaticsadvances/article/5/1/vbaf021/8104107?login=true)
+- Mitochondria segmentation using `MONAI` and adapted `Residual UNets` for isotropic FIBSEM data from [Xie et al.](https://academic.oup.com/bioinformaticsadvances/article/5/1/vbaf021/8104107?login=true)
 - EM Tissue/No-Tissue Mask generation models and conventional CV pipelines.
 - Generative AI for EM-to-EM translation: TO BE ADDED
 
