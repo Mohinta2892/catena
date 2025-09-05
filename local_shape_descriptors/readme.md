@@ -181,7 +181,7 @@ python 03_agglomerate_blockwise.py
 
 > **WARNING** <br>
 > This cannot be run if `03_agglomerate_blockwise.py` has not been run. <br>
-> **Don't forget to pass `daisy_logs/{filename}_pred_affs/config_0.yaml` from your daisy_logs folder auto-created under `catena/local_shape_descriptors`.** <br>
+> **Don't forget to pass `daisy_logs/{filename}_fragments/config_0.yaml` from your daisy_logs folder auto-created under `catena/local_shape_descriptors`.** <br>
 > Output LUTs are saved under `lsd_outputs`
 
 <strong> Create a LUT file </strong> <br>
