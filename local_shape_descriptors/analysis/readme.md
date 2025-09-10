@@ -24,3 +24,8 @@ Take a look at [napari_environment.yml](analysis/conda_env-requirements/lsd_anal
 >[!TIP]
 > Creating a separate env can help in preventing pyqt issues in the local_shape_descriptors `funkelsd` env.
 
+#### Downloading Data from CAVE or GCLOUD
+
+- If segmentations are hosted in CAVE or in GCLOUD buckets, the scripts under [download_and_preprocess_data](https://github.com/Mohinta2892/catena/tree/dev/local_shape_descriptors/analysis/download_and_preprocess_data) can be used to download and relabel segmentations.
+>[!Warning]
+>Currently the segmentations are transposed to ZYX and flipped along `axes=2` in a 3D volume to match our raw EM.
