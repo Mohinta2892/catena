@@ -104,7 +104,7 @@ def crop_and_save_segmentation(bbox_dims_xyz, output_dir):
     # ---------------------------------------
     # Save as a Zarr array
     print(f"--> Saving to Zarr at {zarr_output_path}...")
-    zarr.save(zarr_output_path, segmentation_data_xyz_relab) # pass either relabelled seg or original
+    zarr.save(zarr_output_path, segmentation_data_xyz_relab, path="volumes/segmentation_rsg8") # pass either relabelled seg or original
     print("--> Zarr save complete.\n")
 
     # Save as a multi-page TIFF file

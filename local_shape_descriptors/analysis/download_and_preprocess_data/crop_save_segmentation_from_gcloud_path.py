@@ -7,6 +7,10 @@ python crop_save_segmentation_from_gcloud_path.py  gs://fly-larva-sf/octo/seg_24
 
 python crop_save_segmentation_from_gcloud_path.py  gs://fly-larva-sf/octo/seg_241224_250131b_rsg8_spl --bbox 5603 3254 7464 6267 3890 8163 --mip 0 --output_dir /media/samia/DATA/mounts/zstore1/catena/lsd_outputs/FFNS_Octo
 
+python crop_save_segmentation_from_gcloud_path.py  gs://fly-larva-sf/octo/seg_241224_250131b_rsg8_spl --bbox 5388 6586 7392 5900 7098 7904 --mip 0 --output_dir /media/samia/DATA/mounts/zstore1/catena/lsd_outputs/FFNS_Octo
+
+x5388-5900 y6586-7098 z7392-7904
+octo_z7392-7904_y6586-7098_x5388-5900_z120-140_y100-300_x100-300_wgt.zarr
 OCTO_cube1_v2_8083_8765_y5878_6542_z4697_5319
 OCTO_cube2_v2_12485_13164_y6231_6901_z3971_4640
 OCTO_cube3_calyx_v2_5603_6267_y3254_3890_z7464_8163
@@ -119,7 +123,7 @@ def crop_and_save_from_path(precomputed_path, bbox_dims_xyz, output_dir, mip):
     # 5. Save the cropped data
     # ---------------------------------------
     print(f"--> Saving to Zarr at {zarr_output_path}...")
-    zarr.save(zarr_output_path, segmentation_data_zyx_relab)
+    zarr.save(zarr_output_path, segmentation_data_zyx_relab, path="volumes/segmentation_rsg8") # path within grp should be changed
     print("--> Zarr save complete.\n")
 
     print(f"--> Saving to TIFF at {tiff_output_path}...")
