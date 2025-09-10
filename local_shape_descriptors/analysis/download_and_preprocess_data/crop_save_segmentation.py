@@ -21,7 +21,7 @@ def crop_and_save_segmentation(bbox_dims_xyz, output_dir):
     # ---------------------------------------
     # 1. Configuration & Setup
     # ---------------------------------------
-    flywire_token = "b4b0ba4a473e6da2a65e207d06a3b0fc"
+    flywire_token = "x"
     datastack_name = 'zlatic_octo_8x8x8_full_200525_datastack'
     server_address = 'https://global.connectomics.braininbrain.org'
     # **Timestamp to query a specific state of the database**
