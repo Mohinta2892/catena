@@ -110,7 +110,7 @@ This work is being used in other institutes:
     <td valign="top">
     "I was very positively surprised by the quality of the segmentations, especially given that the model had not been trained on our data and that only minimal enhancement was applied to the EM images. Larger spines, in particular, are segmented with incredible precision and the identities of individual neurons appear to be well maintained across the z-plane. I was especially impressed to see the model perform well even on noisier regions with low contrast or staining residue in the intracellular space. There are occasional minor errors around small dendritic spines, so I’m very excited to see how the model performs on a dataset that has not undergone the full suite of preprocessing steps.
       
--- Anna Seggewisse "
+-- Anna Seggewisse, PhD student, Winding Lab "
     <br /><br />
     <a href="https://x.com/WindingMichael/status/1834641737853096243">View on X →</a>
     </td>
