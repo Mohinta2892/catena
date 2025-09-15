@@ -21,7 +21,7 @@ CATENA brings together tools and models, including some state-of-the-art models 
 
 ***PLEASE NOTE THIS IS UNDER HEAVY DEVELOPMENT. FOLLOW `DEV` BRANCH LINKS BELOW!***
 
-📦 Models, Packages and Tools:
+### 📦 Models, Packages and Tools:
 - Neuron Segmentation `Local Shape Descriptors (Sheridan et al. 2022)`: [Installation and Usage ](https://github.com/Mohinta2892/catena/tree/dev/local_shape_descriptors)
 - Synapse Detection `Synful(Buhmann et al. 2020)`: [Installation and Usage](https://github.com/Mohinta2892/catena/tree/dev/synful)
 - Microtubule tracking `Micron (Eckstein et al. 2019)`: [Installation and Usage ](https://github.com/Mohinta2892/micron-repackaging) [TO BE INTEGRATED WITH CATENA SOON..]
@@ -33,7 +33,7 @@ CATENA brings together tools and models, including some state-of-the-art models 
 
 - For visualisation: [Napari and Neuroglancer](https://github.com/Mohinta2892/catena/tree/dev/visualize)
 
-🛠️ Detailed Features:
+### 🛠️ Detailed Features:
 - Pytorch implementations of `LSDs` and `Synful`.
 - Exploration of `LSDs` and `Synful` for other task objectives.
 - Docker-based containerisation and release of development environments.
