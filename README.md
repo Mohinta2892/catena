@@ -14,6 +14,11 @@ CATENA is an end-to-end, **developer-friendly** pipeline for large-scale connect
 
 CATENA brings together tools and models, including some state-of-the-art models for large-scale connectomics under one hood Designed for technically proficient users, each module remains decoupled and self-contained, yet collectively they lower barriers with elaborate documentation, default examples, and error reporting from our own trials, making advanced connectomics accessible without sacrificing flexibility.
 
+<div align="center">
+  <img width="1000" alt="image" src="./assets/catena_pipeline_schematic.png" />
+</div>
+
+
 ***PLEASE NOTE THIS IS UNDER HEAVY DEVELOPMENT. FOLLOW `DEV` BRANCH LINKS BELOW!***
 
 📦 Models, Packages and Tools:
