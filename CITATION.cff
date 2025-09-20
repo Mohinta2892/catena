@@ -4,6 +4,6 @@ authors:
   - family-names: Mohinta
     given-names: Samia
     orcid: https://orcid.org/0000-0002-6675-5006
-title: "Catena: Neuron Segmentation, Synapse Detection, Microtubule tracking and more..."
+title: "Catena: A comprehensive platform for automated large-scale connectomics."
 version: 0.1
 date-released: 2022-08-01
