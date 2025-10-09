@@ -126,4 +126,7 @@ This work is being used in other institutes:
 - AI Revolution Meets 4D Cellular Physiology March 2025, HHMI Janelia, USA - accepted for [Poster Presentation](https://tinyurl.com/4dcp-janelia)
 - Analysis and Modelling of Connectomes June 2025, HHMI Janelia, USA - accepted for [Poster Presentations](https://ncr25-hhmi.ipostersessions.com/default.aspx?s=A5-9B-8C-8F-83-90-D0-27-96-1B-E9-B8-85-47-2B-46&guestview=true)
 
+#### 📒 Preprints
+- [Towards Generalized Synapse Detection Across Invertebrate Species](https://arxiv.org/html/2509.17041v1), Mohinta et al., ArXiv 2025
+- [Beyond Agreement: Standardizing Crowdsourced Synapse Annotations through Proofreading in EM Connectomics](https://www.biorxiv.org/content/10.1101/2025.09.26.678851v1), Lee et al., BioArXiv 2025
 
