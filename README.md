@@ -53,18 +53,6 @@ The pipeline has been built upon pre-existing work:
 - Synister: [GitHub](https://github.com/funkelab/synister), [Paper](https://www.cell.com/cell/fulltext/S0092-8674(24)00307-6)
 - Generative AI: To do
 
-## Citations
-If you use this codebase, please cite us. However, please do not forget to cite the original authors of the algorithms/models.
-```
-@software{Mohinta_Catena_Neuron_Segmentation_2022,
-author = {Mohinta, Samia},
-month = aug,
-title = {{Catena: Neuron Segmentation, Synapse Detection, Microtubule tracking and more...}},
-version = {0.1},
-year = {2022}
-}
-```
-
 ## Funding
 This work has been supported by generous funding from:
 
@@ -130,3 +118,14 @@ This work is being used in other institutes:
 - [Towards Generalized Synapse Detection Across Invertebrate Species](https://arxiv.org/html/2509.17041v1), Mohinta et al., arXiv 2025
 - [Beyond Agreement: Standardizing Crowdsourced Synapse Annotations through Proofreading in EM Connectomics](https://www.biorxiv.org/content/10.1101/2025.09.26.678851v1), Lee et al., bioRxiv 2025
 
+## Citations
+If you use this codebase, please cite us. However, please do not forget to cite the original authors of the algorithms/models.
+```
+@software{Mohinta_Catena_Neuron_Segmentation_2022,
+author = {Mohinta, Samia},
+month = aug,
+title = {{Catena: A comprehensive platform for automated large-scale connectomics.}},
+version = {0.1},
+year = {2022}
+}
+```
