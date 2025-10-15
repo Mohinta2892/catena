@@ -109,7 +109,7 @@ Training is launched via the `trainer.py` script, which uses `config/config.py` 
     python trainer.py -c config/config.py
     ```
 
-## Step 3: Prediction [Untested currently]
+## Step 3: Prediction [Partially Tested - Further testing under works]
 
 Prediction is launched via `predicter.py` and configured using `config/config_predict.py`. It is highly flexible and can source synapse locations from multiple backends.
 
