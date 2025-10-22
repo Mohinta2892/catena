@@ -119,3 +119,8 @@ conda activate nglancer
 python nglancer_pyconnectomics_example.py
 ```
 The script will print a URL to the console that you can open in your browser to see the visualization.
+
+
+## Troubleshooting Tips
+Check Issue [#27](https://github.com/Mohinta2892/catena/issues/27) if you are facing problems with neuroglancer installation.
+
