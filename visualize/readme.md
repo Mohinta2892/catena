@@ -42,6 +42,9 @@
 
 ### Usage: NAPARI
 
+>[!IMPORTANT]
+>Note that LSDs output segmentations that are smaller than the original EM shape. This is due to application of valid convolutions in the CNN model. So you must pad the output to match the raw shape. Follow example here.
+
 Once `Napari` is installed successfully, you can run `visualise_napari.py`:
 
 > **OPTION 1**:
