@@ -10,7 +10,9 @@ We apply a `Difference of Gaussians (DOG)` and a `local texture and structure an
 The DOG does not lead to good masks. However., the texture-based masking does.
 See example below.
 
+<p align="center">
 <img src="https://github.com/Mohinta2892/catena/blob/dev/em_mask_generation/conventional_cv/example_outputs/TEXTURE_mask_filled-ezgif.com-speed.gif" width="400" height="400" />
+</p>
 
 
 Even though, it can generate a good starting mask that separates background from biological, 
@@ -26,4 +28,5 @@ A post processing step must follow after model inference to fill in gaps or grow
 Example post-processing script is [here](https://github.com/Mohinta2892/catena/tree/dev/em_mask_generation/post_process).
 
 A qualitative comparison of the predicted and post-processed masks overlayed on the unseen EM dataset can be found [here.](https://www.dropbox.com/scl/fi/a7c8wqm4xtanwewxrobs0/pred_post_octo-ezgif.com-optimize.gif?rlkey=f9qg0slbpbr96lg20m91waz60&st=agpb6b9h&dl=0)
+
 
