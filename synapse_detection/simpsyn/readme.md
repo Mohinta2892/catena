@@ -1,4 +1,10 @@
 # SIMPSYN
+<p align="center">
+
+<img width="704" height="728" alt="simpsyn_logo" src="https://github.com/user-attachments/assets/a02ef471-5123-41ff-8eb9-fef3effee7e1" />
+
+</p>
+
 
 SIMPSYN is our ultra-light weight model for synapse detection.
 SimpSyn uses a 3D Residual U-Net [30] for synapse detection that predicts two output channels: one corresponding to pre-synaptic regions and the other to post-synaptic regions. 
@@ -13,4 +19,7 @@ To establish correspondence between pre-synaptic and post-synaptic sites, each p
 **SIMPSYN is built within Biapy**.
 Please follow the [installation instructions here](https://biapy.readthedocs.io/en/latest/get_started/installation.html).
 
-_Complete documentation will be released soon together with the published paper._
+_Complete documentation will be released soon._
+
+# Citing SIMPSYN
+Please cite our [preprint on Towards Generalized Synapse Detection Across Invertebrate Species](https://arxiv.org/html/2509.17041v1).
