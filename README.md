@@ -7,6 +7,10 @@
   Talk to us: <a href="https://discord.gg/KEkmVGXRjn">Discord</a>
 </div>
 
+<div align="center">
+  Documentation (WIP):  <a href="https://mohinta2892.github.io/catena-docs.github.io/">Catena-Docs</a>
+</div>
+
 
 # Overview of CATENA
 
