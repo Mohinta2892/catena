@@ -1,7 +1,7 @@
 # SIMPSYN
 <p align="center">
 
-<img width="704" height="728" alt="simpsyn_logo" src="https://github.com/user-attachments/assets/a02ef471-5123-41ff-8eb9-fef3effee7e1" />
+<img width="942" height="961" alt="simpsyn_logo" src="https://github.com/user-attachments/assets/3a380ad5-307b-4ead-b40d-32c04ba0b0d8" />
 
 </p>
 
@@ -23,3 +23,4 @@ _Complete documentation will be released soon._
 
 # Citing SIMPSYN
 Please cite our [preprint on Towards Generalized Synapse Detection Across Invertebrate Species](https://arxiv.org/html/2509.17041v1).
+
