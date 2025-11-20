@@ -1,0 +1,25 @@
+{
+  "experiment": "cremi",
+  "setup" : "p_setup10",
+  "iteration" : 390000,
+  "raw_file" : "../../data/sample_A_padded_20160501.hdf",
+  "raw_dataset" : "volumes/raw",
+  "out_directory" : "output/",
+  "out_filename": "sample_A.zarr",
+  "db_host": "localhost:27017",
+  "db_name": "pretrained_setup10_cremiA",
+  "configname": "train",
+  "overwrite":true,
+  "num_workers": 1,
+  "out_properties": {
+    "pred_syn_indicator_out": {
+      "dsname": "pred_syn_indicator",
+      "dtype": "uint8",
+      "scale": 255
+    },
+    "pred_partner_vectors": {
+      "dtype": "int8",
+      "scale": 0.25
+    }
+  }
+}

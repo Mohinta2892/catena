@@ -1,0 +1,6 @@
+{
+    "queue": "slowpoke",
+    "num_cpus": 2,
+    "num_cache_workers": 4,
+    "singularity": "singularity_images/synful/synful_py3:v11.img"
+}

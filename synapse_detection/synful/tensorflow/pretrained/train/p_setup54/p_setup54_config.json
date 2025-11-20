@@ -1,0 +1,25 @@
+{
+  "experiment": "cremi",
+  "setup" : "p_setup54",
+  "iteration" : 690000,
+  "raw_file" : "../../data/presyn_intermediate-000.zarr",
+  "raw_dataset" : "volumes/raw",
+  "out_directory" : "output/",
+  "out_filename": "presyn_intermediate-000.zarr",
+  "db_host": "localhost:27017",
+  "db_name": "pretrained_psetup54_seymour_presyn000",
+  "configname": "train",
+  "overwrite":true,
+  "num_workers": 1,
+  "out_properties": {
+    "pred_syn_indicator_out": {
+      "dsname": "pred_syn_indicator",
+      "dtype": "uint8",
+      "scale": 255
+    },
+    "pred_partner_vectors": {
+      "dtype": "int8",
+      "scale": 0.25
+    }
+  }
+}

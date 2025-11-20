@@ -1,0 +1,8 @@
+{
+  "extract_type": "cc",
+  "cc_threshold": 0.95,
+  "loc_type": "edt",
+  "score_thr": 5,
+  "score_type": "sum",
+  "nms_radius": null
+}
