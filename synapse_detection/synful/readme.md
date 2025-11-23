@@ -18,19 +18,19 @@ We have refactored Synful's TensorFlow code and re-implemented it in PyTorch for
 ## TensorFlow 
 TensorFlow scripts are subdivided into running only inference with Buhmann et. al's pretrained networks, which were released [here](https://github.com/funkelab/synful) and also training Synful models in `TensorFlow from Scratch` on your own datasets.
 
-- Please go [here](https://github.com/Mohinta2892/catena/tree/dev/synful/tensorflow/pretrained/train) to run inference with `pretrained` models on your anisotropic datasets.
+- Please go [here](https://github.com/Mohinta2892/catena/tree/dev/synapse_detection/synful/tensorflow/pretrained/train) to run inference with `pretrained` models on your anisotropic datasets.
 > [!WARNING]
 > You can infer on `isotropic` datasets with these models, but beware that they are quite sensitive to the resolution and quality of the EM.
 > Even with test data with matching resolutions with CREMI, the models may not be as accurate as expected.
 > We will reveal our findings soon!
 
-- Please go [here](https://github.com/Mohinta2892/catena/tree/dev/synful/tensorflow/train_from_scratch) to train the models in from scratch on your own datasets.
+- Please go [here](https://github.com/Mohinta2892/catena/tree/dev/synapse_detection/synful/tensorflow/train_from_scratch) to train the models in from scratch on your own datasets.
 > [!Note]
-> Input is expected in `.hdf` in the [CREMI](https://cremi.org/data/) format. If you do not know how to convert to CREMI format, please follow the [example script](https://github.com/Mohinta2892/catena/blob/dev/synful/pytorch/data_utils/download_data/meta_analysis/scripts/convert_wasp_to_CREMI.py). 
+> Input is expected in `.hdf` in the [CREMI](https://cremi.org/data/) format. If you do not know how to convert to CREMI format, please follow the [example script](https://github.com/Mohinta2892/catena/blob/dev/synapse_detection/synful/pytorch/data_utils/download_data/meta_analysis/scripts/convert_wasp_to_CREMI.py). 
 > Synful can run with and without neuron segmentation.
 
 ## PyTorch
-The pytorch re-implementation can be found [here](https://github.com/Mohinta2892/catena/tree/dev/synful/pytorch).
+The pytorch re-implementation can be found [here](https://github.com/Mohinta2892/catena/tree/dev/synapse_detection/synful/pytorch).
 
 **Please note that this sub-folder is under active development.**
 
