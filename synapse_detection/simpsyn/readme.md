@@ -7,7 +7,7 @@
 
 
 SIMPSYN is our ultra-light weight model for synapse detection.
-SimpSyn uses a 3D Residual U-Net [30] for synapse detection that predicts two output channels: one corresponding to pre-synaptic regions and the other to post-synaptic regions. 
+SimpSyn uses a 3D Residual U-Net for synapse detection that predicts two output channels: one corresponding to pre-synaptic regions and the other to post-synaptic regions. 
 To achieve this, a spherical 3D region is generated and centered at the coordinates of the pre-synaptic and post-synaptic points.
 These output masks are subsequently processed using connected component labelling to isolate individual synaptic structures.
 To establish correspondence between pre-synaptic and post-synaptic sites, each post-synaptic component is paired with its nearest pre-synaptic counterpart based on the nearest neighbour criterion.
@@ -23,4 +23,5 @@ _Complete documentation will be released soon._
 
 # Citing SIMPSYN
 Please cite our [preprint on Towards Generalized Synapse Detection Across Invertebrate Species](https://arxiv.org/html/2509.17041v1).
+
 
