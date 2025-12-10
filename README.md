@@ -8,7 +8,7 @@
 </div>
 
 <div align="center">
-  Documentation (WIP):  <a href="https://mohinta2892.github.io/catena-docs.github.io/">Catena-Docs</a>
+  Documentation:  <a href="https://mohinta2892.github.io/catena-docs.github.io/">Catena-Docs</a>
 </div>
 
 
