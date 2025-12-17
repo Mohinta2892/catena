@@ -15,14 +15,18 @@ OCTO_cube1_v2_8083_8765_y5878_6542_z4697_5319
 OCTO_cube2_v2_12485_13164_y6231_6901_z3971_4640
 OCTO_cube3_calyx_v2_5603_6267_y3254_3890_z7464_8163
 
-raw:
-python crop_save_segmentation_from_gcloud_path.py  gs://fly-larva-sf/octo/clahe/ --bbox 8083 5878 4697 8765 6542 5319 --mip 0 --output_dir /media/samia/DATA/mounts/zstore1/catena/lsd_outputs/FFNS_Octo_EM
-
 Octo AL:
 minCoords = [12029, 10063, 4495]
 maxCoords = [13724, 11455, 5120]
 
 python crop_save_segmentation_from_gcloud_path.py  gs://fly-larva-sf/octo/seg_241224_250131b_rsg8_spl --bbox 12029 10063 4495 13724 11455 5120 --mip 0 --output_dir /media/samia/DATA/mounts/zstore1/catena/lsd_outputs/FFNS_Octo
+
+
+raw:
+python crop_save_segmentation_from_gcloud_path.py  gs://fly-larva-sf/octo/clahe/ --bbox 8083 5878 4697 8765 6542 5319 --mip 0 --output_dir /media/samia/DATA/mounts/zstore1/catena/lsd_outputs/FFNS_Octo_EM
+
+
+python crop_save_segmentation_from_gcloud_path.py  gs://fly-larva-sf/octo/clahe/ --bbox 12029 10063 4495 13724 11455 5120 --mip 0 --output_dir /media/samia/DATA/mounts/zstore1/catena/lsd_outputs/FFNS_Octo_EM
 
 
 
@@ -114,9 +118,9 @@ def crop_and_save_from_path(precomputed_path, bbox_dims_xyz, output_dir, mip):
     # --- FIX: Flip the X-axis to correct the orientation ---
     # The X-axis is now the last axis (axis=2) in the ZYX numpy array.
     # We flip it to match the visual orientation seen in other viewers.
-    print("--> Flipping horizontal axis (X) for correct orientation...")
-    segmentation_data_zyx = np.flip(segmentation_data_zyx, axis=2)
-    print("--> Flip complete.\n")
+    #print("--> Flipping horizontal axis (X) for correct orientation...")
+    #segmentation_data_zyx = np.flip(segmentation_data_zyx, axis=2)
+    #print("--> Flip complete.\n")
 
     # ---------------------------------------
     # 4. Relabel data for better visualization
