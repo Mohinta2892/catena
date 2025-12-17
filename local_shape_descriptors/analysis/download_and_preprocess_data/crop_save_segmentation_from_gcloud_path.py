@@ -18,6 +18,14 @@ OCTO_cube3_calyx_v2_5603_6267_y3254_3890_z7464_8163
 raw:
 python crop_save_segmentation_from_gcloud_path.py  gs://fly-larva-sf/octo/clahe/ --bbox 8083 5878 4697 8765 6542 5319 --mip 0 --output_dir /media/samia/DATA/mounts/zstore1/catena/lsd_outputs/FFNS_Octo_EM
 
+Octo AL:
+minCoords = [12029, 10063, 4495]
+maxCoords = [13724, 11455, 5120]
+
+python crop_save_segmentation_from_gcloud_path.py  gs://fly-larva-sf/octo/seg_241224_250131b_rsg8_spl --bbox 12029 10063 4495 13724 11455 5120 --mip 0 --output_dir /media/samia/DATA/mounts/zstore1/catena/lsd_outputs/FFNS_Octo
+
+
+
 """
 
 import os
@@ -176,4 +184,3 @@ if __name__ == '__main__':
         output_dir=args.output_dir,
         mip=args.mip
     )
-
