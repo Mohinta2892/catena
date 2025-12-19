@@ -10,13 +10,13 @@ from matplotlib.patches import FancyBboxPatch, Patch
 
 # --- CONFIGURATION ---
 plt.rcParams.update({
-    'font.size': 20,
-    'axes.titlesize': 24,
-    'axes.labelsize': 20,
-    'xtick.labelsize': 18,
-    'ytick.labelsize': 18,
-    'legend.fontsize': 16,
-    'figure.titlesize': 26,
+    'font.size': 30,
+    'axes.titlesize': 30,
+    'axes.labelsize': 30,
+    'xtick.labelsize': 30,
+    'ytick.labelsize': 30,
+    'legend.fontsize': 30,
+    'figure.titlesize': 30,
     'font.family': 'sans-serif'
 })
 sns.set_style("ticks")
@@ -316,9 +316,9 @@ def generate_quadrant_summary(df, save_prefix="cumulative_analysis"):
     for p in new_patches:
         ax.add_patch(p)
 
-    plt.title('Segmentation Difficulty by Group', fontsize=22)
-    plt.ylabel('Percentage (%)', fontsize=18)
-    plt.xlabel('Dataset Group', fontsize=18)
+    plt.title('Segmentation Difficulty by Group')
+    plt.ylabel('Percentage (%)')
+    plt.xlabel('Dataset Group')
 
     # Manual Legend (Guarantees it appears correctly)
     legend_handles = [Patch(facecolor=CATEGORY_PALETTE[c], label=c) for c in order]

@@ -156,7 +156,12 @@ def generate_publication_plots(df, save_prefix="mito_analysis"):
     df['Log_Volume'] = np.log10(df['Volume_um3'] + 1e-9)
 
     # --- PLOT 1: Size Distribution (Top Left) ---
-    sns.histplot(data=df, x='Log_Volume', kde=True, color="#2c3e50", alpha=0.6, ax=axes[0, 0])
+
+    # "Hemibrain": "#3498db",  # Blue
+    # "Octo": "#e74c3c",  # Red
+    # sns.histplot(data=df, x='Log_Volume', kde=True, color="#2c3e50", alpha=0.6, ax=axes[0, 0]) # original
+    sns.histplot(data=df, x='Log_Volume', kde=True, color="#3498db", alpha=0.6, ax=axes[0, 0]) # hemibrain
+    # sns.histplot(data=df, x='Log_Volume', kde=True, color="#e74c3c", alpha=0.6, ax=axes[0, 0]) # octo
     axes[0, 0].set_xlabel('Log10 Volume ($\mu m^3$)')
     axes[0, 0].set_ylabel('Count')
     axes[0, 0].set_title('A. Mitochondria Size Distribution', loc='left', fontweight='bold')
@@ -197,6 +202,7 @@ def generate_publication_plots(df, save_prefix="mito_analysis"):
 
     # Save the combined figure
     save_path = f"{save_prefix}_combined_panel.png"
+    save_path = f"{save_prefix}_combined_panel.svg"
     plt.savefig(save_path, dpi=300)
     print(f"Saved combined plot to {save_path}")
     plt.show()
@@ -206,12 +212,12 @@ def generate_publication_plots(df, save_prefix="mito_analysis"):
 # --- MAIN EXECUTION ---
 if __name__ == "__main__":
     # REPLACE THESE PATHS WITH YOUR DATA
-    vol_path = "/media/samia/DATA/mounts/gpu2/mito-seg/catena_data/HEMI-MITO/data_3d/train/hemi_x11051_y17408_z21948_C.zarr" 
-    lab_path = "/media/samia/DATA/mounts/gpu2/mito-seg/catena_data/HEMI-MITO/data_3d/train/hemi_x11051_y17408_z21948_C.zarr"
+    vol_path = "/media/samia/DATA/mounts/gpu2/mito-seg/catena_data/HEMI-AL/data_3d/train/hemi_x30725-31237_y31431-31943_z26420-26932.zarr"
+    lab_path = "/media/samia/DATA/mounts/gpu2/mito-seg/catena_data/HEMI-AL/data_3d/train/hemi_x30725-31237_y31431-31943_z26420-26932.zarr"
     
     # Example for Zarr:
-    raw = load_data(vol_path, key_path='volumes/raw')
-    labels = load_data(lab_path, key_path='volumes/labels/neuron_ids')
+    raw = load_data(vol_path, key_path='volumes/raw_clahe')
+    labels = load_data(lab_path, key_path='volumes/labels/mito_ids_relab')
     
     # DUMMY DATA FOR DEMONSTRATION (Remove this block when using real data)
     # print("Generating dummy data for demonstration...")
