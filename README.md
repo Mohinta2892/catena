@@ -28,12 +28,12 @@ CATENA brings together tools and models, including some state-of-the-art models 
 ### 📦 Models, Packages and Tools:
 - Neuron Segmentation `Local Shape Descriptors (Sheridan et al. 2022)`: [Installation and Usage ](https://github.com/Mohinta2892/catena/tree/dev/local_shape_descriptors)
 - Synapse Detection `Synful(Buhmann et al. 2020)`: [Installation and Usage](https://github.com/Mohinta2892/catena/tree/dev/synful)
-- Microtubule tracking `Micron (Eckstein et al. 2019)`: [Installation and Usage ](https://github.com/Mohinta2892/micron-repackaging) [TO BE INTEGRATED WITH CATENA SOON..]
+- Microtubule tracking `Micron (Eckstein et al. 2019)`: [Installation and Usage ](https://github.com/Mohinta2892/micron-repackaging) [TO BE INTEGRATED HERE SOON..]
   >[!WARNING] Microtubule Tracking uses TENSORFLOW 1.x and Gurobi dependencies for ILP
 - Neurotransmitter classification `Synister (Eckstein, Bates et al. 2024)`: [Installation and Usage](https://github.com/Mohinta2892/catena/tree/dev/neurotransmitter_classification)
-- Mitochondria segmentation using `MONAI` and adapted `Residual UNets` for isotropic FIBSEM data from [Xie et al.](https://academic.oup.com/bioinformaticsadvances/article/5/1/vbaf021/8104107?login=true)
-- EM Tissue/No-Tissue Mask generation models and conventional CV pipelines.
-- Generative AI for EM-to-EM translation: TO BE ADDED
+- Mitochondria segmentation using `MONAI` and adapted `Residual UNets (Xie et al. 2025)`. [Installation and Usage](https://github.com/Mohinta2892/catena/tree/dev/mitochondria_segmentation)
+- EM Tissue/No-Tissue Mask generation models and conventional CV pipelines. [Installation and Usage](https://github.com/Mohinta2892/catena/tree/dev/em_mask_generation)
+- Generative AI for EM-to-EM translation: Pix2Pix and Img2Img-turbo. [Installation and Usage](https://github.com/Mohinta2892/catena/tree/dev/em2em_styletransfer).
 
 - For visualisation: [Napari and Neuroglancer](https://github.com/Mohinta2892/catena/tree/dev/visualize)
 
@@ -55,7 +55,8 @@ The pipeline has been built upon pre-existing work:
 - Synful: [GitHub](https://github.com/funkelab/synful), [Paper](https://www.nature.com/articles/s41592-021-01183-7)
 - Micron: [Github](https://github.com/nilsec/micron), [Paper](https://arxiv.org/abs/2009.08371)
 - Synister: [GitHub](https://github.com/funkelab/synister), [Paper](https://www.cell.com/cell/fulltext/S0092-8674(24)00307-6)
-- Generative AI: To do
+- CycleGAN: [Paper](https://arxiv.org/pdf/1703.10593)
+- Img2Img-turbo (stable diffusion): [GitHub](https://github.com/GaParmar/img2img-turbo), [Paper](https://arxiv.org/pdf/2403.12036)
 
 ## Funding
 This work has been supported by generous funding from:
