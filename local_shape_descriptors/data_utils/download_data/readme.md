@@ -1,3 +1,11 @@
+# Data format
+Training and inference scripts for LSDs accept only zarr at the moment. We have extensively tested this scripts on `zarr2` formats.
+File data structure:
+- filename.zarr
+  - `volumes/raw` # contains the raw EM
+  - `volumes/labels/neuron_ids` # contains the instance labels for training. Note LSD pipeline automatically handle seg2affinity creation
+  - `volumes/labels/labels_mask` # use the script in the utils (mentioned below) and store the mask. 1=segmentation present; 0 = no segmentation. Helps to train on valid regions.
+
 ## Download Public Datasets [download_volumes.py](download_volumes.py)
 
 This Python script automates the download of specific datasets from an AWS S3 bucket. The script reads dataset configurations from a `datasets.json` file and prepares download jobs for specified data volumes within a given S3 bucket path. Utilizing multiprocessing, it concurrently downloads these datasets into a local directory structure that mirrors the S3 bucket's organization.
