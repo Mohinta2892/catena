@@ -125,7 +125,7 @@ This will create (among others):
 
 ## Step 3 — Download CREMI HDF5 files
 
-CREMI typically comes as one or more `.hdf` files (e.g., sample volumes).
+CREMI typically comes as one or more `.hdf` files (e.g., sample volumes). For playing around, please download the data from here 2 [CREMI volumes.](https://huggingface.co/datasets/Mohinta2892/Catena_datasets/blob/main/cremi_3d_set_offset.tar.xz) 
 
 Put your downloaded `.hdf` files into a staging directory, e.g.:
 
@@ -145,7 +145,7 @@ cd catena/local_shape_descriptors/data_utils/download_data
 python hdf_to_zarr.py -d /data/lsd_home/cremi_hdf -od /data/lsd_home/cremi_zarr_out
 ```
 
-This is what it should show. Now you can download the [CREMI Datasets.](https://huggingface.co/datasets/Mohinta2892/Catena_datasets/blob/main/cremi_3d_set_offset.tar.xz). Data in CREMI site do not have `offset` set.
+This is what it should show. Data in CREMI site do not have `offset` set. Check troubleshooting tips if you can't get it work.
 ```bash
 Iterating over datasets hdf:: 100%|█| 9/9 [00:11<00:00,  1.24s/it,  
 Iterating over datasets hdf:: 100%|█| 9/9 [00:10<00:00,  1.17s/it,  
@@ -247,6 +247,20 @@ Also note: training/prediction log files under `local_shape_descriptors/logs/` c
 ---
 
 ## Troubleshooting (the ones that bite most often)
+
+### CREMI HDF to ZARR
+
+The hdf to zarr conversion requires `offset` set in CREMI hdf files per dataset.
+However, the data you download from the CREMI website does not have `offset` set as attributes.
+You can set them by hand in the hdf like below:
+
+```bash
+import h5py
+f = h5py.File("/path/to/file.hdf")
+f["volumes/labels/neuron_ids"].attrs["offset"] = (0,0,0) # (0,0,0) is only valid for the cropped datasets
+f["volumes/raw"].attrs["offset"] = (0,0,0)
+f["volumes/labels/labels_mask"].attrs["offset"] = (0,0,0)
+```
 
 ### “No files detected” / empty training set
 
