@@ -125,7 +125,7 @@ This will create (among others):
 
 ## Step 3 — Download CREMI HDF5 files
 
-CREMI typically comes as one or more `.hdf` files (e.g., sample volumes). The repo even contains a commented example pointing to a CREMI sample HDF URL. 
+CREMI typically comes as one or more `.hdf` files (e.g., sample volumes).
 
 Put your downloaded `.hdf` files into a staging directory, e.g.:
 
