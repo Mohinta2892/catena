@@ -205,7 +205,11 @@ In `local_shape_descriptors/config/config_cremi.py`, set these to match your mac
 
 Also confirm:
 
-* `_C.DATA.BRAIN_VOL = "CREMI"` 
+* `_C.DATA.BRAIN_VOL = "CREMI"`
+
+Ensure these are set like this:
+* `_C.DATA.FIB = 0`  # Means FIBSEM isotropic data; **CREMI is NOT**
+* `_C.DATA.WITH_MITO = 0` # 0: NO MITO, 1: MITO ONLY, 2: MITO + LSD + AFF (MTLSDMITO)
 
 ---
 
@@ -222,7 +226,7 @@ and will run MTLSD when configured accordingly (MTLSD is a first-class model typ
 From `catena/local_shape_descriptors`:
 
 ```bash
-python trainer.py -c config/config_cremi.py
+python trainer.py -c config/config_cremi_test.py
 ```
 
 **What gets created automatically:**
