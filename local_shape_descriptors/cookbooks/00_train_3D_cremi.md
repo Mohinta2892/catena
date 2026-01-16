@@ -192,7 +192,7 @@ At this point, training will discover samples by globbing `*.zarr` inside your t
 
 ---
 
-## Step 6 — Configure CREMI training (minimal edits)
+## Step 6 — Configure CREMI training
 
 The repo provides a dataset-specific config for CREMI (`config_cremi.py`) and sets CREMI as an anisotropic dataset with voxel size `(40, 4, 4)` and CREMI-tuned shapes. 
 
@@ -243,6 +243,11 @@ CREMI config builds output paths under `HOME` like:
 * `.../lsd_snapshots/...` 
 
 Also note: training/prediction log files under `local_shape_descriptors/logs/` can get large over long runs. 
+
+>[!Important]
+> You should note that MTLSD networks need 300000 iterations (epochs, here epochs = iterations) to get good results.
+> But also note that training LSD networks are slow, total training time for 300000 iterations might be around ~170 hours (7 days) on a Nvidia RTX 3090.
+
 
 ---
 
