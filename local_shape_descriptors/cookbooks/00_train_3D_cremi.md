@@ -145,6 +145,12 @@ cd catena/local_shape_descriptors/data_utils/download_data
 python hdf_to_zarr.py -d /data/lsd_home/cremi_hdf -od /data/lsd_home/cremi_zarr_out
 ```
 
+This is what it should show. Now you can download the [CREMI Datasets.](https://huggingface.co/datasets/Mohinta2892/Catena_datasets/blob/main/cremi_3d_set_offset.tar.xz). Data in CREMI site do not have `offset` set.
+```bash
+Iterating over datasets hdf:: 100%|█| 9/9 [00:11<00:00,  1.24s/it,  
+Iterating over datasets hdf:: 100%|█| 9/9 [00:10<00:00,  1.17s/it,  
+```
+
 What it does (important):
 
 * Converts **all datasets** and attempts to keep attrs
