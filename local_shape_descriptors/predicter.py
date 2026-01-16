@@ -6,7 +6,7 @@ import os
 sys.path.insert(0, '.')
 from config.config_predict import *
 from engine.predict.predict_3d import predict
-from engine.predict.predict_2d import predict_2d
+from engine.predict.predict_2d_all_yacs import predict_2d
 from engine.post.run_waterz import run_waterz
 from data_utils.preprocess_volumes.utils import calculate_min_2d_samples
 from glob import glob
@@ -75,7 +75,9 @@ if __name__ == '__main__':
     # Follow: https://stackoverflow.com/questions/43947206/automatically-delete-old-python-log-files
     # logger.debug(f"data_dir {data_dir}")
 
-    samples = glob(f"{data_dir}/*.zarr")
+    samples = glob(f"{data_dir}/*.zarr")  # Currently only looks for data in zarr
+    # if not samples: # TODO: ENABLE N5 LOADING FOR INFERENCE
+    #     samples = glob(f"{data_dir}/**/*")
 
     assert len(samples), \
         "No data to run prediction on found. Check if data is placed under `{brain_vol}/data_{2/3d}/test`"
@@ -83,7 +85,6 @@ if __name__ == '__main__':
         os.makedirs("./logs")
 
     # make the outfile path here - /basepath/modeltype/2d/checkpoint_name
-    print("Data outfile {cfg.DATA.OUTFILE")
     out_filepath = os.path.join(cfg.DATA.OUTFILE, cfg.TRAIN.MODEL_TYPE,
                                 '2d' if cfg.DATA.DIM_2D else '3d',
                                 "/".join(cfg.TRAIN.CHECKPOINT.split("/")[-2:]))
@@ -92,7 +93,7 @@ if __name__ == '__main__':
 
     # # we expect data going in at this point to be sequentially traversed one at a time.
     # # TODO: batch inference could make it faster.
-    # # with batchnorm we can no longer do this here, we have to initialise the model first with batch size 
+    # # with batchnorm we can no longer do this here, we have to initialise the model first with batch size
     if cfg.TRAIN.BATCH_SIZE > 1:
         logging.warning("If you have trained your models with Batch_Size > 1, comment this whole `if` block."
                         "This ensures you can load the model but the inference will still proceed"

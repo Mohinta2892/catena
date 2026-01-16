@@ -1,9 +1,13 @@
 import os
+import shutil
 import sys
 from skimage.transform import rescale, resize
 import zarr
 import numpy as np
 from typing import List, Union, Tuple
+import dask.array as da
+from dask import delayed
+from dask.distributed import Client, LocalCluster
 
 from pathlib import Path
 
@@ -39,6 +43,14 @@ def get_zarr_list(dir, ds_keys="volumes/raw"):
     return train_raw
 
 
+def create_dir(path_to_create, overwrite=False):
+    if overwrite:
+        shutil.rmtree(path_to_create)
+        os.makedirs(path_to_create, exist_ok=True)
+    else:
+        os.makedirs(path_to_create, exist_ok=True)
+
+
 def save_zarr(out_path: Union[str, Path], hm_sx: dict, offset: tuple,
               resolution: tuple, ds_keys: str = "volumes/raw", is_2d=False):
     """ We save a different file, to preserve the input as is. Do not want to mistakenly overwrite anything!
@@ -60,9 +72,19 @@ def save_zarr(out_path: Union[str, Path], hm_sx: dict, offset: tuple,
                 print(f"saved {k} in {out_path, os.path.basename(k)}")
 
 
+def resample_chunk(chunk, scales, interp_order):
+    """used only with dask to chunkwise rescale"""
+
+    # ISSUE: RuntimeWarning: invalid value encountered in cast
+    # resampled_data = rescale(source_data.astype(np.float32), scales, order=interp_order,
+    resampled_chunk = rescale(chunk.astype(np.float32), scales, order=interp_order, anti_aliasing=False).astype(
+        chunk.dtype)
+    return resampled_chunk
+
+
 def resample_3d(data_path: Union[Path, str], datasets: List[str], dimensionality: List[str],
                 target_voxel_size: Tuple[int] = (8, 8, 8),
-                ds_keys="volumes/raw", interp_order=1, cfg=None):
+                ds_keys="volumes/raw", interp_order=1, cfg=None, use_dask=0, chunksize=(128, 128, 128)):
     """
     Only implemented for 3D for now!!
     Remember `resampling` reduces the size/shape of the input volume.Example: a `512^3` array with `8^3` resolution when
@@ -83,7 +105,12 @@ def resample_3d(data_path: Union[Path, str], datasets: List[str], dimensionality
     4: Bi-quartic
     5: Bi-quintic
 
-  """
+    """
+
+    if use_dask > 0:
+        # Set up the Dask cluster
+        cluster = LocalCluster(n_workers=use_dask)
+        client = Client(cluster)
 
     target_voxel_size_str = '_'.join(map(str, target_voxel_size))
     # empty dict to store resampled data
@@ -110,21 +137,45 @@ def resample_3d(data_path: Union[Path, str], datasets: List[str], dimensionality
                 scales = np.array(source_voxel_size) / np.array(target_voxel_size)
                 scales = np.array(
                     (1,) * (len(source_data.shape) - source_voxel_size_dims) + tuple(scales))
-                # Anti-aliasing must be false here otherwise labels will be pixelated!
-                resampled_data = rescale(source_data.astype(np.float32), scales, order=interp_order,
-                                         anti_aliasing=False).astype(source_data.dtype)
-                # resized_data = resize(resampled_data, output_shape=source_data.shape, order=interp_order,
-                #                       anti_aliasing=True)
-                hm_sx[k] = resampled_data
-            save_zarr(out_path=out_path, hm_sx=hm_sx, offset=(0, 0, 0), resolution=target_voxel_size,
-                      ds_keys=ds_keys, is_2d=False)
+
+                if use_dask > 1:
+                    try:
+
+                        source_data_dask = da.from_zarr(os.path.join(data_path, brain_vol, dim, "train", k),
+                                                        component=ds_keys)
+                        resampled_data = source_data_dask.map_blocks(resample_chunk, scales, interp_order,
+                                                                     dtype=source_data_dask.dtype)
+
+                        resampled_data.to_zarr(os.path.join(out_path, k), component=ds_keys, overwrite=True)
+
+                        resampled_data.compute()
+                    except Exception as e:
+                        print(e)
+
+                else:
+                    # Anti-aliasing must be false here otherwise labels will be pixelated!
+                    resampled_data = rescale(source_data.astype(np.float32), scales, order=interp_order,
+                                             anti_aliasing=False).astype(source_data.dtype)
+                    resized_data = resize(resampled_data, output_shape=source_data.shape, order=interp_order,
+                                          anti_aliasing=True)
+                    hm_sx[k] = resampled_data
+                    save_zarr(out_path=out_path, hm_sx=hm_sx, offset=(0, 0, 0), resolution=target_voxel_size,
+                              ds_keys=ds_keys, is_2d=False)
+
+    if use_dask > 1:
+        # Close the Dask client
+        client.close()
+        cluster.close()
 
 
 if __name__ == '__main__':
     # Todo: expand to ingest all keys at once!
-    resample_3d("/media/samia/DATA/ark/connexion/data", datasets=["HEMI"], dimensionality=['data_3d'],
-                target_voxel_size=(12, 12, 30), interp_order=0, ds_keys="volumes/raw")
-    resample_3d("/media/samia/DATA/ark/connexion/data", datasets=["HEMI"], dimensionality=['data_3d'],
-                target_voxel_size=(12, 12, 30), interp_order=0, ds_keys="volumes/labels/neuron_ids")
-    resample_3d("/media/samia/DATA/ark/connexion/data", datasets=["HEMI"], dimensionality=['data_3d'],
-                target_voxel_size=(12, 12, 30), interp_order=0, ds_keys="volumes/labels/labels_mask")
+    # Note: All coordinate space orientation is in ZYX
+    resample_3d("/media/samia/DATA/mounts/fibserver1/smohinta_data/catena_data", datasets=["HEMI_MITO"],
+                dimensionality=['data_3d'],
+                target_voxel_size=(16, 16, 16), interp_order=0, ds_keys="volumes/raw",
+                )  # use_dask=1; any num > 1 will use dask?
+    resample_3d("/media/samia/DATA/mounts/fibserver1/smohinta_data/catena_data", datasets=["HEMI_MITO"], dimensionality=['data_3d'],
+                target_voxel_size=(32, 32, 32), interp_order=0, ds_keys="volumes/labels/neuron_ids")
+    # resample_3d("/media/samia/DATA/mounts/zstore1/catena/data", datasets=["PARKER"], dimensionality=['data_3d'],
+    #             target_voxel_size=(8, 8, 8), interp_order=0, ds_keys="volumes/raw")

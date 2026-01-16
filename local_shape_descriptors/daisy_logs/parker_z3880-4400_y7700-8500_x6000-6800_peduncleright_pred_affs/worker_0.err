@@ -1,0 +1,1299 @@
+INFO:root:worker 0 started...
+INFO:root:Running block with config daisy_logs/parker_z3880-4400_y7700-8500_x6000-6800_peduncleright_pred_affs/config_0.yaml...
+wandb: Currently logged in as: sm2667 (iconnect). Use `wandb login --relogin` to force relogin
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 51, 51, 50]) with factor [3, 3, 3], mismatch in spatial dimension 2
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 51, 51, 50]) with factor [3, 3, 3], mismatch in spatial dimension 2
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 51, 51, 50]) with factor [3, 3, 3], mismatch in spatial dimension 2
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 51, 50, 51]) with factor [3, 3, 3], mismatch in spatial dimension 1
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 51, 50, 51]) with factor [3, 3, 3], mismatch in spatial dimension 1
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 51, 50, 51]) with factor [3, 3, 3], mismatch in spatial dimension 1
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 51, 50, 50]) with factor [3, 3, 3], mismatch in spatial dimension 2
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 34, 51, 51]) with factor [3, 3, 3], mismatch in spatial dimension 0
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 34, 51, 51]) with factor [3, 3, 3], mismatch in spatial dimension 0
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 34, 51, 51]) with factor [3, 3, 3], mismatch in spatial dimension 0
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 34, 51, 50]) with factor [3, 3, 3], mismatch in spatial dimension 2
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 34, 51, 51]) with factor [3, 3, 3], mismatch in spatial dimension 0
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 34, 51, 51]) with factor [3, 3, 3], mismatch in spatial dimension 0
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 34, 51, 51]) with factor [3, 3, 3], mismatch in spatial dimension 0
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 34, 51, 50]) with factor [3, 3, 3], mismatch in spatial dimension 2
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 34, 51, 51]) with factor [3, 3, 3], mismatch in spatial dimension 0
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 34, 51, 51]) with factor [3, 3, 3], mismatch in spatial dimension 0
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 34, 51, 51]) with factor [3, 3, 3], mismatch in spatial dimension 0
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 34, 51, 50]) with factor [3, 3, 3], mismatch in spatial dimension 2
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 34, 50, 51]) with factor [3, 3, 3], mismatch in spatial dimension 1
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 34, 50, 51]) with factor [3, 3, 3], mismatch in spatial dimension 1
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 34, 50, 51]) with factor [3, 3, 3], mismatch in spatial dimension 1
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 34, 50, 50]) with factor [3, 3, 3], mismatch in spatial dimension 2
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 51, 51, 50]) with factor [3, 3, 3], mismatch in spatial dimension 2
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 51, 51, 50]) with factor [3, 3, 3], mismatch in spatial dimension 2
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 51, 51, 50]) with factor [3, 3, 3], mismatch in spatial dimension 2
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 51, 50, 51]) with factor [3, 3, 3], mismatch in spatial dimension 1
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 51, 50, 51]) with factor [3, 3, 3], mismatch in spatial dimension 1
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 51, 50, 51]) with factor [3, 3, 3], mismatch in spatial dimension 1
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 51, 50, 50]) with factor [3, 3, 3], mismatch in spatial dimension 2
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 34, 51, 51]) with factor [3, 3, 3], mismatch in spatial dimension 0
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 34, 51, 51]) with factor [3, 3, 3], mismatch in spatial dimension 0
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 34, 51, 51]) with factor [3, 3, 3], mismatch in spatial dimension 0
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 34, 51, 50]) with factor [3, 3, 3], mismatch in spatial dimension 2
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 34, 51, 51]) with factor [3, 3, 3], mismatch in spatial dimension 0
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 34, 51, 51]) with factor [3, 3, 3], mismatch in spatial dimension 0
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 34, 51, 51]) with factor [3, 3, 3], mismatch in spatial dimension 0
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 34, 51, 50]) with factor [3, 3, 3], mismatch in spatial dimension 2
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 34, 51, 51]) with factor [3, 3, 3], mismatch in spatial dimension 0
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 34, 51, 51]) with factor [3, 3, 3], mismatch in spatial dimension 0
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 34, 51, 51]) with factor [3, 3, 3], mismatch in spatial dimension 0
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 34, 51, 50]) with factor [3, 3, 3], mismatch in spatial dimension 2
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 34, 50, 51]) with factor [3, 3, 3], mismatch in spatial dimension 1
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 34, 50, 51]) with factor [3, 3, 3], mismatch in spatial dimension 1
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 34, 50, 51]) with factor [3, 3, 3], mismatch in spatial dimension 1
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 34, 50, 50]) with factor [3, 3, 3], mismatch in spatial dimension 2
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 51, 51, 50]) with factor [3, 3, 3], mismatch in spatial dimension 2
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 51, 51, 50]) with factor [3, 3, 3], mismatch in spatial dimension 2
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 51, 51, 50]) with factor [3, 3, 3], mismatch in spatial dimension 2
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 51, 50, 51]) with factor [3, 3, 3], mismatch in spatial dimension 1
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 51, 50, 51]) with factor [3, 3, 3], mismatch in spatial dimension 1
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 54, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 456, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 438, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 435, in rec_forward
+    g_in = self.l_down[i](f_left)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 86, in forward
+    raise RuntimeError(
+RuntimeError: Can not downsample shape torch.Size([1, 300, 51, 50, 51]) with factor [3, 3, 3], mismatch in spatial dimension 1
+Traceback (most recent call last):
+  File "./engine/predict/predict_worker_daisy.py", line 290, in <module>
+    predict(cfg)
+  File "./engine/predict/predict_worker_daisy.py", line 267, in predict
+    b.request_batch(BatchRequest())
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/pipeline.py", line 125, in request_batch
+    return self.output.request_batch(request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/daisy_request_blocks.py", line 82, in provide
+    self.__get_chunks()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/daisy_request_blocks.py", line 121, in __get_chunks
+    self.get_upstream_provider().request_batch(chunk_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 167, in provide
+    batch = self.get_upstream_provider().request_batch(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 167, in provide
+    batch = self.get_upstream_provider().request_batch(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 167, in provide
+    batch = self.get_upstream_provider().request_batch(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 167, in provide
+    batch = self.get_upstream_provider().request_batch(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 179, in provide
+    processed_batch = self.process(node_batch, downstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 142, in process
+    out = self.worker.get()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 68, in get
+    item = self.__result_queue.get(timeout=timeout)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/multiprocessing/queues.py", line 107, in get
+    if not self._poll(timeout):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/multiprocessing/connection.py", line 257, in poll
+    return self._poll(timeout)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/multiprocessing/connection.py", line 424, in _poll
+    r = wait([self], timeout)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/multiprocessing/connection.py", line 931, in wait
+    ready = selector.select(timeout)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/selectors.py", line 415, in select
+    fd_event_list = self._selector.poll(timeout)
+KeyboardInterrupt

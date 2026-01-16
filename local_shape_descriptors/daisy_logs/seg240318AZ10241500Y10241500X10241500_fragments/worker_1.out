@@ -1,0 +1,15 @@
+Backend TkAgg is interactive backend. Turning interactive mode on.
+Re-using already compiled waterz version
+Preparing segmentation volume...
+counting regions and sizes...
+creating region graph for 6340 nodes
+creating statistics provider
+extracting region graph...
+Region graph number of edges: 45113
+merging until threshold 0.25
+computing initial scores
+merging until 0.25
+min edge score 0.00195312
+threshold exceeded
+merged 2538 edges
+extracting segmentation

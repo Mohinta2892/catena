@@ -130,7 +130,7 @@ def agglomerate_in_block(
     # for efficiency, we create one waterz call with both thresholds
     generator = waterz.agglomerate(
         affs=affs,
-        thresholds=[0, threshold],
+        thresholds=[0, 1.0],  # change
         fragments=fragments_relabelled,
         scoring_function=merge_function,
         discretize_queue=256,
@@ -143,7 +143,7 @@ def agglomerate_in_block(
         u, v = fragment_relabel_map[edge['u']], fragment_relabel_map[edge['v']]
         # this might overwrite already existing edges from neighboring blocks,
         # but that's fine, we only write attributes for edges within write_roi
-        rag.add_edge(u, v, merge_score=None, agglomerated=True)
+        rag.add_edge(u, v, merge_score=None, agglomerated=False)
 
     # agglomerate fragments using affs
     _, merge_history, _ = next(generator)
@@ -168,8 +168,11 @@ def agglomerate_in_block(
     for u, v, data in rag.edges(data=True):
         merge_score = merge_tree.find_merge(u, v)
         data['merge_score'] = merge_score
+        data['agglomerated'] = True
         if merge_score is not None:
             num_merged += 1
+        else:
+            logger.info(f"did not merge {u, v}")
 
     logger.info("merged %d edges", num_merged)
 

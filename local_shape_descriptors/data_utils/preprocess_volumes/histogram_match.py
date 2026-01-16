@@ -14,15 +14,24 @@ import random
 from PIL import Image
 from sklearn.linear_model import LinearRegression
 import os
-from .utils import read_zarr, list_keys, collect_items, natural_keys
+
+# from .utils import read_zarr, list_keys, collect_items, natural_keys
 from typing import Union, List
 from pathlib import Path
 import zarr
 import h5py
 from sys import stdout
+import sys
+from yacs.config import CfgNode as CN
+
+sys.path.append(str(Path(__file__).resolve().parent.parent.parent))
+from data_utils.preprocess_volumes.utils import *
+from config.config import get_cfg_defaults
+
+cfg = get_cfg_defaults()
 
 
-def copy_datasets_from_multiple_sources(out_path, train_input_filepaths, datasets_to_copy, is_2d=False):
+def copy_datasets_from_multiple_sources(out_path, train_input_filepaths, datasets_to_copy=None, is_2d=False):
     """
     Copy specified datasets from multiple source Zarr stores to the destination Zarr store.
 
@@ -31,11 +40,13 @@ def copy_datasets_from_multiple_sources(out_path, train_input_filepaths, dataset
     Returns:
         None
     """
-
+    # cast a None argument passed to empty list; it's just easier to pass a None through the `config.py`
+    datasets_to_copy = [] if datasets_to_copy is None else datasets_to_copy
     for source_f in train_input_filepaths:
         source_z = read_zarr(source_f)
         source_z_keys = list_keys(source_z)
         with zarr.open(os.path.join(out_path, os.path.basename(source_f)), mode="a") as dest_z:
+
             for dataset_name in datasets_to_copy:
                 # Copy the dataset from source to destination as a whole
                 if is_2d:
@@ -164,14 +175,14 @@ def save_images(imgs, dst_path, name_prefix, fnames, format='.png', convert=''):
         im.save(os.path.join(dst_path, fnames[i] + name_prefix + format), quality=100, subsampling=0)
 
 
-def create_dir(dir: Union[str, Path]):
+def create_dir(dir: Union[str, Path], overwrite=False):
     """
      Create a directory if it doesn't exist
 
      Args:
-       dir: The directory where the model will be saved.
+       dir: The directory where the data will be saved.
     """
-    if os.path.exists(dir):
+    if os.path.exists(dir) and overwrite:
         shutil.rmtree(dir)
     if not os.path.exists(dir):
         os.makedirs(dir)
@@ -181,7 +192,7 @@ def create_dir(dir: Union[str, Path]):
 
 # apply histogram matching to any image (not mask) from source dataset, using target mean histogram
 # this histogram matching works by matching the given cumulative histogram to target cumulative histogram
-def histogram_matching(target_imgs, apply_prob):
+def histogram_matching(target_imgs, apply_prob=1):
     """
      Given a set of images, it will obtain their mean histogram. The number of 0s of this histogram will be predicted
       using Linear regression, with the real number of 1 and 2. It returns a function that apply histogram matching,
@@ -294,7 +305,7 @@ def match_histograms(data_path: Union[Path, str], datasets: List[str], dimension
                     else:
                         out_path = os.path.join(data_path, "preprocessed", source + "_s_t_" + target)
 
-                    create_dir(out_path)
+                    create_dir(out_path, overwrite=True)
 
                     try:
                         # Warning: Hard-coded offset and resolution and dataset keys
@@ -309,12 +320,14 @@ def match_histograms(data_path: Union[Path, str], datasets: List[str], dimension
                     except Exception as e:
                         print(e)
 
-# if __name__ == '__main__':
-#     data_path = "/media/samia/DATA/ark/connexion/data"
-#     # dataset names inside the data_path (all combinations will be computed)
-#     datasets = ['HEMI', "OCTO"]
-#     dimensionality = ["data_3d", ]  # "data_3d"]
-#     # directory where results are going to be stored
-#     # - we do not need this cause be create a preprocessed folder on input path
-#     # out_dir = "/media/samia/DATA/ark/connexion/data/HEMI/data_2d/"
-#     match_histograms(data_path, datasets, dimensionality)
+
+if __name__ == '__main__':
+    # data_path = "/media/samia/DATA/ark/connexion/data"
+    # #     # dataset names inside the data_path (all combinations will be computed)
+    # datasets = ['TEST-HEMI', "TEST-OCTO", "TEST-TREMONT"]
+    # dimensionality = ["data_3d", ]  # "data_3d"]
+    # #     # directory where results are going to be stored
+    # #     # - we do not need this cause we create a preprocessed folder on input path
+    # #     # out_dir = "/media/samia/DATA/ark/connexion/data/HEMI/data_2d/"
+    # match_histograms(data_path, datasets, dimensionality, cfg=cfg)
+    pass

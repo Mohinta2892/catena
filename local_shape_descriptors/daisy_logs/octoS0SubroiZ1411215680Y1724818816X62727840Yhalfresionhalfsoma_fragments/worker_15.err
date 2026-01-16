@@ -1,0 +1,7 @@
+INFO:root:worker 15 started...
+INFO:root:epsilon_agglomerate: 0.6
+INFO:root:mask_file: None
+INFO:root:mask_dataset: None
+INFO:root:filter_fragments: 0.0
+INFO:root:Running block with config daisy_logs/octoS0SubroiZ1411215680Y1724818816X62727840Yhalfresionhalfsoma_fragments/config_15.yaml...
+INFO:root:Reading affs from /media/samia/DATA/ark/lsd_outputs/MTLSD/3d/run-aclsd-together/model_checkpoint_300000/octo-s0-subroi_z14112-15680_y17248-18816_x6272-7840_yhalfresionhalfsoma.zarr

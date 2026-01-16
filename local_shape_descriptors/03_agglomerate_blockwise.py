@@ -255,7 +255,6 @@ if __name__ == "__main__":
     agglomerate_until = agglomerate_until[
         np.argwhere(agglomerate_until > round(cfg.INS_SEGMENT.EPSILON_AGGLOMERATE, 2))].flatten()
 
-    # for loop over every agglomeration threshold?
     # for agglom_next in agglomerate_until:
     agglom_next = agglomerate_until[0]
     cfg.INS_SEGMENT.THRESHOLD = float(agglom_next)
@@ -318,7 +317,7 @@ if __name__ == "__main__":
             start = time.time()
 
             sample_name = os.path.basename(sample).split('.')[0]
-            sample_name = sub(r"(_|-)+", " ", sample_name).title().replace(" ", "")
+            sample_name = sub(r"(_|-|:)+", " ", sample_name).title().replace(" ", "")
             sample_name = ''.join([sample_name[0].lower(), sample_name[1:]])
             db_host = "localhost:27017" if cfg.DATA.DB_HOST == '' else cfg.DATA.DB_HOST  # default
             db_name = "lsd_parallel_fragments" if cfg.DATA.DB_NAME == '' else cfg.DATA.DB_NAME  # default

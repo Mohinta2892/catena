@@ -33,7 +33,7 @@ def predict_blockwise(
         cfg,
         sample_name='sample',
         db_host="localhost:27017",
-        db_name="lsd_predictions_parallel",
+        db_name="lsd_parallel_predictions",
         drop=False
 ):
     """
@@ -121,9 +121,9 @@ def predict_blockwise(
     # Hard-code warning: the ds keys in the out-zarr are hardcoded for now, hence will ensure same output format
     # Todo: move to config to allow customisation of ds keys
     out_raw = "volumes/raw"
-    # prepare_predict_datasets_daisy(cfg, dtype=np.uint8, voxel_size=voxel_size, ds_key=out_raw, source_roi=output_roi,
-    #                                write_roi=block_write_roi,
-    #                                delete_ds=drop)
+    prepare_predict_datasets_daisy(cfg, dtype=np.uint8, voxel_size=voxel_size, ds_key=out_raw, source_roi=output_roi,
+                                   write_roi=block_write_roi,
+                                   delete_ds=drop)
     print(out_raw)
 
     if cfg.TRAIN.MODEL_TYPE in ["MTLSD", "LSD"]:
@@ -182,13 +182,10 @@ def start_worker(cfg):
     This calls the python predict.py
     :return:
     """
-
-    logging.info("Start worker")
-
     worker_id = daisy.Context.from_env()["worker_id"]
     task_id = daisy.Context.from_env()["task_id"]
 
-    logging.info(f"worker {worker_id} started for {task_id}")
+    logging.info("worker %s started...", worker_id)
     output_basename = daisy.get_worker_log_basename(worker_id, task_id)
 
     log_out = output_basename.parent / f"worker_{worker_id}.out"
@@ -212,8 +209,6 @@ def start_worker(cfg):
     if cfg.TRAIN.DEVICE == "multi_gpu":
         cfg.TRAIN.DEVICE = f"cuda:{worker_id}"
 
-    logging.info("Dumping config file %s..." % config_file)
-
     # print(cfg.dump())  # print formatted configs
     with open(config_file, "w", encoding="utf-8") as f:
         f.write(cfg.dump())
@@ -226,8 +221,6 @@ def start_worker(cfg):
     subprocess.run(
         ["python", f"{worker}", f"{config_file}"]
     )
-    # subprocess.run(["srun", "--gres=gpu:1", "--partition=ml", "--mem=64G", " --time=1:00:00", " --nodelist=fmg104",
-    #                 " --pty", "tcsh", "python", f"{worker}", f"{config_file}"])
 
 
 def rename_keys(original_config, key_mapping):
@@ -298,11 +291,12 @@ if __name__ == '__main__':
         os.makedirs(os.path.dirname(out_filepath), exist_ok=True)
 
     # # we expect data going in at this point to be sequentially traversed one at a time.
-    # # TODO: batch inference could make it faster
+    # # TODO: batch inference could make it faster.
+    # # with batchnorm we can no longer do this here, we have to initialise the model first with batch size
     if cfg.TRAIN.BATCH_SIZE > 1:
-        module_logger.debug("If you have trained your models with Batch_Size > 1, comment this whole `if` block."
-                            "This ensures you can load the model but the inference will still proceed"
-                            " with batch_size=1.")
+        logging.warning("If you have trained your models with Batch_Size > 1, comment this whole `if` block."
+                        "This ensures you can load the model but the inference will still proceed"
+                        " with batch_size=1.")
         # cfg.TRAIN.BATCH_SIZE = 1
 
     if cfg.DATA.DIM_2D:
@@ -341,7 +335,7 @@ if __name__ == '__main__':
             db_name = "lsd_predictions_parallel" if cfg.DATA.DB_NAME == '' else cfg.DATA.DB_NAME  # default
             predict_blockwise(
                 cfg, sample_name=sample_name, db_host=db_host, db_name=db_name,
-                drop=True
+                drop=cfg.DATA.DROP_DS_MONGOTABLE
             )
 
             end = time.time()

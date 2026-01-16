@@ -1,0 +1,10 @@
+INFO:root:worker 7 started...
+INFO:root:epsilon_agglomerate: 0.65
+INFO:root:mask_file: None
+INFO:root:mask_dataset: None
+INFO:root:filter_fragments: 0.0
+INFO:root:Running block with config daisy_logs/parkerDanf1RightZ26003900Y60008000X63007600_fragments/config_7.yaml...
+wandb: Currently logged in as: sm2667 (iconnect). Use `wandb login --relogin` to force relogin
+INFO:root:Reading affs from /media/samia/DATA/ark/lsd_outputs/MTLSD/3d/run-aclsd-together/model_checkpoint_300000/parker_Danf1right_z2600-3900_y6000-8000_x6300-7600.zarr
+INFO:root:Opening RAG DB...
+INFO:root:RAG DB opened

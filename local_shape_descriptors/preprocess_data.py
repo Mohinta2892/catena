@@ -13,6 +13,8 @@ sys.path.insert(0, '.')
 from data_utils.preprocess_volumes.utils import create_data, find_and_interactively_delete_zero_levels
 from data_utils.preprocess_volumes.histogram_match import match_histograms
 from config.config import get_cfg_defaults
+from yacs.config import CfgNode as CN  # default config
+
 
 logger = logging.getLogger(__name__)
 
@@ -32,7 +34,15 @@ def create_data_in_parallel(z, out_dir, cfg, sections=None, squeeze=True):
 
 
 def main(args):
-    cfg = get_cfg_defaults()
+    config_file = args.c
+    if config_file is not None:
+        # parse the args file to become cfg
+        cfg = CN()
+        # Allow creating new keys recursively.: https://github.com/rbgirshick/yacs/issues/25
+        cfg.set_new_allowed(True)
+        cfg.merge_from_file(config_file)
+    else:
+        cfg = get_cfg_defaults()
     # can be used to override pre-defined settings
     # TODO test with explicit path for example setups: ssTEM CREMI, FIBSEM: Hemibrain
     if os.path.exists("./experiment.yaml"):
@@ -121,6 +131,7 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Your script description here.")
+    parser.add_argument('-c', default=None, help='Pass the config file"!')
     parser.add_argument("-bg", "--background_value", type=int, default=None,
                         help="Background value for labels. Default:18446744073709551613 for HEMIBRAIN, else 0 ")
     parser.add_argument("-nt", "--num_threads", type=int, default=4,

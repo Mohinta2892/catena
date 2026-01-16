@@ -1,0 +1,127 @@
+INFO:root:worker 3 started...
+INFO:root:Running block with config daisy_logs/202403041508AnaThesisFinalVolume_pred_affs/config_3.yaml...
+wandb: Currently logged in as: sm2667 (iconnect). Use `wandb login --relogin` to force relogin
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 100, in start
+    self.model = self.model.to(self.device)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 989, in to
+    return self._apply(convert)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 641, in _apply
+    module._apply(fn)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 641, in _apply
+    module._apply(fn)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 641, in _apply
+    module._apply(fn)
+  [Previous line repeated 2 more times]
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 664, in _apply
+    param_applied = fn(param)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 987, in convert
+    return t.to(device, dtype if t.is_floating_point() or t.is_complex() else None, non_blocking)
+RuntimeError: CUDA error: invalid device ordinal
+CUDA kernel errors might be asynchronously reported at some other API call,so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 184, in __produce_predict_batch
+    self.start()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 102, in start
+    raise RuntimeError(
+RuntimeError: Failed to move model to device. If you are using a child process to run your model, maybe you already initialized CUDA by sending your model to device in the main process.
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 100, in start
+    self.model = self.model.to(self.device)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 989, in to
+    return self._apply(convert)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 641, in _apply
+    module._apply(fn)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 641, in _apply
+    module._apply(fn)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 641, in _apply
+    module._apply(fn)
+  [Previous line repeated 2 more times]
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 664, in _apply
+    param_applied = fn(param)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 987, in convert
+    return t.to(device, dtype if t.is_floating_point() or t.is_complex() else None, non_blocking)
+RuntimeError: CUDA error: invalid device ordinal
+CUDA kernel errors might be asynchronously reported at some other API call,so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 184, in __produce_predict_batch
+    self.start()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 102, in start
+    raise RuntimeError(
+RuntimeError: Failed to move model to device. If you are using a child process to run your model, maybe you already initialized CUDA by sending your model to device in the main process.
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/pipeline.py", line 106, in node_teardown
+    node.output.internal_teardown()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 117, in internal_teardown
+    self.teardown()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 107, in teardown
+    self.worker.get(timeout=2)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 74, in get
+    raise item
+RuntimeError: Failed to move model to device. If you are using a child process to run your model, maybe you already initialized CUDA by sending your model to device in the main process.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "./engine/predict/predict_worker_daisy.py", line 283, in <module>
+    predict(cfg)
+  File "./engine/predict/predict_worker_daisy.py", line 267, in predict
+    b.request_batch(BatchRequest())
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/build.py", line 24, in __exit__
+    self.pipeline.internal_teardown()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/pipeline.py", line 111, in internal_teardown
+    self.traverse(node_teardown, reverse=True)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/pipeline.py", line 57, in traverse
+    result.append(child.traverse(callback, reverse))
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/pipeline.py", line 57, in traverse
+    result.append(child.traverse(callback, reverse))
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/pipeline.py", line 57, in traverse
+    result.append(child.traverse(callback, reverse))
+  [Previous line repeated 2 more times]
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/pipeline.py", line 59, in traverse
+    result.append(callback(self))
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/pipeline.py", line 108, in node_teardown
+    raise PipelineTeardownError(node.output) from e
+gunpowder.pipeline.PipelineTeardownError: Exception in Predict while calling teardown()
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 100, in start
+    self.model = self.model.to(self.device)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 989, in to
+    return self._apply(convert)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 641, in _apply
+    module._apply(fn)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 641, in _apply
+    module._apply(fn)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 641, in _apply
+    module._apply(fn)
+  [Previous line repeated 2 more times]
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 664, in _apply
+    param_applied = fn(param)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 987, in convert
+    return t.to(device, dtype if t.is_floating_point() or t.is_complex() else None, non_blocking)
+RuntimeError: CUDA error: invalid device ordinal
+CUDA kernel errors might be asynchronously reported at some other API call,so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 184, in __produce_predict_batch
+    self.start()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 102, in start
+    raise RuntimeError(
+RuntimeError: Failed to move model to device. If you are using a child process to run your model, maybe you already initialized CUDA by sending your model to device in the main process.

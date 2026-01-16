@@ -1,5 +1,11 @@
 import numpy as np
+import skimage.segmentation
 from skimage import measure
+import zarr
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+plt.rcParams.update({'font.size': 30})
 
 
 class AveragePrecision:
@@ -13,6 +19,10 @@ class AveragePrecision:
         assert input.ndim == target.ndim == 3
 
         target, target_instances = self._filter_instances(target)
+
+        # recall, precision = self._roc_curve(predicted=input, target=target, target_instances=target_instances)
+        #
+        # print(recall, precision)
 
         return self._calculate_average_precision(input, target, target_instances)
 
@@ -144,3 +154,138 @@ def ap(segmentation, ground_truth, ignore_index=0, min_instance_size=10000):
     """
     ap = AveragePrecision(ignore_index=ignore_index, min_instance_size=min_instance_size)
     return ap(segmentation, ground_truth)
+
+
+def roc(predicted, target, ignore_index=0, min_instance_size=100):
+    """
+    Returns ROC recall precision based on the IOU range provided
+    for the given segmentation and the ground_truth segmentation.
+
+    Args:
+        segmentation (ndarray): input segmentation
+        ground_truth (ndarray): ground truth segmentation
+        ignore_index (int): label to be ignored during AP computation
+        min_instance_size (int): minimum instance size used for AP computation; use in order to make the metric robust
+            to small instances present either in the input or ground truth segmentation; if 'None' all instances are
+            taken into account during AP computation
+    Returns:
+        ROC recall and precision
+    """
+    ap = AveragePrecision(ignore_index=ignore_index, min_instance_size=min_instance_size)
+    target, target_instances = ap._filter_instances(target)
+
+    recall, precision = ap._roc_curve(predicted=predicted, target=target, target_instances=target_instances)
+
+    # IOU thresholds from 0.5 to 0.9 with step size 0.1
+    iou_thresholds = np.arange(0.5, 1.0, 0.1)
+
+    return recall, precision
+
+    # print(f"recall {recall}, precision {precision}")
+
+
+def plot_roc(recall_dict, precision_dict, title="Hemi-Brain"):
+    # IOU thresholds for plotting
+    iou_thresholds = np.arange(0.5, 1.0, 0.1)
+
+    # Plotting
+    plt.figure(figsize=(15, 10))
+
+    # Colors for different agglomeration thresholds
+    colors = ['#377eb8', '#ff7f00', '#4daf4a']
+
+    # Plot recall for different thresholds
+    for i, (threshold, recall) in enumerate(recall_dict.items()):
+        plt.plot(iou_thresholds, recall, marker='o', linestyle='-', color=colors[i], label=f'Recall {threshold}')
+
+    # Plot precision for different thresholds
+    for i, (threshold, precision) in enumerate(precision_dict.items()):
+        plt.plot(iou_thresholds, precision, marker='x', linestyle='--', color=colors[i], label=f'Precision {threshold}')
+
+    # Add labels and title
+    plt.xlabel('IOU Threshold', )  # fontsize=16)
+    plt.ylabel('Value', )  # fontsize=16)
+    # plt.title('Recall and Precision across IOU Thresholds for Different Agglomeration Thresholds')
+    plt.title(title, )  # fontsize=18)
+    plt.ylim((0, 1.1))
+    # plt.legend()
+
+    # Adding grid for better readability
+    plt.grid(True)
+    sns.despine()
+
+    # Increase the font size of the legend
+    plt.legend()  # fontsize=14
+
+    # Increase tick parameters for better readability
+    plt.xticks()  # fontsize=14
+    plt.yticks()  # fontsize=14
+
+    plt.savefig(f"./roc_{title}.png", dpi=300)
+
+    # Show plot
+    plt.show()
+
+
+def main():
+    # for now let's make a main here to test
+    # hemibrain
+    f = zarr.open(
+        "/media/samia/DATA/ark/lsd_outputs/MTLSD/3d/run-aclsd-together/model_checkpoint_270000/roi_1_full_remapped.zarr")
+    gt_bin = f["volumes/binary_affs_roi1"][:20, :200, :200]  # remember has to be a small volume to fit in memory
+    pred_bin = f["volumes/binary_pred_affs_roi1"][:20, :200, :200]
+    segmentation1 = f["volumes/segmentation_05"][:20, :200, :200]
+    segmentation2 = f["volumes/segmentation_055"][:20, :200, :200]
+    segmentation3 = f["volumes/segmentation_06"][:20, :200, :200]
+    ground_truth, _, _ = skimage.segmentation.relabel_sequential(f["volumes/labels/neuron_ids_roi1"][:20, :200, :200])
+    avg_prec_obj = AveragePrecision(iou_range=[0.5, 1], ignore_index=0)
+    iou = avg_prec_obj._iou(pred_bin, gt_bin)
+    recall_1, prec_1 = roc(segmentation1, ground_truth)
+    recall_2, prec_2 = roc(segmentation2, ground_truth)
+    recall_3, prec_3 = roc(segmentation3, ground_truth)
+    recall_dict = {"50": recall_1, "55": recall_2, "60": recall_3}
+
+    precision_dict = {"50": prec_1, "55": prec_2, "60": prec_3}
+
+    print(f"IOU {iou}")
+    print(f"Average Prec {ap(segmentation1, ground_truth)}")
+    print(f"ROC {recall_dict, precision_dict}")
+    plot_roc(recall_dict, precision_dict)
+
+    # octo
+    focto_gt = zarr.open(
+        "/home/samia/Downloads/octo_z7392-7904_y6586-7098_x5388-5900_z120-140_y100-300_x100-300_wgt1.zarr")
+    focto = zarr.open(
+        "/home/samia/Downloads/otto_z7392-7904_y6586-7098_x5388-5900_z120-140_y100-300_x100-300_1.zarr")
+    segmentation_octo1 = focto["volumes/segmentation_05"][...]
+    segmentation_octo2 = focto["volumes/segmentation_055"][...]
+    segmentation_octo3 = focto["volumes/segmentation_06"][...]
+    ground_truth_octo = focto_gt["volumes/labels/neuron_ids"][...]
+    recall_1, prec_1 = roc(segmentation_octo1, ground_truth_octo)
+    recall_2, prec_2 = roc(segmentation_octo2, ground_truth_octo)
+    recall_3, prec_3 = roc(segmentation_octo3, ground_truth_octo)
+    recall_dict = {"50": recall_1, "55": recall_2, "60": recall_3}
+
+    precision_dict = {"50": prec_1, "55": prec_2, "60": prec_3}
+    plot_roc(recall_dict, precision_dict, title="Octo with Synthetic")
+    # print(f"ROC {roc(segmentation_octo, ground_truth_octo)}")
+
+    focto_gt = zarr.open(
+        "/home/samia/Downloads/octo_z7392-7904_y6586-7098_x5388-5900_z120-140_y100-300_x100-300_wgt1.zarr")
+    focto_previous = zarr.open(
+        "/media/samia/DATA/ark/dan-samia/lsd/funke/otto/tiff/octo_z7392-7904_y6586-7098_x5388-5900_z120-140_y100-300_x100-300_wgt.zarr")
+    segmentation_octo1 = focto_previous["volumes/segmentation_0.5"][...]
+    segmentation_octo2 = focto_previous["volumes/segmentation_0.55"][...]
+    segmentation_octo3 = focto_previous["volumes/segmentation_0.6"][...]
+    ground_truth_octo = focto_gt["volumes/labels/neuron_ids"][...]
+    recall_1, prec_1 = roc(segmentation_octo1, ground_truth_octo)
+    recall_2, prec_2 = roc(segmentation_octo2, ground_truth_octo)
+    recall_3, prec_3 = roc(segmentation_octo3, ground_truth_octo)
+    recall_dict = {"50": recall_1, "55": recall_2, "60": recall_3}
+
+    precision_dict = {"50": prec_1, "55": prec_2, "60": prec_3}
+    plot_roc(recall_dict, precision_dict, title="Octo without Synthetic")
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,9 @@
+# must follow a dict/json like format with keys corresponding to the config.py
+SYSTEM:
+  NUM_GPUS:  1
+DATA:
+  HOME: "/home"
+MODEL_ISO:
+  LOG_DIR: "/home/log-3dmtlsd-hemi-test-janelia"
+  CKPT_FOLDER: "/home/checkpoints-3dmtlsd-hemi-test-janelia"
+  OUTPUT_DIR: "/home/snapshots_-3dmtlsd-hemi-test-janelia"

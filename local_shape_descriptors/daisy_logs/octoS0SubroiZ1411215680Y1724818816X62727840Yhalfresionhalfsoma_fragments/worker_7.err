@@ -1,0 +1,299 @@
+INFO:root:worker 7 started...
+INFO:root:epsilon_agglomerate: 0.6
+INFO:root:mask_file: None
+INFO:root:mask_dataset: None
+INFO:root:filter_fragments: 0.0
+INFO:root:Running block with config daisy_logs/octoS0SubroiZ1411215680Y1724818816X62727840Yhalfresionhalfsoma_fragments/config_7.yaml...
+INFO:root:Reading affs from /media/samia/DATA/ark/lsd_outputs/MTLSD/3d/run-aclsd-together/model_checkpoint_300000/octo-s0-subroi_z14112-15680_y17248-18816_x6272-7840_yhalfresionhalfsoma.zarr
+INFO:root:Reading fragments from /media/samia/DATA/ark/lsd_outputs/MTLSD/3d/run-aclsd-together/model_checkpoint_300000/octo-s0-subroi_z14112-15680_y17248-18816_x6272-7840_yhalfresionhalfsoma.zarr
+INFO:root:Opening RAG DB...
+INFO:root:RAG DB opened
+INFO:root:block read roi begin: (496, 712, 496)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (992, 1208, 992)
+INFO:root:block write roi shape: (864, 864, 864)
+/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/scipy/ndimage/_measurements.py:1534: RuntimeWarning: invalid value encountered in divide
+  results = [sum(input * grids[dir].astype(float), labels, index) / normalizer
+INFO:root:releasing block: octoS0SubroiZ1411215680Y1724818816X62727840Yhalfresionhalfsoma_fragments/0 with read ROI [496:2352, 712:2568, 496:2352] (1856, 1856, 1856) and write ROI [992:1856, 1208:2072, 992:1856] (864, 864, 864)
+INFO:root:block read roi begin: (496, 712, 10000)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (992, 1208, 10496)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:root:releasing block: octoS0SubroiZ1411215680Y1724818816X62727840Yhalfresionhalfsoma_fragments/286 with read ROI [496:2352, 712:2568, 10000:11856] (1856, 1856, 1856) and write ROI [992:1856, 1208:2072, 10496:11360] (864, 864, 864)
+INFO:root:block read roi begin: (496, 2440, 1360)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (992, 2936, 1856)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:root:releasing block: octoS0SubroiZ1411215680Y1724818816X62727840Yhalfresionhalfsoma_fragments/13 with read ROI [496:2352, 2440:4296, 1360:3216] (1856, 1856, 1856) and write ROI [992:1856, 2936:3800, 1856:2720] (864, 864, 864)
+INFO:root:block read roi begin: (496, 2440, 10864)
+INFO:root:block read roi shape: (1856, 1856, 1184)
+INFO:root:block write roi begin: (992, 2936, 11360)
+INFO:root:block write roi shape: (864, 864, 192)
+INFO:root:releasing block: octoS0SubroiZ1411215680Y1724818816X62727840Yhalfresionhalfsoma_fragments/563 with read ROI [496:2352, 2440:4296, 10864:12048] (1856, 1856, 1184) and write ROI [992:1856, 2936:3800, 11360:11552] (864, 864, 192)
+INFO:root:block read roi begin: (496, 3304, 3088)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (992, 3800, 3584)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:root:releasing block: octoS0SubroiZ1411215680Y1724818816X62727840Yhalfresionhalfsoma_fragments/62 with read ROI [496:2352, 3304:5160, 3088:4944] (1856, 1856, 1856) and write ROI [992:1856, 3800:4664, 3584:4448] (864, 864, 864)
+INFO:root:block read roi begin: (496, 4168, 496)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (992, 4664, 992)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:root:releasing block: octoS0SubroiZ1411215680Y1724818816X62727840Yhalfresionhalfsoma_fragments/30 with read ROI [496:2352, 4168:6024, 496:2352] (1856, 1856, 1856) and write ROI [992:1856, 4664:5528, 992:1856] (864, 864, 864)
+INFO:root:block read roi begin: (496, 4168, 9136)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (992, 4664, 9632)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:root:releasing block: octoS0SubroiZ1411215680Y1724818816X62727840Yhalfresionhalfsoma_fragments/570 with read ROI [496:2352, 4168:6024, 9136:10992] (1856, 1856, 1856) and write ROI [992:1856, 4664:5528, 9632:10496] (864, 864, 864)
+INFO:root:block read roi begin: (496, 5032, 6544)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (992, 5528, 7040)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:root:releasing block: octoS0SubroiZ1411215680Y1724818816X62727840Yhalfresionhalfsoma_fragments/379 with read ROI [496:2352, 5032:6888, 6544:8400] (1856, 1856, 1856) and write ROI [992:1856, 5528:6392, 7040:7904] (864, 864, 864)
+INFO:root:block read roi begin: (496, 5896, 7408)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (992, 6392, 7904)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:root:releasing block: octoS0SubroiZ1411215680Y1724818816X62727840Yhalfresionhalfsoma_fragments/581 with read ROI [496:2352, 5896:7752, 7408:9264] (1856, 1856, 1856) and write ROI [992:1856, 6392:7256, 7904:8768] (864, 864, 864)
+INFO:root:block read roi begin: (496, 6760, 4816)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (992, 7256, 5312)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:root:releasing block: octoS0SubroiZ1411215680Y1724818816X62727840Yhalfresionhalfsoma_fragments/392 with read ROI [496:2352, 6760:8616, 4816:6672] (1856, 1856, 1856) and write ROI [992:1856, 7256:8120, 5312:6176] (864, 864, 864)
+INFO:root:block read roi begin: (496, 7624, 3088)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (992, 8120, 3584)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:root:releasing block: octoS0SubroiZ1411215680Y1724818816X62727840Yhalfresionhalfsoma_fragments/322 with read ROI [496:2352, 7624:9480, 3088:4944] (1856, 1856, 1856) and write ROI [992:1856, 8120:8984, 3584:4448] (864, 864, 864)
+INFO:root:block read roi begin: (496, 8488, 496)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (992, 8984, 992)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:root:releasing block: octoS0SubroiZ1411215680Y1724818816X62727840Yhalfresionhalfsoma_fragments/210 with read ROI [496:2352, 8488:10344, 496:2352] (1856, 1856, 1856) and write ROI [992:1856, 8984:9848, 992:1856] (864, 864, 864)
+INFO:root:block read roi begin: (496, 8488, 9136)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (992, 8984, 9632)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:root:releasing block: octoS0SubroiZ1411215680Y1724818816X62727840Yhalfresionhalfsoma_fragments/1375 with read ROI [496:2352, 8488:10344, 9136:10992] (1856, 1856, 1856) and write ROI [992:1856, 8984:9848, 9632:10496] (864, 864, 864)
+INFO:root:block read roi begin: (496, 9352, 6544)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (992, 9848, 7040)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:root:releasing block: octoS0SubroiZ1411215680Y1724818816X62727840Yhalfresionhalfsoma_fragments/1024 with read ROI [496:2352, 9352:11208, 6544:8400] (1856, 1856, 1856) and write ROI [992:1856, 9848:10712, 7040:7904] (864, 864, 864)
+INFO:root:block read roi begin: (496, 10216, 3088)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (992, 10712, 3584)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:root:releasing block: octoS0SubroiZ1411215680Y1724818816X62727840Yhalfresionhalfsoma_fragments/626 with read ROI [496:2352, 10216:12072, 3088:4944] (1856, 1856, 1856) and write ROI [992:1856, 10712:11576, 3584:4448] (864, 864, 864)
+INFO:root:block read roi begin: (496, 11080, 496)
+INFO:root:block read roi shape: (1856, 1184, 1856)
+INFO:root:block write roi begin: (992, 11576, 992)
+INFO:root:block write roi shape: (864, 192, 864)
+INFO:root:releasing block: octoS0SubroiZ1411215680Y1724818816X62727840Yhalfresionhalfsoma_fragments/442 with read ROI [496:2352, 11080:12264, 496:2352] (1856, 1184, 1856) and write ROI [992:1856, 11576:11768, 992:1856] (864, 192, 864)
+INFO:root:block read roi begin: (496, 11080, 5680)
+INFO:root:block read roi shape: (1856, 1184, 1856)
+INFO:root:block write roi begin: (992, 11576, 6176)
+INFO:root:block write roi shape: (864, 192, 864)
+INFO:root:releasing block: octoS0SubroiZ1411215680Y1724818816X62727840Yhalfresionhalfsoma_fragments/1218 with read ROI [496:2352, 11080:12264, 5680:7536] (1856, 1184, 1856) and write ROI [992:1856, 11576:11768, 6176:7040] (864, 192, 864)
+INFO:root:block read roi begin: (1360, 712, 3952)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (1856, 1208, 4448)
+INFO:root:block write roi shape: (864, 864, 864)
+ERROR:daisy.client:Block octoS0SubroiZ1411215680Y1724818816X62727840Yhalfresionhalfsoma_fragments/37 with read ROI [1360:3216, 712:2568, 3952:5808] (1856, 1856, 1856) and write ROI [1856:2720, 1208:2072, 4448:5312] (864, 864, 864) failed in worker 7
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/daisy/client.py", line 85, in acquire_block
+    yield block
+  File "./engine/post/extract_fragments_worker.py", line 98, in extract_fragments_worker
+    run_waterz_parallel(affs=affs,
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/engine/post/run_waterz.py", line 104, in run_waterz_parallel
+    logger.debug("writing fragments to %s", block.write_roi)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/persistence/arrays/array.py", line 207, in __setitem__
+    target[target_slices] = source[source_slices]
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 1391, in __setitem__
+    self.set_basic_selection(pure_selection, value, fields=fields)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 1486, in set_basic_selection
+    return self._set_basic_selection_nd(selection, value, fields=fields)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 1790, in _set_basic_selection_nd
+    self._set_selection(indexer, value, fields=fields)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 1842, in _set_selection
+    self._chunk_setitem(chunk_coords, chunk_selection, chunk_value, fields=fields)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 2137, in _chunk_setitem
+    self._chunk_setitem_nosync(chunk_coords, chunk_selection, value,
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 2142, in _chunk_setitem_nosync
+    cdata = self._process_for_setitem(ckey, chunk_selection, value, fields=fields)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 2176, in _process_for_setitem
+    cdata = self.chunk_store[ckey]
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/storage.py", line 1085, in __getitem__
+    return self._fromfile(filepath)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/storage.py", line 1059, in _fromfile
+    with open(fn, 'rb') as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/media/samia/DATA/ark/lsd_outputs/MTLSD/3d/run-aclsd-together/model_checkpoint_300000/octo-s0-subroi_z14112-15680_y17248-18816_x6272-7840_yhalfresionhalfsoma.zarr/volumes/segmentation_06/2.2.5'
+INFO:root:block read roi begin: (1360, 1576, 496)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (1856, 2072, 992)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:root:releasing block: octoS0SubroiZ1411215680Y1724818816X62727840Yhalfresionhalfsoma_fragments/8 with read ROI [1360:3216, 1576:3432, 496:2352] (1856, 1856, 1856) and write ROI [1856:2720, 2072:2936, 992:1856] (864, 864, 864)
+INFO:root:block read roi begin: (1360, 1576, 9136)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (1856, 2072, 9632)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:root:releasing block: octoS0SubroiZ1411215680Y1724818816X62727840Yhalfresionhalfsoma_fragments/368 with read ROI [1360:3216, 1576:3432, 9136:10992] (1856, 1856, 1856) and write ROI [1856:2720, 2072:2936, 9632:10496] (864, 864, 864)
+INFO:root:block read roi begin: (1360, 2440, 6544)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (1856, 2936, 7040)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:root:releasing block: octoS0SubroiZ1411215680Y1724818816X62727840Yhalfresionhalfsoma_fragments/227 with read ROI [1360:3216, 2440:4296, 6544:8400] (1856, 1856, 1856) and write ROI [1856:2720, 2936:3800, 7040:7904] (864, 864, 864)
+INFO:root:block read roi begin: (1360, 3304, 3952)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (1856, 3800, 4448)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:root:releasing block: octoS0SubroiZ1411215680Y1724818816X62727840Yhalfresionhalfsoma_fragments/131 with read ROI [1360:3216, 3304:5160, 3952:5808] (1856, 1856, 1856) and write ROI [1856:2720, 3800:4664, 4448:5312] (864, 864, 864)
+INFO:root:block read roi begin: (1360, 4168, 1360)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (1856, 4664, 1856)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:root:releasing block: octoS0SubroiZ1411215680Y1724818816X62727840Yhalfresionhalfsoma_fragments/72 with read ROI [1360:3216, 4168:6024, 1360:3216] (1856, 1856, 1856) and write ROI [1856:2720, 4664:5528, 1856:2720] (864, 864, 864)
+INFO:root:block read roi begin: (1360, 4168, 10864)
+INFO:root:block read roi shape: (1856, 1856, 1184)
+INFO:root:block write roi begin: (1856, 4664, 11360)
+INFO:root:block write roi shape: (864, 864, 192)
+INFO:root:releasing block: octoS0SubroiZ1411215680Y1724818816X62727840Yhalfresionhalfsoma_fragments/985 with read ROI [1360:3216, 4168:6024, 10864:12048] (1856, 1856, 1184) and write ROI [1856:2720, 4664:5528, 11360:11552] (864, 864, 192)
+INFO:root:block read roi begin: (1360, 5032, 2224)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (1856, 5528, 2720)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:root:releasing block: octoS0SubroiZ1411215680Y1724818816X62727840Yhalfresionhalfsoma_fragments/142 with read ROI [1360:3216, 5032:6888, 2224:4080] (1856, 1856, 1856) and write ROI [1856:2720, 5528:6392, 2720:3584] (864, 864, 864)
+INFO:root:block read roi begin: (1360, 5032, 10864)
+INFO:root:block read roi shape: (1856, 1856, 1184)
+INFO:root:block write roi begin: (1856, 5528, 11360)
+INFO:root:block write roi shape: (864, 864, 192)
+INFO:root:releasing block: octoS0SubroiZ1411215680Y1724818816X62727840Yhalfresionhalfsoma_fragments/1162 with read ROI [1360:3216, 5032:6888, 10864:12048] (1856, 1856, 1184) and write ROI [1856:2720, 5528:6392, 11360:11552] (864, 864, 192)
+INFO:root:block read roi begin: (1360, 5896, 8272)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (1856, 6392, 8768)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:root:releasing block: octoS0SubroiZ1411215680Y1724818816X62727840Yhalfresionhalfsoma_fragments/845 with read ROI [1360:3216, 5896:7752, 8272:10128] (1856, 1856, 1856) and write ROI [1856:2720, 6392:7256, 8768:9632] (864, 864, 864)
+INFO:root:block read roi begin: (1360, 6760, 3952)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (1856, 7256, 4448)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:root:releasing block: octoS0SubroiZ1411215680Y1724818816X62727840Yhalfresionhalfsoma_fragments/401 with read ROI [1360:3216, 6760:8616, 3952:5808] (1856, 1856, 1856) and write ROI [1856:2720, 7256:8120, 4448:5312] (864, 864, 864)
+INFO:root:block read roi begin: (1360, 7624, 1360)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (1856, 8120, 1856)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:root:releasing block: octoS0SubroiZ1411215680Y1724818816X62727840Yhalfresionhalfsoma_fragments/266 with read ROI [1360:3216, 7624:9480, 1360:3216] (1856, 1856, 1856) and write ROI [1856:2720, 8120:8984, 1856:2720] (864, 864, 864)
+INFO:root:block read roi begin: (1360, 7624, 10000)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (1856, 8120, 10496)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:root:releasing block: octoS0SubroiZ1411215680Y1724818816X62727840Yhalfresionhalfsoma_fragments/1586 with read ROI [1360:3216, 7624:9480, 10000:11856] (1856, 1856, 1856) and write ROI [1856:2720, 8120:8984, 10496:11360] (864, 864, 864)
+INFO:root:block read roi begin: (1360, 8488, 8272)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (1856, 8984, 8768)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:root:releasing block: octoS0SubroiZ1411215680Y1724818816X62727840Yhalfresionhalfsoma_fragments/1386 with read ROI [1360:3216, 8488:10344, 8272:10128] (1856, 1856, 1856) and write ROI [1856:2720, 8984:9848, 8768:9632] (864, 864, 864)
+INFO:root:block read roi begin: (1360, 9352, 5680)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (1856, 9848, 6176)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:root:releasing block: octoS0SubroiZ1411215680Y1724818816X62727840Yhalfresionhalfsoma_fragments/1036 with read ROI [1360:3216, 9352:11208, 5680:7536] (1856, 1856, 1856) and write ROI [1856:2720, 9848:10712, 6176:7040] (864, 864, 864)
+INFO:root:block read roi begin: (1360, 10216, 3952)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (1856, 10712, 4448)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:root:releasing block: octoS0SubroiZ1411215680Y1724818816X62727840Yhalfresionhalfsoma_fragments/895 with read ROI [1360:3216, 10216:12072, 3952:5808] (1856, 1856, 1856) and write ROI [1856:2720, 10712:11576, 4448:5312] (864, 864, 864)
+INFO:root:block read roi begin: (1360, 11080, 1360)
+INFO:root:block read roi shape: (1856, 1184, 1856)
+INFO:root:block write roi begin: (1856, 11576, 1856)
+INFO:root:block write roi shape: (864, 192, 864)
+INFO:root:releasing block: octoS0SubroiZ1411215680Y1724818816X62727840Yhalfresionhalfsoma_fragments/652 with read ROI [1360:3216, 11080:12264, 1360:3216] (1856, 1184, 1856) and write ROI [1856:2720, 11576:11768, 1856:2720] (864, 192, 864)
+INFO:root:block read roi begin: (1360, 11080, 8272)
+INFO:root:block read roi shape: (1856, 1184, 1856)
+INFO:root:block write roi begin: (1856, 11576, 8768)
+INFO:root:block write roi shape: (864, 192, 864)
+INFO:root:releasing block: octoS0SubroiZ1411215680Y1724818816X62727840Yhalfresionhalfsoma_fragments/2116 with read ROI [1360:3216, 11080:12264, 8272:10128] (1856, 1184, 1856) and write ROI [1856:2720, 11576:11768, 8768:9632] (864, 192, 864)
+INFO:root:block read roi begin: (2224, 712, 6544)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (2720, 1208, 7040)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:root:releasing block: octoS0SubroiZ1411215680Y1724818816X62727840Yhalfresionhalfsoma_fragments/170 with read ROI [2224:4080, 712:2568, 6544:8400] (1856, 1856, 1856) and write ROI [2720:3584, 1208:2072, 7040:7904] (864, 864, 864)
+INFO:root:block read roi begin: (2224, 1576, 4816)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (2720, 2072, 5312)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:root:releasing block: octoS0SubroiZ1411215680Y1724818816X62727840Yhalfresionhalfsoma_fragments/128 with read ROI [2224:4080, 1576:3432, 4816:6672] (1856, 1856, 1856) and write ROI [2720:3584, 2072:2936, 5312:6176] (864, 864, 864)
+INFO:root:block read roi begin: (2224, 2440, 2224)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (2720, 2936, 2720)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:root:releasing block: octoS0SubroiZ1411215680Y1724818816X62727840Yhalfresionhalfsoma_fragments/68 with read ROI [2224:4080, 2440:4296, 2224:4080] (1856, 1856, 1856) and write ROI [2720:3584, 2936:3800, 2720:3584] (864, 864, 864)
+INFO:root:block read roi begin: (2224, 2440, 10864)
+INFO:root:block read roi shape: (1856, 1856, 1184)
+INFO:root:block write roi begin: (2720, 2936, 11360)
+INFO:root:block write roi shape: (864, 864, 192)
+INFO:root:releasing block: octoS0SubroiZ1411215680Y1724818816X62727840Yhalfresionhalfsoma_fragments/828 with read ROI [2224:4080, 2440:4296, 10864:12048] (1856, 1856, 1184) and write ROI [2720:3584, 2936:3800, 11360:11552] (864, 864, 192)
+INFO:root:block read roi begin: (2224, 3304, 3952)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (2720, 3800, 4448)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:root:releasing block: octoS0SubroiZ1411215680Y1724818816X62727840Yhalfresionhalfsoma_fragments/182 with read ROI [2224:4080, 3304:5160, 3952:5808] (1856, 1856, 1856) and write ROI [2720:3584, 3800:4664, 4448:5312] (864, 864, 864)
+INFO:root:block read roi begin: (2224, 3304, 10864)
+INFO:root:block read roi shape: (1856, 1856, 1184)
+INFO:root:block write roi begin: (2720, 3800, 11360)
+INFO:root:block write roi shape: (864, 864, 192)
+INFO:root:releasing block: octoS0SubroiZ1411215680Y1724818816X62727840Yhalfresionhalfsoma_fragments/986 with read ROI [2224:4080, 3304:5160, 10864:12048] (1856, 1856, 1184) and write ROI [2720:3584, 3800:4664, 11360:11552] (864, 864, 192)
+INFO:root:block read roi begin: (2224, 4168, 6544)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (2720, 4664, 7040)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:root:releasing block: octoS0SubroiZ1411215680Y1724818816X62727840Yhalfresionhalfsoma_fragments/478 with read ROI [2224:4080, 4168:6024, 6544:8400] (1856, 1856, 1856) and write ROI [2720:3584, 4664:5528, 7040:7904] (864, 864, 864)
+INFO:root:block read roi begin: (2224, 5032, 4816)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (2720, 5528, 5312)
+INFO:root:block write roi shape: (864, 864, 864)
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/daisy/client.py", line 85, in acquire_block
+    yield block
+  File "./engine/post/extract_fragments_worker.py", line 98, in extract_fragments_worker
+    run_waterz_parallel(affs=affs,
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/engine/post/run_waterz.py", line 56, in run_waterz_parallel
+    affs.materialize()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/persistence/arrays/array.py", line 218, in materialize
+    self.data = self.to_ndarray()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/persistence/arrays/array.py", line 240, in to_ndarray
+    return self.data[self.__slices(self.roi)]
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 821, in __getitem__
+    result = self.get_basic_selection(pure_selection, fields=fields)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 947, in get_basic_selection
+    return self._get_basic_selection_nd(selection=selection, out=out,
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 990, in _get_basic_selection_nd
+    return self._get_selection(indexer=indexer, out=out, fields=fields)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 1285, in _get_selection
+    self._chunk_getitem(chunk_coords, chunk_selection, out, out_selection,
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 1994, in _chunk_getitem
+    cdata = self.chunk_store[ckey]
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/storage.py", line 1085, in __getitem__
+    return self._fromfile(filepath)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/storage.py", line 1060, in _fromfile
+    return f.read()
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/contextlib.py", line 131, in __exit__
+    self.gen.throw(type, value, traceback)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/daisy/client.py", line 104, in acquire_block
+    self.release_block(block)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/daisy/client.py", line 114, in release_block
+    self.tcp_client.send_message(ReleaseBlock(block))
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/daisy/tcp/tcp_client.py", line 90, in send_message
+    self._check_for_errors()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/daisy/tcp/tcp_client.py", line 126, in _check_for_errors
+    raise exception
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/daisy/tcp/tcp_client.py", line 151, in _receive
+    message = await self.stream._get_message()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/daisy/tcp/tcp_stream.py", line 104, in _get_message
+    raise StreamClosedError(*self.address)
+daisy.tcp.exceptions.StreamClosedError: ('10.31.32.156', 40961)

@@ -1,0 +1,13 @@
+INFO:root:worker 3 started...
+INFO:root:epsilon_agglomerate: 0.25
+INFO:root:mask_file: None
+INFO:root:mask_dataset: None
+INFO:root:filter_fragments: 0.0
+INFO:root:Running block with config daisy_logs/octoS0SubroiZ15683136Y78409408X1097612544Difficultsoma_fragments/config_3.yaml...
+INFO:root:Reading affs from /media/samia/DATA/ark/lsd_outputs/MTLSD/3d/run-aclsd-together/model_checkpoint_300000/octo-s0-subroi_z1568-3136_y7840-9408_x10976-12544_difficultsoma.zarr
+Traceback (most recent call last):
+  File "./engine/post/02_extract_fragments_worker.py", line 149, in <module>
+    extract_fragments_worker(cfg)
+  File "./engine/post/02_extract_fragments_worker.py", line 39, in extract_fragments_worker
+    if not isinstance(affs, np.float32):
+NameError: name 'np' is not defined

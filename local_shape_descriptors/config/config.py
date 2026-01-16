@@ -2,6 +2,7 @@
 This is the `default` config.py file. Will be used if no explicit config.py file is passed to `trainer.py`.
 TODO: Pending clean up.
 """
+
 from yacs.config import CfgNode as CN
 import math
 
@@ -17,15 +18,15 @@ _C.SYSTEM = CN()
 _C.SYSTEM.NUM_GPUS = 1
 # Number of workers for doing things, may not be used in this context
 _C.SYSTEM.NUM_WORKERS = 10
-_C.SYSTEM.CACHE_SIZE = 40
+_C.SYSTEM.CACHE_SIZE = 20
 _C.SYSTEM.VERBOSE = True
 
 _C.DATA = CN()
 _C.DATA.HOME = "/media/samia/DATA/ark"  # options: /home; /media/samia/DATA/ark; this must be a mounted directory such that logs are written to local
 _C.DATA.DATA_DIR_PATH = "connexion/data"  # where the code resides and data should too; connexion/data
-_C.DATA.BRAIN_VOL = "HEMI"  # datasets, options: HEMI;OCTO;SEYMOUR;LUCCHI;CREMI; expand this to load multiple datasets
+_C.DATA.BRAIN_VOL = "ZEBRAFINCH_CLAHE_CROPPED"  # datasets, options: HEMI;OCTO;SEYMOUR;LUCCHI;CREMI; expand this to load multiple datasets
 _C.DATA.TRAIN_TEST_SPLIT = 1  # TODO splits: 1 = all volumes used to train
-_C.DATA.FIB = 1  # Means FIBSEM isotropic data
+_C.DATA.FIB = 0  # Means FIBSEM isotropic data
 _C.DATA.DIM_2D = False  # TODO: Data preprocessing functionality here
 _C.DATA.WITH_MITO = 1  # `0: NO MITO, 1: MITO ONLY, 2: MITO + LSD + AFF (MTLSDMITO)`
 # specify the datasets inside zarr
@@ -39,17 +40,18 @@ _C.DATA.MITO_LABELS_MASK = "volumes/labels/labels_mask_mito"
 _C.PREPROCESS = CN()
 if _C.DATA.DIM_2D:
     # creates 2D zarrs from 3D zarrs; 3D zarr files must be placed at the right path
-    _C.PREPROCESS.EXPORT_2D_FROM_3D = True
+    _C.PREPROCESS.EXPORT_2D_FROM_3D = False
     _C.PREPROCESS.SOURCE_DATA_OFFSET = (0, 0)
     _C.PREPROCESS.SOURCE_DATA_RESOLUTION = (8, 8)
     # for this both source and target datasets must exist at the right paths
-    _C.PREPROCESS.HISTOGRAM_MATCH = None  # '["HEMI" , "OCTO"]
+    _C.PREPROCESS.HISTOGRAM_MATCH = ['TEST-HEMI', "TEST-OCTO", "TEST-TREMONT"]
     _C.PREPROCESS.USE_WANDB = True  # we set it here for now
 else:
     _C.PREPROCESS.USE_WANDB = False  # we set it here for now
     _C.PREPROCESS.SOURCE_DATA_OFFSET = (0, 0, 0)
     _C.PREPROCESS.SOURCE_DATA_RESOLUTION = (8, 8, 8)
-    _C.PREPROCESS.HISTOGRAM_MATCH = None  # ["HEMI", "OCTO"]
+    _C.PREPROCESS.HISTOGRAM_MATCH = None  # ["HEMI", "POPEYE"]
+    _C.PREPROCESS.DATASETS_TO_COPY = None  # '["volumes/labels/neuron_ids", "volumes/labels/labels_mask"]
 
 _C.TRAIN = CN()
 _C.TRAIN.BATCH_SIZE = 1
@@ -58,13 +60,13 @@ _C.TRAIN.NEIGHBORHOOD_2D = [[0, -1], [-1, 0]]
 # saved as such for easy switching between Short range and Long range neighborhoods
 _C.TRAIN.LR_NEIGHBORHOOD = [[-1, 0, 0], [0, -1, 0], [0, 0, -1], [-3, 0, 0], [0, -3, 0], [0, 0, -3], [-9, 0, 0],
                             [0, -9, 0], [0, 0, -9]]
-_C.TRAIN.EPOCHS = 20
-_C.TRAIN.SAVE_EVERY = 5
+_C.TRAIN.EPOCHS = 300000
+_C.TRAIN.SAVE_EVERY = 5000
 # if gpu is found trains on 1 gpu else falls back to cpu, can be explicit here like '
 _C.TRAIN.DEVICE = "cuda:0" if torch.cuda.is_available() else "cpu"
 _C.TRAIN.INITIAL_LR = 0.5e-4
 _C.TRAIN.LR_BETAS = (0.95, 0.999)
-_C.TRAIN.MODEL_TYPE = "ACRLSD"  # options: `MTLSD`, `ACLSD`, `ACRLSD`, `LSD`, `AFF`, `MTLSDMITO`
+_C.TRAIN.MODEL_TYPE = "MTLSD"  # options: `MTLSD`, `ACLSD`, `ACRLSD`, `LSD`, `AFF`, `MTLSDMITO`
 
 # prediction specific
 # _C.TRAIN.CHECKPOINT = "/media/samia/DATA/ark/lsd_checkpoints/AFF_2D/checkpoints-3dmtlsd-hemi-onlyori/model_checkpoint_398000"
@@ -136,7 +138,7 @@ _C.MODEL_ISO.LSD_DOWNSAMPLE = 2
 _C.MODEL_ISO.INTENSITYSCALESHIFT_SCALE = [2, 0.5]
 _C.MODEL_ISO.INTENSITYSCALESHIFT_SHIFT = [-1, 0.5]
 # if aclsd use input shape: (328, 328, 328) to get output 204^3, such that intermediate shape 196^3 can be cropped
-_C.MODEL_ISO.INPUT_SHAPE = (196, 196, 196)  # hemi-octo -  (196, 196, 196);
+_C.MODEL_ISO.INPUT_SHAPE = (1024,1024,1024)  # hemi-octo -  (196, 196, 196);
 _C.MODEL_ISO.INPUT_SHAPE_2D = (196, 196)  # hemi-octo
 # input_shape: Coordinate((172, 172, 172))  # hemi- for gan
 _C.MODEL_ISO.OUTPUT_SHAPE = (
@@ -149,11 +151,11 @@ _C.MODEL_ISO.VOXEL_SIZE_2D = (8, 8)
 _C.MODEL_ISO.DEFECT_AUGMENT = ""
 
 # This can problematic if you switch models but forget to change the folder path.
-# If checkpoints exist in this path, gp.torch will try to load the model weights by default
+# If checkpoints exist in this path, gunpowder.torch will try to load the model weights by default
 # Hence let's create an umbrella checkpoint folder with model name as subfolder. Add suffixes to customise if needed.
-_C.MODEL_ISO.LOG_DIR = f"{_C.DATA.HOME}/lsd_logs/{_C.TRAIN.MODEL_TYPE}_{'2D' if _C.DATA.DIM_2D else '3D'}/{'LSD' if _C.TRAIN.LSD_EPOCHS is not None else ''}/test_aclsd"
-_C.MODEL_ISO.CKPT_FOLDER = f"{_C.DATA.HOME}/lsd_checkpoints/{_C.TRAIN.MODEL_TYPE}_{'2D' if _C.DATA.DIM_2D else '3D'}/{'LSD' if _C.TRAIN.LSD_EPOCHS is not None else ''}/test_aclsd"
-_C.MODEL_ISO.OUTPUT_DIR = f"{_C.DATA.HOME}/lsd_snapshots/{_C.TRAIN.MODEL_TYPE}_{'2D' if _C.DATA.DIM_2D else '3D'}/{'LSD' if _C.TRAIN.LSD_EPOCHS is not None else ''}/test_aclsd"
+_C.MODEL_ISO.LOG_DIR = f"{_C.DATA.HOME}/lsd_logs/{_C.TRAIN.MODEL_TYPE}_{'2D' if _C.DATA.DIM_2D else '3D'}/{_C.DATA.BRAIN_VOL}/{'LSD' if _C.TRAIN.LSD_EPOCHS is not None else ''}/mito_w_incorr_labels"
+_C.MODEL_ISO.CKPT_FOLDER = f"{_C.DATA.HOME}/lsd_checkpoints/{_C.TRAIN.MODEL_TYPE}_{'2D' if _C.DATA.DIM_2D else '3D'}/{_C.DATA.BRAIN_VOL}/{'LSD' if _C.TRAIN.LSD_EPOCHS is not None else ''}/mito_hemi_w_incorr_labels"
+_C.MODEL_ISO.OUTPUT_DIR = f"{_C.DATA.HOME}/lsd_snapshots/{_C.TRAIN.MODEL_TYPE}_{'2D' if _C.DATA.DIM_2D else '3D'}/{_C.DATA.BRAIN_VOL}/{'LSD' if _C.TRAIN.LSD_EPOCHS is not None else ''}/mito_hemi_w_incorr_labels"
 
 # Anisotropic model and augmentation hyper-params
 _C.MODEL_ANISO = CN()
@@ -168,7 +170,8 @@ _C.MODEL_ANISO.KERNEL_SIZE_DOWN = [[(1, 3, 3), (1, 3, 3)], [(3,) * 3, (3,) * 3],
                                    [(3,) * 3, (3,) * 3]]
 _C.MODEL_ANISO.KERNEL_SIZE_DOWN_2D = [[(1, 3), (1, 3)], [(3,) * 2, (3,) * 2], [(3,) * 2, (3,) * 2],
                                       [(3,) * 2, (3,) * 2]]
-_C.MODEL_ANISO.KERNEL_SIZE_UP = [[(3,) * 2, (3,) * 2], [(3,) * 2, (3,) * 2], [(3,) * 2, (3,) * 2]]
+_C.MODEL_ANISO.KERNEL_SIZE_UP = [[(3,) * 3, (3,) * 3], [(3,) * 3, (3,) * 3], [(3,) * 3, (3,) * 3]]
+_C.MODEL_ANISO.KERNEL_SIZE_UP_2D = [[(3,) * 2, (3,) * 2], [(3,) * 2, (3,) * 2], [(3,) * 2, (3,) * 2]]
 _C.MODEL_ANISO.PAD_CONV = 'valid'
 _C.MODEL_ANISO.CONTROL_POINT_SPACING = (4, 4, 10)  # xyz
 _C.MODEL_ANISO.CONTROL_POINT_SPACING_2D = (4, 4)  # xy
@@ -197,9 +200,9 @@ _C.MODEL_ANISO.OUTPUT_SHAPE = (72, 144, 144)  # cremi
 _C.MODEL_ANISO.OUTPUT_SHAPE_2D = (144, 144)  # cremi
 _C.MODEL_ANISO.VOXEL_SIZE = (40, 4, 4)  # cremi
 _C.MODEL_ANISO.VOXEL_SIZE_2D = (4, 4)  # cremi
-_C.MODEL_ANISO.LOG_DIR = f"{_C.DATA.HOME}/lsd_logs/{_C.TRAIN.MODEL_TYPE}_{'2D' if _C.DATA.DIM_2D else '3D'}/{'LSD' if _C.TRAIN.LSD_EPOCHS is not None else ''}/run_1"
-_C.MODEL_ANISO.CKPT_FOLDER = f"{_C.DATA.HOME}/lsd_checkpoints/{_C.TRAIN.MODEL_TYPE}_{'2D' if _C.DATA.DIM_2D else '3D'}/{'LSD' if _C.TRAIN.LSD_EPOCHS is not None else ''}/run_1"
-_C.MODEL_ANISO.OUTPUT_DIR = f"{_C.DATA.HOME}/lsd_snapshots/{_C.TRAIN.MODEL_TYPE}_{'2D' if _C.DATA.DIM_2D else '3D'}/{'LSD' if _C.TRAIN.LSD_EPOCHS is not None else ''}/run_1"
+_C.MODEL_ANISO.LOG_DIR = f"{_C.DATA.HOME}/lsd_logs/{_C.TRAIN.MODEL_TYPE}_{'2D' if _C.DATA.DIM_2D else '3D'}/{_C.DATA.BRAIN_VOL}/{'LSD' if _C.TRAIN.LSD_EPOCHS is not None else ''}/run_1"
+_C.MODEL_ANISO.CKPT_FOLDER = f"{_C.DATA.HOME}/lsd_checkpoints/{_C.TRAIN.MODEL_TYPE}_{'2D' if _C.DATA.DIM_2D else '3D'}/{_C.DATA.BRAIN_VOL}/{'LSD' if _C.TRAIN.LSD_EPOCHS is not None else ''}/run_1"
+_C.MODEL_ANISO.OUTPUT_DIR = f"{_C.DATA.HOME}/lsd_snapshots/{_C.TRAIN.MODEL_TYPE}_{'2D' if _C.DATA.DIM_2D else '3D'}/{_C.DATA.BRAIN_VOL}/{'LSD' if _C.TRAIN.LSD_EPOCHS is not None else ''}/run_1"
 # SPECIAL AUGMENTATION CASE: SET THE PATH TO THE DEFECTS FILE HERE.
 _C.MODEL_ANISO.DEFECT_AUGMENT = ""
 

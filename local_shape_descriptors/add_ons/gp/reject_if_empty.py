@@ -27,7 +27,7 @@ class RejectIfEmpty(BatchFilter):
 
         self.gt = gt
         self.p = p
-        self.background = 0
+        self.background = background
 
     def setup(self):
         upstream_providers = self.get_upstream_providers()
@@ -49,8 +49,8 @@ class RejectIfEmpty(BatchFilter):
         while True:
 
             batch = self.upstream_provider.request_batch(request)
-
             gt_data = batch.arrays[self.gt].data
+
             empty = (gt_data.min() == self.background) and (
                     gt_data.max() == self.background
             )

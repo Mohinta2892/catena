@@ -18,13 +18,21 @@ import zarr
 
 client = Client('neuprint.janelia.org', 'hemibrain:v1.2.1', token=NEUPRINT_APPLICATION_CREDENTIALS)
 
-# boundingBox 1
-x1 = 15035
-x2 = 15635
-y1 = 28559
-y2 = 29159
-z1 = 9602
-z2 = 10202
+# HEMI 10202
+# x1 = 15035
+# x2 = 15635
+# y1 = 28559
+# y2 = 29159
+# z1 = 9602
+# z2 = 10202
+
+# MANC 15000
+x1 = 23400
+x2 = 24000
+y1 = 24000
+y2 = 24600
+z1 = 14400
+z2 = 15000
 
 # dif_x = (x2 - x1) // 2
 # dif_y = (y2 - y1) // 2
@@ -51,11 +59,28 @@ print([(x, y, z), (X, Y, Z)])
 
 # Adapted from the TensorStore tutorial:
 # https://google.github.io/tensorstore/python/tutorial.html#reading-the-janelia-flyem-hemibrain-dataset
+# soma_dataset_future = ts.open({
+#     'driver':
+#         'neuroglancer_precomputed',
+#     'kvstore':
+#         'gs://neuroglancer-janelia-flyem-hemibrain/v1.1/segmentation/',
+#     # Use 100MB in-memory cache.
+#     'context': {
+#         'cache_pool': {
+#             'total_bytes_limit': 100_000_000
+#         }
+#     },
+#     'recheck_cached_data':
+#         'open',
+# })
+
+## MANC
+
 soma_dataset_future = ts.open({
     'driver':
         'neuroglancer_precomputed',
     'kvstore':
-        'gs://neuroglancer-janelia-flyem-hemibrain/v1.1/segmentation/',
+        'gs://manc-seg-v1p2/manc-seg-v1.2',
     # Use 100MB in-memory cache.
     'context': {
         'cache_pool': {
@@ -67,11 +92,28 @@ soma_dataset_future = ts.open({
 })
 
 # raw EM non-CLAHE?
+
+# em_dataset_future = ts.open({
+#     'driver':
+#         'neuroglancer_precomputed',
+#     'kvstore':
+#         'gs://neuroglancer-janelia-flyem-hemibrain/emdata/raw/jpeg',
+#     # Use 100MB in-memory cache.
+#     'context': {
+#         'cache_pool': {
+#             'total_bytes_limit': 100_000_000
+#         }
+#     },
+#     'recheck_cached_data':
+#         'open',
+# })
+
+## MANC Non clahe
 em_dataset_future = ts.open({
     'driver':
         'neuroglancer_precomputed',
     'kvstore':
-        'gs://neuroglancer-janelia-flyem-hemibrain/emdata/raw/jpeg',
+        'gs://flyem-vnc-2-26-213dba213ef26e094c16c860ae7f4be0/emdata/jpeg',
     # Use 100MB in-memory cache.
     'context': {
         'cache_pool': {
@@ -83,12 +125,28 @@ em_dataset_future = ts.open({
 })
 
 # CLAHE in YZ
+#
+# em_clahe_dataset_future = ts.open({
+#     'driver':
+#         'neuroglancer_precomputed',
+#     'kvstore':
+#         'gs://neuroglancer-janelia-flyem-hemibrain/emdata/clahe_yz/jpeg',
+#     # Use 100MB in-memory cache.
+#     'context': {
+#         'cache_pool': {
+#             'total_bytes_limit': 100_000_000
+#         }
+#     },
+#     'recheck_cached_data':
+#         'open',
+# })
+
 
 em_clahe_dataset_future = ts.open({
     'driver':
         'neuroglancer_precomputed',
     'kvstore':
-        'gs://neuroglancer-janelia-flyem-hemibrain/emdata/clahe_yz/jpeg',
+        'gs://flyem-vnc-2-26-213dba213ef26e094c16c860ae7f4be0/v3_emdata_clahe_xy/jpeg',
     # Use 100MB in-memory cache.
     'context': {
         'cache_pool': {
@@ -99,40 +157,40 @@ em_clahe_dataset_future = ts.open({
         'open',
 })
 
-# mitochondria -nndividual
-mito_future = ts.open({
-    'driver':
-        'neuroglancer_precomputed',
-    'kvstore':
-        'gs://neuroglancer-janelia-flyem-hemibrain/v1.2/mito-objects',  # individual mito
-    # 'gs://neuroglancer-janelia-flyem-hemibrain/v1.2/mito-objects-grouped',  # grouped mito, where they all match their parent neuron
-    # Use 100MB in-memory cache.
-    'context': {
-        'cache_pool': {
-            'total_bytes_limit': 100_000_000
-        }
-    },
-    'recheck_cached_data':
-        'open',
-})
-# mitochondria -grouped, matched to parent neuron - donno what this means exactly??
-
-mito_grp_future = ts.open({
-    'driver':
-        'neuroglancer_precomputed',
-    'kvstore':
-    #         'gs://neuroglancer-janelia-flyem-hemibrain/v1.2/mito-objects',  # individual mito
-        'gs://neuroglancer-janelia-flyem-hemibrain/v1.2/mito-objects-grouped',
-    # grouped mito, where they all match their parent neuron
-    # Use 100MB in-memory cache.
-    'context': {
-        'cache_pool': {
-            'total_bytes_limit': 100_000_000
-        }
-    },
-    'recheck_cached_data':
-        'open',
-})
+# # mitochondria -nndividual
+# mito_future = ts.open({
+#     'driver':
+#         'neuroglancer_precomputed',
+#     'kvstore':
+#         'gs://neuroglancer-janelia-flyem-hemibrain/v1.2/mito-objects',  # individual mito
+#     # 'gs://neuroglancer-janelia-flyem-hemibrain/v1.2/mito-objects-grouped',  # grouped mito, where they all match their parent neuron
+#     # Use 100MB in-memory cache.
+#     'context': {
+#         'cache_pool': {
+#             'total_bytes_limit': 100_000_000
+#         }
+#     },
+#     'recheck_cached_data':
+#         'open',
+# })
+# # mitochondria -grouped, matched to parent neuron - donno what this means exactly??
+#
+# mito_grp_future = ts.open({
+#     'driver':
+#         'neuroglancer_precomputed',
+#     'kvstore':
+#     #         'gs://neuroglancer-janelia-flyem-hemibrain/v1.2/mito-objects',  # individual mito
+#         'gs://neuroglancer-janelia-flyem-hemibrain/v1.2/mito-objects-grouped',
+#     # grouped mito, where they all match their parent neuron
+#     # Use 100MB in-memory cache.
+#     'context': {
+#         'cache_pool': {
+#             'total_bytes_limit': 100_000_000
+#         }
+#     },
+#     'recheck_cached_data':
+#         'open',
+# })
 
 # all arrays should be in XYZ orientation, however we want them to have ZYX for compatibility with existing code
 
@@ -144,23 +202,26 @@ em_vol = np.transpose(em_dset[x:X, y:Y, z:Z].read().result(), (2, 1, 0))
 
 em_clahe_dset = em_clahe_dataset_future.result()[ts.d['channel'][0]]
 em_clahe_vol = np.transpose(em_clahe_dset[x:X, y:Y, z:Z].read().result(), (2, 1, 0))
-
-mito_dset = mito_future.result()[ts.d['channel'][0]]
-mito_vol = np.transpose(mito_dset[x:X, y:Y, z:Z].read().result(), (2, 1, 0))
-
-mito_grp_dset = mito_grp_future.result()[ts.d['channel'][0]]
-mito_grp_vol = np.transpose(mito_dset[x:X, y:Y, z:Z].read().result(), (2, 1, 0))
+#
+# mito_dset = mito_future.result()[ts.d['channel'][0]]
+# mito_vol = np.transpose(mito_dset[x:X, y:Y, z:Z].read().result(), (2, 1, 0))
+#
+# mito_grp_dset = mito_grp_future.result()[ts.d['channel'][0]]
+# mito_grp_vol = np.transpose(mito_dset[x:X, y:Y, z:Z].read().result(), (2, 1, 0))
 
 # FIX ME: We do not do transform the data dtypes before saving as zarr datasets, but good to know
 print("Checking dtypes to see if conversion is need or not!")
 print(f"EM vol {em_vol.dtype}, EM vol CLAHE {em_clahe_vol.dtype},\
-      Soma labels {soma_vol.dtype}, Mito labels {mito_vol.dtype}")
+      Soma labels {soma_vol.dtype}, ")
+      # f"Mito labels {mito_vol.dtype}")
 
 # we check that the Roi has tissue data is not empty
 countzero = not np.all(em_vol)
 assert countzero, "Raw is empty"
 
-f = zarr.open(f"/media/samia/DATA/mounts/zstore1/catena/data/COMBINED_NEURIPS_SAME_PREID/data_3d/mito_test/hemi_x{x1}-{x2}_y{y1}-{y2}_z{z1}-{z2}.zarr", "a")
+f = zarr.open(
+    f"/media/samia/DATA/mounts/zstore1/catena/data/COMBINED_NEURIPS_SAME_PREID/data_3d/mito_test/manc_x{x1}-{x2}_y{y1}-{y2}_z{z1}-{z2}.zarr",
+    "a")
 # these are somas but we call them neuronids since they are essentially that. Also, helps maintain consistency!
 f["volumes/labels/neuron_ids"] = soma_vol  # potentially uint64
 f["volumes/labels/neuron_ids"].attrs["offset"] = (0, 0, 0)
@@ -182,12 +243,12 @@ f["volumes/raw_clahe"].attrs["offset"] = (0, 0, 0)
 f["volumes/raw_clahe"].attrs["resolution"] = (8, 8, 8)
 # f["volumes/raw_clahe"].attrs["crop_central_coords_xyz"] = (c_x, c_y, c_z)
 
-f["volumes/labels/mito_ids"] = mito_vol  # potentially uint64
-f["volumes/labels/mito_ids"].attrs["offset"] = (0, 0, 0)
-f["volumes/labels/mito_ids"].attrs["resolution"] = (8, 8, 8)
-# f["volumes/labels/mito_ids"].attrs["crop_central_coords_xyz"] = (c_x, c_y, c_z)
-
-f["volumes/labels/mito_grp_ids"] = mito_grp_vol  # potentially uint64
-f["volumes/labels/mito_grp_ids"].attrs["offset"] = (0, 0, 0)
-f["volumes/labels/mito_grp_ids"].attrs["resolution"] = (8, 8, 8)
+# f["volumes/labels/mito_ids"] = mito_vol  # potentially uint64
+# f["volumes/labels/mito_ids"].attrs["offset"] = (0, 0, 0)
+# f["volumes/labels/mito_ids"].attrs["resolution"] = (8, 8, 8)
+# # f["volumes/labels/mito_ids"].attrs["crop_central_coords_xyz"] = (c_x, c_y, c_z)
+#
+# f["volumes/labels/mito_grp_ids"] = mito_grp_vol  # potentially uint64
+# f["volumes/labels/mito_grp_ids"].attrs["offset"] = (0, 0, 0)
+# f["volumes/labels/mito_grp_ids"].attrs["resolution"] = (8, 8, 8)
 # f["volumes/labels/mito_grp_ids"].attrs["crop_central_coords_xyz"] = (c_x, c_y, c_z)

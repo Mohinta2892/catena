@@ -1,0 +1,294 @@
+INFO:root:worker 8 started...
+INFO:root:Running block with config daisy_logs/octo-AL-crop-Albrt_pred_affs/config_8.yaml...
+wandb: Currently logged in as: sm2667 (iconnect). Use `wandb login --relogin` to force relogin
+Process Process-2:
+Process Process-8:
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/multiprocessing/process.py", line 315, in _bootstrap
+    self.run()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/daisy_request_blocks.py", line 121, in __get_chunks
+    self.get_upstream_provider().request_batch(chunk_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 167, in provide
+    batch = self.get_upstream_provider().request_batch(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 167, in provide
+    batch = self.get_upstream_provider().request_batch(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 167, in provide
+    batch = self.get_upstream_provider().request_batch(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 167, in provide
+    batch = self.get_upstream_provider().request_batch(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/multiprocessing/process.py", line 315, in _bootstrap
+    self.run()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 179, in provide
+    processed_batch = self.process(node_batch, downstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 127, in process
+    self.batch_in_lock.acquire()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/daisy_request_blocks.py", line 121, in __get_chunks
+    self.get_upstream_provider().request_batch(chunk_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+KeyboardInterrupt
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 167, in provide
+    batch = self.get_upstream_provider().request_batch(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 167, in provide
+    batch = self.get_upstream_provider().request_batch(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 167, in provide
+    batch = self.get_upstream_provider().request_batch(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 167, in provide
+    batch = self.get_upstream_provider().request_batch(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 179, in provide
+    processed_batch = self.process(node_batch, downstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 127, in process
+    self.batch_in_lock.acquire()
+KeyboardInterrupt
+Process Process-11:
+Process Process-6:
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/multiprocessing/process.py", line 315, in _bootstrap
+    self.run()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/daisy_request_blocks.py", line 121, in __get_chunks
+    self.get_upstream_provider().request_batch(chunk_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 167, in provide
+    batch = self.get_upstream_provider().request_batch(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 167, in provide
+    batch = self.get_upstream_provider().request_batch(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 167, in provide
+    batch = self.get_upstream_provider().request_batch(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 167, in provide
+    batch = self.get_upstream_provider().request_batch(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 179, in provide
+    processed_batch = self.process(node_batch, downstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 127, in process
+    self.batch_in_lock.acquire()
+KeyboardInterrupt
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/multiprocessing/process.py", line 315, in _bootstrap
+    self.run()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/daisy_request_blocks.py", line 121, in __get_chunks
+    self.get_upstream_provider().request_batch(chunk_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 167, in provide
+    batch = self.get_upstream_provider().request_batch(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 167, in provide
+    batch = self.get_upstream_provider().request_batch(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 167, in provide
+    batch = self.get_upstream_provider().request_batch(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 167, in provide
+    batch = self.get_upstream_provider().request_batch(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 179, in provide
+    processed_batch = self.process(node_batch, downstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 127, in process
+    self.batch_in_lock.acquire()
+KeyboardInterrupt
+Process Process-7:
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/multiprocessing/process.py", line 315, in _bootstrap
+    self.run()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/daisy_request_blocks.py", line 121, in __get_chunks
+    self.get_upstream_provider().request_batch(chunk_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 167, in provide
+    batch = self.get_upstream_provider().request_batch(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 167, in provide
+    batch = self.get_upstream_provider().request_batch(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 167, in provide
+    batch = self.get_upstream_provider().request_batch(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 167, in provide
+    batch = self.get_upstream_provider().request_batch(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 179, in provide
+    processed_batch = self.process(node_batch, downstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 142, in process
+    out = self.worker.get()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 68, in get
+    item = self.__result_queue.get(timeout=timeout)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/multiprocessing/queues.py", line 107, in get
+    if not self._poll(timeout):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/multiprocessing/connection.py", line 257, in poll
+    return self._poll(timeout)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/multiprocessing/connection.py", line 424, in _poll
+    r = wait([self], timeout)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/multiprocessing/connection.py", line 931, in wait
+    ready = selector.select(timeout)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/selectors.py", line 415, in select
+    fd_event_list = self._selector.poll(timeout)
+KeyboardInterrupt
+Process Process-10:
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/multiprocessing/process.py", line 315, in _bootstrap
+    self.run()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/daisy_request_blocks.py", line 121, in __get_chunks
+    self.get_upstream_provider().request_batch(chunk_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 167, in provide
+    batch = self.get_upstream_provider().request_batch(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 167, in provide
+    batch = self.get_upstream_provider().request_batch(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 167, in provide
+    batch = self.get_upstream_provider().request_batch(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 167, in provide
+    batch = self.get_upstream_provider().request_batch(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 179, in provide
+    processed_batch = self.process(node_batch, downstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 127, in process
+    self.batch_in_lock.acquire()
+KeyboardInterrupt
+Process Process-9:
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/multiprocessing/process.py", line 315, in _bootstrap
+    self.run()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/daisy_request_blocks.py", line 121, in __get_chunks
+    self.get_upstream_provider().request_batch(chunk_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 167, in provide
+    batch = self.get_upstream_provider().request_batch(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 167, in provide
+    batch = self.get_upstream_provider().request_batch(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 167, in provide
+    batch = self.get_upstream_provider().request_batch(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 167, in provide
+    batch = self.get_upstream_provider().request_batch(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 179, in provide
+    processed_batch = self.process(node_batch, downstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 127, in process
+    self.batch_in_lock.acquire()
+KeyboardInterrupt
+Process Process-5:
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/multiprocessing/process.py", line 315, in _bootstrap
+    self.run()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/daisy_request_blocks.py", line 121, in __get_chunks
+    self.get_upstream_provider().request_batch(chunk_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 167, in provide
+    batch = self.get_upstream_provider().request_batch(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 167, in provide
+    batch = self.get_upstream_provider().request_batch(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 167, in provide
+    batch = self.get_upstream_provider().request_batch(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 167, in provide
+    batch = self.get_upstream_provider().request_batch(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 179, in provide
+    processed_batch = self.process(node_batch, downstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 127, in process
+    self.batch_in_lock.acquire()
+KeyboardInterrupt
+Process Process-3:
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/multiprocessing/process.py", line 315, in _bootstrap
+    self.run()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/daisy_request_blocks.py", line 121, in __get_chunks
+    self.get_upstream_provider().request_batch(chunk_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 167, in provide
+    batch = self.get_upstream_provider().request_batch(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 167, in provide
+    batch = self.get_upstream_provider().request_batch(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 167, in provide
+    batch = self.get_upstream_provider().request_batch(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 167, in provide
+    batch = self.get_upstream_provider().request_batch(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 179, in provide
+    processed_batch = self.process(node_batch, downstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 127, in process
+    self.batch_in_lock.acquire()
+KeyboardInterrupt

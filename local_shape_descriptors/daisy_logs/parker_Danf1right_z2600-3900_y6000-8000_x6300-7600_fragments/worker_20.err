@@ -1,0 +1,920 @@
+INFO:root:worker 20 started...
+INFO:root:epsilon_agglomerate: 0.5
+INFO:root:mask_file: None
+INFO:root:mask_dataset: None
+INFO:root:filter_fragments: 0.0
+INFO:root:Running block with config daisy_logs/parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/config_20.yaml...
+INFO:root:Reading affs from /media/samia/DATA/ark/lsd_outputs/MTLSD/3d/run-aclsd-together/model_checkpoint_300000/parker_Danf1right_z2600-3900_y6000-8000_x6300-7600.zarr
+INFO:root:Reading fragments from /media/samia/DATA/ark/lsd_outputs/MTLSD/3d/run-aclsd-together/model_checkpoint_300000/parker_Danf1right_z2600-3900_y6000-8000_x6300-7600.zarr
+INFO:root:Opening RAG DB...
+INFO:root:RAG DB opened
+INFO:root:block read roi begin: (992, 1856, 992)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (1488, 2352, 1488)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/scipy/ndimage/_measurements.py:1534: RuntimeWarning: invalid value encountered in divide
+  results = [sum(input * grids[dir].astype(float), labels, index) / normalizer
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/2 with read ROI [992:2848, 1856:3712, 992:2848] (1856, 1856, 1856) and write ROI [1488:2352, 2352:3216, 1488:2352] (864, 864, 864)
+INFO:root:block read roi begin: (992, 2720, 992)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (1488, 3216, 1488)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/7 with read ROI [992:2848, 2720:4576, 992:2848] (1856, 1856, 1856) and write ROI [1488:2352, 3216:4080, 1488:2352] (864, 864, 864)
+INFO:root:block read roi begin: (992, 3584, 1856)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (1488, 4080, 2352)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/26 with read ROI [992:2848, 3584:5440, 1856:3712] (1856, 1856, 1856) and write ROI [1488:2352, 4080:4944, 2352:3216] (864, 864, 864)
+INFO:root:block read roi begin: (992, 4448, 3584)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (1488, 4944, 4080)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/94 with read ROI [992:2848, 4448:6304, 3584:5440] (1856, 1856, 1856) and write ROI [1488:2352, 4944:5808, 4080:4944] (864, 864, 864)
+INFO:root:block read roi begin: (992, 5312, 4448)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (1488, 5808, 4944)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/180 with read ROI [992:2848, 5312:7168, 4448:6304] (1856, 1856, 1856) and write ROI [1488:2352, 5808:6672, 4944:5808] (864, 864, 864)
+INFO:root:block read roi begin: (992, 6176, 1856)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (1488, 6672, 2352)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/105 with read ROI [992:2848, 6176:8032, 1856:3712] (1856, 1856, 1856) and write ROI [1488:2352, 6672:7536, 2352:3216] (864, 864, 864)
+INFO:root:block read roi begin: (992, 7040, 3584)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (1488, 7536, 4080)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/248 with read ROI [992:2848, 7040:8896, 3584:5440] (1856, 1856, 1856) and write ROI [1488:2352, 7536:8400, 4080:4944] (864, 864, 864)
+INFO:root:block read roi begin: (992, 7904, 4448)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (1488, 8400, 4944)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/400 with read ROI [992:2848, 7904:9760, 4448:6304] (1856, 1856, 1856) and write ROI [1488:2352, 8400:9264, 4944:5808] (864, 864, 864)
+INFO:root:block read roi begin: (992, 8768, 5312)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (1488, 9264, 5808)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/605 with read ROI [992:2848, 8768:10624, 5312:7168] (1856, 1856, 1856) and write ROI [1488:2352, 9264:10128, 5808:6672] (864, 864, 864)
+INFO:root:block read roi begin: (992, 9632, 6176)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (1488, 10128, 6672)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/871 with read ROI [992:2848, 9632:11488, 6176:8032] (1856, 1856, 1856) and write ROI [1488:2352, 10128:10992, 6672:7536] (864, 864, 864)
+INFO:root:block read roi begin: (992, 10496, 7040)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (1488, 10992, 7536)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/1206 with read ROI [992:2848, 10496:12352, 7040:8896] (1856, 1856, 1856) and write ROI [1488:2352, 10992:11856, 7536:8400] (864, 864, 864)
+INFO:root:block read roi begin: (992, 11360, 7040)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (1488, 11856, 7536)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/1408 with read ROI [992:2848, 11360:13216, 7040:8896] (1856, 1856, 1856) and write ROI [1488:2352, 11856:12720, 7536:8400] (864, 864, 864)
+INFO:root:block read roi begin: (992, 13088, 992)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (1488, 13584, 1488)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/665 with read ROI [992:2848, 13088:14944, 992:2848] (1856, 1856, 1856) and write ROI [1488:2352, 13584:14448, 1488:2352] (864, 864, 864)
+INFO:root:block read roi begin: (992, 13952, 1856)
+INFO:root:block read roi shape: (1856, 1056, 1856)
+INFO:root:block write roi begin: (1488, 14448, 2352)
+INFO:root:block write roi shape: (864, 64, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/936 with read ROI [992:2848, 13952:15008, 1856:3712] (1856, 1056, 1856) and write ROI [1488:2352, 14448:14512, 2352:3216] (864, 64, 864)
+INFO:root:block read roi begin: (1856, 992, 992)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (2352, 1488, 1488)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/3 with read ROI [1856:3712, 992:2848, 992:2848] (1856, 1856, 1856) and write ROI [2352:3216, 1488:2352, 1488:2352] (864, 864, 864)
+INFO:root:block read roi begin: (1856, 1856, 1856)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (2352, 2352, 2352)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/14 with read ROI [1856:3712, 1856:3712, 1856:3712] (1856, 1856, 1856) and write ROI [2352:3216, 2352:3216, 2352:3216] (864, 864, 864)
+INFO:root:block read roi begin: (1856, 2720, 2720)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (2352, 3216, 3216)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/42 with read ROI [1856:3712, 2720:4576, 2720:4576] (1856, 1856, 1856) and write ROI [2352:3216, 3216:4080, 3216:4080] (864, 864, 864)
+INFO:root:block read roi begin: (1856, 3584, 3584)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (2352, 4080, 4080)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/95 with read ROI [1856:3712, 3584:5440, 3584:5440] (1856, 1856, 1856) and write ROI [2352:3216, 4080:4944, 4080:4944] (864, 864, 864)
+INFO:root:block read roi begin: (1856, 4448, 3584)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (2352, 4944, 4080)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+ERROR:daisy.client:Block parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/136 with read ROI [1856:3712, 4448:6304, 3584:5440] (1856, 1856, 1856) and write ROI [2352:3216, 4944:5808, 4080:4944] (864, 864, 864) failed in worker 20
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/daisy/client.py", line 85, in acquire_block
+    yield block
+  File "./engine/post/extract_fragments_worker.py", line 86, in extract_fragments_worker
+    watershed_in_block(
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/engine/post/parallel_fragments.py", line 319, in watershed_in_block
+    fragments_out[block.write_roi] = fragments
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/persistence/arrays/array.py", line 207, in __setitem__
+    target[target_slices] = source[source_slices]
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 1391, in __setitem__
+    self.set_basic_selection(pure_selection, value, fields=fields)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 1486, in set_basic_selection
+    return self._set_basic_selection_nd(selection, value, fields=fields)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 1790, in _set_basic_selection_nd
+    self._set_selection(indexer, value, fields=fields)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 1842, in _set_selection
+    self._chunk_setitem(chunk_coords, chunk_selection, chunk_value, fields=fields)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 2137, in _chunk_setitem
+    self._chunk_setitem_nosync(chunk_coords, chunk_selection, value,
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 2142, in _chunk_setitem_nosync
+    cdata = self._process_for_setitem(ckey, chunk_selection, value, fields=fields)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 2176, in _process_for_setitem
+    cdata = self.chunk_store[ckey]
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/storage.py", line 1085, in __getitem__
+    return self._fromfile(filepath)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/storage.py", line 1059, in _fromfile
+    with open(fn, 'rb') as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/media/samia/DATA/ark/lsd_outputs/MTLSD/3d/run-aclsd-together/model_checkpoint_300000/parker_Danf1right_z2600-3900_y6000-8000_x6300-7600.zarr/volumes/segmentation_05/2.6.5'
+INFO:root:block read roi begin: (1856, 5312, 4448)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (2352, 5808, 4944)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/242 with read ROI [1856:3712, 5312:7168, 4448:6304] (1856, 1856, 1856) and write ROI [2352:3216, 5808:6672, 4944:5808] (864, 864, 864)
+INFO:root:block read roi begin: (1856, 6176, 5312)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (2352, 6672, 5808)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/393 with read ROI [1856:3712, 6176:8032, 5312:7168] (1856, 1856, 1856) and write ROI [2352:3216, 6672:7536, 5808:6672] (864, 864, 864)
+INFO:root:block read roi begin: (1856, 7040, 7040)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (2352, 7536, 7536)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/717 with read ROI [1856:3712, 7040:8896, 7040:8896] (1856, 1856, 1856) and write ROI [2352:3216, 7536:8400, 7536:8400] (864, 864, 864)
+INFO:root:block read roi begin: (1856, 8768, 992)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (2352, 9264, 1488)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/276 with read ROI [1856:3712, 8768:10624, 992:2848] (1856, 1856, 1856) and write ROI [2352:3216, 9264:10128, 1488:2352] (864, 864, 864)
+INFO:root:block read roi begin: (1856, 9632, 1856)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (2352, 10128, 2352)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/431 with read ROI [1856:3712, 9632:11488, 1856:3712] (1856, 1856, 1856) and write ROI [2352:3216, 10128:10992, 2352:3216] (864, 864, 864)
+INFO:root:block read roi begin: (1856, 10496, 1856)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (2352, 10992, 2352)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/534 with read ROI [1856:3712, 10496:12352, 1856:3712] (1856, 1856, 1856) and write ROI [2352:3216, 10992:11856, 2352:3216] (864, 864, 864)
+INFO:root:block read roi begin: (1856, 11360, 2720)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (2352, 11856, 3216)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/772 with read ROI [1856:3712, 11360:13216, 2720:4576] (1856, 1856, 1856) and write ROI [2352:3216, 11856:12720, 3216:4080] (864, 864, 864)
+INFO:root:block read roi begin: (1856, 12224, 3584)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (2352, 12720, 4080)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/1075 with read ROI [1856:3712, 12224:14080, 3584:5440] (1856, 1856, 1856) and write ROI [2352:3216, 12720:13584, 4080:4944] (864, 864, 864)
+INFO:root:block read roi begin: (1856, 13088, 4448)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (2352, 13584, 4944)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/1451 with read ROI [1856:3712, 13088:14944, 4448:6304] (1856, 1856, 1856) and write ROI [2352:3216, 13584:14448, 4944:5808] (864, 864, 864)
+INFO:root:block read roi begin: (1856, 13952, 5312)
+INFO:root:block read roi shape: (1856, 1056, 1856)
+INFO:root:block write roi begin: (2352, 14448, 5808)
+INFO:root:block write roi shape: (864, 64, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/1908 with read ROI [1856:3712, 13952:15008, 5312:7168] (1856, 1056, 1856) and write ROI [2352:3216, 14448:14512, 5808:6672] (864, 64, 864)
+INFO:root:block read roi begin: (2720, 992, 6176)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (3216, 1488, 6672)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/125 with read ROI [2720:4576, 992:2848, 6176:8032] (1856, 1856, 1856) and write ROI [3216:4080, 1488:2352, 6672:7536] (864, 864, 864)
+INFO:root:block read roi begin: (2720, 1856, 7040)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (3216, 2352, 7536)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+ERROR:daisy.client:Block parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/228 with read ROI [2720:4576, 1856:3712, 7040:8896] (1856, 1856, 1856) and write ROI [3216:4080, 2352:3216, 7536:8400] (864, 864, 864) failed in worker 20
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/daisy/client.py", line 85, in acquire_block
+    yield block
+  File "./engine/post/extract_fragments_worker.py", line 86, in extract_fragments_worker
+    watershed_in_block(
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/engine/post/parallel_fragments.py", line 319, in watershed_in_block
+    fragments_out[block.write_roi] = fragments
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/persistence/arrays/array.py", line 207, in __setitem__
+    target[target_slices] = source[source_slices]
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 1391, in __setitem__
+    self.set_basic_selection(pure_selection, value, fields=fields)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 1486, in set_basic_selection
+    return self._set_basic_selection_nd(selection, value, fields=fields)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 1790, in _set_basic_selection_nd
+    self._set_selection(indexer, value, fields=fields)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 1842, in _set_selection
+    self._chunk_setitem(chunk_coords, chunk_selection, chunk_value, fields=fields)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 2137, in _chunk_setitem
+    self._chunk_setitem_nosync(chunk_coords, chunk_selection, value,
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 2142, in _chunk_setitem_nosync
+    cdata = self._process_for_setitem(ckey, chunk_selection, value, fields=fields)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 2176, in _process_for_setitem
+    cdata = self.chunk_store[ckey]
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/storage.py", line 1085, in __getitem__
+    return self._fromfile(filepath)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/storage.py", line 1059, in _fromfile
+    with open(fn, 'rb') as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/media/samia/DATA/ark/lsd_outputs/MTLSD/3d/run-aclsd-together/model_checkpoint_300000/parker_Danf1right_z2600-3900_y6000-8000_x6300-7600.zarr/volumes/segmentation_05/3.2.9'
+INFO:root:block read roi begin: (2720, 2720, 7904)
+INFO:root:block read roi shape: (1856, 1856, 1504)
+INFO:root:block write roi begin: (3216, 3216, 8400)
+INFO:root:block write roi shape: (864, 864, 512)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/376 with read ROI [2720:4576, 2720:4576, 7904:9408] (1856, 1856, 1504) and write ROI [3216:4080, 3216:4080, 8400:8912] (864, 864, 512)
+INFO:root:block read roi begin: (2720, 3584, 7904)
+INFO:root:block read roi shape: (1856, 1856, 1504)
+INFO:root:block write roi begin: (3216, 4080, 8400)
+INFO:root:block write roi shape: (864, 864, 512)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/472 with read ROI [2720:4576, 3584:5440, 7904:9408] (1856, 1856, 1504) and write ROI [3216:4080, 4080:4944, 8400:8912] (864, 864, 512)
+INFO:root:block read roi begin: (2720, 4448, 7904)
+INFO:root:block read roi shape: (1856, 1856, 1504)
+INFO:root:block write roi begin: (3216, 4944, 8400)
+INFO:root:block write roi shape: (864, 864, 512)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/583 with read ROI [2720:4576, 4448:6304, 7904:9408] (1856, 1856, 1504) and write ROI [3216:4080, 4944:5808, 8400:8912] (864, 864, 512)
+INFO:root:block read roi begin: (2720, 6176, 992)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (3216, 6672, 1488)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/158 with read ROI [2720:4576, 6176:8032, 992:2848] (1856, 1856, 1856) and write ROI [3216:4080, 6672:7536, 1488:2352] (864, 864, 864)
+INFO:root:block read roi begin: (2720, 7040, 1856)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (3216, 7536, 2352)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/267 with read ROI [2720:4576, 7040:8896, 1856:3712] (1856, 1856, 1856) and write ROI [3216:4080, 7536:8400, 2352:3216] (864, 864, 864)
+INFO:root:block read roi begin: (2720, 7904, 1856)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (3216, 8400, 2352)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/343 with read ROI [2720:4576, 7904:9760, 1856:3712] (1856, 1856, 1856) and write ROI [3216:4080, 8400:9264, 2352:3216] (864, 864, 864)
+INFO:root:block read roi begin: (2720, 8768, 2720)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (3216, 9264, 3216)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/523 with read ROI [2720:4576, 8768:10624, 2720:4576] (1856, 1856, 1856) and write ROI [3216:4080, 9264:10128, 3216:4080] (864, 864, 864)
+INFO:root:block read roi begin: (2720, 9632, 4448)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (3216, 10128, 4944)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/896 with read ROI [2720:4576, 9632:11488, 4448:6304] (1856, 1856, 1856) and write ROI [3216:4080, 10128:10992, 4944:5808] (864, 864, 864)
+INFO:root:block read roi begin: (2720, 10496, 5312)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (3216, 10992, 5808)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/1233 with read ROI [2720:4576, 10496:12352, 5312:7168] (1856, 1856, 1856) and write ROI [3216:4080, 10992:11856, 5808:6672] (864, 864, 864)
+INFO:root:block read roi begin: (2720, 11360, 7904)
+INFO:root:block read roi shape: (1856, 1856, 1504)
+INFO:root:block write roi begin: (3216, 11856, 8400)
+INFO:root:block write roi shape: (864, 864, 512)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/2131 with read ROI [2720:4576, 11360:13216, 7904:9408] (1856, 1856, 1504) and write ROI [3216:4080, 11856:12720, 8400:8912] (864, 864, 512)
+INFO:root:block read roi begin: (2720, 12224, 6176)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (3216, 12720, 6672)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/1893 with read ROI [2720:4576, 12224:14080, 6176:8032] (1856, 1856, 1856) and write ROI [3216:4080, 12720:13584, 6672:7536] (864, 864, 864)
+INFO:root:block read roi begin: (2720, 13088, 7040)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (3216, 13584, 7536)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/2438 with read ROI [2720:4576, 13088:14944, 7040:8896] (1856, 1856, 1856) and write ROI [3216:4080, 13584:14448, 7536:8400] (864, 864, 864)
+INFO:root:block read roi begin: (3584, 992, 992)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (4080, 1488, 1488)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/19 with read ROI [3584:5440, 992:2848, 992:2848] (1856, 1856, 1856) and write ROI [4080:4944, 1488:2352, 1488:2352] (864, 864, 864)
+INFO:root:block read roi begin: (3584, 1856, 1856)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (4080, 2352, 2352)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/48 with read ROI [3584:5440, 1856:3712, 1856:3712] (1856, 1856, 1856) and write ROI [4080:4944, 2352:3216, 2352:3216] (864, 864, 864)
+INFO:root:block read roi begin: (3584, 2720, 2720)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (4080, 3216, 3216)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/102 with read ROI [3584:5440, 2720:4576, 2720:4576] (1856, 1856, 1856) and write ROI [4080:4944, 3216:4080, 3216:4080] (864, 864, 864)
+INFO:root:block read roi begin: (3584, 3584, 3584)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (4080, 4080, 4080)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/189 with read ROI [3584:5440, 3584:5440, 3584:5440] (1856, 1856, 1856) and write ROI [4080:4944, 4080:4944, 4080:4944] (864, 864, 864)
+INFO:root:block read roi begin: (3584, 4448, 4448)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (4080, 4944, 4944)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/317 with read ROI [3584:5440, 4448:6304, 4448:6304] (1856, 1856, 1856) and write ROI [4080:4944, 4944:5808, 4944:5808] (864, 864, 864)
+INFO:root:block read roi begin: (3584, 5312, 6176)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (4080, 5808, 6672)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/599 with read ROI [3584:5440, 5312:7168, 6176:8032] (1856, 1856, 1856) and write ROI [4080:4944, 5808:6672, 6672:7536] (864, 864, 864)
+INFO:root:block read roi begin: (3584, 6176, 6176)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (4080, 6672, 6672)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/728 with read ROI [3584:5440, 6176:8032, 6176:8032] (1856, 1856, 1856) and write ROI [4080:4944, 6672:7536, 6672:7536] (864, 864, 864)
+INFO:root:block read roi begin: (3584, 7904, 992)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (4080, 8400, 1488)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/355 with read ROI [3584:5440, 7904:9760, 992:2848] (1856, 1856, 1856) and write ROI [4080:4944, 8400:9264, 1488:2352] (864, 864, 864)
+INFO:root:block read roi begin: (3584, 8768, 1856)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (4080, 9264, 2352)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/536 with read ROI [3584:5440, 8768:10624, 1856:3712] (1856, 1856, 1856) and write ROI [4080:4944, 9264:10128, 2352:3216] (864, 864, 864)
+INFO:root:block read roi begin: (3584, 9632, 2720)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (4080, 10128, 3216)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/774 with read ROI [3584:5440, 9632:11488, 2720:4576] (1856, 1856, 1856) and write ROI [4080:4944, 10128:10992, 3216:4080] (864, 864, 864)
+INFO:root:block read roi begin: (3584, 10496, 3584)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (4080, 10992, 4080)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/1077 with read ROI [3584:5440, 10496:12352, 3584:5440] (1856, 1856, 1856) and write ROI [4080:4944, 10992:11856, 4080:4944] (864, 864, 864)
+INFO:root:block read roi begin: (3584, 11360, 4448)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (4080, 11856, 4944)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/1453 with read ROI [3584:5440, 11360:13216, 4448:6304] (1856, 1856, 1856) and write ROI [4080:4944, 11856:12720, 4944:5808] (864, 864, 864)
+INFO:root:block read roi begin: (3584, 12224, 5312)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (4080, 12720, 5808)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/1910 with read ROI [3584:5440, 12224:14080, 5312:7168] (1856, 1856, 1856) and write ROI [4080:4944, 12720:13584, 5808:6672] (864, 864, 864)
+INFO:root:block read roi begin: (3584, 13088, 6176)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (4080, 13584, 6672)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+ERROR:daisy.client:Block parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/2456 with read ROI [3584:5440, 13088:14944, 6176:8032] (1856, 1856, 1856) and write ROI [4080:4944, 13584:14448, 6672:7536] (864, 864, 864) failed in worker 20
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/daisy/client.py", line 85, in acquire_block
+    yield block
+  File "./engine/post/extract_fragments_worker.py", line 86, in extract_fragments_worker
+    watershed_in_block(
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/engine/post/parallel_fragments.py", line 319, in watershed_in_block
+    fragments_out[block.write_roi] = fragments
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/persistence/arrays/array.py", line 207, in __setitem__
+    target[target_slices] = source[source_slices]
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 1391, in __setitem__
+    self.set_basic_selection(pure_selection, value, fields=fields)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 1486, in set_basic_selection
+    return self._set_basic_selection_nd(selection, value, fields=fields)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 1790, in _set_basic_selection_nd
+    self._set_selection(indexer, value, fields=fields)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 1842, in _set_selection
+    self._chunk_setitem(chunk_coords, chunk_selection, chunk_value, fields=fields)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 2137, in _chunk_setitem
+    self._chunk_setitem_nosync(chunk_coords, chunk_selection, value,
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 2142, in _chunk_setitem_nosync
+    cdata = self._process_for_setitem(ckey, chunk_selection, value, fields=fields)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 2176, in _process_for_setitem
+    cdata = self.chunk_store[ckey]
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/storage.py", line 1085, in __getitem__
+    return self._fromfile(filepath)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/storage.py", line 1059, in _fromfile
+    with open(fn, 'rb') as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/media/samia/DATA/ark/lsd_outputs/MTLSD/3d/run-aclsd-together/model_checkpoint_300000/parker_Danf1right_z2600-3900_y6000-8000_x6300-7600.zarr/volumes/segmentation_05/5.15.7'
+INFO:root:block read roi begin: (3584, 13952, 7040)
+INFO:root:block read roi shape: (1856, 1056, 1856)
+INFO:root:block write roi begin: (4080, 14448, 7536)
+INFO:root:block write roi shape: (864, 64, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/3099 with read ROI [3584:5440, 13952:15008, 7040:8896] (1856, 1056, 1856) and write ROI [4080:4944, 14448:14512, 7536:8400] (864, 64, 864)
+INFO:root:block read roi begin: (4448, 1856, 992)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (4944, 2352, 1488)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/54 with read ROI [4448:6304, 1856:3712, 992:2848] (1856, 1856, 1856) and write ROI [4944:5808, 2352:3216, 1488:2352] (864, 864, 864)
+INFO:root:block read roi begin: (4448, 2720, 992)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (4944, 3216, 1488)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/81 with read ROI [4448:6304, 2720:4576, 992:2848] (1856, 1856, 1856) and write ROI [4944:5808, 3216:4080, 1488:2352] (864, 864, 864)
+INFO:root:block read roi begin: (4448, 3584, 1856)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (4944, 4080, 2352)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/152 with read ROI [4448:6304, 3584:5440, 1856:3712] (1856, 1856, 1856) and write ROI [4944:5808, 4080:4944, 2352:3216] (864, 864, 864)
+INFO:root:block read roi begin: (4448, 4448, 2720)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (4944, 4944, 3216)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/260 with read ROI [4448:6304, 4448:6304, 2720:4576] (1856, 1856, 1856) and write ROI [4944:5808, 4944:5808, 3216:4080] (864, 864, 864)
+INFO:root:block read roi begin: (4448, 5312, 3584)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (4944, 5808, 4080)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/413 with read ROI [4448:6304, 5312:7168, 3584:5440] (1856, 1856, 1856) and write ROI [4944:5808, 5808:6672, 4080:4944] (864, 864, 864)
+INFO:root:block read roi begin: (4448, 6176, 4448)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (4944, 6672, 4944)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/619 with read ROI [4448:6304, 6176:8032, 4448:6304] (1856, 1856, 1856) and write ROI [4944:5808, 6672:7536, 4944:5808] (864, 864, 864)
+INFO:root:block read roi begin: (4448, 7040, 5312)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (4944, 7536, 5808)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/886 with read ROI [4448:6304, 7040:8896, 5312:7168] (1856, 1856, 1856) and write ROI [4944:5808, 7536:8400, 5808:6672] (864, 864, 864)
+INFO:root:block read roi begin: (4448, 7904, 6176)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (4944, 8400, 6672)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/1222 with read ROI [4448:6304, 7904:9760, 6176:8032] (1856, 1856, 1856) and write ROI [4944:5808, 8400:9264, 6672:7536] (864, 864, 864)
+INFO:root:block read roi begin: (4448, 8768, 7040)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (4944, 9264, 7536)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/1635 with read ROI [4448:6304, 8768:10624, 7040:8896] (1856, 1856, 1856) and write ROI [4944:5808, 9264:10128, 7536:8400] (864, 864, 864)
+INFO:root:block read roi begin: (4448, 9632, 7904)
+INFO:root:block read roi shape: (1856, 1856, 1504)
+INFO:root:block write roi begin: (4944, 10128, 8400)
+INFO:root:block write roi shape: (864, 864, 512)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/2133 with read ROI [4448:6304, 9632:11488, 7904:9408] (1856, 1856, 1504) and write ROI [4944:5808, 10128:10992, 8400:8912] (864, 864, 512)
+INFO:root:block read roi begin: (4448, 10496, 7904)
+INFO:root:block read roi shape: (1856, 1856, 1504)
+INFO:root:block write roi begin: (4944, 10992, 8400)
+INFO:root:block write roi shape: (864, 864, 512)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/2424 with read ROI [4448:6304, 10496:12352, 7904:9408] (1856, 1856, 1504) and write ROI [4944:5808, 10992:11856, 8400:8912] (864, 864, 512)
+INFO:root:block read roi begin: (4448, 11360, 7904)
+INFO:root:block read roi shape: (1856, 1856, 1504)
+INFO:root:block write roi begin: (4944, 11856, 8400)
+INFO:root:block write roi shape: (864, 864, 512)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/2740 with read ROI [4448:6304, 11360:13216, 7904:9408] (1856, 1856, 1504) and write ROI [4944:5808, 11856:12720, 8400:8912] (864, 864, 512)
+INFO:root:block read roi begin: (4448, 12224, 7904)
+INFO:root:block read roi shape: (1856, 1856, 1504)
+INFO:root:block write roi begin: (4944, 12720, 8400)
+INFO:root:block write roi shape: (864, 864, 512)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/3082 with read ROI [4448:6304, 12224:14080, 7904:9408] (1856, 1856, 1504) and write ROI [4944:5808, 12720:13584, 8400:8912] (864, 864, 512)
+INFO:root:block read roi begin: (4448, 13088, 7904)
+INFO:root:block read roi shape: (1856, 1856, 1504)
+INFO:root:block write roi begin: (4944, 13584, 8400)
+INFO:root:block write roi shape: (864, 864, 512)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/3451 with read ROI [4448:6304, 13088:14944, 7904:9408] (1856, 1856, 1504) and write ROI [4944:5808, 13584:14448, 8400:8912] (864, 864, 512)
+INFO:root:block read roi begin: (5312, 992, 1856)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (5808, 1488, 2352)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/76 with read ROI [5312:7168, 992:2848, 1856:3712] (1856, 1856, 1856) and write ROI [5808:6672, 1488:2352, 2352:3216] (864, 864, 864)
+INFO:root:block read roi begin: (5312, 1856, 2720)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (5808, 2352, 3216)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/146 with read ROI [5312:7168, 1856:3712, 2720:4576] (1856, 1856, 1856) and write ROI [5808:6672, 2352:3216, 3216:4080] (864, 864, 864)
+INFO:root:block read roi begin: (5312, 2720, 3584)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (5808, 3216, 4080)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/253 with read ROI [5312:7168, 2720:4576, 3584:5440] (1856, 1856, 1856) and write ROI [5808:6672, 3216:4080, 4080:4944] (864, 864, 864)
+INFO:root:block read roi begin: (5312, 3584, 4448)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (5808, 4080, 4944)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+ERROR:daisy.client:Block parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/405 with read ROI [5312:7168, 3584:5440, 4448:6304] (1856, 1856, 1856) and write ROI [5808:6672, 4080:4944, 4944:5808] (864, 864, 864) failed in worker 20
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/daisy/client.py", line 85, in acquire_block
+    yield block
+  File "./engine/post/extract_fragments_worker.py", line 86, in extract_fragments_worker
+    watershed_in_block(
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/engine/post/parallel_fragments.py", line 319, in watershed_in_block
+    fragments_out[block.write_roi] = fragments
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/persistence/arrays/array.py", line 207, in __setitem__
+    target[target_slices] = source[source_slices]
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 1391, in __setitem__
+    self.set_basic_selection(pure_selection, value, fields=fields)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 1486, in set_basic_selection
+    return self._set_basic_selection_nd(selection, value, fields=fields)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 1790, in _set_basic_selection_nd
+    self._set_selection(indexer, value, fields=fields)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 1842, in _set_selection
+    self._chunk_setitem(chunk_coords, chunk_selection, chunk_value, fields=fields)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 2137, in _chunk_setitem
+    self._chunk_setitem_nosync(chunk_coords, chunk_selection, value,
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 2142, in _chunk_setitem_nosync
+    cdata = self._process_for_setitem(ckey, chunk_selection, value, fields=fields)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 2176, in _process_for_setitem
+    cdata = self.chunk_store[ckey]
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/storage.py", line 1085, in __getitem__
+    return self._fromfile(filepath)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/storage.py", line 1059, in _fromfile
+    with open(fn, 'rb') as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/media/samia/DATA/ark/lsd_outputs/MTLSD/3d/run-aclsd-together/model_checkpoint_300000/parker_Danf1right_z2600-3900_y6000-8000_x6300-7600.zarr/volumes/segmentation_05/6.5.5'
+INFO:root:block read roi begin: (5312, 4448, 4448)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (5808, 4944, 4944)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/505 with read ROI [5312:7168, 4448:6304, 4448:6304] (1856, 1856, 1856) and write ROI [5808:6672, 4944:5808, 4944:5808] (864, 864, 864)
+INFO:root:block read roi begin: (5312, 5312, 6176)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (5808, 5808, 6672)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/876 with read ROI [5312:7168, 5312:7168, 6176:8032] (1856, 1856, 1856) and write ROI [5808:6672, 5808:6672, 6672:7536] (864, 864, 864)
+INFO:root:block read roi begin: (5312, 6176, 7904)
+INFO:root:block read roi shape: (1856, 1856, 1504)
+INFO:root:block write roi begin: (5808, 6672, 8400)
+INFO:root:block write roi shape: (864, 864, 512)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/1401 with read ROI [5312:7168, 6176:8032, 7904:9408] (1856, 1856, 1504) and write ROI [5808:6672, 6672:7536, 8400:8912] (864, 864, 512)
+INFO:root:block read roi begin: (5312, 7040, 7904)
+INFO:root:block read roi shape: (1856, 1856, 1504)
+INFO:root:block write roi begin: (5808, 7536, 8400)
+INFO:root:block write roi shape: (864, 864, 512)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/1623 with read ROI [5312:7168, 7040:8896, 7904:9408] (1856, 1856, 1504) and write ROI [5808:6672, 7536:8400, 8400:8912] (864, 864, 512)
+INFO:root:block read roi begin: (5312, 8768, 1856)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (5808, 9264, 2352)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/790 with read ROI [5312:7168, 8768:10624, 1856:3712] (1856, 1856, 1856) and write ROI [5808:6672, 9264:10128, 2352:3216] (864, 864, 864)
+INFO:root:block read roi begin: (5312, 9632, 3584)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (5808, 10128, 4080)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/1265 with read ROI [5312:7168, 9632:11488, 3584:5440] (1856, 1856, 1856) and write ROI [5808:6672, 10128:10992, 4080:4944] (864, 864, 864)
+INFO:root:block read roi begin: (5312, 10496, 5312)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (5808, 10992, 5808)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+ERROR:daisy.client:Block parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/1912 with read ROI [5312:7168, 10496:12352, 5312:7168] (1856, 1856, 1856) and write ROI [5808:6672, 10992:11856, 5808:6672] (864, 864, 864) failed in worker 20
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/daisy/client.py", line 85, in acquire_block
+    yield block
+  File "./engine/post/extract_fragments_worker.py", line 86, in extract_fragments_worker
+    watershed_in_block(
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/engine/post/parallel_fragments.py", line 319, in watershed_in_block
+    fragments_out[block.write_roi] = fragments
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/funlib/persistence/arrays/array.py", line 207, in __setitem__
+    target[target_slices] = source[source_slices]
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 1391, in __setitem__
+    self.set_basic_selection(pure_selection, value, fields=fields)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 1486, in set_basic_selection
+    return self._set_basic_selection_nd(selection, value, fields=fields)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 1790, in _set_basic_selection_nd
+    self._set_selection(indexer, value, fields=fields)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 1842, in _set_selection
+    self._chunk_setitem(chunk_coords, chunk_selection, chunk_value, fields=fields)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 2137, in _chunk_setitem
+    self._chunk_setitem_nosync(chunk_coords, chunk_selection, value,
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 2142, in _chunk_setitem_nosync
+    cdata = self._process_for_setitem(ckey, chunk_selection, value, fields=fields)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 2176, in _process_for_setitem
+    cdata = self.chunk_store[ckey]
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/storage.py", line 1085, in __getitem__
+    return self._fromfile(filepath)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/storage.py", line 1059, in _fromfile
+    with open(fn, 'rb') as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/media/samia/DATA/ark/lsd_outputs/MTLSD/3d/run-aclsd-together/model_checkpoint_300000/parker_Danf1right_z2600-3900_y6000-8000_x6300-7600.zarr/volumes/segmentation_05/6.12.6'
+INFO:root:block read roi begin: (5312, 11360, 6176)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (5808, 11856, 6672)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/2458 with read ROI [5312:7168, 11360:13216, 6176:8032] (1856, 1856, 1856) and write ROI [5808:6672, 11856:12720, 6672:7536] (864, 864, 864)
+INFO:root:block read roi begin: (5312, 12224, 7040)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (5808, 12720, 7536)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/3101 with read ROI [5312:7168, 12224:14080, 7040:8896] (1856, 1856, 1856) and write ROI [5808:6672, 12720:13584, 7536:8400] (864, 864, 864)
+INFO:root:block read roi begin: (5312, 13952, 992)
+INFO:root:block read roi shape: (1856, 1056, 1856)
+INFO:root:block write roi begin: (5808, 14448, 1488)
+INFO:root:block write roi shape: (864, 64, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/1755 with read ROI [5312:7168, 13952:15008, 992:2848] (1856, 1056, 1856) and write ROI [5808:6672, 14448:14512, 1488:2352] (864, 64, 864)
+INFO:root:block read roi begin: (5312, 13952, 7904)
+INFO:root:block read roi shape: (1856, 1056, 1504)
+INFO:root:block write roi begin: (5808, 14448, 8400)
+INFO:root:block write roi shape: (864, 64, 512)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/4275 with read ROI [5312:7168, 13952:15008, 7904:9408] (1856, 1056, 1504) and write ROI [5808:6672, 14448:14512, 8400:8912] (864, 64, 512)
+INFO:root:block read roi begin: (6176, 1856, 1856)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (6672, 2352, 2352)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/154 with read ROI [6176:8032, 1856:3712, 1856:3712] (1856, 1856, 1856) and write ROI [6672:7536, 2352:3216, 2352:3216] (864, 864, 864)
+INFO:root:block read roi begin: (6176, 2720, 3584)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (6672, 3216, 4080)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/328 with read ROI [6176:8032, 2720:4576, 3584:5440] (1856, 1856, 1856) and write ROI [6672:7536, 3216:4080, 4080:4944] (864, 864, 864)
+INFO:root:block read roi begin: (6176, 3584, 5312)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (6672, 4080, 5808)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/611 with read ROI [6176:8032, 3584:5440, 5312:7168] (1856, 1856, 1856) and write ROI [6672:7536, 4080:4944, 5808:6672] (864, 864, 864)
+INFO:root:block read roi begin: (6176, 4448, 3584)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (6672, 4944, 4080)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/516 with read ROI [6176:8032, 4448:6304, 3584:5440] (1856, 1856, 1856) and write ROI [6672:7536, 4944:5808, 4080:4944] (864, 864, 864)
+INFO:root:block read roi begin: (6176, 5312, 5312)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (6672, 5808, 5808)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/888 with read ROI [6176:8032, 5312:7168, 5312:7168] (1856, 1856, 1856) and write ROI [6672:7536, 5808:6672, 5808:6672] (864, 864, 864)
+INFO:root:block read roi begin: (6176, 6176, 7040)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (6672, 6672, 7536)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/1414 with read ROI [6176:8032, 6176:8032, 7040:8896] (1856, 1856, 1856) and write ROI [6672:7536, 6672:7536, 7536:8400] (864, 864, 864)
+INFO:root:block read roi begin: (6176, 7904, 992)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (6672, 8400, 1488)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/671 with read ROI [6176:8032, 7904:9760, 992:2848] (1856, 1856, 1856) and write ROI [6672:7536, 8400:9264, 1488:2352] (864, 864, 864)
+INFO:root:block read roi begin: (6176, 8768, 2720)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (6672, 9264, 3216)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/1095 with read ROI [6176:8032, 8768:10624, 2720:4576] (1856, 1856, 1856) and write ROI [6672:7536, 9264:10128, 3216:4080] (864, 864, 864)
+INFO:root:block read roi begin: (6176, 9632, 4448)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (6672, 10128, 4944)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/1682 with read ROI [6176:8032, 9632:11488, 4448:6304] (1856, 1856, 1856) and write ROI [6672:7536, 10128:10992, 4944:5808] (864, 864, 864)
+INFO:root:block read roi begin: (6176, 10496, 7040)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (6672, 10992, 7536)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/2759 with read ROI [6176:8032, 10496:12352, 7040:8896] (1856, 1856, 1856) and write ROI [6672:7536, 10992:11856, 7536:8400] (864, 864, 864)
+INFO:root:block read roi begin: (6176, 11360, 7040)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (6672, 11856, 7536)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/3102 with read ROI [6176:8032, 11360:13216, 7040:8896] (1856, 1856, 1856) and write ROI [6672:7536, 11856:12720, 7536:8400] (864, 864, 864)
+INFO:root:block read roi begin: (6176, 13088, 1856)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (6672, 13584, 2352)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/1987 with read ROI [6176:8032, 13088:14944, 1856:3712] (1856, 1856, 1856) and write ROI [6672:7536, 13584:14448, 2352:3216] (864, 864, 864)
+INFO:root:block read roi begin: (6176, 13952, 4448)
+INFO:root:block read roi shape: (1856, 1056, 1856)
+INFO:root:block write roi begin: (6672, 14448, 4944)
+INFO:root:block write roi shape: (864, 64, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/3162 with read ROI [6176:8032, 13952:15008, 4448:6304] (1856, 1056, 1856) and write ROI [6672:7536, 14448:14512, 4944:5808] (864, 64, 864)
+INFO:root:block read roi begin: (7040, 992, 5312)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (7536, 1488, 5808)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/399 with read ROI [7040:8896, 992:2848, 5312:7168] (1856, 1856, 1856) and write ROI [7536:8400, 1488:2352, 5808:6672] (864, 864, 864)
+INFO:root:block read roi begin: (7040, 1856, 7904)
+INFO:root:block read roi shape: (1856, 1856, 1504)
+INFO:root:block write roi begin: (7536, 2352, 8400)
+INFO:root:block write roi shape: (864, 864, 512)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/859 with read ROI [7040:8896, 1856:3712, 7904:9408] (1856, 1856, 1504) and write ROI [7536:8400, 2352:3216, 8400:8912] (864, 864, 512)
+INFO:root:block read roi begin: (7040, 3584, 992)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (7536, 4080, 1488)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/282 with read ROI [7040:8896, 3584:5440, 992:2848] (1856, 1856, 1856) and write ROI [7536:8400, 4080:4944, 1488:2352] (864, 864, 864)
+INFO:root:block read roi begin: (7040, 4448, 2720)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (7536, 4944, 3216)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/528 with read ROI [7040:8896, 4448:6304, 2720:4576] (1856, 1856, 1856) and write ROI [7536:8400, 4944:5808, 3216:4080] (864, 864, 864)
+INFO:root:block read roi begin: (7040, 5312, 4448)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (7536, 5808, 4944)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/901 with read ROI [7040:8896, 5312:7168, 4448:6304] (1856, 1856, 1856) and write ROI [7536:8400, 5808:6672, 4944:5808] (864, 864, 864)
+INFO:root:block read roi begin: (7040, 6176, 6176)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (7536, 6672, 6672)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/1428 with read ROI [7040:8896, 6176:8032, 6176:8032] (1856, 1856, 1856) and write ROI [7536:8400, 6672:7536, 6672:7536] (864, 864, 864)
+INFO:root:block read roi begin: (7040, 7040, 7904)
+INFO:root:block read roi shape: (1856, 1856, 1504)
+INFO:root:block write roi begin: (7536, 7536, 8400)
+INFO:root:block write roi shape: (864, 864, 512)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/2136 with read ROI [7040:8896, 7040:8896, 7904:9408] (1856, 1856, 1504) and write ROI [7536:8400, 7536:8400, 8400:8912] (864, 864, 512)
+INFO:root:block read roi begin: (7040, 7904, 7040)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (7536, 8400, 7536)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/2151 with read ROI [7040:8896, 7904:9760, 7040:8896] (1856, 1856, 1856) and write ROI [7536:8400, 8400:9264, 7536:8400] (864, 864, 864)
+INFO:root:block read roi begin: (7040, 9632, 1856)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (7536, 10128, 2352)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/1300 with read ROI [7040:8896, 9632:11488, 1856:3712] (1856, 1856, 1856) and write ROI [7536:8400, 10128:10992, 2352:3216] (864, 864, 864)
+INFO:root:block read roi begin: (7040, 10496, 4448)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (7536, 10992, 4944)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/2202 with read ROI [7040:8896, 10496:12352, 4448:6304] (1856, 1856, 1856) and write ROI [7536:8400, 10992:11856, 4944:5808] (864, 864, 864)
+INFO:root:block read roi begin: (7040, 11360, 6176)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (7536, 11856, 6672)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/3122 with read ROI [7040:8896, 11360:13216, 6176:8032] (1856, 1856, 1856) and write ROI [7536:8400, 11856:12720, 6672:7536] (864, 864, 864)
+INFO:root:block read roi begin: (7040, 12224, 7904)
+INFO:root:block read roi shape: (1856, 1856, 1504)
+INFO:root:block write roi begin: (7536, 12720, 8400)
+INFO:root:block write roi shape: (864, 864, 512)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/4277 with read ROI [7040:8896, 12224:14080, 7904:9408] (1856, 1856, 1504) and write ROI [7536:8400, 12720:13584, 8400:8912] (864, 864, 512)
+INFO:root:block read roi begin: (7040, 13952, 992)
+INFO:root:block read roi shape: (1856, 1056, 1856)
+INFO:root:block write roi begin: (7536, 14448, 1488)
+INFO:root:block write roi shape: (864, 64, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/2284 with read ROI [7040:8896, 13952:15008, 992:2848] (1856, 1056, 1856) and write ROI [7536:8400, 14448:14512, 1488:2352] (864, 64, 864)
+INFO:root:block read roi begin: (7040, 13952, 7040)
+INFO:root:block read roi shape: (1856, 1056, 1856)
+INFO:root:block write roi begin: (7536, 14448, 7536)
+INFO:root:block write roi shape: (864, 64, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/4755 with read ROI [7040:8896, 13952:15008, 7040:8896] (1856, 1056, 1856) and write ROI [7536:8400, 14448:14512, 7536:8400] (864, 64, 864)
+INFO:root:block read roi begin: (7904, 1856, 1856)
+INFO:root:block read roi shape: (1504, 1856, 1856)
+INFO:root:block write roi begin: (8400, 2352, 2352)
+INFO:root:block write roi shape: (512, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/273 with read ROI [7904:9408, 1856:3712, 1856:3712] (1504, 1856, 1856) and write ROI [8400:8912, 2352:3216, 2352:3216] (512, 864, 864)
+INFO:root:block read roi begin: (7904, 2720, 3584)
+INFO:root:block read roi shape: (1504, 1856, 1856)
+INFO:root:block write roi begin: (8400, 3216, 4080)
+INFO:root:block write roi shape: (512, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/518 with read ROI [7904:9408, 2720:4576, 3584:5440] (1504, 1856, 1856) and write ROI [8400:8912, 3216:4080, 4080:4944] (512, 864, 864)
+INFO:root:block read roi begin: (7904, 3584, 5312)
+INFO:root:block read roi shape: (1504, 1856, 1856)
+INFO:root:block write roi begin: (8400, 4080, 5808)
+INFO:root:block write roi shape: (512, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/890 with read ROI [7904:9408, 3584:5440, 5312:7168] (1504, 1856, 1856) and write ROI [8400:8912, 4080:4944, 5808:6672] (512, 864, 864)
+INFO:root:block read roi begin: (7904, 4448, 7040)
+INFO:root:block read roi shape: (1504, 1856, 1856)
+INFO:root:block write roi begin: (8400, 4944, 7536)
+INFO:root:block write roi shape: (512, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/1416 with read ROI [7904:9408, 4448:6304, 7040:8896] (1504, 1856, 1856) and write ROI [8400:8912, 4944:5808, 7536:8400] (512, 864, 864)
+INFO:root:block read roi begin: (7904, 6176, 992)
+INFO:root:block read roi shape: (1504, 1856, 1856)
+INFO:root:block write roi begin: (8400, 6672, 1488)
+INFO:root:block write roi shape: (512, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/673 with read ROI [7904:9408, 6176:8032, 992:2848] (1504, 1856, 1856) and write ROI [8400:8912, 6672:7536, 1488:2352] (512, 864, 864)
+INFO:root:block read roi begin: (7904, 7040, 2720)
+INFO:root:block read roi shape: (1504, 1856, 1856)
+INFO:root:block write roi begin: (8400, 7536, 3216)
+INFO:root:block write roi shape: (512, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/1097 with read ROI [7904:9408, 7040:8896, 2720:4576] (1504, 1856, 1856) and write ROI [8400:8912, 7536:8400, 3216:4080] (512, 864, 864)
+INFO:root:block read roi begin: (7904, 7904, 5312)
+INFO:root:block read roi shape: (1504, 1856, 1856)
+INFO:root:block write roi begin: (8400, 8400, 5808)
+INFO:root:block write roi shape: (512, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/1915 with read ROI [7904:9408, 7904:9760, 5312:7168] (1504, 1856, 1856) and write ROI [8400:8912, 8400:9264, 5808:6672] (512, 864, 864)
+INFO:root:block read roi begin: (7904, 8768, 7040)
+INFO:root:block read roi shape: (1504, 1856, 1856)
+INFO:root:block write roi begin: (8400, 9264, 7536)
+INFO:root:block write roi shape: (512, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/2761 with read ROI [7904:9408, 8768:10624, 7040:8896] (1504, 1856, 1856) and write ROI [8400:8912, 9264:10128, 7536:8400] (512, 864, 864)
+INFO:root:block read roi begin: (7904, 10496, 1856)
+INFO:root:block read roi shape: (1504, 1856, 1856)
+INFO:root:block write roi begin: (8400, 10992, 2352)
+INFO:root:block write roi shape: (512, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/1738 with read ROI [7904:9408, 10496:12352, 1856:3712] (1504, 1856, 1856) and write ROI [8400:8912, 10992:11856, 2352:3216] (512, 864, 864)
+INFO:root:block read roi begin: (7904, 11360, 3584)
+INFO:root:block read roi shape: (1504, 1856, 1856)
+INFO:root:block write roi begin: (8400, 11856, 4080)
+INFO:root:block write roi shape: (512, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/2518 with read ROI [7904:9408, 11360:13216, 3584:5440] (1504, 1856, 1856) and write ROI [8400:8912, 11856:12720, 4080:4944] (512, 864, 864)
+INFO:root:block read roi begin: (7904, 12224, 5312)
+INFO:root:block read roi shape: (1504, 1856, 1856)
+INFO:root:block write roi begin: (8400, 12720, 5808)
+INFO:root:block write roi shape: (512, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/3515 with read ROI [7904:9408, 12224:14080, 5312:7168] (1504, 1856, 1856) and write ROI [8400:8912, 12720:13584, 5808:6672] (512, 864, 864)
+INFO:root:block read roi begin: (7904, 13088, 7040)
+INFO:root:block read roi shape: (1504, 1856, 1856)
+INFO:root:block write roi begin: (8400, 13584, 7536)
+INFO:root:block write roi shape: (512, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/4756 with read ROI [7904:9408, 13088:14944, 7040:8896] (1504, 1856, 1856) and write ROI [8400:8912, 13584:14448, 7536:8400] (512, 864, 864)
+INFO:root:block read roi begin: (2720, 10496, 6176)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (3216, 10992, 6672)
+INFO:root:block write roi shape: (864, 864, 864)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/1423 with read ROI [2720:4576, 10496:12352, 6176:8032] (1856, 1856, 1856) and write ROI [3216:4080, 10992:11856, 6672:7536] (864, 864, 864)
+INFO:root:block read roi begin: (7904, 13088, 7904)
+INFO:root:block read roi shape: (1504, 1856, 1504)
+INFO:root:block write roi begin: (8400, 13584, 8400)
+INFO:root:block write roi shape: (512, 864, 512)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+INFO:root:releasing block: parker_Danf1right_z2600-3900_y6000-8000_x6300-7600_fragments/5221 with read ROI [7904:9408, 13088:14944, 7904:9408] (1504, 1856, 1504) and write ROI [8400:8912, 13584:14448, 8400:8912] (512, 864, 512)

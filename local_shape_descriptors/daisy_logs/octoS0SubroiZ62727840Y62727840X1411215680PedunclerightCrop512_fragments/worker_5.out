@@ -1,0 +1,14 @@
+Re-using already compiled waterz version
+Preparing segmentation volume...
+counting regions and sizes...
+creating region graph for 2367 nodes
+creating statistics provider
+extracting region graph...
+Region graph number of edges: 15334
+merging until threshold 0.5
+computing initial scores
+merging until 0.5
+min edge score 0.00195312
+threshold exceeded
+merged 651 edges
+extracting segmentation

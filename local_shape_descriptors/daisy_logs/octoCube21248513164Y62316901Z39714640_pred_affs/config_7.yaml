@@ -1,0 +1,400 @@
+DATA:
+  BRAIN_VOL: OCTO_3CUBES_ZYX
+  DATA_DIR_PATH: catena/data
+  DB_COLLECTION_NAME: octoCube21248513164Y62316901Z39714640_MTLSD_predicted_affs
+  DB_HOST: localhost:27017
+  DB_NAME: localhost:27017
+  DIM_2D: false
+  DROP_DS_MONGOTABLE: false
+  FIB: 1
+  HOME: /media/samia/DATA/mounts/zstore1
+  INVERT_PRED_AFFS: false
+  OUTFILE: /media/samia/DATA/mounts/zstore1/lsd_outputs/OCTO_3CUBES_ZYX/MTLSD/3d/clahed_hemi_mito_unproof/model_checkpoint_300000/octo_cube2_12485_13164_y6231_6901_z3971_4640.zarr
+  SAMPLE: /media/samia/DATA/mounts/zstore1/catena/data/OCTO_3CUBES_ZYX/data_3d/test/octo_cube2_12485_13164_y6231_6901_z3971_4640.zarr
+  SAMPLE_NAME: octoCube21248513164Y62316901Z39714640
+  TRAIN_TEST_SPLIT: 1
+INS_SEGMENT:
+  BLOCK_SIZE:
+  - 256
+  - 256
+  - 256
+  CONTEXT:
+  - 24
+  - 24
+  - 24
+  EPSILON_AGGLOMERATE: 0.25
+  FILTER_FRAGMENTS: 0.0
+  FRAGMENTS_IN_XY: false
+  MASK_DATASET: null
+  MASK_FILE: null
+  THRESHOLDS:
+  - 0.65
+MODEL:
+  CKPT_FOLDER: /media/samia/DATA/mounts/zstore1/lsd_checkpoints/MTLSD_3D/checkpoints-3dmtlsd-hemi-onlyori
+  CONTROL_POINT_SPACING: &id010
+  - 40
+  - 40
+  - 40
+  CONTROL_POINT_SPACING_2D: &id011
+  - 40
+  - 40
+  DEFECT_AUGMENT: ''
+  DOWNSAMPLE_FACTORS: &id012
+  - - 2
+    - 2
+    - 2
+  - - 2
+    - 2
+    - 2
+  - - 3
+    - 3
+    - 3
+  DOWNSAMPLE_FACTORS_2D: &id013
+  - - 2
+    - 2
+  - - 2
+    - 2
+  - - 3
+    - 3
+  FMAP_INC_FACTOR: 5
+  GROWBOUNDARY_STEPS: 1
+  GROW_INPUT: &id003
+  - 36
+  - 36
+  - 36
+  GROW_INPUT_2D: &id004
+  - 36
+  - 36
+  INPUT_SHAPE: &id014
+  - 196
+  - 196
+  - 196
+  INPUT_SHAPE_2D: &id015
+  - 196
+  - 196
+  INTENSITYAUG_SCALE_MAX: 1.2
+  INTENSITYAUG_SCALE_MIN: 0.8
+  INTENSITYAUG_SHIFT_MAX: 0.2
+  INTENSITYAUG_SHIFT_MIN: -0.2
+  INTENSITYSCALESHIFT_SCALE: &id016
+  - 2
+  - 0.5
+  INTENSITYSCALESHIFT_SHIFT: &id017
+  - -1
+  - 0.5
+  IN_CHANNELS: 1
+  JITTER_SIGMA: &id018
+  - &id005
+    - 0
+    - 2
+    - 2
+  - - 2
+    - 2
+    - 2
+  JITTER_SIGMA_2D: &id019
+  - - 0
+    - 2
+  - &id006
+    - 2
+    - 2
+  KERNEL_SIZE_DOWN: &id020
+  - - &id001
+      - 3
+      - 3
+      - 3
+    - *id001
+  - - *id001
+    - *id001
+  - - *id001
+    - *id001
+  - - *id001
+    - *id001
+  KERNEL_SIZE_DOWN_2D: &id021
+  - - &id002
+      - 3
+      - 3
+    - *id002
+  - - *id002
+    - *id002
+  - - *id002
+    - *id002
+  - - *id002
+    - *id002
+  KERNEL_SIZE_UP: &id022
+  - - *id001
+    - *id001
+  - - *id001
+    - *id001
+  - - *id001
+    - *id001
+  KERNEL_SIZE_UP_2D: &id023
+  - - *id002
+    - *id002
+  - - *id002
+    - *id002
+  - - *id002
+    - *id002
+  LOG_DIR: /media/samia/DATA/mounts/zstore1/lsd_logs/MTLSD_3D/log-3dmtlsd-hemi-onlyori
+  LSD_DOWNSAMPLE: 2
+  LSD_SIGMA: 80
+  MAX_MISALIGN: &id024
+  - 0
+  - 1
+  NUM_FMAPS: 12
+  NUM_FMAPS_OUT: 12
+  OUTPUT_DIR: /media/samia/DATA/mounts/zstore1/lsd_snapshots/MTLSD_3D/snapshots_3dmtlsd-hemi-onlyori
+  OUTPUT_SHAPE: &id025
+  - 72
+  - 72
+  - 72
+  OUTPUT_SHAPE_2D: &id026
+  - 72
+  - 72
+  PAD_CONV: valid
+  PROB_SHIFT: &id027
+  - 0
+  - 0.1
+  PROB_SLIP: &id028
+  - 0
+  - 0.1
+  ROTATION_INTERVAL: &id029
+  - 0
+  - 1.5707963267948966
+  SUBSAMPLE: 8
+  TRANSPOSE: &id030
+  - 0
+  - 1
+  - 2
+  TRANSPOSE_2D: &id031
+  - 0
+  - 1
+  VOXEL_SIZE: &id032
+  - 8
+  - 8
+  - 8
+  VOXEL_SIZE_2D: &id033
+  - 12
+  - 12
+MODEL_ANISO:
+  CKPT_FOLDER: /media/samia/DATA/mounts/zstore1/lsd_checkpoints/MTLSD_3D/checkpoints_3dmtlsd-cremi-cropped-z30-170
+  CONTROL_POINT_SPACING:
+  - 4
+  - 4
+  - 10
+  CONTROL_POINT_SPACING_2D: &id009
+  - 4
+  - 4
+  DEFECT_AUGMENT: ''
+  DOWNSAMPLE_FACTORS:
+  - - 1
+    - 2
+    - 2
+  - - 2
+    - 2
+    - 2
+  - - 3
+    - 3
+    - 3
+  DOWNSAMPLE_FACTORS_2D:
+  - - 1
+    - 2
+  - - 2
+    - 2
+  - - 3
+    - 3
+  FMAP_INC_FACTOR: 5
+  GROWBOUNDARY_STEPS: 1
+  GROW_INPUT: *id003
+  GROW_INPUT_2D: *id004
+  INPUT_SHAPE:
+  - 120
+  - 208
+  - 208
+  INPUT_SHAPE_2D:
+  - 268
+  - 268
+  INTENSITYAUG_SCALE_MAX: 1.2
+  INTENSITYAUG_SCALE_MIN: 0.8
+  INTENSITYAUG_SHIFT_MAX: 0.2
+  INTENSITYAUG_SHIFT_MIN: -0.2
+  INTENSITYSCALESHIFT_SCALE:
+  - 2
+  - 0.5
+  INTENSITYSCALESHIFT_SHIFT:
+  - -1
+  - 0.5
+  IN_CHANNELS: 1
+  JITTER_SIGMA: *id005
+  JITTER_SIGMA_2D: *id006
+  KERNEL_SIZE_DOWN:
+  - - &id007
+      - 1
+      - 3
+      - 3
+    - *id007
+  - - *id001
+    - *id001
+  - - *id001
+    - *id001
+  - - *id001
+    - *id001
+  KERNEL_SIZE_DOWN_2D:
+  - - &id008
+      - 1
+      - 3
+    - *id008
+  - - *id002
+    - *id002
+  - - *id002
+    - *id002
+  - - *id002
+    - *id002
+  KERNEL_SIZE_UP:
+  - - *id001
+    - *id001
+  - - *id001
+    - *id001
+  - - *id001
+    - *id001
+  KERNEL_SIZE_UP_2D:
+  - - *id002
+    - *id002
+  - - *id002
+    - *id002
+  - - *id002
+    - *id002
+  LOG_DIR: /media/samia/DATA/mounts/zstore1/lsd_logs/MTLSD_3D/log-3dmtlsd-cremi-cropped-z30-170
+  LSD_DOWNSAMPLE: 2
+  LSD_SIGMA: 80
+  MAX_MISALIGN: 10
+  NUM_FMAPS: 12
+  NUM_FMAPS_OUT: 12
+  OUTPUT_DIR: /media/samia/DATA/mounts/zstore1/lsd_snapshots/MTLSD_3D/snapshots_3dmtlsd-cremi-cropped-z30-170
+  OUTPUT_SHAPE:
+  - 60
+  - 84
+  - 84
+  OUTPUT_SHAPE_2D:
+  - 144
+  - 144
+  PAD_CONV: valid
+  PROB_SHIFT: 0.5
+  PROB_SLIP: 0.5
+  ROTATION_INTERVAL:
+  - 0
+  - 1.5707963267948966
+  SUBSAMPLE: 8
+  TRANSPOSE:
+  - 1
+  - 2
+  TRANSPOSE_2D:
+  - 0
+  - 1
+  VOXEL_SIZE:
+  - 30
+  - 12
+  - 12
+  VOXEL_SIZE_2D: *id009
+MODEL_ISO:
+  CKPT_FOLDER: /media/samia/DATA/mounts/zstore1/lsd_checkpoints/MTLSD_3D/checkpoints-3dmtlsd-hemi-onlyori
+  CONTROL_POINT_SPACING: *id010
+  CONTROL_POINT_SPACING_2D: *id011
+  DEFECT_AUGMENT: ''
+  DOWNSAMPLE_FACTORS: *id012
+  DOWNSAMPLE_FACTORS_2D: *id013
+  FMAP_INC_FACTOR: 5
+  GROWBOUNDARY_STEPS: 1
+  GROW_INPUT: *id003
+  GROW_INPUT_2D: *id004
+  INPUT_SHAPE: *id014
+  INPUT_SHAPE_2D: *id015
+  INTENSITYAUG_SCALE_MAX: 1.2
+  INTENSITYAUG_SCALE_MIN: 0.8
+  INTENSITYAUG_SHIFT_MAX: 0.2
+  INTENSITYAUG_SHIFT_MIN: -0.2
+  INTENSITYSCALESHIFT_SCALE: *id016
+  INTENSITYSCALESHIFT_SHIFT: *id017
+  IN_CHANNELS: 1
+  JITTER_SIGMA: *id018
+  JITTER_SIGMA_2D: *id019
+  KERNEL_SIZE_DOWN: *id020
+  KERNEL_SIZE_DOWN_2D: *id021
+  KERNEL_SIZE_UP: *id022
+  KERNEL_SIZE_UP_2D: *id023
+  LOG_DIR: /media/samia/DATA/mounts/zstore1/lsd_logs/MTLSD_3D/log-3dmtlsd-hemi-onlyori
+  LSD_DOWNSAMPLE: 2
+  LSD_SIGMA: 80
+  MAX_MISALIGN: *id024
+  NUM_FMAPS: 12
+  NUM_FMAPS_OUT: 12
+  OUTPUT_DIR: /media/samia/DATA/mounts/zstore1/lsd_snapshots/MTLSD_3D/snapshots_3dmtlsd-hemi-onlyori
+  OUTPUT_SHAPE: *id025
+  OUTPUT_SHAPE_2D: *id026
+  PAD_CONV: valid
+  PROB_SHIFT: *id027
+  PROB_SLIP: *id028
+  ROTATION_INTERVAL: *id029
+  SUBSAMPLE: 8
+  TRANSPOSE: *id030
+  TRANSPOSE_2D: *id031
+  VOXEL_SIZE: *id032
+  VOXEL_SIZE_2D: *id033
+SYSTEM:
+  CACHE_SIZE: 40
+  NUM_GPUS: 1
+  NUM_WORKERS: 3
+  VERBOSE: true
+TRAIN:
+  BATCH_SIZE: 1
+  CHECKPOINT: /media/samia/DATA/ark/lsd_checkpoints/MTLSD_3D/MITO-HEMI/clahed_hemi_mito_unproof/model_checkpoint_300000
+  DEVICE: cuda:0
+  EPOCHS: 400000
+  INITIAL_LR: 5.0e-05
+  LR_BETAS:
+  - 0.95
+  - 0.999
+  LR_NEIGHBORHOOD:
+  - - -1
+    - 0
+    - 0
+  - - 0
+    - -1
+    - 0
+  - - 0
+    - 0
+    - -1
+  - - -3
+    - 0
+    - 0
+  - - 0
+    - -3
+    - 0
+  - - 0
+    - 0
+    - -3
+  - - -9
+    - 0
+    - 0
+  - - 0
+    - -9
+    - 0
+  - - 0
+    - 0
+    - -9
+  MODEL_TYPE: MTLSD
+  NEIGHBORHOOD:
+  - - -1
+    - 0
+    - 0
+  - - 0
+    - -1
+    - 0
+  - - 0
+    - 0
+    - -1
+  NEIGHBORHOOD_2D:
+  - - 0
+    - -1
+  - - -1
+    - 0
+  SAVE_EVERY: 2000

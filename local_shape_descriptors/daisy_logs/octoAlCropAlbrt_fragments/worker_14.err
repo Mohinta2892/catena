@@ -1,0 +1,11 @@
+INFO:root:worker 14 started...
+INFO:root:epsilon_agglomerate: 0.65
+INFO:root:mask_file: None
+INFO:root:mask_dataset: None
+INFO:root:filter_fragments: 0.0
+INFO:root:Running block with config daisy_logs/octoAlCropAlbrt_fragments/config_14.yaml...
+wandb: Currently logged in as: sm2667 (iconnect). Use `wandb login --relogin` to force relogin
+INFO:root:Reading affs from /media/samia/DATA/ark/lsd_outputs/MTLSD/3d/run-aclsd-together/model_checkpoint_300000/octo-AL-crop-Albrt.zarr
+INFO:root:Opening RAG DB...
+INFO:root:RAG DB opened
+INFO:engine.post.parallel_aff_agglomerate:Agglomerating in block [0:2048, 6144:8192, 4096:6144] (2048, 2048, 2048) with context of [-128:2176, 6016:8320, 3968:6272] (2304, 2304, 2304)

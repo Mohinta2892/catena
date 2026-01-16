@@ -1,0 +1,122 @@
+MtlsdModel(
+  (unet): UNet(
+    (l_conv): ModuleList(
+      (0): ConvPass(
+        (conv_pass): Sequential(
+          (0): Conv3d(1, 12, kernel_size=(3, 3, 3), stride=(1, 1, 1))
+          (1): BatchNorm3d(12, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU()
+          (3): Conv3d(12, 12, kernel_size=(3, 3, 3), stride=(1, 1, 1))
+          (4): BatchNorm3d(12, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (5): ReLU()
+        )
+      )
+      (1): ConvPass(
+        (conv_pass): Sequential(
+          (0): Conv3d(12, 60, kernel_size=(3, 3, 3), stride=(1, 1, 1))
+          (1): BatchNorm3d(60, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU()
+          (3): Conv3d(60, 60, kernel_size=(3, 3, 3), stride=(1, 1, 1))
+          (4): BatchNorm3d(60, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (5): ReLU()
+        )
+      )
+      (2): ConvPass(
+        (conv_pass): Sequential(
+          (0): Conv3d(60, 300, kernel_size=(3, 3, 3), stride=(1, 1, 1))
+          (1): BatchNorm3d(300, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU()
+          (3): Conv3d(300, 300, kernel_size=(3, 3, 3), stride=(1, 1, 1))
+          (4): BatchNorm3d(300, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (5): ReLU()
+        )
+      )
+      (3): ConvPass(
+        (conv_pass): Sequential(
+          (0): Conv3d(300, 1500, kernel_size=(3, 3, 3), stride=(1, 1, 1))
+          (1): BatchNorm3d(1500, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU()
+          (3): Conv3d(1500, 1500, kernel_size=(3, 3, 3), stride=(1, 1, 1))
+          (4): BatchNorm3d(1500, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (5): ReLU()
+        )
+      )
+    )
+    (l_down): ModuleList(
+      (0): Downsample(
+        (down): MaxPool3d(kernel_size=[2, 2, 2], stride=[2, 2, 2], padding=0, dilation=1, ceil_mode=False)
+      )
+      (1): Downsample(
+        (down): MaxPool3d(kernel_size=[2, 2, 2], stride=[2, 2, 2], padding=0, dilation=1, ceil_mode=False)
+      )
+      (2): Downsample(
+        (down): MaxPool3d(kernel_size=[3, 3, 3], stride=[3, 3, 3], padding=0, dilation=1, ceil_mode=False)
+      )
+    )
+    (r_up): ModuleList(
+      (0): ModuleList(
+        (0): Upsample(
+          (up): ConvTranspose3d(60, 60, kernel_size=(2, 2, 2), stride=(2, 2, 2))
+        )
+        (1): Upsample(
+          (up): ConvTranspose3d(300, 300, kernel_size=(2, 2, 2), stride=(2, 2, 2))
+        )
+        (2): Upsample(
+          (up): ConvTranspose3d(1500, 1500, kernel_size=(3, 3, 3), stride=(3, 3, 3))
+        )
+      )
+    )
+    (r_conv): ModuleList(
+      (0): ModuleList(
+        (0): ConvPass(
+          (conv_pass): Sequential(
+            (0): Conv3d(72, 12, kernel_size=(3, 3, 3), stride=(1, 1, 1))
+            (1): BatchNorm3d(12, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU()
+            (3): Conv3d(12, 12, kernel_size=(3, 3, 3), stride=(1, 1, 1))
+            (4): BatchNorm3d(12, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (5): ReLU()
+          )
+        )
+        (1): ConvPass(
+          (conv_pass): Sequential(
+            (0): Conv3d(360, 60, kernel_size=(3, 3, 3), stride=(1, 1, 1))
+            (1): BatchNorm3d(60, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU()
+            (3): Conv3d(60, 60, kernel_size=(3, 3, 3), stride=(1, 1, 1))
+            (4): BatchNorm3d(60, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (5): ReLU()
+          )
+        )
+        (2): ConvPass(
+          (conv_pass): Sequential(
+            (0): Conv3d(1800, 300, kernel_size=(3, 3, 3), stride=(1, 1, 1))
+            (1): BatchNorm3d(300, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU()
+            (3): Conv3d(300, 300, kernel_size=(3, 3, 3), stride=(1, 1, 1))
+            (4): BatchNorm3d(300, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (5): ReLU()
+          )
+        )
+      )
+    )
+  )
+  (lsd_head): ConvPass(
+    (conv_pass): Sequential(
+      (0): Conv3d(12, 10, kernel_size=(1, 1, 1), stride=(1, 1, 1))
+      (1): BatchNorm3d(10, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): Sigmoid()
+    )
+  )
+  (aff_head): ConvPass(
+    (conv_pass): Sequential(
+      (0): Conv3d(12, 3, kernel_size=(1, 1, 1), stride=(1, 1, 1))
+      (1): BatchNorm3d(3, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): Sigmoid()
+    )
+  )
+)
+Model Parameters: 155.169M
+MASK_FILE
+Saving outputs to /media/samia/DATA/mounts/cephfs/catena/lsd_outputs/MTLSD/3d/clahed_hemi/model_checkpoint_latest/P667_EM04767_14_ESB_1_crop.zarr
+local variable 'mask' referenced before assignment

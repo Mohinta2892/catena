@@ -97,6 +97,10 @@ def read_zarr(f, mode='r'):
     return zarr.open(f, mode=mode)
 
 
+def read_hdf(f, mode='r'):
+    return h5py.File(f, mode=mode)
+
+
 def calculate_min_2d_samples(in_files: List[Path]):
     ds = "volumes/raw"
     min_slices = 0

@@ -1,9 +1,3 @@
-"""
-This configuration is specific to run training with the publicly available zebrafinch data.
-Remember the data is anisotropic at resolution `40 x 4 x 4` nm in zyx.
-There are two variants of CREMI data: padded and cropped. Please download from here: https://cremi.org/data/
-"""
-
 from yacs.config import CfgNode as CN
 import math
 
@@ -23,7 +17,7 @@ _C.SYSTEM.CACHE_SIZE = 20
 _C.SYSTEM.VERBOSE = True
 
 _C.DATA = CN()
-_C.DATA.HOME = "/net/ark/scratch/smohinta"  # options: /home; /media/samia/DATA/ark; /net/ark/scratch/smohinta" this must be a mounted directory such that logs are written to local
+_C.DATA.HOME = "/media/samia/DATA/ark"  # options: /home; /media/samia/DATA/ark; /net/ark/scratch/smohinta" this must be a mounted directory such that logs are written to local
 _C.DATA.DATA_DIR_PATH = "connexion/data"  # where the code resides and data should too; connexion/data
 _C.DATA.BRAIN_VOL = "CREMI"  # datasets, options: HEMI;OCTO;SEYMOUR;LUCCHI;CREMI; expand this to load multiple datasets
 _C.DATA.TRAIN_TEST_SPLIT = 1  # TODO splits: 1 = all volumes used to train
@@ -36,6 +30,7 @@ _C.DATA.MITO_LABELS = "volumes/labels/mito_ids"
 _C.DATA.RAW = "volumes/raw"
 _C.DATA.NEURON_LABELS_MASK = "volumes/labels/labels_mask"
 _C.DATA.MITO_LABELS_MASK = "volumes/labels/labels_mask_mito"
+
 
 # we currently run this explicitly via `preprocess_data.py`. Todo: integrate to trainer, maybe.
 _C.PREPROCESS = CN()

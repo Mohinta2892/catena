@@ -1,0 +1,88 @@
+INFO:root:worker 0 started...
+INFO:root:Running block with config daisy_logs/test_pred_affs/config_0.yaml...
+wandb: Currently logged in as: sm2667 (iconnect). Use `wandb login --relogin` to force relogin
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/daisy/client.py", line 85, in acquire_block
+    yield block
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/daisy_request_blocks.py", line 121, in __get_chunks
+    self.get_upstream_provider().request_batch(chunk_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 167, in provide
+    batch = self.get_upstream_provider().request_batch(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_filter.py", line 179, in provide
+    processed_batch = self.process(node_batch, downstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/zarr_write.py", line 239, in process
+    dataset[channel_slices + dataset_voxel_slices] = data
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 1391, in __setitem__
+    self.set_basic_selection(pure_selection, value, fields=fields)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 1486, in set_basic_selection
+    return self._set_basic_selection_nd(selection, value, fields=fields)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 1790, in _set_basic_selection_nd
+    self._set_selection(indexer, value, fields=fields)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 1842, in _set_selection
+    self._chunk_setitem(chunk_coords, chunk_selection, chunk_value, fields=fields)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 2137, in _chunk_setitem
+    self._chunk_setitem_nosync(chunk_coords, chunk_selection, value,
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 2148, in _chunk_setitem_nosync
+    self.chunk_store[ckey] = self._encode_chunk(cdata)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/zarr/core.py", line 2275, in _encode_chunk
+    cdata = self._compressor.encode(chunk)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/numcodecs/gzip.py", line 33, in encode
+    compressor.write(buf)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/gzip.py", line 280, in write
+    self.fileobj.write(self.compress.compress(data))
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/daisy_request_blocks.py", line 82, in provide
+    self.__get_chunks()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/daisy_request_blocks.py", line 125, in __get_chunks
+    self.block_done_callback(block, start, end - start)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/contextlib.py", line 131, in __exit__
+    self.gen.throw(type, value, traceback)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/daisy/client.py", line 104, in acquire_block
+    self.release_block(block)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/daisy/client.py", line 114, in release_block
+    self.tcp_client.send_message(ReleaseBlock(block))
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/daisy/tcp/tcp_client.py", line 90, in send_message
+    self._check_for_errors()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/daisy/tcp/tcp_client.py", line 126, in _check_for_errors
+    raise exception
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/daisy/tcp/tcp_client.py", line 151, in _receive
+    message = await self.stream._get_message()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/daisy/tcp/tcp_stream.py", line 104, in _get_message
+    raise StreamClosedError(*self.address)
+daisy.tcp.exceptions.StreamClosedError: ('10.31.32.156', 38793)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/pipeline.py", line 125, in request_batch
+    return self.output.request_batch(request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 198, in request_batch
+    raise BatchRequestError(self, request, batch) from e
+gunpowder.nodes.batch_provider.BatchRequestError: Exception in DaisyRequestBlocks while processing request
+ 
+Batch returned so far:
+None
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "./engine/predict/predict_worker_daisy.py", line 302, in <module>
+  File "./engine/predict/predict_worker_daisy.py", line 281, in predict
+    
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/pipeline.py", line 127, in request_batch
+    raise PipelineRequestError(self, request) from e
+gunpowder.pipeline.PipelineRequestError: Exception in pipeline:
+ZarrSource[/media/samia/DATA/ark/connexion/data/OCTO/data_3d/test/octo-s0-subroi_z14112-15680_y17248-18816_x6272-7840_yhalfresionhalfsoma.zarr] -> ZarrWrite -> Normalize -> IntensityScaleShift -> Unsqueeze -> Stack -> Predict -> Squeeze -> Squeeze -> ZarrWrite -> ZarrWrite -> DaisyRequestBlocks
+while trying to process request
+
+

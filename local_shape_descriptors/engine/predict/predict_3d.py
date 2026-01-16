@@ -14,14 +14,18 @@ from models.models import *
 from models.losses import *
 from add_ons.gp.gp_utils import *
 from add_ons.gp.reject_if_empty import RejectIfEmpty
+# from add_ons.gp.reject_if_empty_array import RejectIfEmptyArray
 from add_ons.funlib_persistence.persistence_utils import *
 import ast
 from tqdm import tqdm
 from glob import glob
-# from config.config_predict import get_cfg_defaults  # import but do not use
+# from config.config_predict import get_cfg_defaults  # import but do no use
 import random
 import torch
-from funlib.persistence import prepare_ds
+from funlib.persistence import prepare_ds, open_ds
+from funlib.persistence import Array as fpArray
+from zarr.n5 import N5FSStore
+from add_ons.gp.batch_zarr_write import ZarrWrite
 
 torch.backends.cudnn.benchmark = True
 
@@ -74,8 +78,14 @@ def predict(cfg):
     module_logger.debug(f"input_size: {input_size}; output_size: {output_size}")
 
     # initialise inference dataset
+    if cfg.DATA.SAMPLE.endswith('.zarr'):
+        store = cfg.DATA.SAMPLE
+    else:
+        store = N5FSStore(cfg.DATA.SAMPLE, mode="r")
+
     data_sources = ZarrSource(
-        cfg.DATA.SAMPLE,
+        # cfg.DATA.SAMPLE,
+        store,
         datasets={
             raw: 'volumes/raw',
             # experimental addition to prevent inference resin/blank input data
@@ -92,6 +102,18 @@ def predict(cfg):
     total_output_roi = raw_roi.grow(-context, -context)
     module_logger.debug(f"Total output ROI {total_output_roi} and context {context}")
 
+    # masking
+    try:
+        if cfg.DATA.MASK_FILE is not None and cfg.DATA.MASK_DS is not None:
+            logging.info(f"Reading mask from {cfg.DATA.MASK_FILE} and {cfg.DATA.MASK_DS}")
+            mask = open_ds(cfg.DATA.MASK_FILE, cfg.DATA.MASK_DS)
+            # this can be huge
+            mask_data = get_mask_data_in_roi(mask=mask, roi=raw_roi, target_voxel_size=voxel_size)
+
+        else:
+            mask = None
+    except Exception as e:
+        print(e)
     # this is scan_request
     request = BatchRequest()
     request.add(raw, input_size)
@@ -139,15 +161,21 @@ def predict(cfg):
                                      voxel_size=voxel_size)
 
         train_pipeline = data_sources
-        # train_pipeline += RejectIfEmpty(gt=labels_mask, p=1)
 
-        train_pipeline += ZarrWrite(
-            dataset_names={
-                raw: out_raw},
-            output_dir=os.path.dirname(cfg.DATA.OUTFILE),
-            output_filename=os.path.basename(cfg.DATA.OUTFILE),
-            dataset_dtypes={
-                raw: ArraySpec(roi=raw_roi)})
+        # if a mask file is provided in config, skip empty blocks
+        try:
+            if mask is not None:
+                train_pipeline += MaskReject(gt=mask_data, p=1)
+        except Exception as e:
+            print(e)
+        # Data Redundancy in saving raw, but good for visualization. Uncomment when data is small.
+        # train_pipeline += ZarrWrite(
+        #     dataset_names={
+        #         raw: out_raw},
+        #     output_dir=os.path.dirname(cfg.DATA.OUTFILE),
+        #     output_filename=os.path.basename(cfg.DATA.OUTFILE),
+        #     dataset_dtypes={
+        #         raw: ArraySpec(roi=raw_roi)})
 
         train_pipeline += Normalize(raw)
 
@@ -155,7 +183,7 @@ def predict(cfg):
                                               cfg.MODEL.INTENSITYSCALESHIFT_SHIFT[0])
 
         train_pipeline += Unsqueeze([raw])
-        train_pipeline += Stack(1)  # remove cfg.TRAIN.BATCH_SIZE
+        train_pipeline += Stack(2)  # cfg.TRAIN.BATCH_SIZE
         # customize the loss inputs and outputs here based on model type
         if cfg.TRAIN.MODEL_TYPE == "MTLSD":
             outputs = {
@@ -224,6 +252,8 @@ def predict(cfg):
                 output_filename=os.path.basename(cfg.DATA.OUTFILE),
                 dataset_dtypes={
                     pred_lsds: ArraySpec(roi=total_output_roi)})
+
+        train_pipeline += PrintProfilingStats(every=1)
 
         train_pipeline += Scan(request)
 

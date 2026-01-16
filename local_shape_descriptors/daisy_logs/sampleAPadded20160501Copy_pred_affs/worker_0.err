@@ -1,0 +1,29 @@
+INFO:root:worker 0 started...
+INFO:root:Running block with config daisy_logs/sampleAPadded20160501Copy_pred_affs/config_0.yaml...
+wandb: Currently logged in as: sm2667 (iconnect). Use `wandb login --relogin` to force relogin
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd_new/lib/python3.8/site-packages/gunpowder/producer_pool.py", line 144, in _run_worker
+    result = target()
+  File "/home/samia/anaconda3/envs/funkelsd_new/lib/python3.8/site-packages/gunpowder/nodes/generic_predict.py", line 201, in __produce_predict_batch
+    self.predict(batch, request)
+  File "/home/samia/anaconda3/envs/funkelsd_new/lib/python3.8/site-packages/gunpowder/torch/nodes/predict_v2.py", line 118, in predict
+    out = self.model.forward(**inputs)
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/models/models.py", line 63, in forward
+    z = self.unet(x)
+  File "/home/samia/anaconda3/envs/funkelsd_new/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd_new/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 554, in forward
+    y = self.rec_forward(self.num_levels - 1, x)
+  File "/home/samia/anaconda3/envs/funkelsd_new/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 536, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd_new/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 536, in rec_forward
+    gs_out = self.rec_forward(level - 1, g_in)
+  File "/home/samia/anaconda3/envs/funkelsd_new/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 539, in rec_forward
+    fs_right = [
+  File "/home/samia/anaconda3/envs/funkelsd_new/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 540, in <listcomp>
+    self.r_up[h][i](f_left, gs_out[h])
+  File "/home/samia/anaconda3/envs/funkelsd_new/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd_new/lib/python3.8/site-packages/funlib/learn/torch/models/unet.py", line 310, in forward
+    return torch.cat([f_cropped, g_cropped], dim=1)
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 1.31 GiB (GPU 0; 23.69 GiB total capacity; 4.51 GiB already allocated; 1.30 GiB free; 7.26 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF

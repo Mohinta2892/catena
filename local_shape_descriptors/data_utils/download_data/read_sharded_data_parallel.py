@@ -15,6 +15,23 @@ from functools import partial
 from tqdm import tqdm
 import time
 
+
+def resolution_tuple(resolution_str):
+    # Custom function to parse a resolution string into a tuple of integers
+
+    try:
+        if isinstance(resolution_str, list) and len(resolution_str) == 1:
+            resolution_str = resolution_str[0]
+        # else:
+        #     raise argparse.ArgumentTypeError(f"Passed arg cannot be parsed, it is like {resolution_str}")
+        parts = resolution_str.split(',')
+        if len(parts) != 3:
+            raise argparse.ArgumentTypeError("Resolution must contain exactly three integers separated by commas.")
+        return tuple(int(part.strip()) for part in parts)
+    except ValueError:
+        raise argparse.ArgumentTypeError("Resolution must contain only integers separated by commas.")
+
+
 def write_to_zarr(outfile, data, resolution, transpose=True, offset=(0, 0, 0), format='zarr', chunks=(64, 64, 64)):
     if format == 'n5':
         store = zarr.N5Store(outfile)
@@ -27,15 +44,16 @@ def write_to_zarr(outfile, data, resolution, transpose=True, offset=(0, 0, 0), f
         data = np.transpose(data, (2, 1, 0))
 
     # Create the dataset with chunking enabled
-    file_.create_dataset("volumes/s0", 
-                        data=data,
-                        chunks=chunks,
-                        overwrite=True)
-    
+    file_.create_dataset("volumes/s0",
+                         data=data,
+                         chunks=chunks,
+                         overwrite=True)
+
     file_["volumes/raw"].attrs["resolution"] = resolution
     file_["volumes/raw"].attrs["offset"] = offset
 
     print(f" Saved here: {outfile}")
+
 
 def write_chunk(chunk_data, chunk_coords, outfile, resolution, transpose=True, offset=(0, 0, 0), format='zarr'):
     if format == 'n5':
@@ -43,13 +61,14 @@ def write_chunk(chunk_data, chunk_coords, outfile, resolution, transpose=True, o
         file_ = zarr.open(store, mode='a')
     else:
         file_ = zarr.open(outfile, mode='a')
-    
+
     if transpose:
         chunk_data = np.transpose(chunk_data, (2, 1, 0))
-    
+
     raw = file_["volumes/s0"]
     raw[chunk_coords] = chunk_data
     return True
+
 
 def read_shards_as_cloudvolume(filename, args, bbox_start=(0, 0, 0), bbox_end=(1024, 1024, 1024), mip=1):
     start_time = time.time()
@@ -67,8 +86,8 @@ def read_shards_as_cloudvolume(filename, args, bbox_start=(0, 0, 0), bbox_end=(1
     # Initialize the output file with metadata
     chunk_size = args.chunk_size if hasattr(args, 'chunk_size') else (64, 64, 64)
     print("Initializing output file...")
-    write_to_zarr(outfile=args.of, 
-                  data=np.zeros_like(data), 
+    write_to_zarr(outfile=args.of,
+                  data=np.zeros_like(data),
                   resolution=resolution_tuple(args.res),
                   transpose=args.trans,
                   offset=resolution_tuple(args.offset),
@@ -88,7 +107,7 @@ def read_shards_as_cloudvolume(filename, args, bbox_start=(0, 0, 0), bbox_end=(1
                 z_end = min(z + chunk_size[0], data.shape[0])
                 y_end = min(y + chunk_size[1], data.shape[1])
                 x_end = min(x + chunk_size[2], data.shape[2])
-                
+
                 chunk_data = data[z:z_end, y:y_end, x:x_end]
                 chunk_coords = (slice(z, z_end), slice(y, y_end), slice(x, x_end))
                 chunks_to_process.append((chunk_data, chunk_coords))
@@ -96,7 +115,7 @@ def read_shards_as_cloudvolume(filename, args, bbox_start=(0, 0, 0), bbox_end=(1
     total_chunks = len(chunks_to_process)
     print(f"\nProcessing {total_chunks} chunks in parallel...")
     print(f"Estimated memory usage: {data.nbytes / 1e9:.2f} GB")
-    
+
     # Process chunks in parallel with progress bar
     write_chunk_partial = partial(
         write_chunk,
@@ -112,7 +131,7 @@ def read_shards_as_cloudvolume(filename, args, bbox_start=(0, 0, 0), bbox_end=(1
         for chunk_data, chunk_coords in chunks_to_process:
             future = executor.submit(write_chunk_partial, chunk_data, chunk_coords)
             futures.append(future)
-        
+
         # Monitor progress
         with tqdm(total=total_chunks, desc="Processing chunks") as pbar:
             completed = 0
@@ -121,29 +140,48 @@ def read_shards_as_cloudvolume(filename, args, bbox_start=(0, 0, 0), bbox_end=(1
                 pbar.update(done - completed)
                 completed = done
                 time.sleep(0.1)
-    
+
     elapsed_time = time.time() - start_time
     print(f"\nProcessing completed in {elapsed_time:.2f} seconds")
-    print(f"Average time per chunk: {elapsed_time/total_chunks:.2f} seconds")
+    print(f"Average time per chunk: {elapsed_time / total_chunks:.2f} seconds")
+
 
 def main():
     parser = argparse.ArgumentParser()
-    # ... existing code ...
-    parser.add_argument('-format', default='zarr', choices=['zarr', 'n5'], 
-                       help="Format to save the data (zarr or n5)")
+    parser.add_argument('-f',
+                        default='/media/samia/DATA/ark/dan-samia/lsd/funke/neptune/google_CLAHED_EM/8x8x8_cropped_clahe',
+                            help="Input the neuroglancer multiscale file")
+    parser.add_argument('-of',
+                        default="/media/samia/DATA/ark/dan-samia/lsd/funke/neptune/zarr/neptune_zyx_32_32_32.zarr",
+                        help="Provide the full path to the output zarr filename")
+    parser.add_argument('-mip', default=0, type=int, help="Pass the scale level you want to save as zarr")
+    parser.add_argument('-trans', default=True, type=bool,
+                        help="Pass True if you want to transpose data from xyz to zyx."
+                             " Original data can be in xyz.")
+    parser.add_argument('-offset', nargs='+', default="0,0,0", help="Pass an offset to the data")
+    parser.add_argument('-res', nargs='+', default="8, 8, 8", help="Pass data resolution as Z,Y,X")
+    parser.add_argument('-bbox_start', nargs='+', default="0,0,0", help="Pass boundary box start like X,Y,Z to the data")
+    parser.add_argument('-bbox_end', nargs='+', default="4416,2912,2848", help="Pass boundary box end like"
+                                                                               " X,Y,Z to the data."
+                                                                               " Check info file in the "
+                                                                               "gcloud dataset to get full "
+                                                                               "dimensions info at every scale")
+    parser.add_argument('-format', default='zarr', choices=['zarr', 'n5'],
+                        help="Format to save the data (zarr or n5)")
     parser.add_argument('-chunk_size', nargs='+', default="64,64,64",
-                       help="Chunk size for parallel processing as Z,Y,X")
-    
+                        help="Chunk size for parallel processing as Z,Y,X")
+
     args = parser.parse_args()
-    
+
     # Convert chunk_size to tuple if provided
     if hasattr(args, 'chunk_size'):
         args.chunk_size = resolution_tuple(args.chunk_size)
 
-    read_shards_as_cloudvolume(args.f, args, 
-                              bbox_start=resolution_tuple(args.bbox_start),
-                              bbox_end=resolution_tuple(args.bbox_end), 
-                              mip=args.mip)
+    read_shards_as_cloudvolume(args.f, args,
+                               bbox_start=resolution_tuple(args.bbox_start),
+                               bbox_end=resolution_tuple(args.bbox_end),
+                               mip=args.mip)
+
 
 if __name__ == '__main__':
     main()

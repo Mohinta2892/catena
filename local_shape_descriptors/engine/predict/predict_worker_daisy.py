@@ -1,5 +1,4 @@
 import datetime
-import logging
 import math
 import numpy as np
 import os
@@ -14,23 +13,29 @@ import yaml
 # add current directory to path and allow absolute imports - this is a terrible for now
 import sys
 from pathlib import Path
+import ast
+from tqdm import tqdm
+from glob import glob
+import random
+import torch
+import pymongo
 
 sys.path.append(str(Path(__file__).resolve().parent.parent.parent))
 from models.models import *
 from models.losses import *
 from add_ons.gp.gp_utils import *
 from add_ons.gp.reject_if_empty import RejectIfEmpty
+from add_ons.gp.reject_if_empty_array import MaskReject
+from data_utils.preprocess_volumes.get_mask_in_roi import get_mask_data_in_roi
 from add_ons.funlib_persistence.persistence_utils import *
-import ast
-from tqdm import tqdm
-from glob import glob
-from config.config_predict import get_cfg_defaults  # import but do no use
-import random
-import torch
-from funlib.persistence import prepare_ds
-import pymongo
-from yacs.config import CfgNode as CN
 
+from config.config_predict import get_cfg_defaults  # import but do no use
+
+from funlib.persistence import prepare_ds, open_ds
+from yacs.config import CfgNode as CN
+from add_ons.gp.batch_zarr_write import ZarrWrite
+
+import torch # add because AttributeError: module 'gunpowder.torch' has no attribute 'backends'
 torch.backends.cudnn.benchmark = True
 
 # we set a seed for reproducibility
@@ -125,11 +130,36 @@ def predict(cfg):
     total_output_roi = raw_roi.grow(-context, -context)
     module_logger.debug(f"Total output ROI {total_output_roi} and context {context}")
 
+    # masking
+    try:
+        if cfg.INS_SEGMENT.MASK_FILE is not None and cfg.INS_SEGMENT.MASK_DS is not None:
+            logging.info(f"Reading mask from {cfg.INS_SEGMENT.MASK_FILE} and {cfg.INS_SEGMENT.MASK_DS}")
+            # mask = open_ds(cfg.DATA.MASK_FILE, cfg.DATA.MASK_DS) # just read the file, we cannot upsample here
+            # mask_data = get_mask_data_in_roi(mask=mask, roi=raw_roi, target_voxel_size=voxel_size)
+
+            mask = ArrayKey('MASK')
+            mask_source = ZarrSource(
+                cfg.INS_SEGMENT.MASK_FILE,
+                datasets={
+                    mask: cfg.INS_SEGMENT.MASK_DS,
+                    # experimental addition to prevent inference resin/blank input data
+                    # labels_mask: 'volumes/labels/labels_mask'
+                },
+                array_specs={
+                    mask: ArraySpec(interpolatable=False),
+                }
+            )
+        else:
+            mask_source = None
+    except Exception as e:
+        print(e)
+
     # this is scan_request
     request = BatchRequest()
     request.add(raw, input_size)
     # experimental addition to prevent inference resin/blank input data
-    # request.add(labels_mask, input_size)
+    if mask_source is not None:
+        request.add(mask_source, input_size)
 
     if cfg.TRAIN.MODEL_TYPE in ["MTLSD", "LSD"]:
         request.add(pred_lsds, output_size)
@@ -156,9 +186,13 @@ def predict(cfg):
             out_inv_affs = "volumes/inverted_pred_affs"
 
     train_pipeline = data_sources
-    # train_pipeline += RejectIfEmpty(gt=labels_mask, p=1) # experimental to skip through resin and blank chunks
+    # if a mask file is provided in config, skip empty blocks
+    try:
+        if mask is not None:
+            train_pipeline += MaskReject(gt=mask_data, p=1)  # experimental to skip through resin and blank chunks
+    except Exception as e:
+        print(e)
 
-    # Todo: Control through config, commented out for save storage
     # train_pipeline += ZarrWrite(
     #     dataset_names={
     #         raw: out_raw},
@@ -173,10 +207,7 @@ def predict(cfg):
                                           cfg.MODEL.INTENSITYSCALESHIFT_SHIFT[0])
 
     train_pipeline += Unsqueeze([raw])
-    logging.debug("Inference will run with batch_size 1 not with passed cfg.TRAIN.BATCH_SIZE,"
-                  "because we cannot write multiple batches"
-                  "to a zarr simultaneously for now.")
-    train_pipeline += Stack(1)  # Inference will run with batch_size 1 not with passed cfg.TRAIN.BATCH_SIZE
+    train_pipeline += Stack(2)
     # customize the loss inputs and outputs here based on model type
     if cfg.TRAIN.MODEL_TYPE == "MTLSD":
         outputs = {

@@ -1,0 +1,104 @@
+MtlsdModel(
+  (unet): UNet(
+    (l_conv): ModuleList(
+      (0): ConvPass(
+        (conv_pass): Sequential(
+          (0): Conv3d(1, 12, kernel_size=(3, 3, 3), stride=(1, 1, 1))
+          (1): ReLU()
+          (2): Conv3d(12, 12, kernel_size=(3, 3, 3), stride=(1, 1, 1))
+          (3): ReLU()
+        )
+      )
+      (1): ConvPass(
+        (conv_pass): Sequential(
+          (0): Conv3d(12, 60, kernel_size=(3, 3, 3), stride=(1, 1, 1))
+          (1): ReLU()
+          (2): Conv3d(60, 60, kernel_size=(3, 3, 3), stride=(1, 1, 1))
+          (3): ReLU()
+        )
+      )
+      (2): ConvPass(
+        (conv_pass): Sequential(
+          (0): Conv3d(60, 300, kernel_size=(3, 3, 3), stride=(1, 1, 1))
+          (1): ReLU()
+          (2): Conv3d(300, 300, kernel_size=(3, 3, 3), stride=(1, 1, 1))
+          (3): ReLU()
+        )
+      )
+      (3): ConvPass(
+        (conv_pass): Sequential(
+          (0): Conv3d(300, 1500, kernel_size=(3, 3, 3), stride=(1, 1, 1))
+          (1): ReLU()
+          (2): Conv3d(1500, 1500, kernel_size=(3, 3, 3), stride=(1, 1, 1))
+          (3): ReLU()
+        )
+      )
+    )
+    (l_down): ModuleList(
+      (0): Downsample(
+        (down): MaxPool3d(kernel_size=[1, 2, 2], stride=[1, 2, 2], padding=0, dilation=1, ceil_mode=False)
+      )
+      (1): Downsample(
+        (down): MaxPool3d(kernel_size=[2, 2, 2], stride=[2, 2, 2], padding=0, dilation=1, ceil_mode=False)
+      )
+      (2): Downsample(
+        (down): MaxPool3d(kernel_size=[2, 2, 2], stride=[2, 2, 2], padding=0, dilation=1, ceil_mode=False)
+      )
+    )
+    (r_up): ModuleList(
+      (0): ModuleList(
+        (0): Upsample(
+          (up): ConvTranspose3d(60, 60, kernel_size=(1, 2, 2), stride=(1, 2, 2))
+        )
+        (1): Upsample(
+          (up): ConvTranspose3d(300, 300, kernel_size=(2, 2, 2), stride=(2, 2, 2))
+        )
+        (2): Upsample(
+          (up): ConvTranspose3d(1500, 1500, kernel_size=(2, 2, 2), stride=(2, 2, 2))
+        )
+      )
+    )
+    (r_conv): ModuleList(
+      (0): ModuleList(
+        (0): ConvPass(
+          (conv_pass): Sequential(
+            (0): Conv3d(72, 12, kernel_size=(3, 3, 3), stride=(1, 1, 1))
+            (1): ReLU()
+            (2): Conv3d(12, 12, kernel_size=(3, 3, 3), stride=(1, 1, 1))
+            (3): ReLU()
+          )
+        )
+        (1): ConvPass(
+          (conv_pass): Sequential(
+            (0): Conv3d(360, 60, kernel_size=(3, 3, 3), stride=(1, 1, 1))
+            (1): ReLU()
+            (2): Conv3d(60, 60, kernel_size=(3, 3, 3), stride=(1, 1, 1))
+            (3): ReLU()
+          )
+        )
+        (2): ConvPass(
+          (conv_pass): Sequential(
+            (0): Conv3d(1800, 300, kernel_size=(3, 3, 3), stride=(1, 1, 1))
+            (1): ReLU()
+            (2): Conv3d(300, 300, kernel_size=(3, 3, 3), stride=(1, 1, 1))
+            (3): ReLU()
+          )
+        )
+      )
+    )
+  )
+  (lsd_head): ConvPass(
+    (conv_pass): Sequential(
+      (0): Conv3d(12, 10, kernel_size=(1, 1, 1), stride=(1, 1, 1))
+      (1): Sigmoid()
+    )
+  )
+  (aff_head): ConvPass(
+    (conv_pass): Sequential(
+      (0): Conv3d(12, 3, kernel_size=(1, 1, 1), stride=(1, 1, 1))
+      (1): Sigmoid()
+    )
+  )
+)
+Model Parameters: 112.395M
+Saving outputs to /media/samia/DATA/ark/lsd_outputs/MTLSD/3d/run_1/model_checkpoint_200000/snemi3d.zarr

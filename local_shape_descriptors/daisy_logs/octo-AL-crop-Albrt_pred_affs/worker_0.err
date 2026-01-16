@@ -1,0 +1,27 @@
+INFO:root:worker 0 started...
+INFO:root:Running block with config daisy_logs/octo-AL-crop-Albrt_pred_affs/config_0.yaml...
+wandb: Currently logged in as: sm2667 (iconnect). Use `wandb login --relogin` to force relogin
+Traceback (most recent call last):
+  File "./engine/predict/predict_worker_daisy.py", line 290, in <module>
+    predict(cfg)
+  File "./engine/predict/predict_worker_daisy.py", line 267, in predict
+    b.request_batch(BatchRequest())
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/pipeline.py", line 125, in request_batch
+    return self.output.request_batch(request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/daisy_request_blocks.py", line 82, in provide
+    self.__get_chunks()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/daisy_request_blocks.py", line 90, in __get_chunks
+    with daisy_client.acquire_block() as block:
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/contextlib.py", line 113, in __enter__
+    return next(self.gen)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/daisy/client.py", line 75, in acquire_block
+    message = self.tcp_client.get_message(timeout=0.1)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/daisy/tcp/tcp_client.py", line 116, in get_message
+    return self.message_queue.get(block=True, timeout=timeout)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/queue.py", line 179, in get
+    self.not_empty.wait(remaining)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/threading.py", line 306, in wait
+    gotit = waiter.acquire(True, timeout)
+KeyboardInterrupt

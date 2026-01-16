@@ -1,0 +1,393 @@
+DATA:
+  BRAIN_VOL: CREMI
+  DATA_DIR_PATH: connexion/data
+  DB_COLLECTION_NAME: sampleAPadded20160501Copy2_MTLSD_predicted_affs
+  DB_HOST: localhost:27017
+  DB_NAME: lsd_predictions_parallel
+  DIM_2D: false
+  DROP_DS_MONGOTABLE: false
+  FIB: 0
+  HOME: /media/samia/DATA/ark
+  INVERT_PRED_AFFS: false
+  MASK_DS: volumes/labels/labels_mask
+  MASK_FILE: /media/samia/DATA/ark/connexion/data/CREMI/data_3d/sample_A_padded_20160501_mask_8088.zarr
+  OUTFILE: /media/samia/DATA/ark/lsd_outputs/MTLSD/3d/run_unclahed/model_checkpoint_latest/sample_A_padded_20160501_copy2.zarr
+  SAMPLE: /media/samia/DATA/ark/connexion/data/CREMI/data_3d/test/sample_A_padded_20160501_copy2.zarr
+  SAMPLE_NAME: sampleAPadded20160501Copy2
+  TRAIN_TEST_SPLIT: 1
+INS_SEGMENT:
+  BLOCK_SIZE:
+  - 256
+  - 256
+  - 256
+  CONTEXT:
+  - 24
+  - 24
+  - 24
+  EPSILON_AGGLOMERATE: 0.25
+  FILTER_FRAGMENTS: 0.0
+  FRAGMENTS_IN_XY: false
+  MASK_DATASET: null
+  MASK_FILE: null
+  THRESHOLDS:
+  - 0.65
+MODEL:
+  CKPT_FOLDER: /media/samia/DATA/ark/lsd_checkpoints/MTLSD_3D/CREMI//run_1
+  CONTROL_POINT_SPACING: &id006
+  - 4
+  - 4
+  - 10
+  CONTROL_POINT_SPACING_2D: &id005
+  - 4
+  - 4
+  DEFECT_AUGMENT: ''
+  DOWNSAMPLE_FACTORS: &id007
+  - - 1
+    - 2
+    - 2
+  - - 2
+    - 2
+    - 2
+  - - 3
+    - 3
+    - 3
+  DOWNSAMPLE_FACTORS_2D: &id008
+  - - 1
+    - 2
+  - - 2
+    - 2
+  - - 3
+    - 3
+  FMAP_INC_FACTOR: 5
+  GROWBOUNDARY_STEPS: 1
+  GROW_INPUT: &id009
+  - 36
+  - 36
+  - 36
+  GROW_INPUT_2D: &id010
+  - 36
+  - 36
+  INPUT_SHAPE: &id011
+  - 132
+  - 268
+  - 268
+  INPUT_SHAPE_2D: &id012
+  - 268
+  - 268
+  INTENSITYAUG_SCALE_MAX: 1.2
+  INTENSITYAUG_SCALE_MIN: 0.8
+  INTENSITYAUG_SHIFT_MAX: 0.2
+  INTENSITYAUG_SHIFT_MIN: -0.2
+  INTENSITYSCALESHIFT_SCALE: &id013
+  - 2
+  - 0.5
+  INTENSITYSCALESHIFT_SHIFT: &id014
+  - -1
+  - 0.5
+  IN_CHANNELS: 1
+  JITTER_SIGMA: &id015
+  - 0
+  - 2
+  - 2
+  JITTER_SIGMA_2D: &id016
+  - 2
+  - 2
+  KERNEL_SIZE_DOWN: &id017
+  - - &id001
+      - 1
+      - 3
+      - 3
+    - *id001
+  - - &id002
+      - 3
+      - 3
+      - 3
+    - *id002
+  - - *id002
+    - *id002
+  - - *id002
+    - *id002
+  KERNEL_SIZE_DOWN_2D: &id018
+  - - &id003
+      - 1
+      - 3
+    - *id003
+  - - &id004
+      - 3
+      - 3
+    - *id004
+  - - *id004
+    - *id004
+  - - *id004
+    - *id004
+  KERNEL_SIZE_UP: &id019
+  - - *id002
+    - *id002
+  - - *id002
+    - *id002
+  - - *id002
+    - *id002
+  KERNEL_SIZE_UP_2D: &id020
+  - - *id004
+    - *id004
+  - - *id004
+    - *id004
+  - - *id004
+    - *id004
+  LOG_DIR: /media/samia/DATA/ark/lsd_logs/MTLSD_3D/CREMI//run_1
+  LSD_DOWNSAMPLE: 2
+  LSD_SIGMA: 80
+  MAX_MISALIGN: 10
+  NUM_FMAPS: 12
+  NUM_FMAPS_OUT: 12
+  OUTPUT_DIR: /media/samia/DATA/ark/lsd_snapshots/MTLSD_3D/CREMI//run_1
+  OUTPUT_SHAPE: &id021
+  - 72
+  - 144
+  - 144
+  OUTPUT_SHAPE_2D: &id022
+  - 144
+  - 144
+  PAD_CONV: valid
+  PROB_SHIFT: 0.5
+  PROB_SLIP: 0.5
+  ROTATION_INTERVAL: &id023
+  - 0
+  - 1.5707963267948966
+  SUBSAMPLE: 8
+  TRANSPOSE: &id024
+  - 1
+  - 2
+  TRANSPOSE_2D: &id025
+  - 0
+  - 1
+  VOXEL_SIZE: &id026
+  - 40
+  - 4
+  - 4
+  VOXEL_SIZE_2D: *id005
+MODEL_ANISO:
+  CKPT_FOLDER: /media/samia/DATA/ark/lsd_checkpoints/MTLSD_3D/CREMI//run_1
+  CONTROL_POINT_SPACING: *id006
+  CONTROL_POINT_SPACING_2D: *id005
+  DEFECT_AUGMENT: ''
+  DOWNSAMPLE_FACTORS: *id007
+  DOWNSAMPLE_FACTORS_2D: *id008
+  FMAP_INC_FACTOR: 5
+  GROWBOUNDARY_STEPS: 1
+  GROW_INPUT: *id009
+  GROW_INPUT_2D: *id010
+  INPUT_SHAPE: *id011
+  INPUT_SHAPE_2D: *id012
+  INTENSITYAUG_SCALE_MAX: 1.2
+  INTENSITYAUG_SCALE_MIN: 0.8
+  INTENSITYAUG_SHIFT_MAX: 0.2
+  INTENSITYAUG_SHIFT_MIN: -0.2
+  INTENSITYSCALESHIFT_SCALE: *id013
+  INTENSITYSCALESHIFT_SHIFT: *id014
+  IN_CHANNELS: 1
+  JITTER_SIGMA: *id015
+  JITTER_SIGMA_2D: *id016
+  KERNEL_SIZE_DOWN: *id017
+  KERNEL_SIZE_DOWN_2D: *id018
+  KERNEL_SIZE_UP: *id019
+  KERNEL_SIZE_UP_2D: *id020
+  LOG_DIR: /media/samia/DATA/ark/lsd_logs/MTLSD_3D/CREMI//run_1
+  LSD_DOWNSAMPLE: 2
+  LSD_SIGMA: 80
+  MAX_MISALIGN: 10
+  NUM_FMAPS: 12
+  NUM_FMAPS_OUT: 12
+  OUTPUT_DIR: /media/samia/DATA/ark/lsd_snapshots/MTLSD_3D/CREMI//run_1
+  OUTPUT_SHAPE: *id021
+  OUTPUT_SHAPE_2D: *id022
+  PAD_CONV: valid
+  PROB_SHIFT: 0.5
+  PROB_SLIP: 0.5
+  ROTATION_INTERVAL: *id023
+  SUBSAMPLE: 8
+  TRANSPOSE: *id024
+  TRANSPOSE_2D: *id025
+  VOXEL_SIZE: *id026
+  VOXEL_SIZE_2D: *id005
+MODEL_ISO:
+  CKPT_FOLDER: /media/samia/DATA/ark/lsd_checkpoints/MTLSD_3D/checkpoints-3dmtlsd-hemi-onlyori
+  CONTROL_POINT_SPACING:
+  - 40
+  - 40
+  - 40
+  CONTROL_POINT_SPACING_2D:
+  - 40
+  - 40
+  DEFECT_AUGMENT: ''
+  DOWNSAMPLE_FACTORS:
+  - - 2
+    - 2
+    - 2
+  - - 2
+    - 2
+    - 2
+  - - 3
+    - 3
+    - 3
+  DOWNSAMPLE_FACTORS_2D:
+  - - 2
+    - 2
+  - - 2
+    - 2
+  - - 3
+    - 3
+  FMAP_INC_FACTOR: 5
+  GROWBOUNDARY_STEPS: 1
+  GROW_INPUT: *id009
+  GROW_INPUT_2D: *id010
+  INPUT_SHAPE:
+  - 196
+  - 196
+  - 196
+  INPUT_SHAPE_2D:
+  - 196
+  - 196
+  INTENSITYAUG_SCALE_MAX: 1.2
+  INTENSITYAUG_SCALE_MIN: 0.8
+  INTENSITYAUG_SHIFT_MAX: 0.2
+  INTENSITYAUG_SHIFT_MIN: -0.2
+  INTENSITYSCALESHIFT_SCALE:
+  - 2
+  - 0.5
+  INTENSITYSCALESHIFT_SHIFT:
+  - -1
+  - 0.5
+  IN_CHANNELS: 1
+  JITTER_SIGMA:
+  - *id015
+  - - 2
+    - 2
+    - 2
+  JITTER_SIGMA_2D:
+  - - 0
+    - 2
+  - *id016
+  KERNEL_SIZE_DOWN:
+  - - *id002
+    - *id002
+  - - *id002
+    - *id002
+  - - *id002
+    - *id002
+  - - *id002
+    - *id002
+  KERNEL_SIZE_DOWN_2D:
+  - - *id004
+    - *id004
+  - - *id004
+    - *id004
+  - - *id004
+    - *id004
+  - - *id004
+    - *id004
+  KERNEL_SIZE_UP:
+  - - *id002
+    - *id002
+  - - *id002
+    - *id002
+  - - *id002
+    - *id002
+  KERNEL_SIZE_UP_2D:
+  - - *id004
+    - *id004
+  - - *id004
+    - *id004
+  - - *id004
+    - *id004
+  LOG_DIR: /media/samia/DATA/ark/lsd_logs/MTLSD_3D/log-3dmtlsd-hemi-onlyori
+  LSD_DOWNSAMPLE: 2
+  LSD_SIGMA: 80
+  MAX_MISALIGN:
+  - 0
+  - 1
+  NUM_FMAPS: 12
+  NUM_FMAPS_OUT: 12
+  OUTPUT_DIR: /media/samia/DATA/ark/lsd_snapshots/MTLSD_3D/snapshots_3dmtlsd-hemi-onlyori
+  OUTPUT_SHAPE:
+  - 72
+  - 72
+  - 72
+  OUTPUT_SHAPE_2D:
+  - 72
+  - 72
+  PAD_CONV: valid
+  PROB_SHIFT:
+  - 0
+  - 0.1
+  PROB_SLIP:
+  - 0
+  - 0.1
+  ROTATION_INTERVAL:
+  - 0
+  - 1.5707963267948966
+  SUBSAMPLE: 8
+  TRANSPOSE:
+  - 0
+  - 1
+  - 2
+  TRANSPOSE_2D:
+  - 0
+  - 1
+  VOXEL_SIZE:
+  - 8
+  - 8
+  - 8
+  VOXEL_SIZE_2D:
+  - 12
+  - 12
+PREPROCESS:
+  HISTOGRAM_MATCH:
+  - HEMI
+  - POPEYE
+SYSTEM:
+  CACHE_SIZE: 6
+  NUM_GPUS: 1
+  NUM_WORKERS: 2
+  VERBOSE: true
+TRAIN:
+  BATCH_SIZE: 1
+  CHECKPOINT: /media/samia/DATA/ark/lsd_checkpoints/MTLSD_3D/CREMI/run_unclahed/model_checkpoint_latest
+  DEVICE: cuda:0
+  EPOCHS: 400000
+  INITIAL_LR: 5.0e-05
+  LR_BETAS:
+  - 0.95
+  - 0.999
+  LR_NEIGHBORHOOD:
+  - - -1
+    - 0
+    - 0
+  - - 0
+    - -1
+    - 0
+  - - 0
+    - 0
+    - -1
+  MODEL_TYPE: MTLSD
+  NEIGHBORHOOD:
+  - - -1
+    - 0
+    - 0
+  - - 0
+    - -1
+    - 0
+  - - 0
+    - 0
+    - -1
+  NEIGHBORHOOD_2D:
+  - - -1
+    - 0
+    - 0
+  - - 0
+    - -1
+    - 0
+  - - 0
+    - 0
+    - -1
+  SAVE_EVERY: 2000

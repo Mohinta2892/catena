@@ -22,7 +22,7 @@ _C.SYSTEM = CN()
 # Number of GPUS to use in the experiment
 _C.SYSTEM.NUM_GPUS = 1
 # Number of workers for doing things, may not be used in this context
-_C.SYSTEM.NUM_WORKERS = 5
+_C.SYSTEM.NUM_WORKERS = 1
 _C.SYSTEM.CACHE_SIZE = 40
 _C.SYSTEM.VERBOSE = True
 
@@ -34,8 +34,10 @@ _C.DATA.TRAIN_TEST_SPLIT = 1  # TODO splits: 1 = all volumes used to train
 _C.DATA.FIB = 1  # Means FIBSEM isotropic data
 _C.DATA.DIM_2D = False  # TODO: Data preprocessing functionality here
 # prediction specific
-_C.DATA.OUTFILE = f"{_C.DATA.HOME}/lsd_outputs"
+_C.DATA.OUTFILE = f"{_C.DATA.HOME}/lsd_outputs" # can change wherever you want to write
 _C.DATA.INVERT_PRED_AFFS = False
+_C.DATA.MASK_FILE = "/media/samia/DATA/ark/connexion/data/CREMI/data_3d/test/sample_A_padded_20160501_copy_mask.zarr"
+_C.DATA.MASK_DS = "volumes/labels/labels_mask"
 # _C.DATA.SAMPLE = ''  # add these NULL keys helps to merge with yaml later; on-the-fly created in predicter(s).py
 # _C.DATA.SAMPLE_SLICE = ''  # add these NULL keys helps to merge with yaml later; on-the-fly created in predicter(s).py
 
@@ -67,8 +69,8 @@ _C.TRAIN.SAVE_EVERY = 2000
 _C.TRAIN.DEVICE = "cuda:0"  # "cuda" if torch.cuda.is_available() else "cpu"
 _C.TRAIN.INITIAL_LR = 0.5e-4
 _C.TRAIN.LR_BETAS = (0.95, 0.999)
-_C.TRAIN.MODEL_TYPE = "AFF"  # options: `MTLSD`, `ACLSD`, `ACRLSD`, `LSD`, `AFF`
-# remember to change the `run-*` folder
+_C.TRAIN.MODEL_TYPE = "MTLSD"  # options: `MTLSD`, `ACLSD`, `ACRLSD`, `LSD`, `AFF`
+# remember to change the `run-*` folder below
 _C.TRAIN.CHECKPOINT = f"{_C.DATA.HOME}/lsd_checkpoints/{_C.TRAIN.MODEL_TYPE}_{'2D' if _C.DATA.DIM_2D else '3D'}/run-aclsd-together/model_checkpoint_300000"
 
 if _C.TRAIN.MODEL_TYPE in ["ACLSD", "ACRLSD"]:
@@ -203,7 +205,7 @@ _C.INS_SEGMENT = CN()
 
 # Fixes: yaml.representer.RepresenterError: ('cannot represent an object', 0.35)
 # Must be cast with tolist()
-_C.INS_SEGMENT.THRESHOLDS = np.arange(0.35, 0.80, 0.05).tolist()
+_C.INS_SEGMENT.THRESHOLDS = np.arange(0.65, 0.70, 0.05).tolist()
 _C.INS_SEGMENT.FRAGMENTS_IN_XY = False
 _C.INS_SEGMENT.EPSILON_AGGLOMERATE = 0.25  # this is used in the fragmentation for initial agglomeration
 _C.INS_SEGMENT.MASK_FILE = None
@@ -223,4 +225,5 @@ def get_cfg_defaults():
 
 # Alternatively, provide a way to import the defaults as
 # a global singleton:
-# cfg = _C  # users can `from config import cfg`
+cfg = _C  # users can `from config import cfg`
+

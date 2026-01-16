@@ -1,0 +1,561 @@
+Backend TkAgg is interactive backend. Turning interactive mode on.
+Re-using already compiled waterz version
+Preparing segmentation volume...
+counting regions and sizes...
+creating region graph for 364 nodes
+creating statistics provider
+extracting region graph...
+Region graph number of edges: 2008
+merging until threshold 0.6
+computing initial scores
+merging until 0.6
+min edge score 0.000228345
+threshold exceeded
+merged 314 edges
+extracting segmentation
+Re-using already compiled waterz version
+Preparing segmentation volume...
+counting regions and sizes...
+creating region graph for 583 nodes
+creating statistics provider
+extracting region graph...
+Region graph number of edges: 3485
+merging until threshold 0.6
+computing initial scores
+merging until 0.6
+min edge score 7.61151e-05
+threshold exceeded
+merged 472 edges
+extracting segmentation
+Re-using already compiled waterz version
+Preparing segmentation volume...
+counting regions and sizes...
+creating region graph for 716 nodes
+creating statistics provider
+extracting region graph...
+Region graph number of edges: 4238
+merging until threshold 0.6
+computing initial scores
+merging until 0.6
+min edge score 8.16584e-06
+threshold exceeded
+merged 617 edges
+extracting segmentation
+Re-using already compiled waterz version
+Preparing segmentation volume...
+counting regions and sizes...
+creating region graph for 390 nodes
+creating statistics provider
+extracting region graph...
+Region graph number of edges: 2230
+merging until threshold 0.6
+computing initial scores
+merging until 0.6
+min edge score 0.000147223
+threshold exceeded
+merged 340 edges
+extracting segmentation
+Re-using already compiled waterz version
+Preparing segmentation volume...
+counting regions and sizes...
+creating region graph for 254 nodes
+creating statistics provider
+extracting region graph...
+Region graph number of edges: 1394
+merging until threshold 0.6
+computing initial scores
+merging until 0.6
+min edge score 2.86102e-05
+threshold exceeded
+merged 203 edges
+extracting segmentation
+Re-using already compiled waterz version
+Preparing segmentation volume...
+counting regions and sizes...
+creating region graph for 503 nodes
+creating statistics provider
+extracting region graph...
+Region graph number of edges: 2890
+merging until threshold 0.6
+computing initial scores
+merging until 0.6
+min edge score 7.51019e-06
+threshold exceeded
+merged 340 edges
+extracting segmentation
+Re-using already compiled waterz version
+Preparing segmentation volume...
+counting regions and sizes...
+creating region graph for 216 nodes
+creating statistics provider
+extracting region graph...
+Region graph number of edges: 1214
+merging until threshold 0.6
+computing initial scores
+merging until 0.6
+min edge score 1.38879e-05
+threshold exceeded
+merged 172 edges
+extracting segmentation
+Re-using already compiled waterz version
+Preparing segmentation volume...
+counting regions and sizes...
+creating region graph for 367 nodes
+creating statistics provider
+extracting region graph...
+Region graph number of edges: 1996
+merging until threshold 0.6
+computing initial scores
+merging until 0.6
+min edge score 6.68168e-05
+threshold exceeded
+merged 331 edges
+extracting segmentation
+Re-using already compiled waterz version
+Preparing segmentation volume...
+counting regions and sizes...
+creating region graph for 100 nodes
+creating statistics provider
+extracting region graph...
+Region graph number of edges: 487
+merging until threshold 0.6
+computing initial scores
+merging until 0.6
+min edge score 6.13928e-06
+threshold exceeded
+merged 72 edges
+extracting segmentation
+Re-using already compiled waterz version
+Preparing segmentation volume...
+counting regions and sizes...
+creating region graph for 463 nodes
+creating statistics provider
+extracting region graph...
+Region graph number of edges: 2625
+merging until threshold 0.6
+computing initial scores
+merging until 0.6
+min edge score 3.98755e-05
+threshold exceeded
+merged 368 edges
+extracting segmentation
+Re-using already compiled waterz version
+Preparing segmentation volume...
+counting regions and sizes...
+creating region graph for 288 nodes
+creating statistics provider
+extracting region graph...
+Region graph number of edges: 1609
+merging until threshold 0.6
+computing initial scores
+merging until 0.6
+min edge score 0.000303268
+threshold exceeded
+merged 264 edges
+extracting segmentation
+Re-using already compiled waterz version
+Preparing segmentation volume...
+counting regions and sizes...
+creating region graph for 343 nodes
+creating statistics provider
+extracting region graph...
+Region graph number of edges: 1889
+merging until threshold 0.6
+computing initial scores
+merging until 0.6
+min edge score 0.000140488
+threshold exceeded
+merged 270 edges
+extracting segmentation
+Re-using already compiled waterz version
+Preparing segmentation volume...
+counting regions and sizes...
+creating region graph for 438 nodes
+creating statistics provider
+extracting region graph...
+Region graph number of edges: 2504
+merging until threshold 0.6
+computing initial scores
+merging until 0.6
+min edge score 1.03712e-05
+threshold exceeded
+merged 363 edges
+extracting segmentation
+Re-using already compiled waterz version
+Preparing segmentation volume...
+counting regions and sizes...
+creating region graph for 334 nodes
+creating statistics provider
+extracting region graph...
+Region graph number of edges: 1856
+merging until threshold 0.6
+computing initial scores
+merging until 0.6
+min edge score 1.29938e-05
+threshold exceeded
+merged 269 edges
+extracting segmentation
+Re-using already compiled waterz version
+Preparing segmentation volume...
+counting regions and sizes...
+creating region graph for 315 nodes
+creating statistics provider
+extracting region graph...
+Region graph number of edges: 1701
+merging until threshold 0.6
+computing initial scores
+merging until 0.6
+min edge score 0.00572485
+threshold exceeded
+merged 257 edges
+extracting segmentation
+Re-using already compiled waterz version
+Preparing segmentation volume...
+counting regions and sizes...
+creating region graph for 15 nodes
+creating statistics provider
+extracting region graph...
+Region graph number of edges: 42
+merging until threshold 0.6
+computing initial scores
+merging until 0.6
+min edge score 0.000830948
+threshold exceeded
+merged 10 edges
+extracting segmentation
+Re-using already compiled waterz version
+Preparing segmentation volume...
+counting regions and sizes...
+creating region graph for 93 nodes
+creating statistics provider
+extracting region graph...
+Region graph number of edges: 457
+merging until threshold 0.6
+computing initial scores
+merging until 0.6
+min edge score 1.18613e-05
+threshold exceeded
+merged 78 edges
+extracting segmentation
+Re-using already compiled waterz version
+Preparing segmentation volume...
+counting regions and sizes...
+creating region graph for 698 nodes
+creating statistics provider
+extracting region graph...
+Region graph number of edges: 4104
+merging until threshold 0.6
+computing initial scores
+merging until 0.6
+min edge score 0.000102818
+threshold exceeded
+merged 635 edges
+extracting segmentation
+Re-using already compiled waterz version
+Preparing segmentation volume...
+counting regions and sizes...
+creating region graph for 324 nodes
+creating statistics provider
+extracting region graph...
+Region graph number of edges: 1769
+merging until threshold 0.6
+computing initial scores
+merging until 0.6
+min edge score 0.000154257
+threshold exceeded
+merged 285 edges
+extracting segmentation
+Re-using already compiled waterz version
+Preparing segmentation volume...
+counting regions and sizes...
+creating region graph for 387 nodes
+creating statistics provider
+extracting region graph...
+Region graph number of edges: 2017
+merging until threshold 0.6
+computing initial scores
+merging until 0.6
+min edge score 2.69413e-05
+threshold exceeded
+merged 271 edges
+extracting segmentation
+Re-using already compiled waterz version
+Preparing segmentation volume...
+counting regions and sizes...
+creating region graph for 213 nodes
+creating statistics provider
+extracting region graph...
+Region graph number of edges: 1084
+merging until threshold 0.6
+computing initial scores
+merging until 0.6
+min edge score 5.65052e-05
+threshold exceeded
+merged 158 edges
+extracting segmentation
+Re-using already compiled waterz version
+Preparing segmentation volume...
+counting regions and sizes...
+creating region graph for 453 nodes
+creating statistics provider
+extracting region graph...
+Region graph number of edges: 2522
+merging until threshold 0.6
+computing initial scores
+merging until 0.6
+min edge score 1.84774e-05
+threshold exceeded
+merged 319 edges
+extracting segmentation
+Re-using already compiled waterz version
+Preparing segmentation volume...
+counting regions and sizes...
+creating region graph for 779 nodes
+creating statistics provider
+extracting region graph...
+Region graph number of edges: 4856
+merging until threshold 0.6
+computing initial scores
+merging until 0.6
+min edge score 2.26498e-06
+threshold exceeded
+merged 618 edges
+extracting segmentation
+Re-using already compiled waterz version
+Preparing segmentation volume...
+counting regions and sizes...
+creating region graph for 545 nodes
+creating statistics provider
+extracting region graph...
+Region graph number of edges: 3268
+merging until threshold 0.6
+computing initial scores
+merging until 0.6
+min edge score 1.38879e-05
+threshold exceeded
+merged 406 edges
+extracting segmentation
+Re-using already compiled waterz version
+Preparing segmentation volume...
+counting regions and sizes...
+creating region graph for 357 nodes
+creating statistics provider
+extracting region graph...
+Region graph number of edges: 1928
+merging until threshold 0.6
+computing initial scores
+merging until 0.6
+min edge score 4.30942e-05
+threshold exceeded
+merged 322 edges
+extracting segmentation
+Re-using already compiled waterz version
+Preparing segmentation volume...
+counting regions and sizes...
+creating region graph for 60 nodes
+creating statistics provider
+extracting region graph...
+Region graph number of edges: 253
+merging until threshold 0.6
+computing initial scores
+merging until 0.6
+min edge score 0.00146413
+threshold exceeded
+merged 38 edges
+extracting segmentation
+Re-using already compiled waterz version
+Preparing segmentation volume...
+counting regions and sizes...
+creating region graph for 469 nodes
+creating statistics provider
+extracting region graph...
+Region graph number of edges: 2519
+merging until threshold 0.6
+computing initial scores
+merging until 0.6
+min edge score 3.98755e-05
+threshold exceeded
+merged 381 edges
+extracting segmentation
+Re-using already compiled waterz version
+Preparing segmentation volume...
+counting regions and sizes...
+creating region graph for 444 nodes
+creating statistics provider
+extracting region graph...
+Region graph number of edges: 2454
+merging until threshold 0.6
+computing initial scores
+merging until 0.6
+min edge score 2.77162e-05
+threshold exceeded
+merged 388 edges
+extracting segmentation
+Re-using already compiled waterz version
+Preparing segmentation volume...
+counting regions and sizes...
+creating region graph for 767 nodes
+creating statistics provider
+extracting region graph...
+Region graph number of edges: 4275
+merging until threshold 0.6
+computing initial scores
+merging until 0.6
+min edge score 3.57032e-05
+threshold exceeded
+merged 622 edges
+extracting segmentation
+Re-using already compiled waterz version
+Preparing segmentation volume...
+counting regions and sizes...
+creating region graph for 313 nodes
+creating statistics provider
+extracting region graph...
+Region graph number of edges: 1719
+merging until threshold 0.6
+computing initial scores
+merging until 0.6
+min edge score 2.57492e-05
+threshold exceeded
+merged 251 edges
+extracting segmentation
+Re-using already compiled waterz version
+Preparing segmentation volume...
+counting regions and sizes...
+creating region graph for 515 nodes
+creating statistics provider
+extracting region graph...
+Region graph number of edges: 2917
+merging until threshold 0.6
+computing initial scores
+merging until 0.6
+min edge score 5.13196e-05
+threshold exceeded
+merged 450 edges
+extracting segmentation
+Re-using already compiled waterz version
+Preparing segmentation volume...
+counting regions and sizes...
+creating region graph for 319 nodes
+creating statistics provider
+extracting region graph...
+Region graph number of edges: 1691
+merging until threshold 0.6
+computing initial scores
+merging until 0.6
+min edge score 1.49012e-06
+threshold exceeded
+merged 250 edges
+extracting segmentation
+Re-using already compiled waterz version
+Preparing segmentation volume...
+counting regions and sizes...
+creating region graph for 88 nodes
+creating statistics provider
+extracting region graph...
+Region graph number of edges: 394
+merging until threshold 0.6
+computing initial scores
+merging until 0.6
+min edge score 1.18613e-05
+threshold exceeded
+merged 66 edges
+extracting segmentation
+Re-using already compiled waterz version
+Preparing segmentation volume...
+counting regions and sizes...
+creating region graph for 102 nodes
+creating statistics provider
+extracting region graph...
+Region graph number of edges: 458
+merging until threshold 0.6
+computing initial scores
+merging until 0.6
+min edge score 0.0198691
+threshold exceeded
+merged 83 edges
+extracting segmentation
+Re-using already compiled waterz version
+Preparing segmentation volume...
+counting regions and sizes...
+creating region graph for 533 nodes
+creating statistics provider
+extracting region graph...
+Region graph number of edges: 3127
+merging until threshold 0.6
+computing initial scores
+merging until 0.6
+min edge score 0.00088793
+threshold exceeded
+merged 504 edges
+extracting segmentation
+Re-using already compiled waterz version
+Preparing segmentation volume...
+counting regions and sizes...
+creating region graph for 643 nodes
+creating statistics provider
+extracting region graph...
+Region graph number of edges: 3650
+merging until threshold 0.6
+computing initial scores
+merging until 0.6
+min edge score 1.12057e-05
+threshold exceeded
+merged 518 edges
+extracting segmentation
+Re-using already compiled waterz version
+Preparing segmentation volume...
+counting regions and sizes...
+creating region graph for 80 nodes
+creating statistics provider
+extracting region graph...
+Region graph number of edges: 332
+merging until threshold 0.6
+computing initial scores
+merging until 0.6
+min edge score 0.00190228
+threshold exceeded
+merged 61 edges
+extracting segmentation
+Re-using already compiled waterz version
+Preparing segmentation volume...
+counting regions and sizes...
+creating region graph for 316 nodes
+creating statistics provider
+extracting region graph...
+Region graph number of edges: 1694
+merging until threshold 0.6
+computing initial scores
+merging until 0.6
+min edge score 2.40803e-05
+threshold exceeded
+merged 244 edges
+extracting segmentation
+Re-using already compiled waterz version
+Preparing segmentation volume...
+counting regions and sizes...
+creating region graph for 381 nodes
+creating statistics provider
+extracting region graph...
+Region graph number of edges: 2070
+merging until threshold 0.6
+computing initial scores
+merging until 0.6
+min edge score 1.0848e-05
+threshold exceeded
+merged 296 edges
+extracting segmentation
+Re-using already compiled waterz version
+Preparing segmentation volume...
+counting regions and sizes...
+creating region graph for 609 nodes
+creating statistics provider
+extracting region graph...
+Region graph number of edges: 3501
+merging until threshold 0.6
+computing initial scores
+merging until 0.6
+min edge score 8.58307e-06
+threshold exceeded
+merged 504 edges
+extracting segmentation

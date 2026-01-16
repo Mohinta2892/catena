@@ -41,28 +41,13 @@ def get_last_processed_coordinates(db_host, db_name, collection_name):
     return None, None
 
 
-def check_block(completed_collection, complete_cache, block, last_begin=None, last_shape=None,
-                source_roi=Roi((0, 0, 0), (47280, 187136, 197376))):
+def check_block(completed_collection, complete_cache, block, last_begin=None, last_shape=None):
     if last_begin is not None:
         # If block's write_roi end is before or equal to the last processed block's begin
         # Mark it as done without checking MongoDB
         block_begin = block.read_roi.get_begin()
         if all(b <= l for b, l in zip(block_begin, last_begin)):
             return True
-
-    # Check if block's read_roi extends beyond dataset boundaries
-    # source_roi = Roi((0, 0, 0), (47280, 187136, 197376))  # Get this from source.roi
-    if not source_roi.contains(block.read_roi):
-        module_logger.debug(f"Block {block.block_id} read_roi extends beyond dataset boundaries, marking as done")
-        # Optionally record this in MongoDB for tracking
-        completed_collection.insert_one({
-            "block_id": block.block_id,
-            "status": "boundary_block",
-            "read_roi": [block.read_roi.get_begin(), block.read_roi.get_shape()],
-            "write_roi": [block.write_roi.get_begin(), block.write_roi.get_shape()],
-            "skipped_at": datetime.datetime.now()
-        })
-        return True
 
     # Otherwise check MongoDB as usual
     done = (
@@ -204,8 +189,8 @@ def predict_blockwise(
             # Keep the original shape, just offset the beginning
             total_input_roi = Roi(new_begin, total_input_roi.get_shape())
             # Adjust block ROIs to start from the same coordinates
-            block_read_roi = Roi(new_begin, net_input_size) - context
-            block_write_roi = Roi(new_begin, net_output_size)
+            # block_read_roi = Roi(new_begin, net_input_size) - context
+            # block_write_roi = Roi(new_begin, net_output_size)
             # Calculate remaining shape from new_begin to end
             remaining_shape = total_input_roi.get_end() - new_begin
             remaining_blocks = np.array(remaining_shape / net_output_size).prod()
@@ -216,8 +201,6 @@ def predict_blockwise(
             print(f"Original total blocks: {np.array(total_input_roi.get_shape() / net_output_size).prod()}")
             module_logger.info(f"Resuming from coordinates {new_begin}")
             print(f"Resuming from coordinates {new_begin}")
-            print(f"block read_roi {block_read_roi}, block_write_roi {block_write_roi}")
-            # quit()
     else:
         last_begin, last_shape = None, None
 
@@ -227,8 +210,7 @@ def predict_blockwise(
         read_roi=block_read_roi,
         write_roi=block_write_roi,
         process_function=lambda: start_worker(cfg),
-        check_function=lambda b: check_block(completed_collection, complete_cache, b, last_begin, last_shape,
-                                             source_roi),
+        check_function=lambda b: check_block(completed_collection, complete_cache, b, last_begin, last_shape),
         num_workers=cfg.SYSTEM.NUM_WORKERS,
         read_write_conflict=False,
         fit="shrink",
@@ -283,45 +265,9 @@ def start_worker(cfg):
     # abs path to the worker - make it relative
     worker = "./engine/predict/predict_worker_daisy.py"
 
-    conda_env = "funkelsd_slurm"  # Replace with your Conda environment name
-    # SBATCH command should never have tabs/spaces after the bin/sh.
-    # It will execute it differently otherwise (we have seen getting only cpus instead of gpus when requested).
-    sbatch_command = f"""#!/bin/sh
-#SBATCH -t 90:40:00                # CPU time
-#SBATCH --partition=agpu           # Partition (queue)
-#SBATCH --gres=gpu:1               # GPU resource
-#SBATCH --mem=128G                 # Memory per node
-#SBATCH -c 20                       # Number of CPU cores
-
-#SBATCH -o ./test_logs/sbatch_test_%j.out     # STDOUT log
-#SBATCH -e ./test_logs/sbatch_test_%j.err     # STDERR log
-
-echo -e "Hello there - my name is sbatch script and I am running on $( hostname ).\nThese are my environmental variables:"
-env | grep -i slurm
-
-# Load Conda environment
-source ~/.bashrc
-conda activate {conda_env}
-
-# Run the Python worker script
-python {worker} {config_file}
-    """
-
-    #    #SBATCH --ntasks=1		       #number of tasks (analyses) to run
-    # SBATCH --gpus-per-task=1 	       # number of gpus per task
-    # SBATCH --nodelist=fmg42              # GPU resource
-
-    # Now call sbatch
     subprocess.run(
-        ["sbatch"],
-        input=sbatch_command,
-        text=True,
-        capture_output=True
+        ["python", f"{worker}", f"{config_file}"]
     )
-
-    # subprocess.run(
-    #     ["python", f"{worker}", f"{config_file}"]
-    # )
     # subprocess.run(["srun", "--gres=gpu:1", "--partition=ml", "--mem=64G", " --time=1:00:00", " --nodelist=fmg104",
     #                 " --pty", "tcsh", "python", f"{worker}", f"{config_file}"])
 

@@ -1,0 +1,120 @@
+INFO:root:worker 0 started...
+INFO:root:Running block with config daisy_logs/snemi3D_pred_affs/config_0.yaml...
+wandb: Currently logged in as: sm2667 (iconnect). Use `wandb login --relogin` to force relogin
+Process Process-3:
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/multiprocessing/process.py", line 315, in _bootstrap
+    self.run()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/daisy_request_blocks.py", line 90, in __get_chunks
+    with daisy_client.acquire_block() as block:
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/contextlib.py", line 113, in __enter__
+    return next(self.gen)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/daisy/client.py", line 75, in acquire_block
+    message = self.tcp_client.get_message(timeout=0.1)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/daisy/tcp/tcp_client.py", line 116, in get_message
+    return self.message_queue.get(block=True, timeout=timeout)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/queue.py", line 179, in get
+    self.not_empty.wait(remaining)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/threading.py", line 306, in wait
+    gotit = waiter.acquire(True, timeout)
+KeyboardInterrupt
+Process Process-4:
+Process Process-2:
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 182, in request_batch
+    self.check_request_consistency(request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 225, in check_request_consistency
+    assert provided_roi.contains(
+AssertionError: ZarrWrite: RAW's ROI [1218:3422, 3144:4416, 5664:6528] (2204, 1272, 864) outside of my ROI [0:2900, 0:6144, 0:6144] (2900, 6144, 6144)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/daisy/client.py", line 85, in acquire_block
+    yield block
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/daisy_request_blocks.py", line 121, in __get_chunks
+    self.get_upstream_provider().request_batch(chunk_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 198, in request_batch
+    raise BatchRequestError(self, request, batch) from e
+gunpowder.nodes.batch_provider.BatchRequestError: Exception in ZarrWrite while processing request
+	RAW: ROI: [1218:3422, 3144:4416, 5664:6528] (2204, 1272, 864), voxel size: None, interpolatable: None, non-spatial: False, dtype: None, placeholder: False
+	PRED_LSDS: ROI: [1740:2900, 3528:4032, 6048:6144] (1160, 504, 96), voxel size: None, interpolatable: None, non-spatial: False, dtype: None, placeholder: False
+	PRED_AFFS: ROI: [1740:2900, 3528:4032, 6048:6144] (1160, 504, 96), voxel size: None, interpolatable: None, non-spatial: False, dtype: None, placeholder: False
+ 
+Batch returned so far:
+None
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/multiprocessing/process.py", line 315, in _bootstrap
+    self.run()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/daisy_request_blocks.py", line 125, in __get_chunks
+    self.block_done_callback(block, start, end - start)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/contextlib.py", line 131, in __exit__
+    self.gen.throw(type, value, traceback)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/daisy/client.py", line 94, in acquire_block
+    logger.exception(
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/logging/__init__.py", line 1481, in exception
+    self.error(msg, *args, exc_info=exc_info, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/logging/__init__.py", line 1475, in error
+    self._log(ERROR, msg, args, **kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/logging/__init__.py", line 1589, in _log
+    self.handle(record)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/logging/__init__.py", line 1599, in handle
+    self.callHandlers(record)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/logging/__init__.py", line 1661, in callHandlers
+    hdlr.handle(record)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/logging/__init__.py", line 954, in handle
+    self.emit(record)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/logging/__init__.py", line 1187, in emit
+    StreamHandler.emit(self, record)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/logging/__init__.py", line 1089, in emit
+    self.flush()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/logging/__init__.py", line 1069, in flush
+    self.stream.flush()
+KeyboardInterrupt
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/multiprocessing/process.py", line 315, in _bootstrap
+    self.run()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/daisy_request_blocks.py", line 90, in __get_chunks
+    with daisy_client.acquire_block() as block:
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/contextlib.py", line 113, in __enter__
+    return next(self.gen)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/daisy/client.py", line 71, in acquire_block
+    self.tcp_client.send_message(AcquireBlock(self.task_id))
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/daisy/tcp/tcp_client.py", line 95, in send_message
+    self.stream.send_message(message)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/daisy/tcp/tcp_stream.py", line 47, in send_message
+    self.ioloop.add_callback(self._send_message, message)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/tornado/platform/asyncio.py", line 247, in add_callback
+    call_soon(self._run_callback, functools.partial(callback, *args, **kwargs))
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/asyncio/base_events.py", line 770, in call_soon_threadsafe
+    self._write_to_self()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/asyncio/selector_events.py", line 140, in _write_to_self
+    csock.send(b'\0')
+KeyboardInterrupt
+Traceback (most recent call last):
+  File "./engine/predict/predict_worker_daisy.py", line 283, in <module>
+    predict(cfg)
+  File "./engine/predict/predict_worker_daisy.py", line 267, in predict
+    b.request_batch(BatchRequest())
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/pipeline.py", line 125, in request_batch
+    return self.output.request_batch(request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/batch_provider.py", line 187, in request_batch
+    batch = self.provide(upstream_request)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/gunpowder/nodes/daisy_request_blocks.py", line 79, in provide
+    worker.join()
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/multiprocessing/process.py", line 149, in join
+    res = self._popen.wait(timeout)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/multiprocessing/popen_fork.py", line 47, in wait
+    return self.poll(os.WNOHANG if timeout == 0.0 else 0)
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/multiprocessing/popen_fork.py", line 27, in poll
+    pid, sts = os.waitpid(self.pid, flag)
+KeyboardInterrupt

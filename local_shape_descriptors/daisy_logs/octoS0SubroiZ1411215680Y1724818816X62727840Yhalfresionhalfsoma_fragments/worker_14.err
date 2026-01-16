@@ -1,0 +1,49 @@
+INFO:root:worker 14 started...
+INFO:root:epsilon_agglomerate: 0.6
+INFO:root:mask_file: None
+INFO:root:mask_dataset: None
+INFO:root:filter_fragments: 0.0
+INFO:root:Running block with config daisy_logs/octoS0SubroiZ1411215680Y1724818816X62727840Yhalfresionhalfsoma_fragments/config_14.yaml...
+INFO:root:Reading affs from /media/samia/DATA/ark/lsd_outputs/MTLSD/3d/run-aclsd-together/model_checkpoint_300000/octo-s0-subroi_z14112-15680_y17248-18816_x6272-7840_yhalfresionhalfsoma.zarr
+INFO:root:Reading fragments from /media/samia/DATA/ark/lsd_outputs/MTLSD/3d/run-aclsd-together/model_checkpoint_300000/octo-s0-subroi_z14112-15680_y17248-18816_x6272-7840_yhalfresionhalfsoma.zarr
+INFO:root:Opening RAG DB...
+INFO:root:RAG DB opened
+INFO:root:block read roi begin: (2224, 6760, 5680)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (2720, 7256, 6176)
+INFO:root:block write roi shape: (864, 864, 864)
+ERROR:daisy.client:Block octoS0SubroiZ1411215680Y1724818816X62727840Yhalfresionhalfsoma_fragments/727 with read ROI [2224:4080, 6760:8616, 5680:7536] (1856, 1856, 1856) and write ROI [2720:3584, 7256:8120, 6176:7040] (864, 864, 864) failed in worker 14
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/daisy/client.py", line 85, in acquire_block
+    yield block
+  File "./engine/post/extract_fragments_worker.py", line 98, in extract_fragments_worker
+    run_waterz_parallel(affs=affs,
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/engine/post/run_waterz.py", line 47, in run_waterz_parallel
+    logger.debug("reading affs from %s", block.read_roi)
+NameError: name 'logger' is not defined
+INFO:root:block read roi begin: (2224, 7624, 7408)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (2720, 8120, 7904)
+INFO:root:block write roi shape: (864, 864, 864)
+ERROR:daisy.client:Block octoS0SubroiZ1411215680Y1724818816X62727840Yhalfresionhalfsoma_fragments/1197 with read ROI [2224:4080, 7624:9480, 7408:9264] (1856, 1856, 1856) and write ROI [2720:3584, 8120:8984, 7904:8768] (864, 864, 864) failed in worker 14
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/daisy/client.py", line 85, in acquire_block
+    yield block
+  File "./engine/post/extract_fragments_worker.py", line 98, in extract_fragments_worker
+    run_waterz_parallel(affs=affs,
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/engine/post/run_waterz.py", line 47, in run_waterz_parallel
+    logger.debug("reading affs from %s", block.read_roi)
+NameError: name 'logger' is not defined
+INFO:root:block read roi begin: (2224, 8488, 9136)
+INFO:root:block read roi shape: (1856, 1856, 1856)
+INFO:root:block write roi begin: (2720, 8984, 9632)
+INFO:root:block write roi shape: (864, 864, 864)
+ERROR:daisy.client:Block octoS0SubroiZ1411215680Y1724818816X62727840Yhalfresionhalfsoma_fragments/1839 with read ROI [2224:4080, 8488:10344, 9136:10992] (1856, 1856, 1856) and write ROI [2720:3584, 8984:9848, 9632:10496] (864, 864, 864) failed in worker 14
+Traceback (most recent call last):
+  File "/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/daisy/client.py", line 85, in acquire_block
+    yield block
+  File "./engine/post/extract_fragments_worker.py", line 98, in extract_fragments_worker
+    run_waterz_parallel(affs=affs,
+  File "/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/engine/post/run_waterz.py", line 47, in run_waterz_parallel
+    logger.debug("reading affs from %s", block.read_roi)
+NameError: name 'logger' is not defined

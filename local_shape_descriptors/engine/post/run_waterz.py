@@ -20,7 +20,7 @@ def run_waterz(cfg):
         print(f"Running waterz with threshold {threshold}")
 
         # path to predicted affinity matrix is hard-coded 
-        results = np.array(results_zarr[f"volumes/pred_affs"])
+        results = np.array(results_zarr[f"volumes/pred_affs"])  # should be pred_affs
         if results.dtype == np.uint8:
             results = (results / 255).astype(np.float32)
 
@@ -31,12 +31,13 @@ def run_waterz(cfg):
         # data_sources, raw_roi = read_source(raw, raw_file, raw_dataset)
         # total_roi = raw_roi.get_shape()
 
-        results_zarr[f"volumes/segmentation_{str(threshold).replace('.', '')}"] = segmentation
-        results_zarr[f"volumes/segmentation_{str(threshold).replace('.', '')}"].attrs["offset"] = (
+        results_zarr[f"volumes/gt_segmentation_{str(threshold).replace('.', '')}"] = segmentation
+        results_zarr[f"volumes/gt_segmentation_{str(threshold).replace('.', '')}"].attrs["offset"] = (
             0, 0, 0)  # total_roi.get_offset()
-        results_zarr[f"volumes/segmentation_{str(threshold).replace('.', '')}"].attrs["resolution"] = voxel_size
+        results_zarr[f"volumes/gt_segmentation_{str(threshold).replace('.', '')}"].attrs["resolution"] = voxel_size
 
         print(f"-----------------------")
+
 
 
 def run_waterz_parallel(affs,

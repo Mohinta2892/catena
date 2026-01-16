@@ -4,6 +4,12 @@ import zarr
 import argparse
 import os
 import matplotlib.pyplot as plt
+import sys
+from pathlib import Path
+
+sys.path.append(str(Path(__file__).resolve().parent.parent.parent))
+
+# from metrics.ap import *
 
 
 def evaluate_segmentation(seg, gt, threshold=None):
@@ -22,41 +28,47 @@ def evaluate_segmentation(seg, gt, threshold=None):
 
 
 def plot_segmentation_slices(seg, raw, aff=None):
-    fig, axs = plt.subplots(2, 3, figsize=(10,10))
+    fig, axs = plt.subplots(2, 3, figsize=(10, 10))
     # seg = f["volumes/segmentation_0.55"][...]
     # raw = f["volumes/raw"][...]
     # aff = f["volumes/pred_affs"][...]
-    axs[0,0].imshow(raw[10, ...], cmap='gray')
-    axs[0,1].imshow(aff[10, ...], cmap='gray')
-    axs[0,2].imshow(seg[10, ...], cmap='prism')
+    axs[0, 0].imshow(raw[10, ...], cmap='gray')
+    axs[0, 1].imshow(aff[10, ...], cmap='gray')
+    axs[0, 2].imshow(seg[10, ...], cmap='prism')
 
     plt.show()
 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-gt', default='/media/samia/DATA/ark/dan-samia/lsd/funke/otto/tiff/octo_z7392-7904_y6586-7098_x5388-5900_z120-140_y100-300_x100-300_wgt.zarr',
+    parser.add_argument('-gt',
+                        default='/media/samia/DATA/ark/connexion/data/HEMI/data_3d/test/roi_1_full_remapped.zarr',
                         help='Pass the gt zarr file')
 
     parser.add_argument('-gt_ds', default='volumes/labels/neuron_ids', help='Pass the dataset in gt zarr file')
-    parser.add_argument('-seg', default='/media/samia/DATA/ark/dan-samia/lsd/funke/otto/tiff/octo_z7392-7904_y6586-7098_x5388-5900_z120-140_y100-300_x100-300_wgt.zarr',
+    parser.add_argument('-seg',
+                        default='/media/samia/DATA/ark/lsd_outputs/MTLSD/3d/run-aclsd-together/model_checkpoint_270000/roi_1_full_remapped.zarr',
                         help='Pass the predicted seg zarr file')
-    parser.add_argument('-seg_ds', default='volumes/segmentation_0.65',
+    parser.add_argument('-seg_ds', default='volumes/segmentation_05',
                         help='Pass the dataset in seg zarr file')
-    parser.add_argument('-aff', default='/media/samia/DATA/ark/dan-samia/lsd/funke/otto/tiff/octo_z7392-7904_y6586-7098_x5388-5900_z120-140_y100-300_x100-300_wgt.zarr', help='Pass the dataset in affinity zarr file')
-    parser.add_argument('-aff_ds', default='volumes/pred_affs', help='Pass the dataset in affinity zarr file')
+    parser.add_argument('-aff',
+                        default='/media/samia/DATA/ark/lsd_outputs/MTLSD/3d/run-aclsd-together/model_checkpoint_270000/roi_1_full_remapped.zarr',
+                        help='Pass the dataset in affinity zarr file')
+    parser.add_argument('-aff_ds', default='volumes/pred_affs_roi1', help='Pass the dataset in affinity zarr file')
 
     args = parser.parse_args()
 
-    seg = zarr.open(args.seg)[args.seg_ds][...]
-    gt = zarr.open(args.gt)[args.gt_ds][...]
+    seg = zarr.open(args.seg)[args.seg_ds][...]#[400:1000, 400:1000, 400:1000]
+    print(seg.shape)
+    gt = zarr.open(args.gt)[args.gt_ds][256:276, 256:456, 256:456]  # [62:512-62, 62:512-62, 62:512-62]
+    print(gt.shape)
     aff = zarr.open(args.aff)[args.aff_ds]
     raw = zarr.open(args.gt)["volumes/raw"]
     # threshold = args.seg_ds[args.split('_')[-1]
 
     evaluate_segmentation(seg=seg, gt=gt, threshold=args.seg_ds)
 
-    plot_segmentation_slices(seg=seg, aff=aff, raw=raw)
+    # plot_segmentation_slices(seg=seg, aff=aff, raw=raw)
 
 
 if __name__ == '__main__':

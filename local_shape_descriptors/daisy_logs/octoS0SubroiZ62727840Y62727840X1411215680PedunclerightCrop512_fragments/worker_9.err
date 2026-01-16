@@ -1,0 +1,18 @@
+INFO:root:worker 9 started...
+INFO:root:epsilon_agglomerate: 0.5
+INFO:root:mask_file: None
+INFO:root:mask_dataset: None
+INFO:root:filter_fragments: 0.0
+INFO:root:Running block with config daisy_logs/octoS0SubroiZ62727840Y62727840X1411215680PedunclerightCrop512_fragments/config_9.yaml...
+INFO:root:Reading affs from /media/samia/DATA/ark/lsd_outputs/MTLSD/3d/run-aclsd-together/model_checkpoint_300000/octo-s0-subroi_z6272-7840_y6272-7840_x14112-15680-peduncleright_crop_512.zarr
+INFO:root:Reading fragments from /media/samia/DATA/ark/lsd_outputs/MTLSD/3d/run-aclsd-together/model_checkpoint_300000/octo-s0-subroi_z6272-7840_y6272-7840_x14112-15680-peduncleright_crop_512.zarr
+INFO:root:Opening RAG DB...
+INFO:root:RAG DB opened
+INFO:root:block read roi begin: (1920, 1920, 1920)
+INFO:root:block read roi shape: (2304, 2304, 2304)
+INFO:root:block write roi begin: (2048, 2048, 2048)
+INFO:root:block write roi shape: (2048, 2048, 2048)
+INFO:engine.post.parallel_fragments:Performing initial fragment agglomeration until 0.500000
+/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages/scipy/ndimage/_measurements.py:1534: RuntimeWarning: invalid value encountered in divide
+  results = [sum(input * grids[dir].astype(float), labels, index) / normalizer
+INFO:root:releasing block: octoS0SubroiZ62727840Y62727840X1411215680PedunclerightCrop512_fragments/14 with read ROI [1920:4224, 1920:4224, 1920:4224] (2304, 2304, 2304) and write ROI [2048:4096, 2048:4096, 2048:4096] (2048, 2048, 2048)

@@ -1,0 +1,115 @@
+['/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors/engine/predict', '/home/samia/anaconda3/envs/funkelsd/lib/python38.zip', '/home/samia/anaconda3/envs/funkelsd/lib/python3.8', '/home/samia/anaconda3/envs/funkelsd/lib/python3.8/lib-dynload', '/home/samia/anaconda3/envs/funkelsd/lib/python3.8/site-packages', '/media/samia/DATA/PhD/codebases/restructured_packages/local_shape_descriptors']
+MtlsdModel(
+  (unet): UNet(
+    (l_conv): ModuleList(
+      (0): ConvPass(
+        (conv_pass): Sequential(
+          (0): Conv3d(1, 12, kernel_size=(3, 3, 3), stride=(1, 1, 1))
+          (1): ReLU()
+          (2): Conv3d(12, 12, kernel_size=(3, 3, 3), stride=(1, 1, 1))
+          (3): ReLU()
+        )
+      )
+      (1): ConvPass(
+        (conv_pass): Sequential(
+          (0): Conv3d(12, 60, kernel_size=(3, 3, 3), stride=(1, 1, 1))
+          (1): ReLU()
+          (2): Conv3d(60, 60, kernel_size=(3, 3, 3), stride=(1, 1, 1))
+          (3): ReLU()
+        )
+      )
+      (2): ConvPass(
+        (conv_pass): Sequential(
+          (0): Conv3d(60, 300, kernel_size=(3, 3, 3), stride=(1, 1, 1))
+          (1): ReLU()
+          (2): Conv3d(300, 300, kernel_size=(3, 3, 3), stride=(1, 1, 1))
+          (3): ReLU()
+        )
+      )
+      (3): ConvPass(
+        (conv_pass): Sequential(
+          (0): Conv3d(300, 1500, kernel_size=(3, 3, 3), stride=(1, 1, 1))
+          (1): ReLU()
+          (2): Conv3d(1500, 1500, kernel_size=(3, 3, 3), stride=(1, 1, 1))
+          (3): ReLU()
+        )
+      )
+    )
+    (l_down): ModuleList(
+      (0): Downsample(
+        (down): MaxPool3d(kernel_size=[2, 2, 2], stride=[2, 2, 2], padding=0, dilation=1, ceil_mode=False)
+      )
+      (1): Downsample(
+        (down): MaxPool3d(kernel_size=[2, 2, 2], stride=[2, 2, 2], padding=0, dilation=1, ceil_mode=False)
+      )
+      (2): Downsample(
+        (down): MaxPool3d(kernel_size=[3, 3, 3], stride=[3, 3, 3], padding=0, dilation=1, ceil_mode=False)
+      )
+    )
+    (r_up): ModuleList(
+      (0): ModuleList(
+        (0): Upsample(
+          (up): ConvTranspose3d(60, 60, kernel_size=(2, 2, 2), stride=(2, 2, 2))
+        )
+        (1): Upsample(
+          (up): ConvTranspose3d(300, 300, kernel_size=(2, 2, 2), stride=(2, 2, 2))
+        )
+        (2): Upsample(
+          (up): ConvTranspose3d(1500, 1500, kernel_size=(3, 3, 3), stride=(3, 3, 3))
+        )
+      )
+    )
+    (r_conv): ModuleList(
+      (0): ModuleList(
+        (0): ConvPass(
+          (conv_pass): Sequential(
+            (0): Conv3d(72, 12, kernel_size=(3, 3, 3), stride=(1, 1, 1))
+            (1): ReLU()
+            (2): Conv3d(12, 12, kernel_size=(3, 3, 3), stride=(1, 1, 1))
+            (3): ReLU()
+          )
+        )
+        (1): ConvPass(
+          (conv_pass): Sequential(
+            (0): Conv3d(360, 60, kernel_size=(3, 3, 3), stride=(1, 1, 1))
+            (1): ReLU()
+            (2): Conv3d(60, 60, kernel_size=(3, 3, 3), stride=(1, 1, 1))
+            (3): ReLU()
+          )
+        )
+        (2): ConvPass(
+          (conv_pass): Sequential(
+            (0): Conv3d(1800, 300, kernel_size=(3, 3, 3), stride=(1, 1, 1))
+            (1): ReLU()
+            (2): Conv3d(300, 300, kernel_size=(3, 3, 3), stride=(1, 1, 1))
+            (3): ReLU()
+          )
+        )
+      )
+    )
+  )
+  (lsd_head): ConvPass(
+    (conv_pass): Sequential(
+      (0): Conv3d(12, 10, kernel_size=(1, 1, 1), stride=(1, 1, 1))
+      (1): Sigmoid()
+    )
+  )
+  (aff_head): ConvPass(
+    (conv_pass): Sequential(
+      (0): Conv3d(12, 3, kernel_size=(1, 1, 1), stride=(1, 1, 1))
+      (1): Sigmoid()
+    )
+  )
+)
+Model Parameters: 155.160M
+Saving outputs to /media/samia/DATA/ark/lsd_outputs/MTLSD/3d/run-aclsd-together/model_checkpoint_300000/octo-s0-subroi_z14112-15680_y17248-18816_x6272-7840_yhalfresionhalfsoma.zarr
+Recording block-done for test_pred_affs/106 with read ROI [1360:3216, 5032:6888, 1360:3216] (1856, 1856, 1856) and write ROI [1856:2720, 5528:6392, 1856:2720] (864, 864, 864)
+Recorded block-done for test_pred_affs/106 with read ROI [1360:3216, 5032:6888, 1360:3216] (1856, 1856, 1856) and write ROI [1856:2720, 5528:6392, 1856:2720] (864, 864, 864)
+Recording block-done for test_pred_affs/187 with read ROI [1360:3216, 5032:6888, 3088:4944] (1856, 1856, 1856) and write ROI [1856:2720, 5528:6392, 3584:4448] (864, 864, 864)
+Recorded block-done for test_pred_affs/187 with read ROI [1360:3216, 5032:6888, 3088:4944] (1856, 1856, 1856) and write ROI [1856:2720, 5528:6392, 3584:4448] (864, 864, 864)
+Recording block-done for test_pred_affs/308 with read ROI [1360:3216, 5032:6888, 4816:6672] (1856, 1856, 1856) and write ROI [1856:2720, 5528:6392, 5312:6176] (864, 864, 864)
+Recorded block-done for test_pred_affs/308 with read ROI [1360:3216, 5032:6888, 4816:6672] (1856, 1856, 1856) and write ROI [1856:2720, 5528:6392, 5312:6176] (864, 864, 864)
+Recording block-done for test_pred_affs/477 with read ROI [1360:3216, 5032:6888, 6544:8400] (1856, 1856, 1856) and write ROI [1856:2720, 5528:6392, 7040:7904] (864, 864, 864)
+Recorded block-done for test_pred_affs/477 with read ROI [1360:3216, 5032:6888, 6544:8400] (1856, 1856, 1856) and write ROI [1856:2720, 5528:6392, 7040:7904] (864, 864, 864)
+Recording block-done for test_pred_affs/702 with read ROI [1360:3216, 5032:6888, 8272:10128] (1856, 1856, 1856) and write ROI [1856:2720, 5528:6392, 8768:9632] (864, 864, 864)
+Recorded block-done for test_pred_affs/702 with read ROI [1360:3216, 5032:6888, 8272:10128] (1856, 1856, 1856) and write ROI [1856:2720, 5528:6392, 8768:9632] (864, 864, 864)

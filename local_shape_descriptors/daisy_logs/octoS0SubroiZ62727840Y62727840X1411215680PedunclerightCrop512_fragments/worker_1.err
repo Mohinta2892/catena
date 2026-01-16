@@ -1,0 +1,10 @@
+INFO:root:worker 1 started...
+INFO:root:epsilon_agglomerate: 0.5
+INFO:root:mask_file: None
+INFO:root:mask_dataset: None
+INFO:root:filter_fragments: 0.0
+INFO:root:Running block with config daisy_logs/octoS0SubroiZ62727840Y62727840X1411215680PedunclerightCrop512_fragments/config_1.yaml...
+INFO:root:Reading affs from /media/samia/DATA/ark/lsd_outputs/MTLSD/3d/run-aclsd-together/model_checkpoint_300000/octo-s0-subroi_z6272-7840_y6272-7840_x14112-15680-peduncleright_crop_512.zarr
+INFO:root:Reading fragments from /media/samia/DATA/ark/lsd_outputs/MTLSD/3d/run-aclsd-together/model_checkpoint_300000/octo-s0-subroi_z6272-7840_y6272-7840_x14112-15680-peduncleright_crop_512.zarr
+INFO:root:Opening RAG DB...
+INFO:root:RAG DB opened

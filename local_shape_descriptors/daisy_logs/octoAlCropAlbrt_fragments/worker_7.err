@@ -1,0 +1,14 @@
+INFO:root:worker 7 started...
+INFO:root:epsilon_agglomerate: 0.6
+INFO:root:mask_file: None
+INFO:root:mask_dataset: None
+INFO:root:filter_fragments: 0.0
+INFO:root:Running block with config daisy_logs/octoAlCropAlbrt_fragments/config_7.yaml...
+INFO:root:Reading affs from /media/samia/DATA/ark/lsd_outputs/MTLSD/3d/run-aclsd-together/model_checkpoint_300000/octo-AL-crop-Albrt.zarr
+INFO:root:Reading fragments from /media/samia/DATA/ark/lsd_outputs/MTLSD/3d/run-aclsd-together/model_checkpoint_300000/octo-AL-crop-Albrt.zarr
+INFO:root:Opening RAG DB...
+INFO:root:RAG DB opened
+INFO:root:block read roi begin: (-800, 3296, 7392)
+INFO:root:block read roi shape: (5696, 5696, 5696)
+INFO:root:block write roi begin: (0, 4096, 8192)
+INFO:root:block write roi shape: (4096, 4096, 4096)

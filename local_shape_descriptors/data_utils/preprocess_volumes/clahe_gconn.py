@@ -11,6 +11,10 @@ conda activate funkelsd
 python clahe_gconn.py -f /media/samia/DATA/mounts/zstore1/catena/data/COMBINED_NEURIPS_SAME_PREID/data_3d/octo_corr_tpfp_19aug2025/octo_cube1_19aug25_tpfp_8083_8765_y5878_6542_z4697_5319.hdf \
 -k 30 120 120 -mp 4
 
+Michael W's data:
+-f /media/samia/DATA/mounts/fibserver1/smohinta_data/catena_data/MICHAEL_CRICK/data_3d/test/isoVNC-2MHz-2nA-150micron-processed_SIFT.zarr
+-k 32 50 50
+
 Author: Samia Mohinta
 Affiliation: Cardona lab, Cambridge University, UK
 """
@@ -35,7 +39,11 @@ from tqdm.dask import TqdmCallback
 
 sys.path.append(str(Path(__file__).resolve().parent.parent.parent))
 
-from data_utils.preprocess_volumes.utils import read_zarr, list_keys, collect_items, natural_keys, read_hdf
+from data_utils.preprocess_volumes.utils import read_zarr, list_keys, collect_items, natural_keys#, #read_hdf
+
+
+def read_hdf(f, mode='r'):
+    return h5py.File(f, mode=mode)
 
 
 class CLAHE:
@@ -129,7 +137,7 @@ def copy_datasets_from_multiple_sources(in_zarr, out_zarr, datasets_to_copy=None
         source_z = read_zarr(in_zarr)
         source_z_keys = list_keys(source_z)
         with zarr.open(out_zarr, mode="a") as dest_z:
-    
+
             for dataset_name in datasets_to_copy:
                 # Copy the dataset from source to destination as a whole
                 if is_2d:
@@ -139,7 +147,7 @@ def copy_datasets_from_multiple_sources(in_zarr, out_zarr, datasets_to_copy=None
                     zarr.copy(source_z[dataset_name], dest_z, name=dataset_name,
                               # [f"/{'/'.join(dataset_name.split('/')[:-1])}"],
                               log=stdout, if_exists='replace', dry_run=False)
-                    
+
     elif flag_file_type == "hdf":
         source_z = read_hdf(in_zarr)
         source_z_keys = list_keys(source_z)
@@ -151,8 +159,8 @@ def copy_datasets_from_multiple_sources(in_zarr, out_zarr, datasets_to_copy=None
                     source_z.copy(source_z[dataset_name], dest_z[dataset_name.split('/')[0]])
                 else:
                     source_z.copy(source_z[dataset_name], dest_z, name=dataset_name,
-                              # [f"/{'/'.join(dataset_name.split('/')[:-1])}"],
-                              )
+                                  # [f"/{'/'.join(dataset_name.split('/')[:-1])}"],
+                                  )
 
             for dataset_name in source_z_keys:
                 if dataset_name not in dest_z:
@@ -161,7 +169,7 @@ def copy_datasets_from_multiple_sources(in_zarr, out_zarr, datasets_to_copy=None
                     else:
                         source_z.copy(source_z[dataset_name], dest_z, name=dataset_name
                                       # [f"/{'/'.join(dataset_name.split('/')[:-1])}"],
-                                     )
+                                      )
 
     print("Datasets copied successfully")
 

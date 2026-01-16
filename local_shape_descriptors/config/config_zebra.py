@@ -1,8 +1,3 @@
-"""
-This configuration is specific to run training with the publicly available zebrafinch data.
-Remember the data is anisotropic at resolution `20 x 9 x 9` nm in zyx.
-The labelled datasets exist in two shapes `150 x 150 x 150` and ` 128 x 256 x 256 ` in zyx. The raw datasets are padded with extra context.
-"""
 from yacs.config import CfgNode as CN
 import math
 
@@ -17,14 +12,14 @@ _C.SYSTEM = CN()
 # Number of GPUS to use in the experiment
 _C.SYSTEM.NUM_GPUS = 1
 # Number of workers for doing things, may not be used in this context
-_C.SYSTEM.NUM_WORKERS = 10
+_C.SYSTEM.NUM_WORKERS = 15
 _C.SYSTEM.CACHE_SIZE = 20
 _C.SYSTEM.VERBOSE = True
 
 _C.DATA = CN()
 _C.DATA.HOME = "/media/samia/DATA/ark"  # options: /home; /media/samia/DATA/ark; this must be a mounted directory such that logs are written to local
 _C.DATA.DATA_DIR_PATH = "connexion/data"  # where the code resides and data should too; connexion/data
-_C.DATA.BRAIN_VOL = "CREMI"  # datasets, options: HEMI;OCTO;SEYMOUR;LUCCHI;CREMI; expand this to load multiple datasets
+_C.DATA.BRAIN_VOL = "ZEBRAFINCH_CLAHE_CROPPED"  # datasets, options: HEMI;OCTO;SEYMOUR;LUCCHI;CREMI; expand this to load multiple datasets
 _C.DATA.TRAIN_TEST_SPLIT = 1  # TODO splits: 1 = all volumes used to train
 _C.DATA.FIB = 0  # Means FIBSEM isotropic data
 _C.DATA.DIM_2D = False  # TODO: Data preprocessing functionality here
@@ -42,7 +37,7 @@ if _C.DATA.DIM_2D:
     # creates 2D zarrs from 3D zarrs; 3D zarr files must be placed at the right path
     _C.PREPROCESS.EXPORT_2D_FROM_3D = False
     _C.PREPROCESS.SOURCE_DATA_OFFSET = (0, 0)
-    _C.PREPROCESS.SOURCE_DATA_RESOLUTION = (8, 8)
+    _C.PREPROCESS.SOURCE_DATA_RESOLUTION = (9, 9)
     # for this both source and target datasets must exist at the right paths
     _C.PREPROCESS.HISTOGRAM_MATCH = None  # '["HEMI" , "OCTO"]
     _C.PREPROCESS.USE_WANDB = True  # we set it here for now
@@ -163,14 +158,16 @@ _C.MODEL_ANISO.IN_CHANNELS = 1
 _C.MODEL_ANISO.LSDS = 6 if _C.DATA.DIM_2D else 10  # num of lsd features 6 == 2D; 10 == 3D
 _C.MODEL_ANISO.NUM_FMAPS = 12
 _C.MODEL_ANISO.FMAP_INC_FACTOR = 5
-_C.MODEL_ANISO.DOWNSAMPLE_FACTORS = [[1, 2, 2], [2, 2, 2], [3, 3, 3]]
-_C.MODEL_ANISO.DOWNSAMPLE_FACTORS_2D = [[1, 2], [2, 2], [3, 3]]
+_C.MODEL_ANISO.DOWNSAMPLE_FACTORS = [[1, 2, 2], [2, 2, 2], [2, 2, 2]]
+_C.MODEL_ANISO.DOWNSAMPLE_FACTORS_2D = [[2, 2], [2, 2], [3, 3]]
 _C.MODEL_ANISO.NUM_FMAPS_OUT = 12
-_C.MODEL_ANISO.KERNEL_SIZE_DOWN = [[(1, 3, 3), (1, 3, 3)], [(3,) * 3, (3,) * 3], [(3,) * 3, (3,) * 3],
-                                   [(3,) * 3, (3,) * 3]]
-_C.MODEL_ANISO.KERNEL_SIZE_DOWN_2D = [[(1, 3), (1, 3)], [(3,) * 2, (3,) * 2], [(3,) * 2, (3,) * 2],
+# Could be aniso kernel [[(3, 3, 3), (3, 3, 3)], [(3,) * 3, (3,) * 3], [(3,) * 3, (3,) * 3], [(3,) * 3, (3,) * 3]]
+_C.MODEL_ANISO.KERNEL_SIZE_DOWN = None  # as per paper
+# Could be aniso kernel [[(1, 3), (1, 3)], [(3,) * 2, (3,) * 2], [(3,) * 2, (3,) * 2], [(3,) * 2, (3,) * 2]]
+_C.MODEL_ANISO.KERNEL_SIZE_DOWN_2D = [[(3,) * 2, (3,) * 2], [(3,) * 2, (3,) * 2], [(3,) * 2, (3,) * 2],
                                       [(3,) * 2, (3,) * 2]]
-_C.MODEL_ANISO.KERNEL_SIZE_UP = [[(3,) * 3, (3,) * 3], [(3,) * 3, (3,) * 3], [(3,) * 3, (3,) * 3]]
+# Could be this, but default is this: [[(3,) * 3, (3,) * 3], [(3,) * 3, (3,) * 3], [(3,) * 3, (3,) * 3]]
+_C.MODEL_ANISO.KERNEL_SIZE_UP = None  # as per paper
 _C.MODEL_ANISO.KERNEL_SIZE_UP_2D = [[(3,) * 2, (3,) * 2], [(3,) * 2, (3,) * 2], [(3,) * 2, (3,) * 2]]
 _C.MODEL_ANISO.PAD_CONV = 'valid'
 _C.MODEL_ANISO.CONTROL_POINT_SPACING = (4, 4, 10)  # xyz
@@ -178,7 +175,7 @@ _C.MODEL_ANISO.CONTROL_POINT_SPACING_2D = (4, 4)  # xy
 _C.MODEL_ANISO.JITTER_SIGMA = (0, 2, 2)  # zyx
 _C.MODEL_ANISO.JITTER_SIGMA_2D = (2, 2)  # xy
 _C.MODEL_ANISO.ROTATION_INTERVAL = [0, math.pi / 2.0]
-_C.MODEL_ANISO.PROB_SLIP = 0.5  # APPLIED ONCE FOR ANI DATASETS: LSD PAPER
+_C.MODEL_ANISO.PROB_SLIP = 0.5  # APPLIED ONCE FOR ANISO DATASETS: LSD PAPER
 _C.MODEL_ANISO.PROB_SHIFT = 0.5
 _C.MODEL_ANISO.MAX_MISALIGN = 10
 _C.MODEL_ANISO.SUBSAMPLE = 8
@@ -194,15 +191,15 @@ _C.MODEL_ANISO.LSD_DOWNSAMPLE = 2
 # PASSED AS A LIST SINCE THERE ARE TWO SCALE/SHIFT AUGS APPLIED WITH DIFFERENT VALUES
 _C.MODEL_ANISO.INTENSITYSCALESHIFT_SCALE = [2, 0.5]
 _C.MODEL_ANISO.INTENSITYSCALESHIFT_SHIFT = [-1, 0.5]
-_C.MODEL_ANISO.INPUT_SHAPE = (132, 268, 268)  # cremi: ZYX
-_C.MODEL_ANISO.INPUT_SHAPE_2D = (268, 268)  # cremi
-_C.MODEL_ANISO.OUTPUT_SHAPE = (72, 144, 144)  # cremi
-_C.MODEL_ANISO.OUTPUT_SHAPE_2D = (144, 144)  # cremi
-_C.MODEL_ANISO.VOXEL_SIZE = (40, 4, 4)  # cremi
-_C.MODEL_ANISO.VOXEL_SIZE_2D = (4, 4)  # cremi
-_C.MODEL_ANISO.LOG_DIR = f"{_C.DATA.HOME}/lsd_logs/{_C.TRAIN.MODEL_TYPE}_{'2D' if _C.DATA.DIM_2D else '3D'}/{_C.DATA.BRAIN_VOL}/{'LSD' if _C.TRAIN.LSD_EPOCHS is not None else ''}/run_1"
-_C.MODEL_ANISO.CKPT_FOLDER = f"{_C.DATA.HOME}/lsd_checkpoints/{_C.TRAIN.MODEL_TYPE}_{'2D' if _C.DATA.DIM_2D else '3D'}/{_C.DATA.BRAIN_VOL}/{'LSD' if _C.TRAIN.LSD_EPOCHS is not None else ''}/run_1"
-_C.MODEL_ANISO.OUTPUT_DIR = f"{_C.DATA.HOME}/lsd_snapshots/{_C.TRAIN.MODEL_TYPE}_{'2D' if _C.DATA.DIM_2D else '3D'}/{_C.DATA.BRAIN_VOL}/{'LSD' if _C.TRAIN.LSD_EPOCHS is not None else ''}/run_1"
+_C.MODEL_ANISO.INPUT_SHAPE = (76, 148, 148)  # : ZYX
+_C.MODEL_ANISO.INPUT_SHAPE_2D = (148, 148)  # 2D cropped zebrafinch
+_C.MODEL_ANISO.OUTPUT_SHAPE = (28, 56, 56)  # cremi
+_C.MODEL_ANISO.OUTPUT_SHAPE_2D = (24, 24)  # # 2D cropped zebrafinch
+_C.MODEL_ANISO.VOXEL_SIZE = (20, 9, 9)  # cremi
+_C.MODEL_ANISO.VOXEL_SIZE_2D = (9, 9)  # must match w
+_C.MODEL_ANISO.LOG_DIR = f"{_C.DATA.HOME}/lsd_logs/{_C.TRAIN.MODEL_TYPE}_{'2D' if _C.DATA.DIM_2D else '3D'}/{_C.DATA.BRAIN_VOL}/{'LSD' if _C.TRAIN.LSD_EPOCHS is not None else ''}/run17v_w_2099_labels150"
+_C.MODEL_ANISO.CKPT_FOLDER = f"{_C.DATA.HOME}/lsd_checkpoints/{_C.TRAIN.MODEL_TYPE}_{'2D' if _C.DATA.DIM_2D else '3D'}/{_C.DATA.BRAIN_VOL}/{'LSD' if _C.TRAIN.LSD_EPOCHS is not None else ''}/run17v_w_2099_labels150"
+_C.MODEL_ANISO.OUTPUT_DIR = f"{_C.DATA.HOME}/lsd_snapshots/{_C.TRAIN.MODEL_TYPE}_{'2D' if _C.DATA.DIM_2D else '3D'}/{_C.DATA.BRAIN_VOL}/{'LSD' if _C.TRAIN.LSD_EPOCHS is not None else ''}/run17v_w_2099_labels150"
 # SPECIAL AUGMENTATION CASE: SET THE PATH TO THE DEFECTS FILE HERE.
 _C.MODEL_ANISO.DEFECT_AUGMENT = ""
 
@@ -211,6 +208,7 @@ def get_cfg_defaults():
     """Get a yacs CfgNode object with default values for this project.
     Copied from YACs documentation"""
     # Return a clone so that the defaults will not be altered
+
     # This is for the "local variable" use pattern
     return _C.clone()
 

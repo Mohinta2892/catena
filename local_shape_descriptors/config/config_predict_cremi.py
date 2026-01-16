@@ -1,0 +1,153 @@
+from yacs.config import CfgNode as CN
+import math
+import numpy as np
+
+# Switch this off when inferring blockwise with `super_predicter_daisy.py`
+# try:
+#     import torch
+# except Exception as e:
+#     raise ModuleNotFoundError
+
+_C = CN()
+
+_C.SYSTEM = CN()
+_C.SYSTEM.NUM_GPUS = 1
+_C.SYSTEM.NUM_WORKERS = 1
+_C.SYSTEM.CACHE_SIZE = 40
+_C.SYSTEM.VERBOSE = True
+_C.DATA = CN()
+_C.DATA.HOME = '/media/samia/DATA/ark'
+_C.DATA.DATA_DIR_PATH = 'connexion/data'
+_C.DATA.BRAIN_VOL = 'CREMI'
+_C.DATA.TRAIN_TEST_SPLIT = 1
+_C.DATA.FIB = 0
+_C.DATA.DIM_2D = False
+_C.DATA.OUTFILE = '/media/samia/DATA/ark/lsd_outputs'
+_C.DATA.INVERT_PRED_AFFS = False
+_C.DATA.MASK_FILE = None # '/media/samia/DATA/ark/connexion/data/CREMI/data_3d/test/sample_A_padded_20160501_copy_mask.zarr'
+_C.DATA.MASK_DS = None #'volumes/labels/labels_mask'
+_C.DATA.DB_NAME = ''
+_C.DATA.DB_HOST = ''
+_C.DATA.DROP_DS_MONGOTABLE = False
+_C.PREPROCESS = CN()
+_C.PREPROCESS.HISTOGRAM_MATCH = ['HEMI', 'POPEYE']
+_C.TRAIN = CN()
+_C.TRAIN.BATCH_SIZE = 1
+_C.TRAIN.NEIGHBORHOOD = [[-1, 0, 0], [0, -1, 0], [0, 0, -1]]
+_C.TRAIN.NEIGHBORHOOD_2D = [[-1, 0, 0], [0, -1, 0], [0, 0, -1]]
+_C.TRAIN.LR_NEIGHBORHOOD = [[-1, 0, 0], [0, -1, 0], [0, 0, -1]]
+_C.TRAIN.EPOCHS = 400000
+_C.TRAIN.SAVE_EVERY = 2000
+_C.TRAIN.DEVICE = 'cuda:0'
+_C.TRAIN.INITIAL_LR = 5e-05
+_C.TRAIN.LR_BETAS = (0.95, 0.999)
+_C.TRAIN.MODEL_TYPE = 'MTLSD'
+_C.TRAIN.CHECKPOINT = '/media/samia/DATA/ark/lsd_checkpoints/MTLSD_3D/CREMI/run_unclahed/model_checkpoint_latest'
+_C.MODEL_ISO = CN()
+_C.MODEL_ISO.IN_CHANNELS = 1
+_C.MODEL_ISO.NUM_FMAPS = 12
+_C.MODEL_ISO.NUM_FMAPS_OUT = 12
+_C.MODEL_ISO.FMAP_INC_FACTOR = 5
+_C.MODEL_ISO.DOWNSAMPLE_FACTORS = [[2, 2, 2], [2, 2, 2], [3, 3, 3]]
+_C.MODEL_ISO.DOWNSAMPLE_FACTORS_2D = [[2, 2], [2, 2], [3, 3]]
+_C.MODEL_ISO.KERNEL_SIZE_DOWN = [[(3, 3, 3), (3, 3, 3)], [(3, 3, 3), (3, 3, 3)], [(3, 3, 3), (3, 3, 3)], [(3, 3, 3), (3, 3, 3)]]
+_C.MODEL_ISO.KERNEL_SIZE_DOWN_2D = [[(3, 3), (3, 3)], [(3, 3), (3, 3)], [(3, 3), (3, 3)], [(3, 3), (3, 3)]]
+_C.MODEL_ISO.KERNEL_SIZE_UP = [[(3, 3, 3), (3, 3, 3)], [(3, 3, 3), (3, 3, 3)], [(3, 3, 3), (3, 3, 3)]]
+_C.MODEL_ISO.KERNEL_SIZE_UP_2D = [[(3, 3), (3, 3)], [(3, 3), (3, 3)], [(3, 3), (3, 3)]]
+_C.MODEL_ISO.PAD_CONV = 'valid'
+_C.MODEL_ISO.CONTROL_POINT_SPACING = (40, 40, 40)
+_C.MODEL_ISO.CONTROL_POINT_SPACING_2D = (40, 40)
+_C.MODEL_ISO.JITTER_SIGMA = [(0, 2, 2), (2, 2, 2)]
+_C.MODEL_ISO.JITTER_SIGMA_2D = [(0, 2), (2, 2)]
+_C.MODEL_ISO.ROTATION_INTERVAL = [0, 1.5707963267948966]
+_C.MODEL_ISO.PROB_SLIP = [0, 0.1]
+_C.MODEL_ISO.PROB_SHIFT = [0, 0.1]
+_C.MODEL_ISO.MAX_MISALIGN = [0, 1]
+_C.MODEL_ISO.SUBSAMPLE = 8
+_C.MODEL_ISO.TRANSPOSE = [0, 1, 2]
+_C.MODEL_ISO.TRANSPOSE_2D = [0, 1]
+_C.MODEL_ISO.INTENSITYAUG_SCALE_MIN = 0.8
+_C.MODEL_ISO.INTENSITYAUG_SCALE_MAX = 1.2
+_C.MODEL_ISO.INTENSITYAUG_SHIFT_MIN = -0.2
+_C.MODEL_ISO.INTENSITYAUG_SHIFT_MAX = 0.2
+_C.MODEL_ISO.GROWBOUNDARY_STEPS = 1
+_C.MODEL_ISO.LSD_SIGMA = 80
+_C.MODEL_ISO.LSD_DOWNSAMPLE = 2
+_C.MODEL_ISO.INTENSITYSCALESHIFT_SCALE = [2, 0.5]
+_C.MODEL_ISO.INTENSITYSCALESHIFT_SHIFT = [-1, 0.5]
+_C.MODEL_ISO.INPUT_SHAPE = (196, 196, 196)
+_C.MODEL_ISO.INPUT_SHAPE_2D = (196, 196)
+_C.MODEL_ISO.OUTPUT_SHAPE = (72, 72, 72)
+_C.MODEL_ISO.OUTPUT_SHAPE_2D = (72, 72)
+_C.MODEL_ISO.VOXEL_SIZE = (8, 8, 8)
+_C.MODEL_ISO.VOXEL_SIZE_2D = (12, 12)
+_C.MODEL_ISO.GROW_INPUT = (36, 36, 36)
+_C.MODEL_ISO.GROW_INPUT_2D = (36, 36)
+_C.MODEL_ISO.LOG_DIR = '/media/samia/DATA/ark/lsd_logs/MTLSD_3D/log-3dmtlsd-hemi-onlyori'
+_C.MODEL_ISO.CKPT_FOLDER = '/media/samia/DATA/ark/lsd_checkpoints/MTLSD_3D/checkpoints-3dmtlsd-hemi-onlyori'
+_C.MODEL_ISO.OUTPUT_DIR = '/media/samia/DATA/ark/lsd_snapshots/MTLSD_3D/snapshots_3dmtlsd-hemi-onlyori'
+_C.MODEL_ISO.DEFECT_AUGMENT = ''
+_C.MODEL_ANISO = CN()
+_C.MODEL_ANISO.IN_CHANNELS = 1
+_C.MODEL_ANISO.NUM_FMAPS = 12
+_C.MODEL_ANISO.FMAP_INC_FACTOR = 5
+_C.MODEL_ANISO.DOWNSAMPLE_FACTORS = [[1, 2, 2], [2, 2, 2], [3, 3, 3]]
+_C.MODEL_ANISO.DOWNSAMPLE_FACTORS_2D = [[1, 2], [2, 2], [3, 3]]
+_C.MODEL_ANISO.NUM_FMAPS_OUT = 12
+_C.MODEL_ANISO.KERNEL_SIZE_DOWN = [[(1, 3, 3), (1, 3, 3)], [(3, 3, 3), (3, 3, 3)], [(3, 3, 3), (3, 3, 3)], [(3, 3, 3), (3, 3, 3)]]
+_C.MODEL_ANISO.KERNEL_SIZE_DOWN_2D = [[(1, 3), (1, 3)], [(3, 3), (3, 3)], [(3, 3), (3, 3)], [(3, 3), (3, 3)]]
+_C.MODEL_ANISO.KERNEL_SIZE_UP = [[(3, 3, 3), (3, 3, 3)], [(3, 3, 3), (3, 3, 3)], [(3, 3, 3), (3, 3, 3)]]
+_C.MODEL_ANISO.PAD_CONV = 'valid'
+_C.MODEL_ANISO.CONTROL_POINT_SPACING = (4, 4, 10)
+_C.MODEL_ANISO.CONTROL_POINT_SPACING_2D = (4, 4)
+_C.MODEL_ANISO.JITTER_SIGMA = (0, 2, 2)
+_C.MODEL_ANISO.JITTER_SIGMA_2D = (2, 2)
+_C.MODEL_ANISO.ROTATION_INTERVAL = [0, 1.5707963267948966]
+_C.MODEL_ANISO.PROB_SLIP = 0.5
+_C.MODEL_ANISO.PROB_SHIFT = 0.5
+_C.MODEL_ANISO.MAX_MISALIGN = 10
+_C.MODEL_ANISO.SUBSAMPLE = 8
+_C.MODEL_ANISO.TRANSPOSE = [1, 2]
+_C.MODEL_ANISO.TRANSPOSE_2D = [0, 1]
+_C.MODEL_ANISO.INTENSITYAUG_SCALE_MIN = 0.8
+_C.MODEL_ANISO.INTENSITYAUG_SCALE_MAX = 1.2
+_C.MODEL_ANISO.INTENSITYAUG_SHIFT_MIN = -0.2
+_C.MODEL_ANISO.INTENSITYAUG_SHIFT_MAX = 0.2
+_C.MODEL_ANISO.GROWBOUNDARY_STEPS = 1
+_C.MODEL_ANISO.LSD_SIGMA = 80
+_C.MODEL_ANISO.LSD_DOWNSAMPLE = 2
+_C.MODEL_ANISO.INTENSITYSCALESHIFT_SCALE = [2, 0.5]
+_C.MODEL_ANISO.INTENSITYSCALESHIFT_SHIFT = [-1, 0.5]
+_C.MODEL_ANISO.INPUT_SHAPE = (132, 268, 268)
+_C.MODEL_ANISO.INPUT_SHAPE_2D = (268, 268)
+_C.MODEL_ANISO.OUTPUT_SHAPE = (72, 144, 144)
+_C.MODEL_ANISO.OUTPUT_SHAPE_2D = (144, 144)
+_C.MODEL_ANISO.VOXEL_SIZE = (40, 4, 4)
+_C.MODEL_ANISO.VOXEL_SIZE_2D = (4, 4)
+_C.MODEL_ANISO.GROW_INPUT = (36, 36, 36)
+_C.MODEL_ANISO.GROW_INPUT_2D = (36, 36)
+_C.MODEL_ANISO.LOG_DIR = '/media/samia/DATA/ark/lsd_logs/MTLSD_3D/CREMI//run_1'
+_C.MODEL_ANISO.CKPT_FOLDER = '/media/samia/DATA/ark/lsd_checkpoints/MTLSD_3D/CREMI//run_1'
+_C.MODEL_ANISO.OUTPUT_DIR = '/media/samia/DATA/ark/lsd_snapshots/MTLSD_3D/CREMI//run_1'
+_C.MODEL_ANISO.DEFECT_AUGMENT = ''
+_C.MODEL_ANISO.KERNEL_SIZE_UP_2D = [[(3, 3), (3, 3)], [(3, 3), (3, 3)], [(3, 3), (3, 3)]]
+_C.INS_SEGMENT = CN()
+_C.INS_SEGMENT.THRESHOLDS = [0.65]
+_C.INS_SEGMENT.FRAGMENTS_IN_XY = False
+_C.INS_SEGMENT.EPSILON_AGGLOMERATE = 0.25
+_C.INS_SEGMENT.MASK_FILE = None
+_C.INS_SEGMENT.MASK_DATASET = None
+_C.INS_SEGMENT.FILTER_FRAGMENTS = 0.0
+_C.INS_SEGMENT.BLOCK_SIZE = (256, 256, 256)
+_C.INS_SEGMENT.CONTEXT = (24, 24, 24)
+
+def get_cfg_defaults():
+    """Get a yacs CfgNode object with default values for this project.
+    Copied from YACs documentation"""
+    # Return a clone so that the defaults will not be altered
+    # This is for the "local variable" use pattern
+    return _C.clone()
+
+# Alternatively, provide a way to import the defaults as
+# a global singleton:
+cfg = _C  # users can `from config import cfg`

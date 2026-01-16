@@ -22,13 +22,12 @@ import numpy as np
 from glob import glob
 import subprocess
 import multiprocessing
-import argparse
 
 # add current directory to path and allow absolute imports
 sys.path.insert(0, '.')
 from config.config_predict import *
 from engine.predict.predict_3d import predict
-from engine.predict.predict_2d import predict_2d
+from engine.predict.predict_2d_all_yacs import predict_2d
 from engine.post.run_waterz import run_waterz
 from data_utils.preprocess_volumes.utils import calculate_min_2d_samples
 
@@ -63,19 +62,7 @@ if __name__ == '__main__':
     Reads params/args from `config_predict.py`.
     
     """
-    parser = argparse.ArgumentParser("You can pass an explicit config file to train.")
-    parser.add_argument('-c', default=None, help='Pass the config file"!')
-    args = parser.parse_args()
-    config_file = args.c
-    if config_file is not None:
-        # parse the args file to become cfg
-        cfg = CN()
-        # Allow creating new keys recursively.: https://github.com/rbgirshick/yacs/issues/25
-        cfg.set_new_allowed(True)
-        cfg.merge_from_file(config_file)
-    else:
-        cfg = get_cfg_defaults()
-
+    cfg = get_cfg_defaults()
     # can be used to override pre-defined settings
     if os.path.exists("./experiment.yaml"):
         cfg.merge_from_file("experiment.yaml")
@@ -115,38 +102,32 @@ if __name__ == '__main__':
     # # TODO: batch inference could make it faster
     if cfg.TRAIN.BATCH_SIZE > 1:
         cfg.TRAIN.BATCH_SIZE = 1
-        
-    # TODO: this splitting datasets based on device_count is flawed when only 1 gpu is available but multiple datasets are inside the test folder. 
 
     device_count = np.arange(torch.cuda.device_count())  # returns 8 in Nvidia-DGX Cardona-lab
 
     # split them to use only last 4 now for inference
     device_count = device_count[-4:]
-    print(f"device count {device_count}")
 
     # read all checkpoints
     checkpoints = sorted(glob(f"{os.path.dirname(cfg.TRAIN.CHECKPOINT)}/*model_checkpoint_*[0-9]*"),
                          key=get_checkpoint_number)
-    print(f"found checkpoints: {checkpoints}")
     
-    try:
-        checkpoint_start = int(os.path.basename(cfg.TRAIN.CHECKPOINT).split('_')[-1])
-        checkpoint_end = checkpoints[-1]
-        only_one_ckpt_available = False
-    except Exception as e:
-        only_one_ckpt_available = True
+    print(f"found checkpoints: {checkpoints}")
+
+    checkpoint_start = int(os.path.basename(cfg.TRAIN.CHECKPOINT).split('_')[-1])
+    checkpoint_end = checkpoints[-1]
 
     split_datasets = False
-    if len(samples) > 1 and len(device_count) > 2:
+    if len(samples) > 1:
         split_datasets = True
 
-    if only_one_ckpt_available:
+    if checkpoint_start == checkpoint_end:
         print("User wants to run on the latest checkpoint"
               " but we are going to check if we have multiple files to inference on and then spawn accordingly")
         if not split_datasets:
             # call predicter.py instead, it is equipped to run one or more datasets, but cannot change the gpu
             # requires refactoring and merging with this
-            subprocess.run(["python", "./predicter.py", "-c", f"{config_file}"])
+            subprocess.run(["python", "./predicter.py"])
     else:
         if split_datasets:
             samples_per_gpu = len(samples) // len(device_count)

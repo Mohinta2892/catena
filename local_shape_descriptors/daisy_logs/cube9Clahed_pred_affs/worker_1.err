@@ -1,0 +1,13 @@
+INFO:root:worker 1 started...
+INFO:root:Running block with config daisy_logs/cube9Clahed_pred_affs/config_1.yaml...
+wandb: Currently logged in as: sm2667 (iconnect). Use `wandb login --relogin` to force relogin
+Traceback (most recent call last):
+  File "/opt/pycharm-professional/plugins/python/helpers/pydev/pydevd.py", line 1496, in _exec
+    pydev_imports.execfile(file, globals, locals)  # execute the script
+  File "/opt/pycharm-professional/plugins/python/helpers/pydev/_pydev_imps/_pydev_execfile.py", line 18, in execfile
+    exec(compile(contents+"\n", file, 'exec'), glob, loc)
+  File "./engine/predict/predict_worker_daisy.py", line 292, in <module>
+    predict(cfg)
+  File "./engine/predict/predict_worker_daisy.py", line 130, in predict
+    mask = open_ds(cfg.DATA.MASK_FILE, cfg.DATA.MASK_DS)
+NameError: name 'open_ds' is not defined
