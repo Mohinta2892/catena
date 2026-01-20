@@ -26,6 +26,7 @@ Read these:
 - [System Requirements](docs/source/systemrequirements.rst)
 - Installation instructions: [Docker](docker/readme.md), [Conda](conda_env/readme.md)
 - [Dataset preparation](data_utils/download_data)
+- [Cookbooks](https://github.com/Mohinta2892/catena/blob/cookbooks/local_shape_descriptors/cookbooks/00_train_3D_cremi.md) 
 
 ### Usage instructions
 
