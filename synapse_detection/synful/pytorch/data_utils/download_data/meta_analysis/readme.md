@@ -144,4 +144,4 @@ python download_local_synapses.py
 
 
 ### Data conversion
-- Please look inside scripts that to use the example data conversion scripts for CREMI format.
+- Please look inside scripts to use the example data conversion scripts for CREMI format.
