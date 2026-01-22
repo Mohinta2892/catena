@@ -141,5 +141,6 @@ conda activate syn
 python download_local_synapses.py
 ```
 
-
+### Data conversion
+- Please look inside scripts that to use the example data conversion scripts for CREMI format.
 </details>
