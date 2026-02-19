@@ -6,7 +6,8 @@ This folder contains (or points to) the scripts that allows us to upload the pre
 
 There are a bunch of post-processing involved to ensure the predicted data is as clean as possible. These are under the post_scripts_for_upload.
 
-Please follow instructions if you wish to upload synapses to CAVE or CATMAID.
+Please follow instructions if you wish to upload synapses to CAVE or CATMAID. Conda environment with all dependencies is [here](https://github.com/Mohinta2892/catena/tree/dev/synapse_detection/ingest_for_proofreading/conda_env).
+
 #### CAVE
 
 - Run:
