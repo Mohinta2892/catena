@@ -1,6 +1,6 @@
 # Post processing scripts to filter the DB containing synapses prior to uploading in CAVE or CATMAID
 
-- In `filter_autotapse_n_neuropil_mask_synapse_predictions.py`, the configuration is not `argparse` driven. Please edit these information prior to running.
+- In `filter_autotapse_n_neuropil_mask_synapse_predictions.py`, the configuration is not `argparse` driven. Please edit these information prior to running. It assumes segmentation is `precomputed` format.
   ```python
   # ================= CONFIGURATION =================
   SOURCE_DB_PATH = "/mnt/graid/synapse_detection/predictions/octo_cns/octo_cns_setup_03_octo_cube_all3_same_preid_256_300000/synapse_predictions.db"
