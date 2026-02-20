@@ -94,6 +94,8 @@ def process_and_upload_chunk(chunk_data):
             [int(r['post_x']), int(r['post_y']), int(r['post_z'])]
             for _, r in df.iterrows()
         ],
+        'score': [float(x) for x in df['score']], # ADDs the score
+        # 'valid': [True] * len(df) # optional, autofills if not provided.
     })
     # Keep id as plain Python object so it never gets cast back to int64
     upload_df['id'] = upload_df['id'].astype(object)
@@ -157,7 +159,7 @@ def main():
     datastack_name = args.datastack
     token = os.environ.get('GOOGLE_SECRETS')
 
-    destination_table_name = 'synapses_v7'
+    destination_table_name = 'synapses_v8'
     destination_table_desc = 'Whole brain synapse prediction (Filtered, Nanometers)'
 
     client = CAVEclient(server_address='https://global.connectomics.braininbrain.org',
