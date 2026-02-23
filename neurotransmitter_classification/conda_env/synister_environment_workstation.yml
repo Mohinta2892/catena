@@ -1,4 +1,4 @@
-name: funkelsd_new
+name: synister
 channels:
   - http://conda.anaconda.org/gurobi
   - conda-forge
@@ -14,29 +14,18 @@ dependencies:
   - libblas=3.9.0
   - libcblas=3.9.0
   - libffi=3.4.2
-  - libgcc-ng=12.2.0
   - libgfortran-ng=12.2.0
   - libgfortran5=12.2.0
-  - libgomp=12.2.0
   - liblapack=3.9.0
   - libnsl=2.0.0
-  - libopenblas=0.3.21
-  - libsqlite=3.40.0
-  - libstdcxx-ng=12.2.0
-  - libuuid=2.32.1
-  - libzlib=1.2.13
   - lz4-c=1.9.4
-  - ncurses=6.3
-  - openssl=3.1.0
-  - pip=23.0.1
-  - python=3.8.16
-  - python_abi=3.8
-  - readline=8.1.2
+  - ncurses=6.4
+  - pip=24.0
+  - python=3.10.12  # updated from python=3.8.16
+  - readline=8.2
   - setuptools=67.6.0
   - snappy=1.1.10
-  - tk=8.6.12
   - wheel=0.40.0
-  - xz=5.2.6
   - z5py=2.0.16
   - zlib=1.2.13
   - zstd=1.5.2
@@ -115,12 +104,12 @@ dependencies:
       - fqdn==1.5.1
       - frozenlist==1.4.0
       - fsspec==2022.11.0
-      - funlib-evaluate==0.1
+      #- git+https://github.com/funkelab/funlib.evaluate.git #funlib-evaluate==0.1; fails on new machines, follow instructions in git issues
       - funlib-geometry==0.2
-      - funlib-learn-torch==0.1
+      - git+https://github.com/funkelab/funlib.learn.torch.git # funlib-learn-torch==0.1
       - funlib-math==0.1
       - funlib-persistence==0.1.0
-      - funlib-segment==0.1
+      - git+https://github.com/funkelab/funlib.segment.git # funlib-segment==0.1
       - furo==2023.9.10
       - fuzzywuzzy==0.18.0
       - gevent==23.9.0.post1
@@ -253,7 +242,7 @@ dependencies:
       - prompt-toolkit==3.0.38
       - protobuf==3.20.3
       - psutil==5.9.4
-      - psycopg2==2.9.5
+      - psycopg2-binary==2.9.9 #Use the binary instead of psycopg2==2.9.5
       - ptyprocess==0.7.0
       - pure-eval==0.2.2
       - pyasn1==0.5.0
@@ -328,7 +317,6 @@ dependencies:
       - tensorboard==2.14.0
       - tensorboard-data-server==0.7.2
       - tensorboardx==2.6
-      - tensorflow-examples==0.1699471818.63262868223049538191520590201343318150499692381
       - terminado==0.17.1
       - texttable==1.6.7
       - threadpoolctl==3.2.0
@@ -345,7 +333,6 @@ dependencies:
       - tqdm==4.64.1
       - traitlets==5.9.0
       - trimesh==3.23.5
-      - try-lsd==0.0.post1.dev1+g7fe96fc
       - typer==0.9.0
       - typing-extensions==4.5.0
       - uc-micro-py==1.0.3
@@ -354,7 +341,6 @@ dependencies:
       - uri-template==1.2.0
       - urllib3==1.26.14
       - wandb==0.16.5
-      - waterz==0.9.4
       - wcwidth==0.2.6
       - webcolors==1.13
       - webencodings==0.5.1
