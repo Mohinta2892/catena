@@ -20,8 +20,8 @@ zlatic_octo_8x8x8_full_200525_datastack --reset
 > **--verify**: will only upload the first 10K synapses and stop 
 
 #### CATMAID:
-- Please follow the jupyter notebook [here](https://github.com/shiyanlee/synapse_CATMAID/blob/main/code%20/import_to_catmaid/push_all_synspred_pymaid.ipynb) for selective loading.
-- For parallel loading of synapses, [use this concurrent upload script.](https://github.com/shiyanlee/synapse_CATMAID/blob/main/code%20/import_to_catmaid/concurrent_synapse_importer_v2.py). It currently expects two dbs, one that was either abruptly stopped and has info about where it was stopped. Can be easily extended to not to support that requirement. This script will be updated to be better.
+- Please follow the jupyter notebook [here](https://github.com/shiyanlee/synapse_CATMAID/blob/main/code%20/import_to_catmaid/push_all_synspred_pymaid.ipynb) for selective loading. Check [#Issue4](https://github.com/shiyanlee/synapse_CATMAID/issues/4) for a cleaner jupyter notebook.
+- For parallel loading of synapses, [use this concurrent upload script.](https://github.com/shiyanlee/synapse_CATMAID/blob/main/code%20/import_to_catmaid/concurrent_synapse_importer_v2.py). It currently expects two dbs, one that was either abruptly stopped and has info about where it was stopped (check the ipynb to understand how the intermediate db is created). Can be easily extended to not to support that requirement. This script will be updated to be better.
 
 >[!WARNING]
 >Both version of these scripts have been tested with the db that is generated via this [script](https://github.com/Mohinta2892/catena/blob/dev/synapse_detection/synful/pytorch/data_utils/post_process/synapse_to_sqlite.py).
