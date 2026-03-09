@@ -74,10 +74,10 @@ This work has been supported by generous funding from:
 </div>
 <br>
 
-- Symons MCR Conference Fund
-- Hugh Paton - JP Morgan Bursaries 
-- Dr Teresa Tiffert Research Innovation Award
-- Friends of College Fund (Robinson College, Cambridge, UK)
+- Symons MCR Conference Fund 2023, 2026
+- Hugh Paton - JP Morgan Bursaries 2023
+- Dr Teresa Tiffert Research Innovation Award 2024
+- Friends of College Fund (Robinson College, Cambridge, UK) 2025
 
 ## Usage Collaborations
 This work is being used in other institutes:
