@@ -40,6 +40,7 @@ docker pull mohinta2892/synful_tf1_py3:latest
   ```bash
   nvidia-docker run --shm-size 128gb --pids-limit -1 -it -u `id -u`:`id -g` -v `pwd`:`pwd` -w `pwd` -v {/path/to}/synful/tensorflow/:/home --network=host {nvcr.io/nvidia/tensorflow:21.12-tf1-py3}
   ```
+  
 - Change directory inside docker
 ```bash
 cd /home/train_from_scratch/scripts
@@ -78,6 +79,7 @@ Then run:
 ```python
 python generate_network.py
 ```
+If 'funlib' package missing errors are thrown, check [#ISSUE44](https://github.com/Mohinta2892/catena/issues/44) to troubleshoot.
 
 Assuming data is organised like (more elaborate example under [local_shape_descriptors](https://github.com/Mohinta2892/catena/tree/dev/local_shape_descriptors/data_utils/download_data)):
 ```bash
