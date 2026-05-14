@@ -102,6 +102,8 @@ roi_1 = gp.Roi(np.array((0, 0, 0)), np.array((9072, 9408, 9552))) # this is in Z
 rois = [roi_1, ... roi_n]
 ```
 
+In the latest scripts under the [example experiments ](https://github.com/Mohinta2892/catena/tree/dev/synapse_detection/synful/tensorflow/train_from_scratch/scripts/experiment_examples/exp_tem_cross4), you **NO LONGER** need to set `roi_1 = gp.Roi(np.array((0, 0, 0)), np.array((9072, 9408, 9552)))`. The script handles it automatically. This main branch of training script will be updated v soon.
+
 - Run `train.py`. It will automatically read `parameter.json`.
 ```python
 CUDA_VISIBLE_DEVICES=0 python train.py
