@@ -10,6 +10,8 @@ import os
 import pdb
 import sys
 import logging
+import glob
+import h5py
 
 try:
     import absl.logging
@@ -26,49 +28,72 @@ from generate_network import mknet
 from synful.gunpowder import AddPartnerVectorMap, Hdf5PointsSource
 
 # CREMI specific, download data from: www.cremi.org
-data_dir = '/zstore/catena/data/SYNPAPER_FIBSEM_CLAHE/cross_4/data_3d/train'
-data_dir_syn = data_dir
-samples = [
-#'WASPSYN23_train_vol0_syns_zyx_2217-2617_4038-4448_6335-6735_cremi_same_preid',
-#'WASPSYN23_train_vol1_syns_zyx_3680-4096_2944-3360_4448-4864_cremi_same_preid',
-#'WASPSYN23_train_vol2_syns_zyx_3776-4192_6048-6464_9248-9664_cremi_same_preid', # removed 10202 for neurips training
-#'WASPSYN23_train_vol3_syns_zyx_5152-5568_3168-3584_8384-8800_cremi_same_preid',
-#'WASPSYN23_train_vol4_syns_zyx_1920-2336_4832-5248_6528-6944_cremi_same_preid',
-'HEMIBRAIN_synapses_x12437-13037_y27229-27829_z17176-17776',
-'HEMIBRAIN_synapses_x15035-15635_y28559-29159_z9602-10202',
-'HEMIBRAIN_synapses_x15082-15682_y31050-31650_z14555-15155', # removed 10202 for neurips training
-'HEMIBRAIN_synapses_x21786-22386_y28978-29578_z18787-19387',
-'HEMIBRAIN_synapses_x27262-27862_y31539-32139_z17577-18177',
-'OCTO_cube1_v2_8083_8765_y5878_6542_z4697_5319',
-'OCTO_cube3_calyx_v2_5603_6267_y3254_3890_z7464_8163',
-'OCTO_cube2_v2_12485_13164_y6231_6901_z3971_4640',
-'MANC_synapses_x14200-14800_y33000-33600_z44600-45200',
-'MANC_synapses_x20200-20800_y34200-34800_z32200-32800',
-'MANC_synapses_x23400-24000_y24000-24600_z14400-15000'
+data_dir = '/zstore/catena/data/SYNPAPER_TEM_CLAHE_RESIZED/RESIZED/cross_val/cross_val4/train'
 
+
+data_dir_syn = data_dir
+
+# --- AUTOMATED SAMPLE AND ROI LOADING START ---
+samples = []
+hemi_rois = []
+
+# Look for both .hdf and .h5 extensions
+file_patterns = [
+    os.path.join(data_dir, '*.hdf'),
+    os.path.join(data_dir, '*.h5')
 ]
-# cremi_roi = gp.Roi(np.array((1520, 3644, 3644)), np.array((5000, 5000, 5000)))
-hemi_roi_1 = gp.Roi(np.array((0, 0, 0)), np.array((4800, 4800, 4800)))
-hemi_roi_3 = gp.Roi(np.array((0, 0, 0)), np.array((4800, 4800, 4800)))
-hemi_roi_4 = gp.Roi(np.array((0, 0, 0)), np.array((4800, 4800, 4800)))
-hemi_roi_5 = gp.Roi(np.array((0, 0, 0)), np.array((4800, 4800, 4800))) #(3328, 3328, 3328)
-hemi_roi_7 = gp.Roi(np.array((0, 0, 0)), np.array((4800, 4800, 4800)))
-#hemi_roi_9 = gp.Roi(np.array((0, 0, 0)), np.array((4800, 4800, 4800)))
-#hemi_roi_11 = gp.Roi(np.array((0, 0, 0)), np.array((4800, 4800, 4800)))
-#hemi_roi_13 = gp.Roi(np.array((0, 0, 0)), np.array((4800, 4800, 4800)))
-#hemi_roi_15 = gp.Roi(np.array((0, 0, 0)), np.array((4800, 4800, 4800)))
-#hemi_roi_17 = gp.Roi(np.array((0, 0, 0)), np.array((4800, 4800, 4800)))
-hemi_roi_19 = gp.Roi(np.array((0, 0, 0)), np.array((4976, 5312, 5456)))
-hemi_roi_21 = gp.Roi(np.array((0, 0, 0)), np.array((5592, 5088, 5312)))
-hemi_roi_23 = gp.Roi(np.array((0, 0, 0)), np.array((5352, 5360, 5432)))
-hemi_roi_25 = gp.Roi(np.array((0, 0, 0)), np.array((4800, 4800, 4800)))
-hemi_roi_27 = gp.Roi(np.array((0, 0, 0)), np.array((4800, 4800, 4800)))
-hemi_roi_29 = gp.Roi(np.array((0, 0, 0)), np.array((4800, 4800, 4800)))
-#hemi_roi_2 = gp.Roi(np.array((0, 0, 0)), np.array((13160, 17032, 12048)))
-#hemi_roi_3 = gp.Roi(np.array((0, 0, 0)), np.array((14312, 13688, 13360)))
-#hemi_roi_4 = gp.Roi(np.array((0, 0, 0)), np.array((12168, 14864, 11032)))
-#hemi_roi_5 = gp.Roi(np.array((0, 0, 0)), np.array((12088, 14448, 13224)))
-hemi_rois = [hemi_roi_1, hemi_roi_3, hemi_roi_4, hemi_roi_5, hemi_roi_7, hemi_roi_19, hemi_roi_21, hemi_roi_23, hemi_roi_25, hemi_roi_27, hemi_roi_29]
+files = []
+for pattern in file_patterns:
+    files.extend(glob.glob(pattern))
+files.sort()  # Sort to ensure consistent order across runs
+
+print(f"Found {len(files)} files in {data_dir}")
+
+for filepath in files:
+    filename = os.path.basename(filepath)
+    # Assumes sample name is filename without extension
+    sample_name = os.path.splitext(filename)[0]
+
+    try:
+        with h5py.File(filepath, 'r') as f:
+            if 'volumes/raw' not in f:
+                print(f"Skipping {sample_name}: 'volumes/raw' dataset not found.")
+                continue
+
+            raw_ds = f['volumes/raw']
+            
+            # 1. Get Shape (ZYX)
+            shape = raw_ds.shape
+
+            # 2. Get Resolution (ZYX)
+            if 'resolution' not in raw_ds.attrs:
+                raise ValueError(f"Sample {sample_name} missing 'resolution' attribute in 'volumes/raw'")
+            resolution = tuple(raw_ds.attrs['resolution'])
+
+            # 3. Get Offset (ZYX) - Default to (0,0,0) if not present
+            offset = tuple(raw_ds.attrs.get('offset', (0, 0, 0)))
+
+            # 4. Calculate ROI in physical units
+            # Gunpowder ROI = (Offset, Shape in Physical Units)
+            roi_offset = gp.Coordinate(offset)
+            roi_shape = gp.Coordinate(shape) * gp.Coordinate(resolution)
+            
+            roi = gp.Roi(roi_offset, roi_shape)
+
+            samples.append(sample_name)
+            hemi_rois.append(roi)
+
+            print(f"Loaded {sample_name}:")
+            print(f"  - Shape: {shape}")
+            print(f"  - Resolution: {resolution}")
+            print(f"  - ROI: {roi}")
+
+    except Exception as e:
+        print(f"Error processing {filename}: {e}")
+        continue
+
+if not samples:
+    raise RuntimeError("No valid samples found. Please check data_dir path and file integrity.")
 
 
 def create_source(sample, raw, presyn, postsyn, dummypostsyn, parameter,
@@ -184,14 +209,14 @@ def build_pipeline(parameter, augment=True):
 
     pipeline += gp.RandomProvider()
     if augment:
-        pipeline += gp.ElasticAugment([40, 40, 40],  # for isotropic
-                                      [2, 2, 2],
+        pipeline += gp.ElasticAugment([4, 40, 40],  # for anisotropic
+                                      [0, 2, 2],
                                       [0, math.pi / 2.0],
                                       prob_slip=0.05,
                                       prob_shift=0.05,
                                       max_misalign=10,
                                       subsample=8)
-        pipeline += gp.SimpleAugment(transpose_only=[0, 1, 2], mirror_only=[0, 1, 2])
+        pipeline += gp.SimpleAugment(transpose_only=[1, 2], mirror_only=[1, 2])
         pipeline += gp.IntensityAugment(raw, 0.9, 1.1, -0.1, 0.1,
                                         z_section_wise=True)
     pipeline += gp.IntensityScaleShift(raw, 2, -1)
@@ -229,7 +254,7 @@ def build_pipeline(parameter, augment=True):
         loss=net_config['loss'],
         summary=net_config['summary'],
         log_dir='./tensorboard/',
-        save_every=20000,  # saving space in zstore1
+        save_every=5000,  # 30000
         log_every=10000,
         inputs={
             net_config['raw']: raw,

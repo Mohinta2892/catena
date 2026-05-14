@@ -18,6 +18,7 @@ def mknet(parameter, name):
     d_loss_scale = parameter['d_loss_scale']
     voxel_size = tuple(parameter['voxel_size']) # only needed for computing
     # field of view. No impact on the actual architecture.
+    #kernel_size_down = parameter['kernel_size_down']
 
     assert unet_model == 'vanilla' or unet_model == 'dh_unet', \
         'unknown unetmodel {}'.format(unet_model)
@@ -35,7 +36,9 @@ def mknet(parameter, name):
                                            fmap_num, fmap_inc_factor,
                                            downsample_factors,
                                            num_heads=num_heads,
-                                           voxel_size=voxel_size)
+                                           voxel_size=voxel_size,
+                                           #kernel_size_down=kernel_size_down
+                                           )
     if num_heads == 1:
         outputs = (outputs, outputs)
     print('unet has fov in nm: ', fov)
