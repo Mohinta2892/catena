@@ -38,7 +38,7 @@ docker pull mohinta2892/synful_tf1_py3:latest
 ## Train
 - Run the loaded docker image:
   ```bash
-  nvidia-docker run --shm-size 128gb --pids-limit -1 -it -u `id -u`:`id -g` -v `pwd`:`pwd` -w `pwd` -v {/path/to}/synful/tensorflow/:/home --network=host {nvcr.io/nvidia/tensorflow:21.12-tf1-py3}
+  nvidia-docker run --shm-size 128gb --pids-limit -1 -it -u `id -u`:`id -g` -v `pwd`:`pwd` -w `pwd` -v {/path/to}/synful/tensorflow/:/home --network=host mohinta2892/synful_tf1_py3:latest
   ```
   
 - Change directory inside docker
