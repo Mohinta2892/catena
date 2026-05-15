@@ -226,10 +226,10 @@ This visualize script is actively changes, hence slightly unclean. We will relea
 ## Evaluation
 
 - To run eval you will need to save the predictions into 3 csvs, namely, pre-site locations csv, post-site locations csv and a pre-post mapping csv. Both GT and the predictions should follow the same format. Please check sample files shared to get an idea to check what they look like.
-  We can generate the csvs by running `find_matches_n_vizualize.py`. Please edit the datapaths in the file, they follow the same structure as the aforementioned visualize script.
+  We can generate the csvs by running [`find_matches_n_vizualize.py`](https://github.com/Mohinta2892/catena/blob/dev/synapse_detection/synful/eval/predictions/find_matches_n_vizualize.py). Please edit the datapaths in the file, they follow the same structure as the aforementioned visualize script. 
 
   ```bash
-      python https://github.com/Mohinta2892/catena/blob/dev/synful/eval/predictions/find_matches_n_vizualize.py
+      python find_matches_n_vizualize.py
   ```
 
 - We repurpose Synful's original evaluation script, which is based on the CREMI eval standards. If you have held-out test sets, you run eval like:
