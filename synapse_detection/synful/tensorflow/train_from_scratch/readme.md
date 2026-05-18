@@ -193,6 +193,35 @@ CUDA_VISIBLE_DEVICES=0 python train.py
   ```
 **NB**: An example predict_template (which only saves the intermediate outputs and does not extract the synapses is given [here](https://github.com/Mohinta2892/catena/blob/dev/synapse_detection/synful/tensorflow/train_from_scratch/scripts/predict/predict_template.json).
 Be sure to *replace* the `setup` name without your foldername for the experiment.
+Edit params to point to your data and setup:
+```json
+
+{
+  "experiment": "octo",
+  "setup" : "setup03_octo_hemi", # change this to your training foldername
+  "iteration" : 300000,
+  "raw_file" : "/zstore/catena/data/MICHAEL_CRICK/data_3d/test/P667_EM04767_7_ESB_crop.zarr", # change this to the path to your data
+  "raw_dataset" : "volumes/raw",
+  "out_directory" : "output_predict_on_train/",
+  "out_filename": "P667_EM04767_7_ESB_crop.zarr", # change the output filename to what you want to save the interemdiates 
+  "db_host": "mongodb://localhost:27017/",
+  "db_name": "test_michaelp667_7_from_hemi_octo", # add a dbname that you can track later
+  "configname": "train", # use train if the volume is small and you have not adjusted your test size during training in `generate_network.py`
+  "overwrite":true, # if true, the code will prompt the user in terminal to continue. Change to false, if you don't want to overwrite
+  "num_workers": 1, # leave this to be 1 in docker environment.
+  "out_properties": { 
+    "pred_syn_indicator_out": { 
+      "dsname": "pred_syn_indicator", # this is output dataset for the masks in the output zarr
+      "dtype": "uint8",
+      "scale": 255
+    },
+    "pred_partner_vectors": { # this is output dataset for the direction vectors to pre in the output zarr
+      "dtype": "int8",
+      "scale": 0.25
+    }
+  }
+}
+```
 
 >[!NOTE]
 >You can use [run_predict_jobs](https://github.com/Mohinta2892/catena/blob/dev/synful/tensorflow/train_from_scratch/scripts/predict/run_predict_jobs.sh) to run prediction on multiple datasets and using multiple `parameters.json` files.
