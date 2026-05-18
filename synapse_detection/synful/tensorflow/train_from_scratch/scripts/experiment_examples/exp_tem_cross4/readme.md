@@ -15,7 +15,7 @@ How it should look in your disk.
 ```bash
 --scripts
   -- train
-    -- your_setup_foldername_during_train
+    -- your_setup_foldername_during_train # setup_03_tem_cross4
  #this contains all the predict scripts (copy all scripts from an example predict folder to this folder before running). Name should be predict
   -- predict
 ```
