@@ -1,0 +1,18 @@
+{
+  "experiment": "nips",
+  "setup": "setup_03_nips_tem_cross5_resized",
+  "iteration": 300000, 
+  "raw_file" : "/zstore/catena/data/SYNPAPER_TEM_CLAHE_RESIZED/RESIZED/cross_val/cross_val5/test/BEE_megalopta_no_cube_2_m_to_50_4_4_resize.hdf",
+  "raw_dataset" : "volumes/raw",
+  "num_workers": 1,
+  "db_host": "localhost:27017",
+  "db_name": "no3",
+  "out_basedir": "output_predict_on_train/",
+  "overwrite":false,
+  "configname": "train",
+  "extraction_parameters": "./extract_parameters_setup32_score1_cc95.json",
+  "synapse_context": [0,0,0],
+  "mask" : "",
+  "mask_ds" : "",
+  "max_retries": 3
+}
