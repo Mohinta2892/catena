@@ -22,7 +22,7 @@ How it should look in your disk.
 **ALWAYS** run predict from this folder which is inside `scripts`, the synful has internal config flow which require triggering from here.
 
 Now, that your have copied the predict scripts under the predict folder above, imagine your setup name during training is `setup_03_tem_cross4`.
-You now need to copy the `ckpt` files and the `config jsons` and `meta` files from this folder to the predict folder. These will indicate which ckpt what config to load during predict. For example, you want to run the prediction with ckpt 300000, you should below files to `predict` folder copy from `setup_03_tem_cross4` :
+You now need to copy the `ckpt` files and the `config jsons` and `meta` files from this folder to the predict folder. These will indicate which ckpt what config to load during predict. For example, you want to run the prediction with ckpt 300000, you should copy below files to `predict` folder copy from `setup_03_tem_cross4` :
 ```bash
 test_net.meta
 test_net_config.json
