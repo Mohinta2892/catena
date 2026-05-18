@@ -201,13 +201,13 @@ Edit params in `predict_template.json` to point to your data and setup:
   "setup" : "setup03_octo_hemi", # change this to your training foldername
   "iteration" : 300000, # change this to the ckpt value you copied into the predict folder. if you are using the 200000 ckpt, this should be 200000
   "raw_file" : "/zstore/catena/data/MICHAEL_CRICK/data_3d/test/P667_EM04767_7_ESB_crop.zarr", # change this to the path to your data
-  "raw_dataset" : "volumes/raw",
-  "out_directory" : "output_predict_on_train/",
+  "raw_dataset" : "volumes/raw", # your dataset inside hdf / zarr
+  "out_directory" : "output_predict_on_train/", # where the outputs get saved inside the predict folder
   "out_filename": "P667_EM04767_7_ESB_crop.zarr", # change the output filename to what you want to save the interemdiates 
   "db_host": "mongodb://localhost:27017/",
   "db_name": "test_michaelp667_7_from_hemi_octo", # add a dbname that you can track later
   "configname": "train", # use train if the volume is small and you have not adjusted your test size during training in `generate_network.py`
-  "overwrite":true, # if true, the code will prompt the user in terminal to continue. Change to false, if you don't want to overwrite
+  "overwrite":true, # if true, the code will prompt the user in terminal to continue. Change to false, if you don't want to overwrite the db
   "num_workers": 1, # leave this to be 1 in docker environment.
   "out_properties": { 
     "pred_syn_indicator_out": { 
