@@ -199,7 +199,7 @@ Edit params in `predict_template.json` to point to your data and setup:
 {
   "experiment": "octo",
   "setup" : "setup03_octo_hemi", # change this to your training foldername
-  "iteration" : 300000,
+  "iteration" : 300000, # change this to the ckpt value you copied into the predict folder. if you are using the 200000 ckpt, this should be 200000
   "raw_file" : "/zstore/catena/data/MICHAEL_CRICK/data_3d/test/P667_EM04767_7_ESB_crop.zarr", # change this to the path to your data
   "raw_dataset" : "volumes/raw",
   "out_directory" : "output_predict_on_train/",
