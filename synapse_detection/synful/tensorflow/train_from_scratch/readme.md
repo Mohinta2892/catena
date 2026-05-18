@@ -191,7 +191,7 @@ CUDA_VISIBLE_DEVICES=0 python train.py
   ```bash
     python predict_blockwise.py predict_template.json
   ```
-**NB**: An example predict_template (which only saves the intermediate outputs and does not extract the synapses is given [here](https://github.com/Mohinta2892/catena/blob/dev/synapse_detection/synful/tensorflow/train_from_scratch/scripts/predict/predict_template.json).
+**NB**: An example predict_template (which only saves the intermediate outputs and does not extract the synapses) is given [here](https://github.com/Mohinta2892/catena/blob/dev/synapse_detection/synful/tensorflow/train_from_scratch/scripts/predict/predict_template.json).
 Be sure to *replace* the `setup` name with your foldername for the experiment.
 Edit params in `predict_template.json` to point to your data and setup:
 ```json
