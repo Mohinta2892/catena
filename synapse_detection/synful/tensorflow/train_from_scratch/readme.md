@@ -189,8 +189,10 @@ CUDA_VISIBLE_DEVICES=0 python train.py
   ```
 - To save the predictions of the post masks and pre direction vectors from the post-sites, run:
   ```bash
-    python predict_blockwise.py predict_extract_parameters.json
+    python predict_blockwise.py predict_template.json
   ```
+**NB**: An example predict_template (which only saves the intermediate outputs and does not extract the synapses is given [here](https://github.com/Mohinta2892/catena/blob/dev/synapse_detection/synful/tensorflow/train_from_scratch/scripts/predict/predict_template.json).
+Be sure to *replace* the `setup` name without your foldername for the experiment.
 
 >[!NOTE]
 >You can use [run_predict_jobs](https://github.com/Mohinta2892/catena/blob/dev/synful/tensorflow/train_from_scratch/scripts/predict/run_predict_jobs.sh) to run prediction on multiple datasets and using multiple `parameters.json` files.
