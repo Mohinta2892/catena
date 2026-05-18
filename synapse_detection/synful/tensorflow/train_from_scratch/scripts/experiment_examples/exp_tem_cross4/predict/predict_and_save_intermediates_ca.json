@@ -1,0 +1,25 @@
+{
+  "experiment": "nips",
+  "setup" : "setup03_tem_cross4_resized",
+  "iteration" : 300000,
+  "raw_file" : "/data/catena/data/SYNPAPER_TEM_CLAHE_RESIZED/RESIZED/cross_val/cross_val4/test/CREMI_sample_A_20160501_to_50_4_4_resize.hdf",
+  "raw_dataset" : "volumes/raw",
+  "out_directory" : "output_predict_on_train/",
+  "out_filename": "CREMI_sample_A_20160501_to_50_4_4_resize.zarr",
+  "db_host": "10.1.1.246",
+  "db_name": "ca",
+  "configname": "train",
+  "overwrite":true,
+  "num_workers": 1,
+  "out_properties": {
+    "pred_syn_indicator_out": {
+      "dsname": "pred_syn_indicator",
+      "dtype": "uint8",
+      "scale": 255
+    },
+    "pred_partner_vectors": {
+      "dtype": "int8",
+      "scale": 0.25
+    }
+  }
+}
