@@ -138,6 +138,7 @@ year = {2022}
 ```
 
 Catena Preprint:
+
 ```
 Samia, M., Gómez-Gálvez, P., Shi Yan, L., Franco-Barranco, D., Clayton, M., Preibisch, S., Funke, J. and Cardona, A. (2026). Catena: A Comprehensive Software Suite for Large-Scale Connectomics. arXiv. Available at: https://arxiv.org/abs/2609.21887v1.
-‌```
+```
