@@ -22,9 +22,9 @@ import json
 import pickle
 
 url = "https://neurophyla.mrc-lmb.cam.ac.uk/catmaid/fibsem/"
-token = "90f00590555eb256f256d1062e38521cbe180293"
-name = "smohinta"
-password = "headset-recovery-handshake"
+token = "x"
+name = "x"
+password = "x"
 project_id = 19  # MR1.4-3 clone
 
 # Always to a specific project
