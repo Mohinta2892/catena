@@ -6,6 +6,8 @@ Initial dev scripts will be for caveclient.
 
 CAVE/FlyWire requires Gcloud CLI setup. Follow instructions [here](https://cloud.google.com/sdk/docs/install-sdk)
 
+## Splitting neurons automatically
+We have developed a new [app](git@github.com:Mohinta2892/flywire-split-segment-app.git) which enables users to split neurons automatically. All the user needs is the Segment-Id of the neuron they wish to split and then they can actually use our app to connect to CAVE to split the neuron into one or many parts. Please try it out if you are struggling to split some `monster` neurons by hand.
 
 ## Synapse Proofreading via Importing to CATMAID
 
